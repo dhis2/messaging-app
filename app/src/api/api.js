@@ -1,0 +1,1 @@
+import { getInstance as getD2Instance } from 'd2/lib/d2';

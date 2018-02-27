@@ -1,0 +1,16 @@
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+hs_err_pid*
+target
+.idea
+.DS_STORE
+.classpath
+.project
+.settings
+.vscode/
+node_modules
+build
+coverage

@@ -1,0 +1,89 @@
+{
+  "name": "messaging-app",
+  "version": "30.0.0",
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack.dev.js",
+    "build": "webpack -p --config webpack.prod.js",
+    "test": "jest",
+    "eject": "react-scripts eject",
+    "manifest": "d2-manifest package.json build/manifest.webapp",
+    "format": "prettier --write \"app/**/*.j{s,sx}\"",
+    "deploy": "mvn clean deploy"
+  },
+  "devDependencies": {
+    "babel-core": "6",
+    "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.1.0",
+    "babel-loader": "^7.1.0",
+    "babel-plugin-transform-imports": "^1.4.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "6",
+    "babel-preset-react": "6",
+    "babel-preset-react-optimize": "^1.0.1",
+    "babel-preset-stage-2": "6",
+    "clean-webpack-plugin": "^0.1.18",
+    "copy-webpack-plugin": "^4.3.1",
+    "d2-manifest": "^1.0.0",
+    "eslint-config-dhis2": "^3.0.7",
+    "html-webpack-plugin": "^2.29.0",
+    "jest": "^22.1.4",
+    "redux-logger": "3.0.6",
+    "regenerator-runtime": "^0.11.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^2.0.4",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.1"
+  },
+  "dependencies": {
+    "css-loader": "^0.28.9",
+    "d2": "^28.3.0",
+    "d2-ui": "^29.0.3",
+    "d2-utilizr": "^0.2.15",
+    "history": "^4.7.2",
+    "i18next": "^10.3.0",
+    "material-design-icons": "^3.0.1",
+    "material-ui": "^0.20.0",
+    "moment": "^2.20.1",
+    "react": "~16.2.0",
+    "react-dom": "~16.2.0",
+    "react-flip-move": "^3.0.0",
+    "react-scripts": "1.1.1",
+    "react-redux": "5",
+    "react-router-dom": "^4.2.2",
+    "recompose": "^0.26.0",
+    "redux": "3",
+    "redux-observable": "0.17.0",
+    "rxjs": "5.5.6",
+    "style-loader": "^0.20.1",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^actions[/](.+)": "<rootDir>/app/src/actions/$1",
+      "^api[/](.+)": "<rootDir>/app/src/api/$1",
+      "^constants[/](.+)": "<rootDir>/app/src/constants/$1",
+      "^components[/](.+)": "<rootDir>/app/src/components/$1",
+      "^reducers[/](.+)": "<rootDir>/app/src/reducers/$1",
+      "^utils[/](.+)": "<rootDir>/app/src/utils/$1"
+    }
+  },
+  "manifest.webapp": {
+    "name": "Messaging",
+    "launch_path": "index.html",
+    "appType": "APP",
+    "icons": {
+      "48": "icon.png"
+    },
+    "developer": {
+      "name": "Henning Håkonsen",
+      "company": "DHIS2"
+    },
+    "default_locale": "en",
+    "activities": {
+      "dhis": {
+        "href": ".."
+      }
+    }
+  }
+}
