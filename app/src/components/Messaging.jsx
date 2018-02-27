@@ -10,16 +10,20 @@ import D2UIApp from 'd2-ui/lib/app/D2UIApp';
 import { Router, Route } from 'react-router-dom';
 import { compose, lifecycle, pure, branch, getContext, renderComponent } from 'recompose';
 
+import MessagingCenter from 'components/MessagingCenter';
+import * as actions from 'constants/actions';
+import history from 'utils/history';
+
 import theme from '../styles/theme';
+import { accent3Color } from 'material-ui/styles/colors';
 import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
 const styles = {
     content: {
-        paddingTop: '100px',
+        paddingTop: '40px',
         width: '100%',
-        maxWidth: '1000px',
         margin: '0 auto',
     },
 };
@@ -27,8 +31,7 @@ const styles = {
 let ContentLoader = () => (
     <Router history={history}>
         <div style={styles.content}>
-            /*<Route exact path="/" component={List} />
-            <Route path="/:id" component={EditJob} />*/
+            <Route exact path="/" component={MessagingCenter} />
         </div>
     </Router>
 );
@@ -38,6 +41,7 @@ const Messaging = ({ config }) => (
         <D2UIApp initConfig={config} muiTheme={theme}>
             <div>
                 <HeaderBar />
+                <ContentLoader />
             </div>
         </D2UIApp>
     </Provider>

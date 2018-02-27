@@ -21,7 +21,7 @@ getManifest('./manifest.webapp')
             headers: production ? null : SYSTEM_AUTH,
             schemas,
         };
-
+        
         render(<Messaging config={config} />, document.getElementById('messaging'));
     })
     .then(registerServiceWorker);
