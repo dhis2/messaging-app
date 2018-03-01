@@ -15,13 +15,9 @@ class MessagingCenter extends Component {
   } 
 
   render = () => (
-    <div style={{ 
-        display: 'flex',
-        flexDirection: 'row',
-    }}>
-        {console.log(this.props)}
-        <CustomDrawer drawerLevel={0} props={this.props} children={messageTypes} open={true} />
-        <CustomDrawer drawerLevel={1} props={this.props} children={messageTypes} open={true} />
+    <div>
+        <CustomDrawer drawerLevel={0} props={this.props} children={messageTypes} open={this.props.open} />
+        <CustomDrawer drawerLevel={1} props={this.props} children={messageTypes} open={this.props.open} />
     </div>
   );
 }
