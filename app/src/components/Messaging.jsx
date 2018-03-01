@@ -32,6 +32,8 @@ let ContentLoader = () => (
     <Router history={history}>
         <div style={styles.content}>
             <Route exact path="/" component={MessagingCenter} />
+            <Route path="/:messageType" component={MessagingCenter} />
+            <Route path="/:messageType/:messageConversationId" component={MessagingCenter} />
         </div>
     </Router>
 );

@@ -7,12 +7,6 @@ export const initialState = {
 
 function messageReducer(state = initialState, action) {
     switch (action.type) {
-        case actions.TOGGLE_MESSAGE_TYPE:
-            return {
-                ...state,
-                selectedMessageType: action.payload.messageType.key,
-            };
-
         default:
             return state;
     }
