@@ -8,14 +8,16 @@ import withStateFrom from 'd2-ui/lib/component-helpers/withStateFrom';
 import D2UIApp from 'd2-ui/lib/app/D2UIApp';
 
 import { Router, Route } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import { compose, lifecycle, pure, branch, getContext, renderComponent } from 'recompose';
 
 import MessagingCenter from 'components/MessagingCenter';
 import * as actions from 'constants/actions';
+import initializeI18n from 'utils/i18n';
 import history from 'utils/history';
 
 import theme from '../styles/theme';
-import { accent3Color } from 'material-ui/styles/colors';
+import messageTypes from '../constants/messageTypes';
 import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
@@ -31,7 +33,7 @@ const styles = {
 let ContentLoader = () => (
     <Router history={history}>
         <div style={styles.content}>
-            <Route exact path="/" component={MessagingCenter} />
+            <Route exact path="/" component={() => <Redirect to="/PRIVATE" />}/>
             <Route path="/:messageType" component={MessagingCenter} />
             <Route path="/:messageType/:messageConversationId" component={MessagingCenter} />
         </div>

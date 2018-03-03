@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const reducer = combineReducers({
-    message: messageReducer,
+    messaging: messageReducer,
 });
 
 export default createStore(reducer, composeEnhancers(applyMiddleware(...middlewares)));
