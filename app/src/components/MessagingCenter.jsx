@@ -30,6 +30,7 @@ class MessagingCenter extends Component {
 
   render() {
     const selectedMessageTypeConversations = this.props.messageConversations[this.props.match.params.messageType];
+
     return (
       <div style={styles.grid} >
         <InboxHeader />
@@ -57,7 +58,7 @@ export default compose(
   lifecycle({
     componentWillMount() {
         messageTypes.map( messageType => {
-          this.props.loadMessageConversations( messageType.key );
+          this.props.loadMessageConversations( messageType.id );
         })
 
         this.props.loadMessageConversationsFinished();
