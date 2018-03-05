@@ -7,47 +7,61 @@ import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
-import CustomDrawer from './CustomDrawer';
+import InboxHeader from './InboxHeader';
+import CustomList from './CustomList';
 import MessagePanel from './MessagePanel';
+
+const styles = {
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: '15% 20% 65%',
+    paddingTop: '46px',
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    backgroundColor: theme.palette.accent2Color,
+  }
+}
 
 class MessagingCenter extends Component {
   state = {
 
-  } 
+  }
 
-  render = () => (
-    <div>
-        <CustomDrawer drawerLevel={0} props={this.props} children={messageTypes} open={this.props.open} width={'220px'} />
-        <CustomDrawer drawerLevel={1} props={this.props} children={this.props.messageConversations} open={this.props.open} width={'350px'}/>
-        <MessagePanel messageConversationId={this.props.match.params.messageConversationId} />
-    </div>
-  );
+  render() {
+    const selectedMessageTypeConversations = this.props.messageConversations[this.props.match.params.messageType];
+    return (
+      <div style={styles.grid} >
+        <InboxHeader />
+        <CustomList gridColumn={1} props={this.props} children={messageTypes} />
+        <CustomList gridColumn={2} props={this.props} children={selectedMessageTypeConversations} />
+        <MessagePanel gridColumn={3} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+      </div>
+    )
+  }
 }
 
 export default compose(
   connect(
     state => {
       return {
-        open: true,
         messageConversations: state.messaging.messageConversations,
+        loaded: state.messaging.loaded,
       };
     },
     dispatch => ({
       loadMessageConversations: messageType => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: {messageType} }),
+      loadMessageConversationsFinished: () => dispatch({ type: actions.MESSAGE_CONVERSATIONS_LOAD_FINISHED }),
     }),
   ),
   lifecycle({
     componentWillMount() {
-        const messageType = this.props.match.params.messageType;
-        this.props.loadMessageConversations( messageType );
+        messageTypes.map( messageType => {
+          this.props.loadMessageConversations( messageType.key );
+        })
+
+        this.props.loadMessageConversationsFinished();
     },
-    componentWillReceiveProps(nextProps) {
-      const messageType = nextProps.match.params.messageType;
-      const prevMessageType = this.props.match.params.messageType;
-      if (messageType !== prevMessageType) {
-        this.props.loadMessageConversations( messageType );
-      }
-    },
-}),
+  }),
   pure,
 )(MessagingCenter);

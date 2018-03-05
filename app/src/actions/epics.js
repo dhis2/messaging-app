@@ -15,6 +15,7 @@ const loadMessageConversations = action$ =>
               .then(messageConversations => ({
                 type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
                 payload: { messageConversations },
+                messageType: action.payload.messageType,
               }))
               .catch(error => ({
                 type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,

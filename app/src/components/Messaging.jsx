@@ -22,20 +22,11 @@ import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
-const styles = {
-    content: {
-        paddingTop: '40px',
-        width: '100%',
-        margin: '0 auto',
-    },
-};
-
 let ContentLoader = () => (
     <Router history={history}>
-        <div style={styles.content}>
+        <div>
             <Route exact path="/" component={() => <Redirect to="/PRIVATE" />}/>
             <Route path="/:messageType" component={MessagingCenter} />
-            <Route path="/:messageType/:messageConversationId" component={MessagingCenter} />
         </div>
     </Router>
 );

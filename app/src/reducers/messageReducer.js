@@ -1,7 +1,8 @@
 import * as actions from 'constants/actions';
 
 export const initialState = {
-    messageConversations: [],
+    messageConversations: {},
+    usersCache: [],
     loaded: false,
 };
 
@@ -10,9 +11,17 @@ function messageReducer(state = initialState, action) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
             return {
                 ...state,
-                messageConversations: action.payload.messageConversations,
-                loaded: true,
+                messageConversations: {
+                    ...state.messageConversations,
+                    [action.messageType]: action.payload.messageConversations
+                },
             };
+        
+        case actions.MESSAGE_CONVERSATIONS_LOAD_FINISHED:
+            return {
+                ...state,
+                loaded: true,
+            }
         
         default:
             return state;
