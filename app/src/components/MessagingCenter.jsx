@@ -7,6 +7,7 @@ import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
+
 import InboxHeader from './InboxHeader';
 import CustomList from './CustomList';
 import MessagePanel from './MessagePanel';
@@ -33,7 +34,7 @@ class MessagingCenter extends Component {
 
     return (
       <div style={styles.grid} >
-        <InboxHeader />
+        { /*<InboxHeader />*/ }
         <CustomList gridColumn={1} props={this.props} children={messageTypes} />
         <CustomList gridColumn={2} props={this.props} children={selectedMessageTypeConversations} />
         <MessagePanel gridColumn={3} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />

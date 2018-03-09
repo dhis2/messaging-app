@@ -2,7 +2,6 @@ import * as actions from 'constants/actions';
 
 export const initialState = {
     messageConversations: {},
-    usersCache: [],
     loaded: false,
 };
 

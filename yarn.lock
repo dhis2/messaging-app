@@ -5430,6 +5430,12 @@ marked@~0.3.6:
   version "0.3.16"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.16.tgz#2f188b7dfcfa6540fe9940adaf0f3b791c9a5cba"
 
+material-ui-chip-input@^0.18.7:
+  version "0.18.7"
+  resolved "https://registry.yarnpkg.com/material-ui-chip-input/-/material-ui-chip-input-0.18.7.tgz#1f40cb574bc488ef5170ca7179fd7702b027f5f0"
+  dependencies:
+    prop-types "^15.5.7"
+
 material-ui-icons@^1.0.0-beta.35:
   version "1.0.0-beta.35"
   resolved "https://registry.yarnpkg.com/material-ui-icons/-/material-ui-icons-1.0.0-beta.35.tgz#f795fafa385918ef7c88ee382e5e5bf4401f008c"
@@ -7291,7 +7297,7 @@ rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
 
-rxjs@5.5.6:
+rxjs@^5.5.6:
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.6.tgz#e31fb96d6fd2ff1fd84bcea8ae9c02d007179c02"
   dependencies:
