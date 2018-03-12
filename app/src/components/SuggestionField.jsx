@@ -40,7 +40,8 @@ class SuggestionField extends Component {
   getRecipients( props ) {
     let recipients = []
     props.messageConversation && props.messageConversation.messages.map(message => {
-      recipients.push(message.sender)
+      const doPush = _.find(recipients, { id: message.sender.id }) == undefined;
+      doPush && recipients.push(message.sender)
     })
 
     return recipients

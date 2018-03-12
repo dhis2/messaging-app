@@ -1,8 +1,8 @@
 const messageTypes = [ 
-    { id: 'PRIVATE', displayName: 'Private' }, 
-    { id: 'VALIDATION_RESULT', displayName: 'Validation result' }, 
-    { id: 'TICKET', displayName: 'Ticket' }, 
-    { id: 'SYSTEM', displayName: 'System' }, 
+    { id: 'PRIVATE', displayName: 'Private', unread: 0, loaded: 0, page: 1 }, 
+    { id: 'VALIDATION_RESULT', displayName: 'Validation result', unread: 0, loaded: 0, page: 1 },
+    { id: 'TICKET', displayName: 'Ticket', unread: 0, loaded: 0, page: 1 },
+    { id: 'SYSTEM', displayName: 'System', unread: 0, loaded: 0, page: 1 },
 ];
 
 export default messageTypes;

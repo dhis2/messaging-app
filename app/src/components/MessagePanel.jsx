@@ -9,10 +9,9 @@ import ReplyCard from './ReplyCard'
 
 import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
-import * as api from 'api/api';
 
 import theme from '../styles/theme';
-import { cardStyles } from '../styles/style'
+import { cardStyles } from '../styles/style';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import {List, ListItem} from 'material-ui/List';
@@ -26,14 +25,13 @@ class MessagePanel extends Component {
     const id = this.props.pathname.split('/').slice(-1)[0];
     const messageConversation = _.find(this.props.selectedMessageTypeConversations, { id: id });
 
-    console.log(messageConversation)
     if ( messageConversation && !messageConversation.read ) {
       this.props.markMessageConversationsRead( [messageConversation.id] )
     }
 
     return (
       <div style={cardStyles.container}>
-        {!messageConversation && <Subheader style={cardStyles.subheader}>Select a message</Subheader>}
+        {<Subheader style={cardStyles.subheader}> { !messageConversation && 'Select a message'}</Subheader>}
         {messageConversation && <div>
           <List>
             <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>

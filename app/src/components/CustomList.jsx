@@ -6,13 +6,15 @@ import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import InboxIcon from 'material-ui-icons/Inbox';
+import MarkUnreadIcon from 'material-ui-icons/MarkUnread';
+import Badge from 'material-ui/Badge';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
 
 import RightIconMenu from './RightIconMenu'
 
 import theme from '../styles/theme';
 
-const CustomList = ({gridColumn, props, open, children}) => {
+const CustomList = ({gridColumn, props, open, children, loadMoreMessageConversations, markUnread}) => {
   const routeValue = gridColumn == 1 ? props.match.params.messageType : props.location.pathname.split('/').slice(-1)[0];
   const relativePath = gridColumn == 1 ? "/" : "/" + props.match.params.messageType + "/";
 
@@ -28,18 +30,37 @@ const CustomList = ({gridColumn, props, open, children}) => {
       {!props.loaded && gridColumn == 1 && 
           <CircularProgress color={theme.palette.primary2Color} />
       }
-      <ListItems messageType={props.match.params.messageType} selectedValue={routeValue} children={children} relativePath={relativePath} loaded={props.loaded} gridColumn={gridColumn} />
+      <ListItems 
+        messageType={props.match.params.messageType} 
+        selectedValue={routeValue} children={children} 
+        relativePath={relativePath} loaded={props.loaded} 
+        gridColumn={gridColumn} 
+        loadMoreMessageConversations={loadMoreMessageConversations} 
+        markUnread={markUnread}/>
     </div>
   );
 }
 
-const ListItems = ({ messageType, selectedValue, children, relativePath, loaded, gridColumn }) => {
-  const leftIcon = gridColumn == 1 ? <InboxIcon /> : undefined
 
+
+const ListItems = ({ messageType, selectedValue, children, relativePath, loaded, gridColumn, loadMoreMessageConversations, markUnread }) => {
+
+  const leftIcon = gridColumn == 1 ? <InboxIcon /> : undefined
+  const markUnreadComponent = (child) => (
+    <MarkUnreadIcon onClick={(event) => {
+      event.stopPropagation()
+      event.preventDefault()
+
+      selectedValue != child.id && markUnread(child)
+    }} />
+  )
+  
   return (
     <List style={{ padding: '0px' }}>
       {!children && loaded && <Subheader >No message conversations</Subheader>}
       {children && children.map(child => {
+        const rightIcon = gridColumn == 1 ? child.unread > 0 ? <Badge badgeContent={child.unread} secondary={true} badgeStyle={{backgroundColor: '#439E8E'}} /> : undefined : markUnreadComponent(child)
+
         return (
           <div key={child.id}>
             <ListItem
@@ -53,6 +74,7 @@ const ListItems = ({ messageType, selectedValue, children, relativePath, loaded,
               }}
               primaryText={child.displayName}
               leftIcon={leftIcon}
+              rightIcon={rightIcon}
               secondaryText={gridColumn == 2 &&
                 <p>
                   <span style={{ color: theme.palette.textColor }}>
@@ -67,6 +89,10 @@ const ListItems = ({ messageType, selectedValue, children, relativePath, loaded,
           </div>
         )
       })}
+      {children && children.length % 6 == 0 && <ListItem
+              primaryText={'Load more messages'}
+              onClick={() => loadMoreMessageConversations(messageType)}
+            />}
     </List>
   );
 }

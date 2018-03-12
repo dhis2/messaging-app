@@ -34,10 +34,8 @@ let ContentLoader = () => (
 const Messaging = ({ config }) => (
     <Provider store={store}>
         <D2UIApp initConfig={config} muiTheme={theme}>
-            <div>
-                <HeaderBar />
-                <ContentLoader />
-            </div>
+            <HeaderBar />
+            <ContentLoader />
         </D2UIApp>
     </Provider>
 );

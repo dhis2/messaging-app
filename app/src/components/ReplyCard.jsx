@@ -5,17 +5,44 @@ import { compose, pure } from 'recompose';
 import SuggestionField from './SuggestionField'
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import { cardStyles } from '../styles/style'
+import FlatButton from 'material-ui/FlatButton';
+
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 
+import * as actions from 'constants/actions';
 import theme from '../styles/theme';
+import { cardStyles } from '../styles/style';
 
 class ReplyCard extends Component {
+  state = {
+    input: '',
+    expanded: false,
+  }
+
+  handleExpandChange = (expanded) => {
+    this.setState({expanded: expanded});
+  };
+
+  texFieldUpdate = (event, newValue) => {
+    this.setState({input: newValue})
+  }
+
+  sendMessage = () => {
+    this.props.sendMessage(this.state.input, this.props.messageConversation.id)
+    this.wipeInput()
+  }
+
+  wipeInput = () => {
+    this.setState({input: '', expanded: false})
+  }
+
   render() {
     return (
       <Card
-        style={cardStyles.cardItem}
+        style={cardStyles.replyItem}
+        expanded={this.state.expanded} 
+        onExpandChange={this.handleExpandChange}
       >
         <CardHeader
           title={'REPLY'}
@@ -27,20 +54,34 @@ class ReplyCard extends Component {
         <CardText expandable>
           <SuggestionField label={'To'} messageConversation={this.props.messageConversation} />
           <TextField
-            key={'textField'}
+            key={this.props.messageConversation.id}
+            id={this.props.messageConversation.id}
             rows={5}
             underlineShow={false}
-            defaultValue={''}
+            value={this.state.input}
             multiLine
             fullWidth
-            ref={(input) => setTimeout(() => { 
-              input && input.focus() }, 100)
-            }
+            onChange={this.texFieldUpdate}
           />
+          <CardActions>
+            <FlatButton label="Send" onClick={this.sendMessage} />
+            <FlatButton label="Discard" />
+          </CardActions>
         </CardText>
+
       </Card>
     )
   }
 }
 
-export default ReplyCard;
+export default compose(
+  connect(
+    state => {
+      return state
+    },
+    dispatch => ({
+      sendMessage: (message, messageConversationId) => dispatch({ type: actions.SEND_MESSAGE, payload: {message, messageConversationId} }),
+    }),
+  ),
+  pure,
+)(ReplyCard);
