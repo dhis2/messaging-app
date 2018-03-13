@@ -9,7 +9,6 @@ import * as actions from 'constants/actions';
 import theme from '../styles/theme';
 import { grid } from '../styles/style';
 
-import InboxHeader from './InboxHeader';
 import CustomList from './CustomList';
 import MessagePanel from './MessagePanel';
 
@@ -23,7 +22,8 @@ class MessagingCenter extends Component {
   }
 
   loadMoreMessageConversations( messageType ) {
-    console.log("loadMoreMessageConversations: ", _.find(this.props.messageTypes, {id: messageType}) )
+    let messageTypeState = _.find(this.props.messageTypes, {id: messageType});
+    this.props.loadMessageConversations( messageTypeState.id, messageTypeState.page + 1);
   }
 
   render() {
@@ -31,7 +31,6 @@ class MessagingCenter extends Component {
 
     return (
       <div style={grid} >
-        { /*<InboxHeader />*/ }
         <CustomList gridColumn={1} props={this.props} children={this.props.messageTypes} />
         <CustomList 
           gridColumn={2} 

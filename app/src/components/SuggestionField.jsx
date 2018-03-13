@@ -30,10 +30,9 @@ class SuggestionField extends Component {
   constructor(props) {
     super(props)
 
-    this.getRecipients( props )
+    this.props.setSelected( this.getRecipients( props ) )
     this.state = {
       input: '',
-      selectedList: this.getRecipients( props )
     };
   }
 
@@ -58,28 +57,24 @@ class SuggestionField extends Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    this.setState({
-      selectedList: this.getRecipients( nextProps )
-    })
+    if ( this.props.messageConversation && this.props.messageConversation.id != nextProps.messageConversation.id ) {
+      this.props.setSelected( !nextProps.messageConversation ? this.state.selectedList : this.getRecipients( nextProps ) )
+    }
   }
 
   onSuggestionClick = (chip) => {
     this.wipeInput();
     this.inputStream.next('');
 
-    const doInsert = _.find(this.state.selectedList, { id: chip.id }) == undefined;
+    const doInsert = _.find(this.props.selectedList, { id: chip.id }) == undefined;
 
-    doInsert && this.setState({
-      selectedList: [...this.state.selectedList, chip]
-    })
+    doInsert && this.props.setSelected( [...this.props.selectedList, chip] )
   };
 
   onRemoveChip = (id) => {
-    _.remove(this.state.selectedList, { id: id })
+    _.remove(this.props.selectedList, { id: id })
 
-    this.setState({
-      selectedList: this.state.selectedList
-    })
+    this.props.setSelected( this.props.selectedList )
   };
 
   wipeInput = () => {
@@ -99,7 +94,7 @@ class SuggestionField extends Component {
     return (
       <ChipInput
         style={{ marginBottom: 16 }}
-        value={this.state.selectedList}
+        value={this.props.selectedList}
         fullWidth
         searchText={this.state.input}
         floatingLabelText={this.props.label}
@@ -118,10 +113,12 @@ export default compose(
     state => {
       return {
         suggestions: state.recipient.suggestions,
+        selectedList: state.recipient.selected,
       };
     },
     dispatch => ({
       searchForRecipients: searchValue => dispatch({ type: actions.RECIPIENT_SEARCH, payload: { searchValue } }),
+      setSelected: selectedList => dispatch({ type: actions.SET_SELECTED, payload: { selectedList } }),
     }),
   ),
   pure,

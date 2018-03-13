@@ -28,8 +28,8 @@ class ReplyCard extends Component {
     this.setState({input: newValue})
   }
 
-  sendMessage = () => {
-    this.props.sendMessage(this.state.input, this.props.messageConversation.id)
+  replyMessage = () => {
+    this.props.replyMessage(this.state.input, this.props.messageConversation.id)
     this.wipeInput()
   }
 
@@ -64,7 +64,7 @@ class ReplyCard extends Component {
             onChange={this.texFieldUpdate}
           />
           <CardActions>
-            <FlatButton label="Send" onClick={this.sendMessage} />
+            <FlatButton label="Send" onClick={this.replyMessage} />
             <FlatButton label="Discard" />
           </CardActions>
         </CardText>
@@ -80,7 +80,7 @@ export default compose(
       return state
     },
     dispatch => ({
-      sendMessage: (message, messageConversationId) => dispatch({ type: actions.SEND_MESSAGE, payload: {message, messageConversationId} }),
+      replyMessage: (message, messageConversationId) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, messageConversationId} }),
     }),
   ),
   pure,

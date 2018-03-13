@@ -10,9 +10,10 @@ const updateMessageConversations = action$ =>
       actions.UPDATE_MESSAGE_CONVERSATIONS,
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
-      actions.SEND_MESSAGE_SUCCESS
+      actions.SEND_MESSAGE_SUCCESS,
+      actions.REPLY_MESSAGE_SUCCESS,
   )
-    .concatMap(action =>
+    .switchMap(action =>
       api
         .getMessageConversationsWithIds(action.payload.messageConversationIds)
         .then(result => ({
@@ -32,14 +33,14 @@ const loadMessageConversations = action$ =>
     .concatMap(action =>
       api
         .getMessageConversations(action.payload.messageType, action.payload.page)
-        .then( result => 
-          api .getNrOfUnread( action.payload.messageType )
-              .then( nrOfUnread => ({
-                type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
-                payload: { messageConversations: result.messageConversations, pager: result.pager },
-                nrOfUnread: nrOfUnread,
-                messageType: action.payload.messageType,
-              }))
+        .then(result =>
+          api.getNrOfUnread(action.payload.messageType)
+            .then(nrOfUnread => ({
+              type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
+              payload: { messageConversations: result.messageConversations, pager: result.pager },
+              nrOfUnread: nrOfUnread,
+              messageType: action.payload.messageType,
+            }))
         )
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
@@ -53,13 +54,30 @@ const sendMessage = action$ =>
   )
     .concatMap(action =>
       api
-        .replyMessage(action.payload.message.toString(), action.payload.messageConversationId)
+        .sendMessage(action.payload.subject, action.payload.users, action.payload.message)
         .then(() => ({
           type: actions.SEND_MESSAGE_SUCCESS,
-          payload: { messageConversationIds: [ action.payload.messageConversationId ] }
+          payload: { messageConversationIds: [action.payload.messageConversationId] }
         }))
         .catch(error => ({
           type: actions.SEND_MESSAGE_ERROR,
+          payload: { error },
+        })));
+
+const replyMessage = action$ =>
+  action$
+    .ofType(
+      actions.REPLY_MESSAGE,
+  )
+    .concatMap(action =>
+      api
+        .replyMessage(action.payload.message, action.payload.messageConversationId)
+        .then(() => ({
+          type: actions.REPLY_MESSAGE_SUCCESS,
+          payload: { messageConversationIds: [ action.payload.messageConversationId ] }
+        }))
+        .catch(error => ({
+          type: actions.REPLY_MESSAGE_ERROR,
           payload: { error },
         })));
 
@@ -103,7 +121,7 @@ const searchForRecipients = action$ =>
     .ofType(
       actions.RECIPIENT_SEARCH,
   )
-    .concatMap(action =>
+    .switchMap(action =>
       api
         .getUsers(action.payload.searchValue)
         .then(suggestions => ({
@@ -119,6 +137,7 @@ export default combineEpics(
   updateMessageConversations,
   loadMessageConversations,
   sendMessage,
+  replyMessage,
   markMessageConversationsRead,
   markMessageConversationsUnread,
   searchForRecipients

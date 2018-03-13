@@ -2,7 +2,7 @@ import * as actions from 'constants/actions';
 
 export const initialState = {
     suggestions: [],
-
+    selected: [],
 };
 
 function recipientReducer(state = initialState, action) {
@@ -11,6 +11,12 @@ function recipientReducer(state = initialState, action) {
             return {
                 ...state,
                 suggestions: action.payload.suggestions,
+            }
+        
+        case actions.SET_SELECTED:
+            return {
+                ...state,
+                selected: action.payload.selectedList,
             }
         
         default:

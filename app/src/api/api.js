@@ -1,4 +1,5 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2';
+
 const messageConversationFields = '*,messages[*,sender[id,displayName]]'
 export const getMessageConversationsWithIds = messageConversationIds =>
   getD2Instance()
@@ -25,25 +26,27 @@ export const getNrOfUnread = messageType =>
         throw error;
       });
 
-export const replyMessage = (message, messageConversationId) =>
+export const sendMessage = (subject, users, text, id) =>
     getD2Instance()
       .then(instance =>
-        instance.Api.getApi().post('messageConversations/' + messageConversationId, message, { headers: {"Content-Type": "text/plain"} } ) )
+        instance.Api.getApi().post('messageConversations', { 
+          id,
+          subject,
+          users,
+          text,
+        }))
+      .then( () => ({ messageConversationId: id }))
       .catch(error => {
         throw error;
       });
 
-export const sendMessage = (subject, message, users) =>
-  getD2Instance()
-    .then(instance =>
-      instance.Api.getApi().post('messageConversations', {
-        subject: subject,
-        text: message,
-        users: users,
-      }))
-    .catch(error => {
-      throw error;
-    });
+export const replyMessage = (message, messageConversationId) =>
+    getD2Instance()
+      .then(instance =>
+        instance.Api.getApi().post('messageConversations/' + messageConversationId, message, { headers: {"Content-Type": "text/plain"} }))
+      .catch(error => {
+        throw error;
+      });
 
 export const markRead = markedReadConversations =>
   getD2Instance()

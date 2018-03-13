@@ -17,7 +17,6 @@ import initializeI18n from 'utils/i18n';
 import history from 'utils/history';
 
 import theme from '../styles/theme';
-import messageTypes from '../constants/messageTypes';
 import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);

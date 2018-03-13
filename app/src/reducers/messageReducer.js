@@ -17,12 +17,14 @@ function messageReducer(state = initialState, action) {
             messageType.page = action.payload.pager.page
             messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
 
+            const prevStateConversations = state.messageConversations[action.messageType]
+            const replaceConversations = !prevStateConversations ? action.payload.messageConversations : prevStateConversations.concat(action.payload.messageConversations)
             return {
                 ...state,
                 messageTypes: messageTypes,
                 messageConversations: {
                     ...state.messageConversations,
-                    [action.messageType]: action.payload.messageConversations
+                    [action.messageType]: replaceConversations,
                 },
             };
 

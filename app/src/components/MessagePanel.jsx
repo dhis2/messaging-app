@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 import RightIconMenu from './RightIconMenu'
 import ReplyCard from './ReplyCard'
+import CreateMessage from './CreateMessage'
 
 import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
@@ -31,7 +32,8 @@ class MessagePanel extends Component {
 
     return (
       <div style={cardStyles.container}>
-        {<Subheader style={cardStyles.subheader}> { !messageConversation && 'Select a message'}</Subheader>}
+        { id == 'create' && <CreateMessage /> }
+        { id != 'create' && <Subheader style={cardStyles.subheader}>{ !messageConversation && 'Select a message'}</Subheader>}
         {messageConversation && <div>
           <List>
             <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>

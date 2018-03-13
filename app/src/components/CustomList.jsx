@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import InboxIcon from 'material-ui-icons/Inbox';
-import MarkUnreadIcon from 'material-ui-icons/MarkUnread';
+import MarkUnreadIcon from 'material-ui-icons/MarkUnreadMailBox';
+import CreateMessageIcon from 'material-ui-icons/Create';
+import TextField from 'material-ui/TextField';
 import Badge from 'material-ui/Badge';
 import {List, ListItem, makeSelectable} from 'material-ui/List';
+
+import IconButton from 'material-ui/IconButton';
 
 import RightIconMenu from './RightIconMenu'
 
@@ -58,7 +63,31 @@ const ListItems = ({ messageType, selectedValue, children, relativePath, loaded,
   return (
     <List style={{ padding: '0px' }}>
       {!children && loaded && <Subheader >No message conversations</Subheader>}
-      {children && children.map(child => {
+      {gridColumn == 2 &&
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between'
+        }}>
+          { messageType == 'PRIVATE' && 
+            <IconButton containerElement={ <Link to={relativePath + "create"} /> }>
+              <CreateMessageIcon/>
+            </IconButton>
+          }
+          <TextField
+            style={{
+              width: '100%',
+              paddingLeft: '15px',
+              paddingRight: '15px',
+            }}
+            hintText={'Search'}
+            type="search"
+            margin="normal"
+          />
+        </div>
+        }
+      {children &&
+        children.map(child => {
         const rightIcon = gridColumn == 1 ? child.unread > 0 ? <Badge badgeContent={child.unread} secondary={true} badgeStyle={{backgroundColor: '#439E8E'}} /> : undefined : markUnreadComponent(child)
 
         return (
@@ -89,7 +118,7 @@ const ListItems = ({ messageType, selectedValue, children, relativePath, loaded,
           </div>
         )
       })}
-      {children && children.length % 6 == 0 && <ListItem
+      {children && children.length % 50 == 0 && <ListItem
               primaryText={'Load more messages'}
               onClick={() => loadMoreMessageConversations(messageType)}
             />}
