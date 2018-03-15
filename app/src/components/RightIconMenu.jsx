@@ -20,7 +20,6 @@ const RightIconMenu = () => (
   <IconMenu style={{
     paddingRight: '95%'
   }} iconButtonElement={iconButtonElement}>
-    <MenuItem>Reply</MenuItem>
     <MenuItem>Mark</MenuItem>
     <MenuItem>Delete</MenuItem>
   </IconMenu>

@@ -10,7 +10,6 @@ const updateMessageConversations = action$ =>
       actions.UPDATE_MESSAGE_CONVERSATIONS,
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
-      actions.SEND_MESSAGE_SUCCESS,
       actions.REPLY_MESSAGE_SUCCESS,
   )
     .switchMap(action =>
@@ -29,6 +28,7 @@ const loadMessageConversations = action$ =>
   action$
     .ofType(
       actions.LOAD_MESSAGE_CONVERSATIONS,
+      actions.SEND_MESSAGE_SUCCESS,
   )
     .concatMap(action =>
       api
@@ -47,6 +47,22 @@ const loadMessageConversations = action$ =>
           payload: { error },
         })));
 
+/*const deleteMessageConversations = action$ =>
+  action$
+    .ofType(
+      actions.DELETE_MESSAGE_CONVERSATIONS,
+  )
+    .concatMap(action =>
+      api
+        .deleteMessageConversations(action.payload.ids)
+        .then(result => ({
+          type: actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
+        }))
+        .catch(error => ({
+          type: actions.MESSAGE_CONVERSATIONS_DELETE_ERROR,
+          payload: { error },
+        })));*/
+
 const sendMessage = action$ =>
   action$
     .ofType(
@@ -54,10 +70,10 @@ const sendMessage = action$ =>
   )
     .concatMap(action =>
       api
-        .sendMessage(action.payload.subject, action.payload.users, action.payload.message)
+        .sendMessage(action.payload.subject, action.payload.users, action.payload.message, action.payload.messageConversationId)
         .then(() => ({
           type: actions.SEND_MESSAGE_SUCCESS,
-          payload: { messageConversationIds: [action.payload.messageConversationId] }
+          payload: { messageType: action.payload.messageType.id, page: 1 }
         }))
         .catch(error => ({
           type: actions.SEND_MESSAGE_ERROR,

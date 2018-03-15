@@ -4,6 +4,7 @@ import messageTypes from '../constants/messageTypes';
 export const initialState = {
     messageConversations: {},
     messageTypes: messageTypes,
+    messsageFilter: '',
     loaded: false,
 };
 
@@ -12,13 +13,15 @@ function messageReducer(state = initialState, action) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
             let messageTypes = state.messageTypes
             let messageType = _.find(messageTypes, {id: action.messageType});
-            messageType.loaded = action.payload.pager.pageSize
+            messageType.loaded = messageType.page == 1 ? action.payload.messageConversations.length :  messageType.loaded + action.payload.messageConversations.length
+            messageType.total = action.payload.pager.total
             messageType.unread = action.nrOfUnread
             messageType.page = action.payload.pager.page
             messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
 
             const prevStateConversations = state.messageConversations[action.messageType]
-            const replaceConversations = !prevStateConversations ? action.payload.messageConversations : prevStateConversations.concat(action.payload.messageConversations)
+            const replaceConversations = messageType.page == 1 ? action.payload.messageConversations :  _.unionWith( prevStateConversations, action.payload.messageConversations, _.isEqual )
+
             return {
                 ...state,
                 messageTypes: messageTypes,
@@ -43,6 +46,12 @@ function messageReducer(state = initialState, action) {
                     [updateMessageType]: messageConversations
                 },
             };
+        
+        case actions.SET_MESSAGE_FILTER:
+            return {
+                ...state,
+                messsageFilter: action.payload.messageFilter
+            }
         
         case actions.MESSAGE_CONVERSATIONS_LOAD_FINISHED:
             return {

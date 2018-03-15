@@ -12,10 +12,10 @@ import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
-import { cardStyles } from '../styles/style';
+import { cardStyles, messagePanelContainer } from '../styles/style';
 
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import {List, ListItem} from 'material-ui/List';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { List, ListItem } from 'material-ui/List';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 
@@ -26,20 +26,22 @@ class MessagePanel extends Component {
     const id = this.props.pathname.split('/').slice(-1)[0];
     const messageConversation = _.find(this.props.selectedMessageTypeConversations, { id: id });
 
-    if ( messageConversation && !messageConversation.read ) {
-      this.props.markMessageConversationsRead( [messageConversation.id] )
+    if (messageConversation && !messageConversation.read) {
+      this.props.markMessageConversationsRead([messageConversation.id])
     }
 
     return (
-      <div style={cardStyles.container}>
-        { id == 'create' && <CreateMessage /> }
-        { id != 'create' && <Subheader style={cardStyles.subheader}>{ !messageConversation && 'Select a message'}</Subheader>}
+      <div style={messagePanelContainer}>
+        {id == 'create' ?
+          <Subheader style={cardStyles.subheader}>{!messageConversation && 'Create'}</Subheader> && 
+          <CreateMessage />
+          : <Subheader style={cardStyles.subheader}>{!messageConversation && 'Select a message'}</Subheader>
+        }
+        {messageConversation && <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>}
         {messageConversation && <div>
-          <List>
-            <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>
+          <List style={{padding: '0px'}}>
             {messageConversation.messages.map(message => {
               const title = messageConversation.messageType == 'PRIVATE' ? message.sender.displayName : messageConversation.messageType;
-
               return (
                 <div key={message.id} >
                   <Card style={cardStyles.cardItem} key={message.id} >
@@ -53,9 +55,6 @@ class MessagePanel extends Component {
                         subtitle={moment(message.lastUpdated).format('ddd DD/MM/YYYY HH:mm')}
                       >
                       </CardHeader>
-                      <CardActions>
-                        <RightIconMenu />
-                      </CardActions>
                     </div>
 
                     <CardText>
@@ -67,9 +66,8 @@ class MessagePanel extends Component {
             })
             }
           </List>
-          {messageConversation.messageType == 'PRIVATE' && <ReplyCard messageConversation={messageConversation}/> }
-        </div>
-        }
+          {messageConversation.messageType == 'PRIVATE' && <ReplyCard messageConversation={messageConversation} />}
+        </div>}
       </div>
     )
   }

@@ -18,7 +18,7 @@ getManifest('./manifest.webapp')
         const production = process.env.NODE_ENV === 'production';
         const config = {
             baseUrl,
-            headers: production ? null : SYSTEM_AUTH,
+            headers: production ? null : null,
             schemas,
         };
         

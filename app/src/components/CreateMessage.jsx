@@ -14,26 +14,31 @@ import Subheader from 'material-ui/Subheader/Subheader';
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
 import { cardStyles } from '../styles/style';
+import history from 'utils/history';
 
 const {generateCode} = require('dhis2-uid');
 
 class ReplyCard extends Component {
   state = {
-    subject: 'test',
+    subject: '',
     input: '',
   }
 
-  texFieldUpdate = (event, newValue) => {
+  subjectUpdate = (event, newValue) => {
+    this.setState({subject: newValue})
+  }
+
+  inputUpdate = (event, newValue) => {
     this.setState({input: newValue})
   }
 
   sendMessage = () => {
-    this.props.sendMessage( this.state.subject, this.props.recipients, this.state.input, generateCode())
-    this.wipeInput()
+    const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
+    this.props.sendMessage( this.state.subject, this.props.recipients, this.state.input, generateCode(), messageType)
   }
 
   wipeInput = () => {
-    this.setState({input: '', expanded: false})
+    this.setState({subject: '', input: ''})
   }
 
   render() {
@@ -46,6 +51,12 @@ class ReplyCard extends Component {
           <CardText>
             <SuggestionField label={'To'} messageConversation={this.props.messageConversation} />
             <TextField
+              hintText="Subject" 
+              fullWidth
+              value={this.state.subject}  
+              onChange={this.subjectUpdate}
+            />
+            <TextField
               key={'createMessage'}
               id={'createMessage'}
               rows={5}
@@ -53,11 +64,16 @@ class ReplyCard extends Component {
               value={this.state.input}
               multiLine
               fullWidth
-              onChange={this.texFieldUpdate}
+              onChange={this.inputUpdate}
             />
             <CardActions>
-              <FlatButton label="Send" onClick={this.sendMessage} />
-              <FlatButton label="Discard" />
+              <FlatButton label="Send" 
+                onClick={() => {
+                  this.sendMessage()
+                  history.push( '/PRIVATE' )
+                }} 
+              />
+              <FlatButton label="Discard" onClick={ () => history.push( '/PRIVATE' ) }/>
             </CardActions>
           </CardText>
         </Card>
@@ -70,11 +86,12 @@ export default compose(
   connect(
     state => {
       return {
+        messageTypes: state.messaging.messageTypes,
         recipients: state.recipient.selected
       }
     },
     dispatch => ({
-      sendMessage: (subject, users, message, messageConversationId) => dispatch({ type: actions.SEND_MESSAGE, payload: {subject, users, message, messageConversationId} }),
+      sendMessage: (subject, users, message, messageConversationId, messageType) => dispatch({ type: actions.SEND_MESSAGE, payload: {subject, users, message, messageConversationId, messageType} }),
     }),
   ),
   pure,
