@@ -11,21 +11,23 @@ export const cardStyles = {
     marginBottom: '50px',
   },
   subheader: {
-    color: theme.palette.accent3Color,
-    marginLeft: '20px',
+    color: theme.palette.textColor,
+    marginLeft: '15px',
     fontSize: '20px',
   }
 };
 
 export const messagePanelContainer = {
-  gridColumn: '3',
-  gridRow: '2',
   overflowY: 'scroll',
   overflowX: 'hidden',
 };
 
 export const messagePanelListContainer = {
   gridArea: '2 / 2 / span 1 / span 2',
+  borderLeftStyle: 'solid',
+  borderLeftColor: theme.palette.accent4Color,
+  borderLeftWidth: '0.5px',
+  marginRight: '15px',
   overflowY: 'scroll',
   overflowX: 'hidden',
 };
@@ -33,7 +35,7 @@ export const messagePanelListContainer = {
 export const grid = {
   display: 'grid',
   gridTemplateColumns: '15% 20% 65%',
-  gridTemplateRows: '4% 96%',
+  gridTemplateRows: '48px 100%',
   paddingTop: '46px',
   width: '100vw',
   height: 'calc(100vh - 46px)',

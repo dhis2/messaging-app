@@ -6,7 +6,9 @@ import { compose, pure, lifecycle } from 'recompose';
 import FlatButton from 'material-ui/FlatButton';
 import CreateMessageIcon from 'material-ui-icons/Add';
 import TextField from 'material-ui/TextField';
+import Toggle from 'material-ui/Toggle';
 import ViewList from 'material-ui-icons/ViewList';
+import { ToolbarSeparator } from 'material-ui/Toolbar';
 
 import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
@@ -14,11 +16,19 @@ import * as actions from 'constants/actions';
 import theme from '../styles/theme';
 import { grid } from '../styles/style';
 
-import CustomList from './CustomList';
+import SidebarList from './SidebarList';
 import MessagePanel from './MessagePanel';
-import MessagePanelList from './MessagePanelList';
+import FullWidthList from './FullWidthList';
 
 const flatButtonHeight = '40px'
+const styles = {
+  toggleContainer: {
+    width: '50px',
+  },
+  toggleTrack: {
+    backgroundColor: '#dddddd',
+  },
+}
 
 class MessagingCenter extends Component {
   state = {
@@ -28,7 +38,7 @@ class MessagingCenter extends Component {
     super(props)
 
     this.state = {
-      listview: true,
+      wideview: true,
     };
   }
 
@@ -45,30 +55,36 @@ class MessagingCenter extends Component {
     this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1);
   }
 
-  toogleListView() {
-    this.setState({ listview: !this.state.listview })
+  toogleWideview() {
+    this.setState({ wideview: !this.state.wideview })
   }
 
   render() {
     const messageType = this.props.match.params.messageType
-    const selectedMessageTypeConversations = this.props.messageConversations[messageType];
+    let selectedMessageTypeConversations = this.props.messageConversations[messageType];
 
     return (
       <div style={grid} >
-        <FlatButton style={{
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
           gridRow: '1',
           gridColumn: '1',
-          textAlign: 'left',
           height: flatButtonHeight,
-        }}
+        }}>
+        <FlatButton 
           icon={<CreateMessageIcon />}
           containerElement={<Link to={messageType + "/create"} />}
-          label="New message"
+          label="Compose"
         />
+        <ToolbarSeparator/>
+        </div>
         <TextField
           style={{
             gridRow: '1',
             gridColumn: '2',
+            marginLeft: '15px',
+            height: flatButtonHeight,
           }}
           fullWidth
           hintText={'Search'}
@@ -76,28 +92,28 @@ class MessagingCenter extends Component {
           type="search"
           margin="normal"
         />
-        <FlatButton style={{
-          height: flatButtonHeight,
-          gridRow: '1',
-          gridColumn: '3',
-          justifySelf: 'end'
-        }}
-          icon={<ViewList />}
-          onClick={(event) => this.toogleListView()}
-        />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}>
+          <FlatButton
+            style={{width: '40px', marginRight: '15px'}}
+            icon={<ViewList />}
+            onClick={() => this.toogleWideview()} />
+        </div>
 
-        <CustomList {...this.props} gridColumn={1} children={this.props.messageTypes} />
-        {!this.state.listview && <CustomList
-          {...this.props}
-          gridColumn={2}
-          children={selectedMessageTypeConversations}
-          loadMoreMessageConversations={this.loadMoreMessageConversations.bind(this)}
-          markUnread={(child) => {
-            this.props.markMessageConversationsUnread( [child.id])
-          }} />}
-        {this.state.listview ?
-          <MessagePanelList gridColumn={3} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
-          : <MessagePanel gridColumn={3} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />}
+        <SidebarList {...this.props} gridColumn={1} children={this.props.messageTypes} />
+        {!this.state.wideview ?
+          <SidebarList
+            {...this.props}
+            gridColumn={2}
+            children={selectedMessageTypeConversations}
+            loadMoreMessageConversations={this.loadMoreMessageConversations.bind(this)}
+           />
+          :
+          <FullWidthList messageType={messageType} children={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+        }
+        <MessagePanel wideview={this.state.wideview} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
       </div>
     )
   }

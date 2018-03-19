@@ -4,7 +4,6 @@ import { compose, pure } from 'recompose';
 
 import { Link } from 'react-router-dom'
 
-import RightIconMenu from './RightIconMenu'
 import ReplyCard from './ReplyCard'
 import CreateMessage from './CreateMessage'
 
@@ -27,15 +26,20 @@ class MessagePanel extends Component {
     const messageConversation = _.find(this.props.selectedMessageTypeConversations, { id: id });
 
     if (messageConversation && !messageConversation.read) {
-      this.props.markMessageConversationsRead([messageConversation.id])
+      this.props.markMessageConversationsRead([messageConversation.id], messageConversation.messageType)
     }
 
+    const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 3 / span 1 / span 1'
     return (
-      <div style={messagePanelContainer}>
+      <div style={{
+        gridArea: gridArea,
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+      }}>
         {id == 'create' ?
-          <Subheader style={cardStyles.subheader}>{!messageConversation && 'Create'}</Subheader> && 
+          <Subheader style={cardStyles.subheader}>{!messageConversation && 'Create'}</Subheader> &&
           <CreateMessage />
-          : <Subheader style={cardStyles.subheader}>{!messageConversation && 'Select a message'}</Subheader>
+          : !this.props.wideview && <Subheader style={cardStyles.subheader}>{!messageConversation && 'Select a message'}</Subheader>
         }
         {messageConversation && <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>}
         {messageConversation && <div>
@@ -79,7 +83,7 @@ export default compose(
       return state
     },
     dispatch => ({
-      markMessageConversationsRead: markedReadConversations => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations } }),
+      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
     }),
   ),
   pure,

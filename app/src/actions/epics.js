@@ -8,8 +8,6 @@ const updateMessageConversations = action$ =>
   action$
     .ofType(
       actions.UPDATE_MESSAGE_CONVERSATIONS,
-      actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
-      actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
       actions.REPLY_MESSAGE_SUCCESS,
   )
     .switchMap(action =>
@@ -28,6 +26,8 @@ const loadMessageConversations = action$ =>
   action$
     .ofType(
       actions.LOAD_MESSAGE_CONVERSATIONS,
+      actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
+      actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
   )
     .concatMap(action =>
@@ -107,15 +107,15 @@ const markMessageConversationsRead = action$ =>
         .markRead(action.payload.markedReadConversations)
         .then(() => ({
           type: actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
-          payload: { messageConversationIds: action.payload.markedReadConversations }
+          payload: { messageType: action.payload.messageType, page: 1 }
         }))
         .catch(error => ({
           type: actions.MARK_MESSAGE_CONVERSATIONS_READ_ERROR,
           payload: { error },
         })));
 
-const markMessageConversationsUnread = action$ =>
-  action$
+const markMessageConversationsUnread = action$ => {
+  return action$
     .ofType(
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD,
   )
@@ -124,12 +124,12 @@ const markMessageConversationsUnread = action$ =>
         .markUnread(action.payload.markedUnreadConversations)
         .then(() => ({
           type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
-          payload: { messageConversationIds: action.payload.markedUnreadConversations }
+          payload: { messageType: action.payload.messageType, page: 1 }
         }))
         .catch(error => ({
           type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_ERROR,
           payload: { error },
-        })));
+        })))};
 
 
 const searchForRecipients = action$ =>
