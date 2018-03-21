@@ -1,18 +1,8 @@
 import theme from '../styles/theme';
 
 export const cardStyles = {
-  cardItem: {
-    marginLeft: '15px',
-    marginRight: '15px',
-  },
-  replyItem: {
-    marginLeft: '15px',
-    marginRight: '15px',
-    marginBottom: '50px',
-  },
   subheader: {
-    color: theme.palette.textColor,
-    marginLeft: '15px',
+    color: theme.palette.accent4Color,
     fontSize: '20px',
   }
 };
@@ -24,10 +14,6 @@ export const messagePanelContainer = {
 
 export const messagePanelListContainer = {
   gridArea: '2 / 2 / span 1 / span 2',
-  borderLeftStyle: 'solid',
-  borderLeftColor: theme.palette.accent4Color,
-  borderLeftWidth: '0.5px',
-  marginRight: '15px',
   overflowY: 'scroll',
   overflowX: 'hidden',
 };

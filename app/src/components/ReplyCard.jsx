@@ -40,7 +40,7 @@ class ReplyCard extends Component {
   render() {
     return (
       <Card
-        style={cardStyles.replyItem}
+        style={{marginTop: '5px'}}
         expanded={this.state.expanded} 
         onExpandChange={this.handleExpandChange}
       >
@@ -68,7 +68,6 @@ class ReplyCard extends Component {
             <FlatButton label="Discard" />
           </CardActions>
         </CardText>
-
       </Card>
     )
   }

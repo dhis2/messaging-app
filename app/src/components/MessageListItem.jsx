@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 
 import InboxIcon from 'material-ui-icons/Inbox';
 import Badge from 'material-ui/Badge';
-import MarkUnreadIcon from 'material-ui-icons/MarkUnreadMailBox';
+import MarkUnreadIcon from 'material-ui-icons/Mail';
+
 
 import theme from '../styles/theme';
 
@@ -13,7 +14,7 @@ class MessageListItem extends Component {
   state = {
     backgroundColor: theme.palette.accent2Color,
   };
-  
+
   setBackgroundColor = color => {
     this.setState({
       backgroundColor: color,
@@ -21,13 +22,17 @@ class MessageListItem extends Component {
   };
 
   getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
-  
+
   setNeutral = () => this.setBackgroundColor(theme.palette.accent2Color);
   setFocus = () => this.setBackgroundColor('#e4e4e4');
   setHover = () => this.setBackgroundColor(theme.palette.accent3Color);
 
   markUnreadComponent = (child, selectedValue, markUnread) => (
-    <MarkUnreadIcon onClick={(event) => {
+    <MarkUnreadIcon 
+    style={{
+      cursor: 'pointer'
+    }}
+    onClick={(event) => {
       event.stopPropagation()
       event.preventDefault()
 
@@ -42,17 +47,13 @@ class MessageListItem extends Component {
       this.markUnreadComponent(this.props.child, this.props.selectedValue, this.props.markUnread);
 
     return (
-        <Link 
-        style={{ 
-          ...this.state, 
+      <Link
+        style={{
+          ...this.state,
           textDecoration: 'none',
         }}
-        onMouseEnter={this.setHover}
-        onMouseLeave={this.setNeutral}
-        onFocus={this.setFocus}
-        onBlur={this.setNeutral}
-        to={`${this.props.relativePath}${this.props.child.id}`} 
-        >
+        to={`${this.props.relativePath}${this.props.child.id}`}
+      >
           <ListItem
             touchRippleColor={theme.palette.primary2Color}
             style={{
@@ -74,7 +75,7 @@ class MessageListItem extends Component {
             }
             secondaryTextLines={1}
           />
-        </Link>
+      </Link>
     )
   }
 }

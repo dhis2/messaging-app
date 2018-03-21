@@ -12,6 +12,8 @@ import Divider from 'material-ui/Divider';
 
 import CreateMessage from './CreateMessage'
 import MessageListItem from './MessageListItem'
+import MessageConversation from './MessageConversation'
+import CustomListItem from './CustomListItem'
 
 import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelListContainer, paperStyle } from '../styles/style';
@@ -28,7 +30,7 @@ class FullWidthList extends Component {
     const messageType = this.props.messageType;
 
     return (
-      <div style={messagePanelListContainer}>
+      <div style={messagePanelListContainer} id='fullWidthList'>
         {id == 'create' ?
           <CreateMessage />
           :
@@ -57,7 +59,7 @@ const MessageList = ({ children, messageType, loaded, markUnread }) => {
             key={status.key}
             label={status.displayName}
           >
-            <TableComponent 
+            <TableComponent
               filter={status.key} 
               children={children} 
               messageType={messageType} 
@@ -84,13 +86,30 @@ const TableComponent = ({ filter, children, messageType, loaded, markUnread }) =
         .filter(child => child.status == filter || filter == '' || filter == 'ALL')
         .map(child => {
           return (
+            <div >
+              <MessageConversation 
+                messageConversation={child} 
+                expanded={false}
+                showExpandButton={true}
+              /> 
+            </div>         
+            /*<CustomListItem 
+            primaryText={child.displayName} 
+            secondaryText={
+              <p>
+                <span style={{ color: theme.palette.textColor }}>
+                  {messageType != 'PRIVATE' ? messageType : child.lastSenderFirstname + ' ' + child.lastSenderSurname}
+                </span> -- {' ' + child.subject}
+              </p>
+            }
+          />
             <MessageListItem
               key={child.id}
               child={child}
               gridColumn={2} 
               relativePath={ messageType + '/' } 
               messageType={messageType}
-              markUnread={markUnread} />
+              markUnread={markUnread} />*/
           )
         })
       :
