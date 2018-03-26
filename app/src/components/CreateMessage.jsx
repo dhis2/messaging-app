@@ -13,10 +13,10 @@ import Subheader from 'material-ui/Subheader/Subheader';
 
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
-import { cardStyles } from '../styles/style';
+import { messageConversationContainer, subheader } from '../styles/style';
 import history from 'utils/history';
 
-const {generateCode} = require('dhis2-uid');
+const { generateCode } = require('dhis2-uid');
 
 class ReplyCard extends Component {
   state = {
@@ -25,35 +25,36 @@ class ReplyCard extends Component {
   }
 
   subjectUpdate = (event, newValue) => {
-    this.setState({subject: newValue})
+    this.setState({ subject: newValue })
   }
 
   inputUpdate = (event, newValue) => {
-    this.setState({input: newValue})
+    this.setState({ input: newValue })
   }
 
   sendMessage = () => {
     const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
-    this.props.sendMessage( this.state.subject, this.props.recipients, this.state.input, generateCode(), messageType)
+    this.props.sendMessage(this.state.subject, this.props.recipients, this.state.input, generateCode(), messageType)
   }
 
   wipeInput = () => {
-    this.setState({subject: '', input: ''})
+    this.setState({ subject: '', input: '' })
   }
 
   render() {
     return (
-      <div>
-        <Subheader style={cardStyles.subheader}> {'Create'}</Subheader>
-        <Card
-          style={cardStyles.replyItem}
-        >
+      <div style={{
+        margin: '10px',
+        gridArea: '2 / 2 / span 1 / span 2',
+      }}>
+        <Subheader style={subheader}> {'Create'}</Subheader>
+        <Card>
           <CardText>
             <SuggestionField label={'To'} messageConversation={this.props.messageConversation} />
             <TextField
-              hintText="Subject" 
+              hintText="Subject"
               fullWidth
-              value={this.state.subject}  
+              value={this.state.subject}
               onChange={this.subjectUpdate}
             />
             <TextField
@@ -67,13 +68,13 @@ class ReplyCard extends Component {
               onChange={this.inputUpdate}
             />
             <CardActions>
-              <FlatButton label="Send" 
+              <FlatButton label="Send"
                 onClick={() => {
                   this.sendMessage()
-                  history.push( '/PRIVATE' )
-                }} 
+                  history.push('/PRIVATE')
+                }}
               />
-              <FlatButton label="Discard" onClick={ () => history.push( '/PRIVATE' ) }/>
+              <FlatButton label="Discard" onClick={() => history.push('/PRIVATE')} />
             </CardActions>
           </CardText>
         </Card>
@@ -91,7 +92,7 @@ export default compose(
       }
     },
     dispatch => ({
-      sendMessage: (subject, users, message, messageConversationId, messageType) => dispatch({ type: actions.SEND_MESSAGE, payload: {subject, users, message, messageConversationId, messageType} }),
+      sendMessage: (subject, users, message, messageConversationId, messageType) => dispatch({ type: actions.SEND_MESSAGE, payload: { subject, users, message, messageConversationId, messageType } }),
     }),
   ),
   pure,

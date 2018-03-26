@@ -28,6 +28,7 @@ const loadMessageConversations = action$ =>
       actions.LOAD_MESSAGE_CONVERSATIONS,
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
+      actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
   )
     .concatMap(action =>
@@ -47,21 +48,22 @@ const loadMessageConversations = action$ =>
           payload: { error },
         })));
 
-/*const deleteMessageConversations = action$ =>
+const deleteMessageConversation = action$ =>
   action$
     .ofType(
-      actions.DELETE_MESSAGE_CONVERSATIONS,
+      actions.DELETE_MESSAGE_CONVERSATION,
   )
     .concatMap(action =>
       api
-        .deleteMessageConversations(action.payload.ids)
+        .deleteMessageConversation(action.payload.messageConversationId)
         .then(result => ({
-          type: actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
+          type: actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
+          payload: { messageType: action.payload.messageType, page: 1 }
         }))
         .catch(error => ({
-          type: actions.MESSAGE_CONVERSATIONS_DELETE_ERROR,
+          type: actions.MESSAGE_CONVERSATION_DELETE_ERROR,
           payload: { error },
-        })));*/
+        })));
 
 const sendMessage = action$ =>
   action$
@@ -154,6 +156,7 @@ export default combineEpics(
   loadMessageConversations,
   sendMessage,
   replyMessage,
+  deleteMessageConversation,
   markMessageConversationsRead,
   markMessageConversationsUnread,
   searchForRecipients

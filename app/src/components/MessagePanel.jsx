@@ -11,11 +11,6 @@ import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
-import { cardStyles, messagePanelContainer } from '../styles/style';
-
-import MailIcon from 'material-ui-icons/MailOutline';
-
-import Subheader from 'material-ui/Subheader/Subheader';
 
 class MessagePanel extends Component {
   render() {
@@ -28,32 +23,23 @@ class MessagePanel extends Component {
 
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 3 / span 1 / span 1'
     return (
-      <div style={{
-        gridArea: gridArea,
-        overflowY: 'scroll',
-        overflowX: 'hidden',
-      }}>
-        {id == 'create' ?
-          <Subheader style={cardStyles.subheader}>{!messageConversation && 'Create'}</Subheader> &&
-          <CreateMessage />
-          : !this.props.wideview && 
-          <div style={{ textAlign: 'center', paddingTop: '100px' }}>
-            <Subheader style={cardStyles.subheader}>{!messageConversation && 'Select a message'}</Subheader>
-            <MailIcon style={{
-              color: theme.palette.primary1Color, 
-              width: 120,
-              height: 120,
-              }}/>
-          </div>
-        }
-        {messageConversation && <Subheader style={cardStyles.subheader}> {messageConversation.subject} </Subheader>}
-        {messageConversation && <div>
-          <MessageConversation 
-            messageConversation={messageConversation} 
-            showExpandButton={false}
+      messageConversation ?
+      <div 
+        id='messagepanel'
+        style={{
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+          gridArea: gridArea,
+          height: 'calc(100vh - 100px)',
+          margin: '10px',
+        }}
+      >
+          <MessageConversation
+            messageConversation={messageConversation}
+            disableLink={true}
           />
-        </div>}
       </div>
+      : <div/>
     )
   }
 }

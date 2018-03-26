@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 
@@ -13,6 +14,7 @@ import TextField from 'material-ui/TextField';
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
 import { cardStyles } from '../styles/style';
+import history from 'utils/history';
 
 class ReplyCard extends Component {
   state = {
@@ -20,7 +22,39 @@ class ReplyCard extends Component {
     expanded: false,
   }
 
+  animateScroll = (duration) => {
+    const messagepanel = document.getElementById('messagepanel');
+
+    var start = messagepanel.scrollTop;
+    var end = messagepanel.scrollHeight;
+    var change = end - start;
+    var increment = 5;
+
+    function easeInOut(currentTime, start, change, duration) {
+      currentTime /= duration / 2;
+      if (currentTime < 1) {
+        return change / 2 * currentTime * currentTime + start;
+      }
+      currentTime -= 1;
+      return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+    }
+
+    function animate(elapsedTime) {
+      elapsedTime += increment;
+      var position = easeInOut(elapsedTime, start, change, duration);
+      messagepanel.scrollTop = position;
+      if (elapsedTime < duration) {
+        setTimeout(function() {
+          animate(elapsedTime);
+        }, increment)
+      }
+    }
+    animate(0);
+  }
+
   handleExpandChange = (expanded) => {
+    this.animateScroll(500);
+
     this.setState({expanded: expanded});
   };
 
@@ -40,7 +74,9 @@ class ReplyCard extends Component {
   render() {
     return (
       <Card
-        style={{marginTop: '5px'}}
+        style={{
+          marginTop: '5px',
+        }}
         expanded={this.state.expanded} 
         onExpandChange={this.handleExpandChange}
       >
@@ -65,7 +101,7 @@ class ReplyCard extends Component {
           />
           <CardActions>
             <FlatButton label="Send" onClick={this.replyMessage} />
-            <FlatButton label="Discard" />
+            <FlatButton label="Discard" onClick={ () => history.push( `${this.props.messageConversation.messageType}`)} />
           </CardActions>
         </CardText>
       </Card>

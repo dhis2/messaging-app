@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader/Subheader';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-
 import IconButton from 'material-ui/IconButton';
-import Expand from 'material-ui-icons/ExpandMore';
-import DeExpand from 'material-ui-icons/ExpandLess';
 
 import ReplyCard from './ReplyCard'
+import CustomFontIcon from './CustomFontIcon'
 
-import { cardStyles, messagePanelContainer } from '../styles/style';
+import { messageConversationContainer, messagePanelContainer, subheader } from '../styles/style';
+import theme from '../styles/theme';
+import history from 'utils/history';
 const moment = require('moment');
 
 class MessageConversation extends Component {
@@ -17,88 +19,102 @@ class MessageConversation extends Component {
     super(props)
 
     this.state = {
-      id: props.messageConversation.id,
-      expanded: props.expanded != undefined ? props.expanded : true
+      backgroundColor: theme.palette.canvasColor,
+      expanded: props.expanded != undefined ? props.expanded : true,
+      cursor: 'auto',
     }
   }
 
-  state = {
-    expanded: true,
-  }
-
-  handleExpandChange = () => {
+  setBackgroundColor = color => {
     this.setState({
-      expanded: !this.state.expanded
-    })
+      backgroundColor: color,
+    });
+  };
+
+  getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
+
+  onClick = (location) => {
+    console.log(history)
+    history.replace(location)
   }
 
-  /*componentDidUpdate = () => {
-    var elem = document.getElementById( this.state.id ); 
-    var list = document.getElementById( 'fullWidthList' ); 
-    list.scrollTop = elem.offsetTop - '95';
-  };*/
+  onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
+  onMouseLeave = () => { this.setState({ cursor: 'auto' }) }
 
   render() {
     const messageConversation = this.props.messageConversation;
 
-    const messages = this.state.expanded ? messageConversation.messages : messageConversation.messages.slice(0, 1)
+    const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1)
+    console.log(this.props.wideview)
     return (
       <div style={{
-          marginTop: this.state.expanded ? '20px' : '',  
-          marginBottom: this.state.expanded ? '20px' : '5px',
-          marginLeft: this.state.expanded ? '10px' : '25px',
-          marginRight: this.state.expanded ? '10px' : '25px',
+        marginBottom: this.props.disableLink && '50px',
+        }}>
+        {this.props.disableLink && <Subheader style={subheader}> {messageConversation.subject} </Subheader>}
+        <List style={{
+          padding: '0px'
         }}
-        id={messageConversation.id}>
-        <List style={{ padding: '0px' }}>
+        >
           {messages.map(message => {
             const title = messageConversation.messageType == 'PRIVATE' ? message.sender.displayName : messageConversation.messageType;
             return (
-              <div key={message.id}>
-                <Card 
-                  style={cardStyles.cardItem} 
-                  key={message.id}
-                >
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between'
-                  }}>
-                    <CardHeader
-                      title={title}
-                      subtitle={moment(message.lastUpdated).format('ddd DD/MM/YYYY HH:mm')}
-                    />
-                    {(message.id == messages[0].id && this.props.showExpandButton) && <IconButton
-                      tooltip={ this.state.expanded ? "Less" : "More" }
-                      tooltipPosition="bottom-left"
-                      style={{
-                        marginRight: '5px',
-                        marginTop: '5px'
-                      }} 
-                      onClick={this.handleExpandChange}
-                    >
-                      {this.state.expanded ? 
-                        <DeExpand />
-                        :
-                        <Expand />}
-                    </IconButton>}
+              <div
+                onClick={() => !this.props.disableLink && this.onClick(`${messageConversation.messageType}/${messageConversation.id}`)}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+                style={{
+                  transition: 'all 0.2s ease-in-out',
+                  cursor: this.props.disableLink ? 'auto' : this.state.cursor,
+                  backgroundColor: this.getBackgroundColor(this.props.selectedValue, messageConversation.id),
+                  margin: this.props.wideview ? '10px' : '',
+                  borderLeftStyle: !messageConversation.read && !this.state.expanded ? 'solid' : '',
+                  borderLeftWidth: '3px',
+                  borderLeftColor: theme.palette.primary1Color,
+                  borderStyle: 'solid',
+                  borderWidth: '1px',
+                  borderColor: theme.palette.accent3Color,
+                  paddingBottom: '0px'
+                }}
+                key={message.id}
+              >
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }} >
+                  <div
+                    style={{
+                      padding: '16px 0px 16px 16px',
+                      fontWeight: '500',
+                      boxSizing: 'border-box',
+                      position: 'relative',
+                      whiteSpace: 'nowrap',
+                      width: '200px'
+                    }} >
+                    <div> {title} </div>
+                    <div> {moment(message.lastUpdated).format('ddd DD/MM/YYYY HH:mm')} </div>
                   </div>
-  
-                  <CardText style={{
-                    overflow: this.state.expanded ? 'auto' : 'hidden',
-                    textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
-                    whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
-                  }}>
-                    {message.text}
-                  </CardText>
-                </Card>
+
+                  {(this.state.cursor == 'pointer' && !this.props.disableLink) && <div >
+                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.props.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
+                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.props.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
+                  </div>}
+                </div>
+
+                <CardText style={{
+                  overflow: this.state.expanded ? 'auto' : 'hidden',
+                  textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
+                  whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
+                }}>
+                  {message.text}
+                </CardText>
               </div>
             )
           })
           }
         </List>
-        {((messageConversation.messageType == 'PRIVATE' || messageConversation.messageType == 'TICKET') && this.state.expanded) && 
-        <ReplyCard messageConversation={messageConversation} />}
+        {((messageConversation.messageType == 'PRIVATE') && this.state.expanded) &&
+          <ReplyCard messageConversation={messageConversation} />}
       </div>
     )
   }

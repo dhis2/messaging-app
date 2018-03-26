@@ -48,10 +48,20 @@ export const replyMessage = (message, messageConversationId) =>
         throw error;
       });
 
+export const deleteMessageConversation = messageConversationId =>
+  getD2Instance()
+    .then(instance =>
+      instance.Api.getApi().delete(`messageConversations/${messageConversationId}`))
+    .then(result => result)
+    .catch(error => {
+      throw error;
+    });
+
 export const markRead = markedReadConversations =>
   getD2Instance()
     .then(instance =>
       instance.Api.getApi().post('messageConversations/read', markedReadConversations))
+    .then(result => result)
     .catch(error => {
       throw error;
     });
@@ -60,6 +70,7 @@ export const markUnread = markedUnreadConversations =>
   getD2Instance()
     .then(instance =>
       instance.Api.getApi().post('messageConversations/unread', markedUnreadConversations ))
+    .then(result => result)
     .catch(error => {
       throw error;
     });

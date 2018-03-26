@@ -9,7 +9,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader/Subheader';
 
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 import MessageListItem from './MessageListItem'
@@ -17,15 +17,15 @@ import MessageListItem from './MessageListItem'
 import theme from '../styles/theme';
 import * as actions from 'constants/actions';
 
- /*const mapChildren = gridColumn == 2 ? _.filter( children, (child) => {
-    return (
-      child.displayName.includes(messageFilter) &&
-      messageType != 'PRIVATE' && _.filter(child.messages, (message) => {
-        message.sender.displayName.includes(messageFilter) &&
-          message.text.includes(messageFilter)
-      })
-    )
-  }) : children*/
+/*const mapChildren = gridColumn == 2 ? _.filter( children, (child) => {
+   return (
+     child.displayName.includes(messageFilter) &&
+     messageType != 'PRIVATE' && _.filter(child.messages, (message) => {
+       message.sender.displayName.includes(messageFilter) &&
+         message.text.includes(messageFilter)
+     })
+   )
+ }) : children*/
 
 class SidebarList extends Component {
   constructor(props) {
@@ -56,23 +56,23 @@ class SidebarList extends Component {
           {!this.props.loaded && gridColumn == 1 &&
             <CircularProgress color={theme.palette.primary2Color} />
           }
-          <List style={{ 
-            padding: '0px', 
+          <List style={{
+            padding: '0px',
             height: 'calc(100vh - 100px)',
-            }} >
+          }} >
             {(!children || children.length == 0) && this.props.loaded && <Subheader >No message conversations</Subheader>}
             {children &&
               children.map(child => {
                 return (
                   <div key={child.id}>
-                    <MessageListItem 
-                      child={child} 
-                      gridColumn={gridColumn} 
-                      selectedValue={routeValue} 
-                      relativePath={relativePath} 
+                    <MessageListItem
+                      child={child}
+                      gridColumn={gridColumn}
+                      selectedValue={routeValue}
+                      relativePath={relativePath}
                       messageType={messageType}
                       markUnread={(child) => {
-                        this.props.markMessageConversationsUnread( [child.id], messageType )
+                        this.props.markMessageConversationsUnread([child.id], messageType)
                       }} />
                     <Divider />
                   </div>

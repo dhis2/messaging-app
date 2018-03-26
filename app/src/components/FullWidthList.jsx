@@ -10,13 +10,10 @@ import Toggle from 'material-ui/Toggle';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-import CreateMessage from './CreateMessage'
-import MessageListItem from './MessageListItem'
 import MessageConversation from './MessageConversation'
-import CustomListItem from './CustomListItem'
 
 import * as actions from 'constants/actions';
-import { tabsStyles, messagePanelListContainer, paperStyle } from '../styles/style';
+import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
 
 const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'OPEN' }, { key: 'PENDING', displayName: 'PENDING' }, { key: 'SOLVED', displayName: 'SOLVED' }]
@@ -27,93 +24,91 @@ class FullWidthList extends Component {
 
   render() {
     const id = this.props.pathname.split('/').slice(-1)[0];
+    const displayMessageList = !this.props.wideview || this.props.pathname.split('/').length == 2
     const messageType = this.props.messageType;
 
+    const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 2 / span 1 / span 1'
     return (
-      <div style={messagePanelListContainer} id='fullWidthList'>
-        {id == 'create' ?
-          <CreateMessage />
-          :
-          id == messageType &&
-            <MessageList 
-              children={this.props.children} 
-              messageType={messageType} 
-              loaded={this.props.loaded}
-              markUnread={(child) => {
-                this.props.markMessageConversationsUnread( [child.id], messageType )
-              }} />
-        }
+      displayMessageList &&
+      <div style={{
+        gridArea: gridArea,
+        ...messagePanelContainer
+      }}>
+        <MessageList
+          children={this.props.children}
+          messageType={messageType}
+          loaded={this.props.loaded}
+          wideview={this.props.wideview}
+          selectedValue={id}
+          markUnread={(child) => {
+            this.props.markMessageConversationsUnread([child.id], messageType)
+          }}
+          deleteMessageConversations={(child) => {
+            this.props.deleteMessageConversation(child.id, messageType)
+          }} />
       </div>
     )
   }
 }
 
-const MessageList = ({ children, messageType, loaded, markUnread }) => {
+const MessageList = ({ children, messageType, loaded, wideview, selectedValue, markUnread, deleteMessageConversations }) => {
   return (
-    messageType == 'TICKET' ? 
-    <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
-      {statusList.map(status => {
-        return (
-          <Tab
-            style={tabsStyles.tabItem}
-            key={status.key}
-            label={status.displayName}
-          >
-            <TableComponent
-              filter={status.key} 
-              children={children} 
-              messageType={messageType} 
-              loaded={loaded} 
-              markUnread={markUnread} />
-          </Tab>
-        )
-      })}
-    </Tabs>
-    :
-    <TableComponent 
-      filter={''} 
-      children={children} 
-      messageType={messageType} 
-      loaded={loaded} 
-      markUnread={markUnread} />
+    messageType == 'TICKET' ?
+      <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
+        {statusList.map(status => {
+          return (
+            <Tab
+              style={tabsStyles.tabItem}
+              key={status.key}
+              label={status.displayName}
+            >
+              <TableComponent
+                filter={status.key}
+                children={children}
+                messageType={messageType}
+                loaded={loaded}
+                wideview={wideview}
+                selectedValue={selectedValue}
+                markUnread={markUnread}
+                deleteMessageConversations={deleteMessageConversations} />
+            </Tab>
+          )
+        })}
+      </Tabs>
+      :
+      <TableComponent
+        filter={'ALL'}
+        children={children}
+        messageType={messageType}
+        loaded={loaded}
+        wideview={wideview}
+        selectedValue={selectedValue}
+        markUnread={markUnread}
+        deleteMessageConversations={deleteMessageConversations}
+      />
   )
 }
 
-const TableComponent = ({ filter, children, messageType, loaded, markUnread }) => {
+const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, markUnread, deleteMessageConversations }) => {
   return (
     (children && children.length != 0) ?
       children
         .filter(child => child.status == filter || filter == '' || filter == 'ALL')
         .map(child => {
           return (
-            <div >
-              <MessageConversation 
-                messageConversation={child} 
-                expanded={false}
-                showExpandButton={true}
-              /> 
-            </div>         
-            /*<CustomListItem 
-            primaryText={child.displayName} 
-            secondaryText={
-              <p>
-                <span style={{ color: theme.palette.textColor }}>
-                  {messageType != 'PRIVATE' ? messageType : child.lastSenderFirstname + ' ' + child.lastSenderSurname}
-                </span> -- {' ' + child.subject}
-              </p>
-            }
-          />
-            <MessageListItem
+            <MessageConversation
               key={child.id}
-              child={child}
-              gridColumn={2} 
-              relativePath={ messageType + '/' } 
-              messageType={messageType}
-              markUnread={markUnread} />*/
+              messageConversation={child}
+              wideview={wideview}
+              selectedValue={selectedValue}
+              markUnread={markUnread}
+              deleteMessageConversations={deleteMessageConversations}
+              expanded={false}
+            />
           )
         })
       :
-      <Subheader >No message conversations</Subheader>
+      <Subheader>No message conversations</Subheader>
   )
 }
 
@@ -127,6 +122,7 @@ export default compose(
     },
     dispatch => ({
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
+      deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
     }),
   ),
   pure,
