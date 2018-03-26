@@ -5,10 +5,11 @@ import { List, ListItem } from 'material-ui/List';
 
 import InboxIcon from 'material-ui-icons/Inbox';
 import Badge from 'material-ui/Badge';
-import MarkUnreadIcon from 'material-ui-icons/Mail';
 
+import CustomFontIcon from './CustomFontIcon'
 
 import theme from '../styles/theme';
+import { headerPositions } from '../styles/style'
 
 class MessageListItem extends Component {
   state = {
@@ -27,29 +28,20 @@ class MessageListItem extends Component {
   setFocus = () => this.setBackgroundColor('#e4e4e4');
   setHover = () => this.setBackgroundColor(theme.palette.accent3Color);
 
-  markUnreadComponent = (child, selectedValue, markUnread) => (
-    <MarkUnreadIcon 
-    style={{
-      cursor: 'pointer'
-    }}
-    onClick={(event) => {
-      event.stopPropagation()
-      event.preventDefault()
-
-      selectedValue != child.id && markUnread(child)
-    }} />
-  )
-
   render() {
     const rightIcon = this.props.gridColumn == 1 ? this.props.child.unread > 0 ?
-      <Badge badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} /> : undefined
+      <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} /> : undefined
       :
-      this.markUnreadComponent(this.props.child, this.props.selectedValue, this.props.markUnread);
+      <CustomFontIcon child={this.props.child} selectedValue={this.props.selectedValue} onClick={this.props.markUnread} icon={'markunread'}/>
 
     return (
       <Link
         style={{
           ...this.state,
+          backgroundColor: this.getBackgroundColor(this.props.selectedValue, this.props.child.id),          
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
           textDecoration: 'none',
         }}
         to={`${this.props.relativePath}${this.props.child.id}`}
@@ -58,13 +50,11 @@ class MessageListItem extends Component {
             touchRippleColor={theme.palette.primary2Color}
             style={{
               borderLeftStyle: !this.props.child.read && this.props.gridColumn == 2 ? 'solid' : '',
-              borderLeftWidth: '5px',
+              borderLeftWidth: '3px',
               borderLeftColor: theme.palette.primary1Color,
-              backgroundColor: this.getBackgroundColor(this.props.selectedValue, this.props.child.id),
               color: this.props.child.id == this.props.selectedValue && this.props.gridColumn == 1 ? theme.palette.primary1Color : theme.palette.textColor,
               fontSize: '15px',
             }}
-            rightIcon={rightIcon}
             primaryText={this.props.child.displayName}
             secondaryText={this.props.gridColumn == 2 &&
               <p>
@@ -75,6 +65,7 @@ class MessageListItem extends Component {
             }
             secondaryTextLines={1}
           />
+          {rightIcon}
       </Link>
     )
   }

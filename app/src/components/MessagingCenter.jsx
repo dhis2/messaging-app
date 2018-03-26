@@ -8,17 +8,30 @@ import CreateMessageIcon from 'material-ui-icons/Add';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import ViewList from 'material-ui-icons/ViewList';
+import Subheader from 'material-ui/Subheader/Subheader';
 import { ToolbarSeparator } from 'material-ui/Toolbar';
+import MailIcon from 'material-ui-icons/MailOutline';
 
 import messageTypes from '../constants/messageTypes';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
-import { grid } from '../styles/style';
+import { grid, subheader } from '../styles/style';
 
 import SidebarList from './SidebarList';
 import MessagePanel from './MessagePanel';
 import FullWidthList from './FullWidthList';
+import CreateMessage from './CreateMessage';
+
+
+/*
+<SidebarList
+            {...this.props}
+            gridColumn={2}
+            children={selectedMessageTypeConversations}
+            loadMoreMessageConversations={this.loadMoreMessageConversations.bind(this)}
+          />
+          :*/
 
 const flatButtonHeight = '40px'
 const styles = {
@@ -38,7 +51,7 @@ class MessagingCenter extends Component {
     super(props)
 
     this.state = {
-      wideview: true,
+      wideview: false,
     };
   }
 
@@ -63,27 +76,30 @@ class MessagingCenter extends Component {
     const messageType = this.props.match.params.messageType
     let selectedMessageTypeConversations = this.props.messageConversations[messageType];
 
+    const id = this.props.location.pathname.split('/').slice(-1)[0];
+    const displayMessagePanel = _.find(this.props.messageTypes, { id: id }) == undefined
+
+    console.log(id, displayMessagePanel)
+    
     return (
       <div style={grid} >
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          gridRow: '1',
-          gridColumn: '1',
-          height: flatButtonHeight,
-        }}>
-        <FlatButton 
+        <FlatButton
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            gridRow: '1',
+            gridColumn: '1',
+            height: flatButtonHeight,
+            width: '150px'
+          }}
           icon={<CreateMessageIcon />}
           containerElement={<Link to={messageType + "/create"} />}
           label="Compose"
         />
-        <ToolbarSeparator/>
-        </div>
         <TextField
           style={{
             gridRow: '1',
             gridColumn: '2',
-            marginLeft: '15px',
             height: flatButtonHeight,
           }}
           fullWidth
@@ -97,23 +113,34 @@ class MessagingCenter extends Component {
           justifyContent: 'flex-end',
         }}>
           <FlatButton
-            style={{width: '40px', marginRight: '15px'}}
-            icon={<ViewList />}
+            style={{ textAlign: 'right', marginRight: '5px' }}
+            icon={<ViewList style={{ marginRight: '5px' }} />}
             onClick={() => this.toogleWideview()} />
         </div>
 
         <SidebarList {...this.props} gridColumn={1} children={this.props.messageTypes} />
-        {!this.state.wideview ?
-          <SidebarList
-            {...this.props}
-            gridColumn={2}
-            children={selectedMessageTypeConversations}
-            loadMoreMessageConversations={this.loadMoreMessageConversations.bind(this)}
-           />
+
+        {id == 'create' ?
+          <CreateMessage />
           :
-          <FullWidthList messageType={messageType} children={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+          <FullWidthList wideview={this.state.wideview} messageType={messageType} children={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
         }
-        <MessagePanel wideview={this.state.wideview} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+
+        {displayMessagePanel ?
+          <MessagePanel wideview={this.state.wideview} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+          :
+          !this.state.wideview &&
+          <div style={{ 
+            textAlign: 'center', 
+            paddingTop: '100px' 
+          }}>
+            <Subheader style={subheader}>{'Select a message'}</Subheader>
+            <MailIcon style={{
+              color: theme.palette.primary1Color,
+              width: 120,
+              height: 120,
+            }} />
+          </div>}
       </div>
     )
   }
