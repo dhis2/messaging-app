@@ -62,8 +62,11 @@ class MessageConversation extends Component {
     let messageConversation = this.props.messageConversation;
 
     const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1)
+<<<<<<< HEAD
     const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType)+1)
     const displayTicketInfo = messageConversation.messageType == 'TICKET' && this.props.wideview
+=======
+>>>>>>> 7c6b2383e3e0233eb97a529818b39e2ad53d9d0a
     return (
       <div style={{
         marginBottom: this.props.disableLink && '50px',
@@ -77,6 +80,12 @@ class MessageConversation extends Component {
             const title = !notification ? message.sender.displayName : messageConversation.messageType;
             return (
               <div
+<<<<<<< HEAD
+=======
+                onClick={() => !this.props.disableLink && this.onClick(`/${messageConversation.messageType}/${messageConversation.id}`)}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+>>>>>>> 7c6b2383e3e0233eb97a529818b39e2ad53d9d0a
                 style={{
                   transition: 'all 0.2s ease-in-out',
                   backgroundColor: this.getBackgroundColor(this.props.selectedValue, messageConversation.id),
@@ -86,9 +95,13 @@ class MessageConversation extends Component {
                   borderLeftColor: theme.palette.primary1Color,
                   borderBottom: '1px solid ' + theme.palette.accent3Color,
                   borderTop: '1px solid ' + theme.palette.accent3Color,
+<<<<<<< HEAD
                   paddingBottom: '0px',
                   display: 'grid',
                   gridTemplateColumns: '70% 10% 10% 10%',
+=======
+                  paddingBottom: '0px'
+>>>>>>> 7c6b2383e3e0233eb97a529818b39e2ad53d9d0a
                 }}
                 key={message.id}
               >
