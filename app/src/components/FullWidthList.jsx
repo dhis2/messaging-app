@@ -148,12 +148,9 @@ export default compose(
       };
     },
     dispatch => ({
-<<<<<<< HEAD
       updateMessageConversationStatus: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation } }),
       updateMessageConversationPriority: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation } }),
       updateMessageConversationAssignee: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation } }),
-=======
->>>>>>> 7c6b2383e3e0233eb97a529818b39e2ad53d9d0a
       loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
