@@ -5,10 +5,12 @@ import { List, ListItem } from 'material-ui/List';
 
 import InboxIcon from 'material-ui-icons/Inbox';
 import Badge from 'material-ui/Badge';
+import Subheader from 'material-ui/Subheader/Subheader';
 
 import CustomFontIcon from './CustomFontIcon'
 
 import theme from '../styles/theme';
+import history from 'utils/history';
 import { headerPositions } from '../styles/style'
 
 class MessageListItem extends Component {
@@ -19,6 +21,7 @@ class MessageListItem extends Component {
   setBackgroundColor = color => {
     this.setState({
       backgroundColor: color,
+      cursor: 'auto',
     });
   };
 
@@ -28,45 +31,40 @@ class MessageListItem extends Component {
   setFocus = () => this.setBackgroundColor('#e4e4e4');
   setHover = () => this.setBackgroundColor(theme.palette.accent3Color);
 
-  render() {
-    const rightIcon = this.props.gridColumn == 1 ? this.props.child.unread > 0 ?
-      <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} /> : undefined
-      :
-      <CustomFontIcon child={this.props.child} selectedValue={this.props.selectedValue} onClick={this.props.markUnread} icon={'markunread'}/>
+  onClick = (location) => {
+    history.push(location)
+  }
 
+  onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
+  onMouseLeave = () => { this.setState({ cursor: 'auto' }) }
+
+  render() {
     return (
-      <Link
+      <div
         style={{
           ...this.state,
-          backgroundColor: this.getBackgroundColor(this.props.selectedValue, this.props.child.id),          
+          backgroundColor: this.getBackgroundColor(this.props.selectedValue, this.props.child.id),
+          cursor: this.state.cursor,
+          alignItems: 'center',
+          height: '48px',
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          textDecoration: 'none',
         }}
-        to={`${this.props.relativePath}${this.props.child.id}`}
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        onClick={() => this.onClick(`${this.props.relativePath}${this.props.child.id}`)}
       >
-          <ListItem
-            touchRippleColor={theme.palette.primary2Color}
-            style={{
-              borderLeftStyle: !this.props.child.read && this.props.gridColumn == 2 ? 'solid' : '',
-              borderLeftWidth: '3px',
-              borderLeftColor: theme.palette.primary1Color,
-              color: this.props.child.id == this.props.selectedValue && this.props.gridColumn == 1 ? theme.palette.primary1Color : theme.palette.textColor,
-              fontSize: '15px',
-            }}
-            primaryText={this.props.child.displayName}
-            secondaryText={this.props.gridColumn == 2 &&
-              <p>
-                <span style={{ color: theme.palette.textColor }}>
-                  {this.props.messageType != 'PRIVATE' ? this.props.messageType : this.props.child.lastSenderFirstname + ' ' + this.props.child.lastSenderSurname}
-                </span> -- {' ' + this.props.child.subject}
-              </p>
-            }
-            secondaryTextLines={1}
-          />
-          {rightIcon}
-      </Link>
+        <Subheader style={{
+          marginLeft: '5px',
+          fontSize: '18px',
+          color: this.props.child.id == this.props.selectedValue && this.props.gridColumn == 1 ? theme.palette.primary1Color : theme.palette.accent4Color,
+        }}>
+          {this.props.child.displayName}
+        </Subheader>
+        {this.props.child.unread > 0 &&
+          <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} />}
+      </div>
     )
   }
 }
