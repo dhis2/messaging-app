@@ -22,29 +22,43 @@ class FullWidthList extends Component {
     super(props)
   }
 
+  isBottom = (el) => {
+    return (el.scrollHeight - el.scrollTop) < window.outerHeight
+  }
+
+  onScroll = (messageType) => {
+    const messageList = document.getElementById('messagelist');
+    if ( this.isBottom(messageList) && messageType.loaded < messageType.total) {
+      this.props.loadMessageConversations(messageType.id, messageType.page + 1)
+    }
+  }
+
   render() {
     const id = this.props.pathname.split('/').slice(-1)[0];
     const displayMessageList = !this.props.wideview || this.props.pathname.split('/').length == 2
-    const messageType = this.props.messageType;
+    const messageType = _.find(this.props.messageTypes, { id: this.props.messageType });
 
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 2 / span 1 / span 1'
     return (
       displayMessageList &&
-      <div style={{
-        gridArea: gridArea,
-        ...messagePanelContainer
-      }}>
+      <div
+        id={'messagelist'}
+        onScroll={() => this.onScroll(messageType)}
+        style={{
+          gridArea: gridArea,
+          ...messagePanelContainer
+        }}>
         <MessageList
           children={this.props.children}
-          messageType={messageType}
+          messageType={messageType.id}
           loaded={this.props.loaded}
           wideview={this.props.wideview}
           selectedValue={id}
           markUnread={(child) => {
-            this.props.markMessageConversationsUnread([child.id], messageType)
+            this.props.markMessageConversationsUnread([child.id], messageType.id)
           }}
           deleteMessageConversations={(child) => {
-            this.props.deleteMessageConversation(child.id, messageType)
+            this.props.deleteMessageConversation(child.id, messageType.id)
           }} />
       </div>
     )
@@ -116,11 +130,13 @@ export default compose(
   connect(
     state => {
       return {
+        messageTypes: state.messaging.messageTypes,
         loaded: state.messaging.loaded,
         messageFilter: state.messaging.messsageFilter,
       };
     },
     dispatch => ({
+      loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
     }),

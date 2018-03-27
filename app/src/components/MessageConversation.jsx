@@ -34,8 +34,7 @@ class MessageConversation extends Component {
   getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
 
   onClick = (location) => {
-    console.log(history)
-    history.replace(location)
+    history.push(location)
   }
 
   onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
@@ -45,7 +44,6 @@ class MessageConversation extends Component {
     const messageConversation = this.props.messageConversation;
 
     const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1)
-    console.log(this.props.wideview)
     return (
       <div style={{
         marginBottom: this.props.disableLink && '50px',
@@ -59,7 +57,7 @@ class MessageConversation extends Component {
             const title = messageConversation.messageType == 'PRIVATE' ? message.sender.displayName : messageConversation.messageType;
             return (
               <div
-                onClick={() => !this.props.disableLink && this.onClick(`${messageConversation.messageType}/${messageConversation.id}`)}
+                onClick={() => !this.props.disableLink && this.onClick(`/${messageConversation.messageType}/${messageConversation.id}`)}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 style={{
@@ -70,9 +68,8 @@ class MessageConversation extends Component {
                   borderLeftStyle: !messageConversation.read && !this.state.expanded ? 'solid' : '',
                   borderLeftWidth: '3px',
                   borderLeftColor: theme.palette.primary1Color,
-                  borderStyle: 'solid',
-                  borderWidth: '1px',
-                  borderColor: theme.palette.accent3Color,
+                  borderBottom: '1px solid ' + theme.palette.accent3Color,
+                  borderTop: '1px solid ' + theme.palette.accent3Color,
                   paddingBottom: '0px'
                 }}
                 key={message.id}

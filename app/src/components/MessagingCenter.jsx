@@ -79,8 +79,6 @@ class MessagingCenter extends Component {
     const id = this.props.location.pathname.split('/').slice(-1)[0];
     const displayMessagePanel = _.find(this.props.messageTypes, { id: id }) == undefined
 
-    console.log(id, displayMessagePanel)
-    
     return (
       <div style={grid} >
         <FlatButton
