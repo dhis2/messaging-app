@@ -51,7 +51,7 @@ class MessagingCenter extends Component {
     super(props)
 
     this.state = {
-      wideview: false,
+      wideview: true,
     };
   }
 

@@ -1,6 +1,7 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2';
+import MessageConversation from '../components/MessageConversation';
 
-const messageConversationFields = '*,messages[*,sender[id,displayName]],userMessages[user[id, displayName]]'
+const messageConversationFields = '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]'
 export const getMessageConversationsWithIds = messageConversationIds =>
   getD2Instance()
     .then(instance => instance.Api.getApi().get('messageConversations', { fields: messageConversationFields, filter: 'id:in:[' + messageConversationIds + ']' }))
@@ -17,6 +18,27 @@ export const getMessageConversations = (messageType, page) =>
     .catch(error => {
       throw error;
     });
+
+export const updateMessageConversationStatus = (messageConversation) => 
+    getD2Instance()
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/status?messageConversationStatus=${messageConversation.status}`))
+      .catch(error => {
+        throw error;
+      });
+
+export const updateMessageConversationPriority = (messageConversation) => 
+    getD2Instance()
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/priority?messageConversationPriority=${messageConversation.priority}`))
+      .catch(error => {
+        throw error;
+      });
+
+export const updateMessageConversationAssignee = (messageConversation) => 
+    getD2Instance()
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/assign?userId=${messageConversation.assignee.id}`))
+      .catch(error => {
+        throw error;
+      });
 
 export const getNrOfUnread = messageType =>
     getD2Instance()

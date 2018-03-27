@@ -16,7 +16,7 @@ import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
 
-const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'OPEN' }, { key: 'PENDING', displayName: 'PENDING' }, { key: 'SOLVED', displayName: 'SOLVED' }]
+const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'Open' }, { key: 'PENDING', displayName: 'Pending' }, { key: 'INVALID', displayName: 'Invalid' }, { key: 'SOLVED', displayName: 'Solved' }]
 class FullWidthList extends Component {
   constructor(props) {
     super(props)
@@ -54,6 +54,12 @@ class FullWidthList extends Component {
           loaded={this.props.loaded}
           wideview={this.props.wideview}
           selectedValue={id}
+          updateMessageConversationStatus={(child) => {
+            this.props.updateMessageConversationStatus(child)
+          }}
+          updateMessageConversationPriority={(child) => {
+            this.props.updateMessageConversationPriority(child)
+          }}
           markUnread={(child) => {
             this.props.markMessageConversationsUnread([child.id], messageType.id)
           }}
@@ -65,7 +71,7 @@ class FullWidthList extends Component {
   }
 }
 
-const MessageList = ({ children, messageType, loaded, wideview, selectedValue, markUnread, deleteMessageConversations }) => {
+const MessageList = ({ children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, markUnread, deleteMessageConversations }) => {
   return (
     messageType == 'TICKET' ?
       <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
@@ -83,6 +89,8 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, m
                 loaded={loaded}
                 wideview={wideview}
                 selectedValue={selectedValue}
+                updateMessageConversationStatus={updateMessageConversationStatus}
+                updateMessageConversationPriority={updateMessageConversationPriority}
                 markUnread={markUnread}
                 deleteMessageConversations={deleteMessageConversations} />
             </Tab>
@@ -97,17 +105,19 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, m
         loaded={loaded}
         wideview={wideview}
         selectedValue={selectedValue}
+        updateMessageConversationStatus={updateMessageConversationStatus}
+        updateMessageConversationPriority={updateMessageConversationPriority}
         markUnread={markUnread}
         deleteMessageConversations={deleteMessageConversations}
       />
   )
 }
 
-const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, markUnread, deleteMessageConversations }) => {
+const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, markUnread, deleteMessageConversations }) => {
   return (
     (children && children.length != 0) ?
       children
-        .filter(child => child.status == filter || filter == '' || filter == 'ALL')
+        .filter(child => child.status == filter || filter == 'ALL')
         .map(child => {
           return (
             <MessageConversation
@@ -115,6 +125,8 @@ const TableComponent = ({ filter, children, messageType, loaded, wideview, selec
               messageConversation={child}
               wideview={wideview}
               selectedValue={selectedValue}
+              updateMessageConversationStatus={updateMessageConversationStatus}
+              updateMessageConversationPriority={updateMessageConversationPriority}
               markUnread={markUnread}
               deleteMessageConversations={deleteMessageConversations}
               expanded={false}
@@ -136,6 +148,9 @@ export default compose(
       };
     },
     dispatch => ({
+      updateMessageConversationStatus: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation } }),
+      updateMessageConversationPriority: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation } }),
+      updateMessageConversationAssignee: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation } }),
       loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),

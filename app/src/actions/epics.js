@@ -4,21 +4,54 @@ import { combineEpics } from 'redux-observable';
 import history from 'utils/history';
 import * as api from 'api/api';
 
-const updateMessageConversations = action$ =>
+const updateMessageConversationStatus = action$ =>
   action$
     .ofType(
-      actions.UPDATE_MESSAGE_CONVERSATIONS,
-      actions.REPLY_MESSAGE_SUCCESS,
+      actions.UPDATE_MESSAGE_CONVERSATION_STATUS,
   )
     .switchMap(action =>
       api
-        .getMessageConversationsWithIds(action.payload.messageConversationIds)
-        .then(result => ({
-          type: actions.MESSAGE_CONVERSATIONS_UPDATE_SUCCESS,
-          messageConversations: result.messageConversations,
+        .updateMessageConversationStatus(action.payload.messageConversation)
+        .then(() => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
         }))
         .catch(error => ({
-          type: actions.MESSAGE_CONVERSATIONS_UPDATE_ERROR,
+          type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
+          payload: { error },
+        })));
+
+const updateMessageConversationPriority = action$ =>
+  action$
+    .ofType(
+      actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY,
+  )
+    .switchMap(action =>
+      api
+        .updateMessageConversationPriority(action.payload.messageConversation)
+        .then(() => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+        }))
+        .catch(error => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
+          payload: { error },
+        })));
+
+const updateMessageConversationAssignee = action$ =>
+  action$
+    .ofType(
+      actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE,
+  )
+    .switchMap(action =>
+      api
+        .updateMessageConversationAssignee(action.payload.messageConversation)
+        .then(() => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+        }))
+        .catch(error => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
           payload: { error },
         })));
 
@@ -29,6 +62,7 @@ const loadMessageConversations = action$ =>
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
       actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
+      actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
   )
     .concatMap(action =>
@@ -92,7 +126,7 @@ const replyMessage = action$ =>
         .replyMessage(action.payload.message, action.payload.messageConversationId)
         .then(() => ({
           type: actions.REPLY_MESSAGE_SUCCESS,
-          payload: { messageConversationIds: [ action.payload.messageConversationId ] }
+          payload: { messageConversationIds: [action.payload.messageConversationId] }
         }))
         .catch(error => ({
           type: actions.REPLY_MESSAGE_ERROR,
@@ -131,7 +165,8 @@ const markMessageConversationsUnread = action$ => {
         .catch(error => ({
           type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_ERROR,
           payload: { error },
-        })))};
+        })))
+};
 
 
 const searchForRecipients = action$ =>
@@ -152,7 +187,9 @@ const searchForRecipients = action$ =>
         })));
 
 export default combineEpics(
-  updateMessageConversations,
+  updateMessageConversationStatus,
+  updateMessageConversationPriority,
+  updateMessageConversationAssignee,
   loadMessageConversations,
   sendMessage,
   replyMessage,
