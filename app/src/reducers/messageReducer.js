@@ -31,7 +31,7 @@ function messageReducer(state = initialState, action) {
                 },
             };
 
-        case actions.MESSAGE_CONVERSATIONS_UPDATE_SUCCESS:
+        /*case actions.MESSAGE_CONVERSATIONS_UPDATE_SUCCESS:
             let updateMessageType = action.messageConversations[0].messageType
             let messageConversations = state.messageConversations[updateMessageType]
 
@@ -45,7 +45,7 @@ function messageReducer(state = initialState, action) {
                     ...state.messageConversations,
                     [updateMessageType]: messageConversations
                 },
-            };
+            };*/
         
         case actions.SET_MESSAGE_FILTER:
             return {

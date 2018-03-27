@@ -37,13 +37,13 @@ class SuggestionField extends Component {
   }
 
   getRecipients( props ) {
-    let recipients = []
+    let selected = []
     props.messageConversation && props.messageConversation.messages.map(message => {
-      const doPush = _.find(recipients, { id: message.sender.id }) == undefined;
-      doPush && recipients.push(message.sender)
+      const doPush = _.find(selected, { id: message.sender.id }) == undefined;
+      doPush && selected.push(message.sender)
     })
 
-    return recipients
+    return selected
   }
 
   inputStream = new Subject();
