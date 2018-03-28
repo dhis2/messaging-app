@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { List, ListItem } from 'material-ui/List';
 
+import CircularProgress from 'material-ui/CircularProgress';
 import InboxIcon from 'material-ui-icons/Inbox';
 import Badge from 'material-ui/Badge';
 import Subheader from 'material-ui/Subheader/Subheader';
@@ -58,11 +59,16 @@ class MessageListItem extends Component {
         <Subheader style={{
           marginLeft: '5px',
           fontSize: '18px',
-          color: this.props.child.id == this.props.selectedValue && this.props.gridColumn == 1 ? theme.palette.primary1Color : theme.palette.accent4Color,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          color: this.props.child.id == this.props.selectedValue ? theme.palette.primary1Color : theme.palette.accent4Color,
         }}>
           {this.props.child.displayName}
         </Subheader>
-        {this.props.child.unread > 0 &&
+        {!this.props.loading ?
+            <CircularProgress style={{marginRight: '10px'}} color={theme.palette.primary2Color} />
+          : this.props.child.unread > 0 &&
           <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} />}
       </div>
     )

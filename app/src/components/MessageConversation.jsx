@@ -5,19 +5,21 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
-import DropDownMenu from 'material-ui/DropDownMenu';
+
 import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
 
 import ReplyCard from './ReplyCard'
-import SuggestionField from './SuggestionField'
 import CustomFontIcon from './CustomFontIcon'
+import CustomDropDown from './CustomDropDown'
+import SuggestionField from './SuggestionField'
 
 import { messageConversationContainer, messagePanelContainer, subheader } from '../styles/style';
 import theme from '../styles/theme';
 import history from 'utils/history';
 const moment = require('moment');
 
-const NOTIFICATIONS = [ 'SYSTEM', 'VALIDATION_RESULT' ]
+const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
 
 class MessageConversation extends Component {
   constructor(props) {
@@ -55,15 +57,17 @@ class MessageConversation extends Component {
         break;
     }
 
-    updateMessageConversation( messageConversation )
+    updateMessageConversation(messageConversation)
   }
 
   render() {
     let messageConversation = this.props.messageConversation;
 
-    const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1)
-    const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType)+1)
-    const displayTicketInfo = messageConversation.messageType == 'TICKET' && this.props.wideview
+    const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1);
+    const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType) + 1);
+    const displayTicketInfo = messageConversation.messageType == 'TICKET' && this.props.wideview;
+    const assigneValue = messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None';
+
     return (
       <div style={{
         marginBottom: this.props.disableLink && '50px',
@@ -88,7 +92,7 @@ class MessageConversation extends Component {
                   borderTop: '1px solid ' + theme.palette.accent3Color,
                   paddingBottom: '0px',
                   display: 'grid',
-                  gridTemplateColumns: '70% 10% 10% 10%',
+                  gridTemplateColumns: '60% 10% 10% 10% 10%',
                 }}
                 key={message.id}
               >
@@ -122,47 +126,57 @@ class MessageConversation extends Component {
                     {message.text}
                   </CardText>
                 </div>
+                  
+                {displayTicketInfo &&
+                  <CustomDropDown
+                    gridColumn={2}
+                    subheader={'Assignee'}
+                    value={assigneValue}
+                    children={
+                      [
+                        <MenuItem key={assigneValue} value={assigneValue} primaryText={assigneValue} />,
+                        <SuggestionField key={'suggestionField'} label={'Assignee'} />
+                      ]
+                    }
+                  />
+                }
 
                 {displayTicketInfo &&
-                  <DropDownMenu style={{
-                    gridColumn: 2,
-                    width: '200px',
-                  }}>
-                    <SuggestionField label={messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None'} />
-                  </DropDownMenu>}
+                  <CustomDropDown
+                    gridColumn={3}
+                    subheader={'Status'}
+                    onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationStatus, messageConversation, 'STATUS', value)}
+                    value={messageConversation.status}
+                    children={
+                      [
+                        <MenuItem key={'OPEN'} value={'OPEN'} primaryText="Open" />,
+                        <MenuItem key={'PENDING'} value={'PENDING'} primaryText="Pending" />,
+                        <MenuItem key={'INVALID'} value={'INVALID'} primaryText="Invalid" />,
+                        <MenuItem key={'SOLVED'} value={'SOLVED'} primaryText="Solved" />
+                      ]
+                    }
+                  />
+                }
 
                 {displayTicketInfo &&
-                  <div style={{
-                    gridColumn: 3,
-                  }} >
-                    <DropDownMenu
-                      style={{
-                        width: '150px',
-                      }}
-                      onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationStatus, messageConversation, 'STATUS', value)}
-                      value={messageConversation.status} >
-                      <MenuItem value={'OPEN'} primaryText="Open" />
-                      <MenuItem value={'PENDING'} primaryText="Pending" />
-                      <MenuItem value={'INVALID'} primaryText="Invalid" />
-                      <MenuItem value={'SOLVED'} primaryText="Solved" />
-                    </DropDownMenu>
-
-                    <DropDownMenu
-                      style={{
-                        width: '150px'
-                      }}
-                      onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationPriority, messageConversation, 'PRIORITY', value)}
-                      value={messageConversation.priority} >
-                      <MenuItem value={'LOW'} primaryText="Low" />
-                      <MenuItem value={'MEDIUM'} primaryText="Medium" />
-                      <MenuItem value={'HIGH'} primaryText="High" />
-                    </DropDownMenu>
-                  </div>
+                  <CustomDropDown
+                    gridColumn={4}
+                    subheader={'Status'}
+                    onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationPriority, messageConversation, 'PRIORITY', value)}
+                    value={messageConversation.priority}
+                    children={
+                      [
+                        <MenuItem key={'LOW'} value={'LOW'} primaryText="Low" />,
+                        <MenuItem key={'MEDIUM'} value={'MEDIUM'} primaryText="Medium" />,
+                        <MenuItem key={'HIGH'} value={'HIGH'} primaryText="High" />
+                      ]
+                    }
+                  />
                 }
 
                 {!this.props.disableLink && <div
                   style={{
-                    gridColumn: 4,
+                    gridColumn: 5,
                     display: 'flex',
                     justifyContent: 'flex-end'
                   }}

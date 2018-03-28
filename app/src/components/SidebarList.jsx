@@ -5,7 +5,6 @@ import { compose, pure } from 'recompose';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
-import CircularProgress from 'material-ui/CircularProgress';
 import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader/Subheader';
 
@@ -39,6 +38,8 @@ class SidebarList extends Component {
     const relativePath = gridColumn == 1 ? "/" : "/" + messageType + "/";
     const children = this.props.children;
 
+    const loading = _.find(this.props.messageTypes, {id: messageType}).loading
+
     return (
       <div style={{
         display: 'flex',
@@ -53,9 +54,6 @@ class SidebarList extends Component {
       }}
       >
         <div>
-          {!this.props.loaded && gridColumn == 1 &&
-            <CircularProgress color={theme.palette.primary2Color} />
-          }
           <List style={{
             padding: '0px',
             height: 'calc(100vh - 100px)',
@@ -71,6 +69,7 @@ class SidebarList extends Component {
                       selectedValue={routeValue}
                       relativePath={relativePath}
                       messageType={messageType}
+                      loading={loading}
                       markUnread={(child) => {
                         this.props.markMessageConversationsUnread([child.id], messageType)
                       }} />
@@ -78,10 +77,6 @@ class SidebarList extends Component {
                   </div>
                 )
               })}
-            {children && children.length % 5 == 0 && children.length > 0 && <ListItem
-              primaryText={'Load more messages'}
-              onClick={() => loadMoreMessageConversations(messageType)}
-            />}
           </List>
         </div>
       </div>
@@ -93,7 +88,7 @@ export default compose(
   connect(
     state => {
       return {
-        loaded: state.messaging.loaded,
+        messageTypes: state.messaging.messageTypes,
         messageFilter: state.messaging.messsageFilter,
       };
     },

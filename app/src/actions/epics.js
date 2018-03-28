@@ -3,6 +3,11 @@ import { combineEpics } from 'redux-observable';
 
 import history from 'utils/history';
 import * as api from 'api/api';
+import { concatMap } from 'rxjs/operator/concatMap';
+import { mergeMap, mergeAll } from 'rxjs/operators';
+import { merge } from 'rxjs/operator/merge';
+
+import {Observable} from 'rxjs/Rx'
 
 const updateMessageConversationStatus = action$ =>
   action$
@@ -55,6 +60,18 @@ const updateMessageConversationAssignee = action$ =>
           payload: { error },
         })));
 
+const sucess = action$ =>
+  action$
+    .ofType(
+      actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS
+    )
+    .mergeMap(action => 
+      Observable.of({
+        type: actions.MESSAGE_TYPE_LOADED,
+        payload: { messageType: action.payload.messageType }
+      })
+    )
+
 const loadMessageConversations = action$ =>
   action$
     .ofType(
@@ -65,8 +82,8 @@ const loadMessageConversations = action$ =>
       actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
   )
-    .concatMap(action =>
-      api
+    .mergeMap(action =>
+        api
         .getMessageConversations(action.payload.messageType, action.payload.page)
         .then(result =>
           api.getNrOfUnread(action.payload.messageType)
@@ -80,7 +97,12 @@ const loadMessageConversations = action$ =>
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
           payload: { error },
-        })));
+        }),
+        Observable.of({
+          type: actions.MESSAGE_TYPE_LOADING,
+          payload: { messageType: action.payload.messageType }
+        })
+  ));
 
 const deleteMessageConversation = action$ =>
   action$

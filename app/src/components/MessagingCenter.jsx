@@ -59,8 +59,6 @@ class MessagingCenter extends Component {
     this.props.messageTypes.map(messageType => {
       this.props.loadMessageConversations(messageType.id, messageType.page);
     })
-
-    this.props.loadMessageConversationsFinished();
   }
 
   loadMoreMessageConversations(messageType) {
@@ -155,7 +153,6 @@ export default compose(
     },
     dispatch => ({
       loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
-      loadMessageConversationsFinished: () => dispatch({ type: actions.MESSAGE_CONVERSATIONS_LOAD_FINISHED }),
       markMessageConversationsUnread: markedUnreadConversations => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
     }),

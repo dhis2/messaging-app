@@ -9,14 +9,16 @@ export const initialState = {
 };
 
 function messageReducer(state = initialState, action) {
+    let messageTypes = state.messageTypes
+    let messageType = _.find(messageTypes, {id: action.messageType});
+    
     switch (action.type) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
-            let messageTypes = state.messageTypes
-            let messageType = _.find(messageTypes, {id: action.messageType});
             messageType.loaded = messageType.page == 1 ? action.payload.messageConversations.length :  messageType.loaded + action.payload.messageConversations.length
             messageType.total = action.payload.pager.total
             messageType.unread = action.nrOfUnread
             messageType.page = action.payload.pager.page
+            messageType.loading = false
             messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
 
             const prevStateConversations = state.messageConversations[action.messageType]
@@ -51,13 +53,25 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 messsageFilter: action.payload.messageFilter
-            }
+            };
         
-        case actions.MESSAGE_CONVERSATIONS_LOAD_FINISHED:
+        case actions.MESSAGE_TYPE_LOADING:
+            messageType.loading = true
+
+            messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
             return {
                 ...state,
-                loaded: true,
-            }
+                messageTypes: messageTypes,
+            };
+
+        case actions.MESSAGE_TYPE_LOADED:
+            messageType.loading = false
+
+            messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
+            return {
+                ...state,
+                messageTypes: messageTypes,
+            };
         
         default:
             return state;
