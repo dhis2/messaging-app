@@ -12,6 +12,7 @@ import { Redirect } from 'react-router';
 import { compose, lifecycle, pure, branch, getContext, renderComponent } from 'recompose';
 
 import MessagingCenter from 'components/MessagingCenter';
+import CustomSnackBar from 'components/CustomSnackBar';
 import * as actions from 'constants/actions';
 import initializeI18n from 'utils/i18n';
 import history from 'utils/history';
@@ -34,6 +35,7 @@ const Messaging = ({ config }) => (
     <Provider store={store}>
         <D2UIApp initConfig={config} muiTheme={theme}>
             <HeaderBar />
+            <CustomSnackBar />
             <ContentLoader />
         </D2UIApp>
     </Provider>

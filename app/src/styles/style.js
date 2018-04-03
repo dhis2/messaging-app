@@ -8,9 +8,6 @@ export const subheader = {
 export const messagePanelContainer = {
   overflowY: 'scroll',
   overflowX: 'hidden',
-  borderLeftStyle: 'solid',
-  borderLeftWidth: '1px',
-  borderLeftColor: theme.palette.accent4Color,
   borderRightStyle: 'solid',
   borderRightWidth: '1px',
   borderRightColor: theme.palette.accent4Color,
@@ -22,7 +19,7 @@ export const grid = {
   gridTemplateColumns: 'minmax(150px, 15%) 20% 65%',
   gridTemplateRows: '48px 100%',
   marginTop: '55px',
-  width: '100vw',
+  width: '100%',
   height: 'calc(100vh - 55px)',
   position: 'fixed'
 };

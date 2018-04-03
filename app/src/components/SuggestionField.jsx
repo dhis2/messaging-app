@@ -63,12 +63,17 @@ class SuggestionField extends Component {
   }
 
   onSuggestionClick = (chip) => {
-    this.wipeInput();
-    this.inputStream.next('');
-
-    const doInsert = _.find(this.props.selectedList, { id: chip.id }) == undefined;
-
-    doInsert && this.props.setSelected( [...this.props.selectedList, chip] )
+    console.log(chip, this.props)
+    if (this.props.updateMessageConversation != undefined) {
+      this.props.updateMessageConversation( chip )
+    } else {
+      this.wipeInput();
+      this.inputStream.next('');
+  
+      const doInsert = _.find(this.props.selectedList, { id: chip.id }) == undefined;
+  
+      doInsert && this.props.setSelected( [...this.props.selectedList, chip] )
+    }
   };
 
   onRemoveChip = (id) => {

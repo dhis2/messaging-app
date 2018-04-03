@@ -51,7 +51,8 @@ class MessagingCenter extends Component {
     super(props)
 
     this.state = {
-      wideview: true,
+      drawerOpen: true,
+      wideview: false,
     };
   }
 
@@ -64,6 +65,11 @@ class MessagingCenter extends Component {
   loadMoreMessageConversations(messageType) {
     let messageTypeState = _.find(this.props.messageTypes, { id: messageType });
     this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1);
+  }
+
+  toogleDrawer() {
+    console.log(this.state)
+    this.setState({ drawerOpen: !this.state.drawerOpen })
   }
 
   toogleWideview() {
@@ -89,9 +95,21 @@ class MessagingCenter extends Component {
             width: '150px'
           }}
           icon={<CreateMessageIcon />}
-          containerElement={<Link to={messageType + "/create"} />}
+          containerElement={<Link to={'/' + messageType + "/create"} />}
           label="Compose"
-        />
+        /> 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gridRow: '1',
+          gridColumn: '1',
+        }}>
+          <FlatButton
+            style={{ textAlign: 'right', marginRight: '5px' }}
+            icon={<ViewList style={{ marginRight: '5px' }} />}
+            onClick={() => this.toogleDrawer()}
+          />
+        </div>
         <TextField
           style={{
             gridRow: '1',
@@ -111,10 +129,11 @@ class MessagingCenter extends Component {
           <FlatButton
             style={{ textAlign: 'right', marginRight: '5px' }}
             icon={<ViewList style={{ marginRight: '5px' }} />}
-            onClick={() => this.toogleWideview()} />
+            onClick={() => this.toogleWideview()}
+          />
         </div>
 
-        <SidebarList {...this.props} gridColumn={1} children={this.props.messageTypes} />
+        <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} children={this.props.messageTypes} />
 
         {id == 'create' ?
           <CreateMessage />

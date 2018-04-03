@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose, pure, lifecycle } from 'recompose';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -28,7 +29,7 @@ class FullWidthList extends Component {
 
   onScroll = (messageType) => {
     const messageList = document.getElementById('messagelist');
-    if ( this.isBottom(messageList) && messageType.loaded < messageType.total) {
+    if (this.isBottom(messageList) && messageType.loaded < messageType.total) {
       this.props.loadMessageConversations(messageType.id, messageType.page + 1)
     }
   }
@@ -54,11 +55,14 @@ class FullWidthList extends Component {
           loaded={this.props.loaded}
           wideview={this.props.wideview}
           selectedValue={id}
-          updateMessageConversationStatus={(child) => {
-            this.props.updateMessageConversationStatus(child)
+          updateMessageConversationStatus={(child, identifier) => {
+            this.props.updateMessageConversationStatus(child, identifier)
           }}
-          updateMessageConversationPriority={(child) => {
-            this.props.updateMessageConversationPriority(child)
+          updateMessageConversationPriority={(child, identifier) => {
+            this.props.updateMessageConversationPriority(child, identifier)
+          }}
+          updateMessageConversationAssignee={(child, identifier) => {
+            this.props.updateMessageConversationAssignee(child, identifier)
           }}
           markUnread={(child) => {
             this.props.markMessageConversationsUnread([child.id], messageType.id)
@@ -71,7 +75,7 @@ class FullWidthList extends Component {
   }
 }
 
-const MessageList = ({ children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, markUnread, deleteMessageConversations }) => {
+const MessageList = ({ children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, updateMessageConversationAssignee, markUnread, deleteMessageConversations }) => {
   return (
     messageType == 'TICKET' ?
       <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
@@ -91,6 +95,7 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, u
                 selectedValue={selectedValue}
                 updateMessageConversationStatus={updateMessageConversationStatus}
                 updateMessageConversationPriority={updateMessageConversationPriority}
+                updateMessageConversationAssignee={updateMessageConversationAssignee}
                 markUnread={markUnread}
                 deleteMessageConversations={deleteMessageConversations} />
             </Tab>
@@ -107,13 +112,14 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, u
         selectedValue={selectedValue}
         updateMessageConversationStatus={updateMessageConversationStatus}
         updateMessageConversationPriority={updateMessageConversationPriority}
+        updateMessageConversationAssignee={updateMessageConversationAssignee}
         markUnread={markUnread}
         deleteMessageConversations={deleteMessageConversations}
       />
   )
 }
 
-const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, markUnread, deleteMessageConversations }) => {
+const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, updateMessageConversationAssignee, markUnread, deleteMessageConversations }) => {
   return (
     (children && children.length != 0) ?
       children
@@ -127,6 +133,7 @@ const TableComponent = ({ filter, children, messageType, loaded, wideview, selec
               selectedValue={selectedValue}
               updateMessageConversationStatus={updateMessageConversationStatus}
               updateMessageConversationPriority={updateMessageConversationPriority}
+              updateMessageConversationAssignee={updateMessageConversationAssignee}
               markUnread={markUnread}
               deleteMessageConversations={deleteMessageConversations}
               expanded={false}
@@ -148,9 +155,9 @@ export default compose(
       };
     },
     dispatch => ({
-      updateMessageConversationStatus: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation } }),
-      updateMessageConversationPriority: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation } }),
-      updateMessageConversationAssignee: (messageConversation) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation } }),
+      updateMessageConversationStatus: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation, identifier } }),
+      updateMessageConversationPriority: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation, identifier } }),
+      updateMessageConversationAssignee: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation, identifier } }),
       loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),

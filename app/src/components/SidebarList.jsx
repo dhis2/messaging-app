@@ -38,18 +38,20 @@ class SidebarList extends Component {
     const relativePath = gridColumn == 1 ? "/" : "/" + messageType + "/";
     const children = this.props.children;
 
-    const loading = _.find(this.props.messageTypes, {id: messageType}).loading
+    const loading = !_.find(this.props.messageTypes, {id: messageType}).loading
 
     return (
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         height: 'calc(100vh - 95px)',
-        gridColumn: gridColumn + '',
-        gridRow: '2',
+        gridArea: '2 / ' + gridColumn + ' / span 1 / span 1',
         borderLeftStyle: gridColumn == 2 && 'solid',
         borderLeftWidth: '0.5px',
         borderLeftColor: theme.palette.accent4Color,
+        borderRightStyle: 'solid',
+        borderRightWidth: '1px',
+        borderRightColor: theme.palette.accent4Color,
         overflowY: 'scroll'
       }}
       >

@@ -1,11 +1,18 @@
 import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
+import i18next from 'i18next';
+
+const NEUTRAL = 'NEUTRAL';
+const POSITIVE = 'POSITIVE';
+const NEGATIVE = 'NEGATIVE';
 
 export const initialState = {
     messageConversations: {},
     messageTypes: messageTypes,
     messsageFilter: '',
     loaded: false,
+    snackMessage: '',
+    snackType: NEUTRAL,
 };
 
 function messageReducer(state = initialState, action) {
@@ -32,6 +39,54 @@ function messageReducer(state = initialState, action) {
                     [action.messageType]: replaceConversations,
                 },
             };
+        
+        case actions.MESSAGE_CONVERSATION_UPDATE_ERROR:
+            return {
+                ...state,
+                snackMessage: action.payload.error.message,
+                snackType: NEGATIVE,
+            }
+
+        case actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS:
+            let snackMessage = ''
+            switch (action.payload.identifier) {
+                case 'STATUS':
+                    snackMessage = 'Successfully updated status'
+                    break;
+                case 'PRIORITY':
+                    snackMessage = 'Successfully updated priority'
+                    break;
+                case 'ASSIGNEE':
+                    snackMessage = 'Successfully updated assignee'
+                    break;
+            }
+
+            return {
+                ...state,
+                snackMessage: snackMessage,
+                snackType: POSITIVE,
+            }
+        
+        case actions.MESSAGE_CONVERSATION_DELETE_ERROR:
+            return {
+                ...state,
+                snackMessage: action.payload.error.message,
+                snackType: NEGATIVE,
+            }
+
+        case actions.MESSAGE_CONVERSATION_DELETE_SUCCESS:
+            return {
+                ...state,
+                snackMessage: 'Successfully deleted message conversation',
+                snackType: POSITIVE,
+            }
+
+        case actions.CLEAR_SNACK_MESSAGE:
+            return {
+                ...state,
+                snackMessage: '',
+                snackType: NEUTRAL,
+            }
 
         /*case actions.MESSAGE_CONVERSATIONS_UPDATE_SUCCESS:
             let updateMessageType = action.messageConversations[0].messageType

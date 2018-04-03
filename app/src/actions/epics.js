@@ -19,7 +19,7 @@ const updateMessageConversationStatus = action$ =>
         .updateMessageConversationStatus(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier  }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -36,7 +36,7 @@ const updateMessageConversationPriority = action$ =>
         .updateMessageConversationPriority(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -53,7 +53,7 @@ const updateMessageConversationAssignee = action$ =>
         .updateMessageConversationAssignee(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier  }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -81,9 +81,10 @@ const loadMessageConversations = action$ =>
       actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
       actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
+      actions.REPLY_MESSAGE_SUCCESS,
   )
     .mergeMap(action =>
-        api
+      api
         .getMessageConversations(action.payload.messageType, action.payload.page)
         .then(result =>
           api.getNrOfUnread(action.payload.messageType)
@@ -98,11 +99,11 @@ const loadMessageConversations = action$ =>
           type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
           payload: { error },
         }),
-        Observable.of({
-          type: actions.MESSAGE_TYPE_LOADING,
-          payload: { messageType: action.payload.messageType }
-        })
-  ));
+          Observable.of({
+            type: actions.MESSAGE_TYPE_LOADING,
+            payload: { messageType: action.payload.messageType }
+          })
+        ));
 
 const deleteMessageConversation = action$ =>
   action$
@@ -145,10 +146,10 @@ const replyMessage = action$ =>
   )
     .concatMap(action =>
       api
-        .replyMessage(action.payload.message, action.payload.messageConversationId)
+        .replyMessage(action.payload.message, action.payload.messageConversation.id)
         .then(() => ({
           type: actions.REPLY_MESSAGE_SUCCESS,
-          payload: { messageConversationIds: [action.payload.messageConversationId] }
+          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
         }))
         .catch(error => ({
           type: actions.REPLY_MESSAGE_ERROR,

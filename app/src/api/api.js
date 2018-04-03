@@ -37,7 +37,7 @@ export const updateMessageConversationAssignee = (messageConversation) =>
     getD2Instance()
       .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/assign?userId=${messageConversation.assignee.id}`))
       .catch(error => {
-        throw new Error(error);
+        throw error;
       });
 
 export const getNrOfUnread = messageType =>
