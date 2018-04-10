@@ -14,17 +14,9 @@ import theme from '../styles/theme';
 
 class MessagePanel extends Component {
   render() {
-    const id = this.props.pathname.split('/').slice(-1)[0];
-    const messageConversation = _.find(this.props.selectedMessageTypeConversations, { id: id });
-
-    if (messageConversation && !messageConversation.read) {
-      this.props.markMessageConversationsRead([messageConversation.id], messageConversation.messageType)
-    }
-
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 3 / span 1 / span 1'
     return (
-      messageConversation ?
-      <div 
+      this.props.selectedMessageConversation ? <div 
         id='messagepanel'
         style={{
           overflowY: 'scroll',
@@ -35,23 +27,14 @@ class MessagePanel extends Component {
         }}
       >
           <MessageConversation
-            messageConversation={messageConversation}
+            messageConversation={this.props.selectedMessageConversation}
             disableLink={true}
           />
       </div>
-      : <div/>
+      :
+      <div/>
     )
   }
 }
 
-export default compose(
-  connect(
-    state => {
-      return state
-    },
-    dispatch => ({
-      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
-    }),
-  ),
-  pure,
-)(MessagePanel);
+export default MessagePanel;

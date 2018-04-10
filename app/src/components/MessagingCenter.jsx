@@ -57,8 +57,11 @@ class MessagingCenter extends Component {
   }
 
   componentWillMount() {
+    const selectedMessageType = this.props.match.params.messageType
+    const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+
     this.props.messageTypes.map(messageType => {
-      this.props.loadMessageConversations(messageType.id, messageType.page);
+      this.props.loadMessageConversations( messageType, selectedMessageType, selectedId );
     })
   }
 
@@ -68,7 +71,6 @@ class MessagingCenter extends Component {
   }
 
   toogleDrawer() {
-    console.log(this.state)
     this.setState({ drawerOpen: !this.state.drawerOpen })
   }
 
@@ -138,11 +140,11 @@ class MessagingCenter extends Component {
         {id == 'create' ?
           <CreateMessage />
           :
-          <FullWidthList wideview={this.state.wideview} messageType={messageType} children={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+          <FullWidthList wideview={this.state.wideview}/>
         }
 
         {displayMessagePanel ?
-          <MessagePanel wideview={this.state.wideview} selectedMessageTypeConversations={selectedMessageTypeConversations} pathname={this.props.location.pathname} />
+          <MessagePanel wideview={this.state.wideview} selectedMessageConversation={this.props.selectedMessageConversation} />
           :
           !this.state.wideview &&
           <div style={{ 
@@ -167,11 +169,12 @@ export default compose(
       return {
         messageTypes: state.messaging.messageTypes,
         messageConversations: state.messaging.messageConversations,
+        selectedMessageConversation: state.messaging.selectedMessageConversation,
         loaded: state.messaging.loaded,
       };
     },
     dispatch => ({
-      loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
+      loadMessageConversations: (messageType, selectedMessageType, selectedId) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, selectedMessageType, selectedId } }),
       markMessageConversationsUnread: markedUnreadConversations => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
     }),

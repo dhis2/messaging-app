@@ -4,15 +4,14 @@ import Subheader from 'material-ui/Subheader/Subheader';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 
-const CustomDropDown = ({subheader, gridColumn, style, onChange, value, children}) => (
-  <div>
+const CustomDropDown = ({subheader, gridColumn, onChange, value, children}) => (
+  <div style={{
+    gridArea: '1 / ' + gridColumn,
+    width: '200px',
+  }}>
     <Subheader style={{ paddingLeft: '24px' }}> {subheader} </Subheader>
 
-    <DropDownMenu style={{
-        gridColumn: gridColumn,
-        width: '200px',
-        ...style,
-      }}
+    <DropDownMenu 
       onChange={onChange}
       value={value}
       anchorOrigin={

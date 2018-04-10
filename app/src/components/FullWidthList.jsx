@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { compose, pure, lifecycle } from 'recompose';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -35,47 +34,32 @@ class FullWidthList extends Component {
   }
 
   render() {
-    const id = this.props.pathname.split('/').slice(-1)[0];
-    const displayMessageList = !this.props.wideview || this.props.pathname.split('/').length == 2
-    const messageType = _.find(this.props.messageTypes, { id: this.props.messageType });
+    const displayMessageList = !this.props.wideview || this.props.selectedMessageConversation;
 
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 2 / span 1 / span 1'
     return (
-      displayMessageList &&
+      displayMessageList ?
       <div
         id={'messagelist'}
-        onScroll={() => this.onScroll(messageType)}
+        onScroll={() => this.onScroll(this.props.selectedMessageType)}
         style={{
           gridArea: gridArea,
           ...messagePanelContainer
         }}>
         <MessageList
-          children={this.props.children}
-          messageType={messageType.id}
+          children={this.props.messageConversations[this.props.selectedMessageType.id]}
+          messageType={ this.props.selectedMessageType ? this.props.selectedMessageType.id : ''}
           loaded={this.props.loaded}
           wideview={this.props.wideview}
-          selectedValue={id}
-          updateMessageConversationStatus={(child, identifier) => {
-            this.props.updateMessageConversationStatus(child, identifier)
-          }}
-          updateMessageConversationPriority={(child, identifier) => {
-            this.props.updateMessageConversationPriority(child, identifier)
-          }}
-          updateMessageConversationAssignee={(child, identifier) => {
-            this.props.updateMessageConversationAssignee(child, identifier)
-          }}
-          markUnread={(child) => {
-            this.props.markMessageConversationsUnread([child.id], messageType.id)
-          }}
-          deleteMessageConversations={(child) => {
-            this.props.deleteMessageConversation(child.id, messageType.id)
-          }} />
+          selectedValue={this.props.selectedMessageConversation ? this.props.selectedMessageConversation.id : ''} />
       </div>
+      :
+      <div/>
     )
   }
 }
 
-const MessageList = ({ children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, updateMessageConversationAssignee, markUnread, deleteMessageConversations }) => {
+const MessageList = ({ children, messageType, loaded, wideview, selectedValue }) => {
   return (
     messageType == 'TICKET' ?
       <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
@@ -92,12 +76,7 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, u
                 messageType={messageType}
                 loaded={loaded}
                 wideview={wideview}
-                selectedValue={selectedValue}
-                updateMessageConversationStatus={updateMessageConversationStatus}
-                updateMessageConversationPriority={updateMessageConversationPriority}
-                updateMessageConversationAssignee={updateMessageConversationAssignee}
-                markUnread={markUnread}
-                deleteMessageConversations={deleteMessageConversations} />
+                selectedValue={selectedValue} />
             </Tab>
           )
         })}
@@ -110,16 +89,11 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, u
         loaded={loaded}
         wideview={wideview}
         selectedValue={selectedValue}
-        updateMessageConversationStatus={updateMessageConversationStatus}
-        updateMessageConversationPriority={updateMessageConversationPriority}
-        updateMessageConversationAssignee={updateMessageConversationAssignee}
-        markUnread={markUnread}
-        deleteMessageConversations={deleteMessageConversations}
       />
   )
 }
 
-const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, updateMessageConversationStatus, updateMessageConversationPriority, updateMessageConversationAssignee, markUnread, deleteMessageConversations }) => {
+const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue }) => {
   return (
     (children && children.length != 0) ?
       children
@@ -131,11 +105,6 @@ const TableComponent = ({ filter, children, messageType, loaded, wideview, selec
               messageConversation={child}
               wideview={wideview}
               selectedValue={selectedValue}
-              updateMessageConversationStatus={updateMessageConversationStatus}
-              updateMessageConversationPriority={updateMessageConversationPriority}
-              updateMessageConversationAssignee={updateMessageConversationAssignee}
-              markUnread={markUnread}
-              deleteMessageConversations={deleteMessageConversations}
               expanded={false}
             />
           )
@@ -150,17 +119,15 @@ export default compose(
     state => {
       return {
         messageTypes: state.messaging.messageTypes,
+        messageConversations: state.messaging.messageConversations,
+        selectedMessageConversation: state.messaging.selectedMessageConversation,
+        selectedMessageType: state.messaging.selectedMessageType,
         loaded: state.messaging.loaded,
         messageFilter: state.messaging.messsageFilter,
       };
     },
     dispatch => ({
-      updateMessageConversationStatus: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation, identifier } }),
-      updateMessageConversationPriority: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation, identifier } }),
-      updateMessageConversationAssignee: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation, identifier } }),
       loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
-      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
-      deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
     }),
   ),
   pure,

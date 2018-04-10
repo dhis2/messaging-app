@@ -33,6 +33,7 @@ class MessageListItem extends Component {
   setHover = () => this.setBackgroundColor(theme.palette.accent3Color);
 
   onClick = (location) => {
+    this.props.onClick()
     history.push(location)
   }
 

@@ -8,7 +8,10 @@ const NEGATIVE = 'NEGATIVE';
 
 export const initialState = {
     messageConversations: {},
+    selectedMessageConversation: undefined,
     messageTypes: messageTypes,
+    selectedMessageType: undefined,
+    selectedIds: [],
     messsageFilter: '',
     loaded: false,
     snackMessage: '',
@@ -16,28 +19,34 @@ export const initialState = {
 };
 
 function messageReducer(state = initialState, action) {
-    let messageTypes = state.messageTypes
+    let messageTypes = state.messageTypes;
     let messageType = _.find(messageTypes, {id: action.messageType});
     
     switch (action.type) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
-            messageType.loaded = messageType.page == 1 ? action.payload.messageConversations.length :  messageType.loaded + action.payload.messageConversations.length
-            messageType.total = action.payload.pager.total
-            messageType.unread = action.nrOfUnread
-            messageType.page = action.payload.pager.page
-            messageType.loading = false
-            messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
+            let replaceMessageType = action.messageType
+            replaceMessageType.loaded = replaceMessageType.page == 1 ? action.payload.messageConversations.length :  replaceMessageType.loaded + action.payload.messageConversations.length
+            replaceMessageType.total = action.payload.pager.total
+            replaceMessageType.unread = action.nrOfUnread
+            replaceMessageType.page = action.payload.pager.page
+            replaceMessageType.loading = false
+            messageTypes.splice( [_.findIndex(messageTypes, { 'id': replaceMessageType.id })], 1, replaceMessageType)
 
-            const prevStateConversations = state.messageConversations[action.messageType]
-            const replaceConversations = messageType.page == 1 ? action.payload.messageConversations :  _.unionWith( prevStateConversations, action.payload.messageConversations, _.isEqual )
+            const prevStateConversations = state.messageConversations[replaceMessageType.id]
+            const replaceConversations = replaceMessageType.page == 1 ? action.payload.messageConversations :  _.unionWith( prevStateConversations, action.payload.messageConversations, _.isEqual )
+
+            const setSelectedMessageType = action.selectedMessageType == replaceMessageType.id;
+            let selectedMessageConversation =  _.find(replaceConversations, { id: action.selectedId })
 
             return {
                 ...state,
                 messageTypes: messageTypes,
                 messageConversations: {
                     ...state.messageConversations,
-                    [action.messageType]: replaceConversations,
+                    [replaceMessageType.id]: replaceConversations,
                 },
+                selectedMessageConversation: setSelectedMessageType ? selectedMessageConversation : state.selectedMessageConversation,
+                selectedMessageType: setSelectedMessageType ? replaceMessageType : state.selectedMessageType,
             };
         
         case actions.MESSAGE_CONVERSATION_UPDATE_ERROR:
@@ -103,6 +112,36 @@ function messageReducer(state = initialState, action) {
                     [updateMessageType]: messageConversations
                 },
             };*/
+        
+        case actions.SET_SELECTED_VALUE:
+            let messageConversation = action.payload.messageConversation
+
+            messageConversation.selectedValue = action.payload.selectedValue;
+            let selectedIds = state.selectedIds != undefined ? state.selectedIds : []
+            if ( action.payload.selectedValue ) {
+                selectedIds.push( { 'id' : messageConversation.id } )
+            } else {
+                selectedIds = _.filter(selectedIds, { 'id' : messageConversation.id});
+            }
+
+            return {
+                ...state,
+                selectedIds: selectedIds,
+            };
+        
+        case actions.SET_SELECTED_MESSAGE_CONVERSATION:
+            return {
+                ...state,
+                selectedMessageConversation: action.payload.messageConversation
+            }
+
+        case actions.SET_SELECTED_MESSAGE_TYPE:
+            return {
+                ...state,
+                selectedIds: [],
+                selectedMessageType: _.find(state.messageTypes, { id: action.payload.messageTypeId }),
+                selectedMessageConversations: state.messageConversations[action.payload.messageTypeId]
+            }
         
         case actions.SET_MESSAGE_FILTER:
             return {

@@ -31,6 +31,10 @@ class SidebarList extends Component {
     super(props)
   }
 
+  componentWillMount() {
+    this.props.setSelectedMessageType( this.props.match.params.messageType );
+  }
+
   render() {
     const gridColumn = this.props.gridColumn;
     const messageType = this.props.match.params.messageType;
@@ -67,14 +71,13 @@ class SidebarList extends Component {
                   <div key={child.id}>
                     <MessageListItem
                       child={child}
+                      onClick={() => this.props.setSelectedMessageType(child.id)}
                       gridColumn={gridColumn}
                       selectedValue={routeValue}
                       relativePath={relativePath}
                       messageType={messageType}
                       loading={loading}
-                      markUnread={(child) => {
-                        this.props.markMessageConversationsUnread([child.id], messageType)
-                      }} />
+                      />
                     <Divider />
                   </div>
                 )
@@ -91,11 +94,10 @@ export default compose(
     state => {
       return {
         messageTypes: state.messaging.messageTypes,
-        messageFilter: state.messaging.messsageFilter,
       };
     },
     dispatch => ({
-      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
+      setSelectedMessageType: (messageTypeId) => dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
     }),
   ),
   pure,

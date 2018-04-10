@@ -85,14 +85,19 @@ const loadMessageConversations = action$ =>
   )
     .mergeMap(action =>
       api
-        .getMessageConversations(action.payload.messageType, action.payload.page)
+        .getMessageConversations(action.payload.messageType.id, action.payload.messageType.page)
         .then(result =>
-          api.getNrOfUnread(action.payload.messageType)
+          api.getNrOfUnread(action.payload.messageType.id)
             .then(nrOfUnread => ({
               type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
-              payload: { messageConversations: result.messageConversations, pager: result.pager },
-              nrOfUnread: nrOfUnread,
+              payload: { 
+                messageConversations: result.messageConversations, 
+                pager: result.pager,
+              },
               messageType: action.payload.messageType,
+              selectedMessageType: action.payload.selectedMessageType, 
+              selectedId: action.payload.selectedId,
+              nrOfUnread: nrOfUnread,
             }))
         )
         .catch(error => ({

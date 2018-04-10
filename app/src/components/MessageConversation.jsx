@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose, pure, lifecycle } from 'recompose';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
+import Checkbox from 'material-ui/Checkbox';
 
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -18,6 +21,8 @@ import SuggestionField from './SuggestionField'
 import { messageConversationContainer, messagePanelContainer, subheader } from '../styles/style';
 import theme from '../styles/theme';
 import history from 'utils/history';
+import * as actions from 'constants/actions';
+
 const moment = require('moment');
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
@@ -41,8 +46,12 @@ class MessageConversation extends Component {
 
   getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
 
-  onClick = (location) => {
-    history.push(location)
+  onClick = (messageConversation) => {
+    this.props.setSelectedMessageConversation( messageConversation )
+    if (messageConversation && !messageConversation.read) {
+      this.props.markMessageConversationsRead([messageConversation.id], this.props.selectedMessageType)
+    }
+    history.push(`/${messageConversation.messageType}/${messageConversation.id}`)
   }
 
   onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
@@ -64,6 +73,30 @@ class MessageConversation extends Component {
     updateMessageConversation(messageConversation, identifier)
   }
 
+  updateMessageConversationStatus = (child, identifier) => {
+    this.props.updateMessageConversationStatus(child, identifier)
+  }
+
+  updateMessageConversationPriority = (child, identifier) => {
+    this.props.updateMessageConversationPriority(child, identifier)
+  }
+
+  updateMessageConversationAssignee = (child, identifier) => {
+    this.props.updateMessageConversationAssignee(child, identifier)
+  }
+
+  markUnread = (child) => {
+    this.props.markMessageConversationsUnread([child.id], this.props.selectedMessageType)
+  }
+
+  setSelected = (child, selectedValue) => {
+    this.props.setSelected(child, selectedValue)
+  }
+
+  deleteMessageConversations = (child) => {
+    this.props.deleteMessageConversation(child.id, this.props.selectedMessageType)
+  }
+
   render() {
     let messageConversation = this.props.messageConversation;
 
@@ -82,9 +115,9 @@ class MessageConversation extends Component {
         }}
         >
           {messages.map(message => {
-            const title = !notification ? message.sender.displayName : messageConversation.messageType;
+            const title = !notification ? message.sender.displayName : this.props.selectedMessageType.displayName
             return (
-              <div>
+              <div key={message.id}>
                 <div
                   style={{
                     transition: 'all 0.2s ease-in-out',
@@ -95,17 +128,25 @@ class MessageConversation extends Component {
                     borderLeftColor: theme.palette.primary1Color,
                     paddingBottom: '0px',
                     display: 'grid',
-                    gridTemplateColumns: '60% 10% 10% 10% 10%',
+                    gridTemplateColumns: this.props.wideview ? '3% 48% 13% 13% 13% 10%' : '10% 50% 10% 10% 10% 10%',
                   }}
-                  key={message.id}
                 >
+                  {!this.props.disableLink && <Checkbox
+                    style={{
+                      gridArea: '1 / 1 / span 1 / span 1',
+                      marginLeft: '5px',
+                      display: 'flex',
+                      alignSelf: 'center',
+                    }}
+                    onCheck={() => this.setSelected(messageConversation, !messageConversation.selectedValue)}
+                  />}
                   <div
-                    onClick={() => !this.props.disableLink && this.onClick(`/${messageConversation.messageType}/${messageConversation.id}`)}
+                    onClick={() => !this.props.disableLink && this.onClick(messageConversation)}
                     onMouseEnter={this.onMouseEnter}
                     onMouseLeave={this.onMouseLeave}
                     style={{
                       cursor: this.props.disableLink ? 'auto' : this.state.cursor,
-                      gridArea: '1 / 1 / span 1 / span 2',
+                      gridArea: !this.props.disableLink ? '1 / 2 / span 1 / span 2' : '1 / 1 / span 1 / span 2' ,
                       display: 'grid',
                       gridTemplateColumns: '20% 80%',
                       padding: '16px 0px 16px 16px',
@@ -140,14 +181,14 @@ class MessageConversation extends Component {
 
                   {displayExtendedInfo &&
                     <CustomDropDown
-                      gridColumn={2}
+                      gridColumn={3}
                       subheader={'Assignee'}
                       value={assigneValue}
                       children={
                         [
                           <MenuItem key={assigneValue} value={assigneValue} primaryText={assigneValue} />,
                           <SuggestionField
-                            updateMessageConversation={(chip) => this.updateMessageConversation(this.props.updateMessageConversationAssignee, messageConversation, 'ASSIGNEE', chip)}
+                            updateMessageConversation={(chip) => this.updateMessageConversation(this.updateMessageConversationAssignee, messageConversation, 'ASSIGNEE', chip)}
                             key={'suggestionField'}
                             label={'Assignee'}
                           />
@@ -158,9 +199,9 @@ class MessageConversation extends Component {
 
                   {displayExtendedInfo &&
                     <CustomDropDown
-                      gridColumn={3}
+                      gridColumn={4}
                       subheader={'Status'}
-                      onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationStatus, messageConversation, 'STATUS', value)}
+                      onChange={(event, key, value) => this.updateMessageConversation(this.updateMessageConversationStatus, messageConversation, 'STATUS', value)}
                       value={messageConversation.status}
                       children={
                         [
@@ -175,9 +216,9 @@ class MessageConversation extends Component {
 
                   {displayExtendedInfo &&
                     <CustomDropDown
-                      gridColumn={4}
+                      gridColumn={5}
                       subheader={'Status'}
-                      onChange={(event, key, value) => this.updateMessageConversation(this.props.updateMessageConversationPriority, messageConversation, 'PRIORITY', value)}
+                      onChange={(event, key, value) => this.updateMessageConversation(this.updateMessageConversationPriority, messageConversation, 'PRIORITY', value)}
                       value={messageConversation.priority}
                       children={
                         [
@@ -191,13 +232,13 @@ class MessageConversation extends Component {
 
                   {!this.props.disableLink && <div
                     style={{
-                      gridColumn: 5,
+                      gridArea: '1 / 6',
                       display: 'flex',
                       justifyContent: 'flex-end'
                     }}
                   >
-                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.props.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
-                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.props.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
+                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
+                    <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
                   </div>}
                 </div>
                 {(this.props.disableLink || !this.props.wideview) && <Divider />}
@@ -213,4 +254,24 @@ class MessageConversation extends Component {
   }
 }
 
-export default MessageConversation
+export default compose(
+  connect(
+    state => {
+      return {
+        selectedMessageType: state.messaging.selectedMessageType
+      }
+    }
+    ,
+    dispatch => ({
+      updateMessageConversationStatus: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation, identifier } }),
+      updateMessageConversationPriority: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation, identifier } }),
+      updateMessageConversationAssignee: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation, identifier } }),
+      setSelected: (messageConversation, selectedValue) => dispatch({ type: actions.SET_SELECTED_VALUE, payload: {messageConversation, selectedValue} }),
+      setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
+      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
+      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
+      deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
+    }),
+  ),
+  pure,
+)(MessageConversation);
