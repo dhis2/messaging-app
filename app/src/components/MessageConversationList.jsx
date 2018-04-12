@@ -10,14 +10,16 @@ import Toggle from 'material-ui/Toggle';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-import MessageConversation from './MessageConversation'
+import MessageConversationListItem from './MessageConversationListItem'
 
 import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
 
 const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'Open' }, { key: 'PENDING', displayName: 'Pending' }, { key: 'INVALID', displayName: 'Invalid' }, { key: 'SOLVED', displayName: 'Solved' }]
-class FullWidthList extends Component {
+const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
+
+class MessageConversationList extends Component {
   constructor(props) {
     super(props)
   }
@@ -34,7 +36,7 @@ class FullWidthList extends Component {
   }
 
   render() {
-    const displayMessageList = !this.props.wideview || this.props.selectedMessageConversation;
+    const displayMessageList = !this.props.wideview || this.props.selectedMessageConversation == undefined;
 
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 2 / span 1 / span 1'
     return (
@@ -43,7 +45,7 @@ class FullWidthList extends Component {
         id={'messagelist'}
         onScroll={() => this.onScroll(this.props.selectedMessageType)}
         style={{
-          gridArea: gridArea,
+          gridArea: gridArea,     
           ...messagePanelContainer
         }}>
         <MessageList
@@ -94,18 +96,20 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue })
 }
 
 const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue }) => {
+  const notification = !!(NOTIFICATIONS.indexOf(messageType) + 1)
   return (
     (children && children.length != 0) ?
       children
         .filter(child => child.status == filter || filter == 'ALL')
         .map(child => {
           return (
-            <MessageConversation
+            <MessageConversationListItem
               key={child.id}
               messageConversation={child}
               wideview={wideview}
               selectedValue={selectedValue}
               expanded={false}
+              notification={notification}
             />
           )
         })
@@ -131,4 +135,4 @@ export default compose(
     }),
   ),
   pure,
-)(FullWidthList);
+)(MessageConversationList);

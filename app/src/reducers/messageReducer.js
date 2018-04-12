@@ -140,7 +140,8 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 selectedIds: [],
                 selectedMessageType: _.find(state.messageTypes, { id: action.payload.messageTypeId }),
-                selectedMessageConversations: state.messageConversations[action.payload.messageTypeId]
+                selectedMessageConversations: state.messageConversations[action.payload.messageTypeId],
+                selectedMessageConversation: undefined,
             }
         
         case actions.SET_MESSAGE_FILTER:

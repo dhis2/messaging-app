@@ -20,7 +20,7 @@ import { grid, subheader } from '../styles/style';
 
 import SidebarList from './SidebarList';
 import MessagePanel from './MessagePanel';
-import FullWidthList from './FullWidthList';
+import MessageConversationList from './MessageConversationList';
 import CreateMessage from './CreateMessage';
 
 
@@ -140,7 +140,7 @@ class MessagingCenter extends Component {
         {id == 'create' ?
           <CreateMessage />
           :
-          <FullWidthList wideview={this.state.wideview}/>
+          <MessageConversationList wideview={this.state.wideview}/>
         }
 
         {displayMessagePanel ?

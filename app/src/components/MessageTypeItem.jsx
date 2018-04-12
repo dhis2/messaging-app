@@ -14,7 +14,7 @@ import theme from '../styles/theme';
 import history from 'utils/history';
 import { headerPositions } from '../styles/style'
 
-class MessageListItem extends Component {
+class MessageTypeItem extends Component {
   state = {
     backgroundColor: theme.palette.accent2Color,
   };
@@ -76,4 +76,4 @@ class MessageListItem extends Component {
   }
 }
 
-export default MessageListItem;
+export default MessageTypeItem;

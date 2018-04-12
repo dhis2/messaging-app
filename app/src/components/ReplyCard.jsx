@@ -76,6 +76,7 @@ class ReplyCard extends Component {
       <Card
         style={{
           marginTop: '5px',
+          gridArea: this.props.gridArea,
         }}
         expanded={this.state.expanded} 
         onExpandChange={this.handleExpandChange}

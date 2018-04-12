@@ -3,6 +3,15 @@ import theme from '../styles/theme';
 export const subheader = {
   color: theme.palette.accent4Color,
   fontSize: '20px',
+  fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+  gridArea: '1 / 1'
+};
+
+export const subheader_minilist = {
+  color: theme.palette.accent4Color,
+  fontSize: '14px',
+  fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+  gridArea: '1 / 1'
 };
 
 export const messagePanelContainer = {

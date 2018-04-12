@@ -8,7 +8,6 @@ import { headerPositions } from '../styles/style'
 const CustomFontIcon = ({ size, child, selectedValue, onClick, icon, tooltip }) => {
   return (
     <IconButton
-      //iconStyle={{ width: 1, height: 1 }}
       style={{
         ...headerPositions.first
       }}

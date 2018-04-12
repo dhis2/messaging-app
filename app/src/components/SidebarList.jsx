@@ -11,7 +11,7 @@ import Subheader from 'material-ui/Subheader/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
-import MessageListItem from './MessageListItem'
+import MessageTypeItem from './MessageTypeItem'
 
 import theme from '../styles/theme';
 import * as actions from 'constants/actions';
@@ -69,7 +69,7 @@ class SidebarList extends Component {
               children.map(child => {
                 return (
                   <div key={child.id}>
-                    <MessageListItem
+                    <MessageTypeItem
                       child={child}
                       onClick={() => this.props.setSelectedMessageType(child.id)}
                       gridColumn={gridColumn}
