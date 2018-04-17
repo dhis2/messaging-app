@@ -34,7 +34,6 @@ class MessageTypeItem extends Component {
 
   onClick = (location) => {
     this.props.onClick()
-    history.push(location)
   }
 
   onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }

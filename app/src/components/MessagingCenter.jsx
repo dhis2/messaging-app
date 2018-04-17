@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { compose, pure, lifecycle } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 
 import FlatButton from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
+import Dialog from 'material-ui/Dialog';
 import CreateMessageIcon from 'material-ui-icons/Add';
+import NavigationBack from 'material-ui-icons/ArrowBack';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import ViewList from 'material-ui-icons/ViewList';
@@ -19,33 +22,17 @@ import theme from '../styles/theme';
 import { grid, subheader } from '../styles/style';
 
 import SidebarList from './SidebarList';
-import MessagePanel from './MessagePanel';
+import MessageConversation from './MessageConversation';
 import MessageConversationList from './MessageConversationList';
 import CreateMessage from './CreateMessage';
+import CustomFontIcon from './CustomFontIcon';
 
+import history from 'utils/history';
 
-/*
-<SidebarList
-            {...this.props}
-            gridColumn={2}
-            children={selectedMessageTypeConversations}
-            loadMoreMessageConversations={this.loadMoreMessageConversations.bind(this)}
-          />
-          :*/
-
-const flatButtonHeight = '40px'
-const styles = {
-  toggleContainer: {
-    width: '50px',
-  },
-  toggleTrack: {
-    backgroundColor: '#dddddd',
-  },
-}
+const headerHight = '48px'
 
 class MessagingCenter extends Component {
-  state = {
-  };
+  state = {}
 
   constructor(props) {
     super(props)
@@ -53,6 +40,8 @@ class MessagingCenter extends Component {
     this.state = {
       drawerOpen: true,
       wideview: false,
+      checkedItems: false,
+      dialogOpen: false,
     };
   }
 
@@ -61,13 +50,24 @@ class MessagingCenter extends Component {
     const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
     this.props.messageTypes.map(messageType => {
-      this.props.loadMessageConversations( messageType, selectedMessageType, selectedId );
+      this.props.loadMessageConversations(messageType, selectedMessageType, selectedId);
     })
   }
 
   loadMoreMessageConversations(messageType) {
     let messageTypeState = _.find(this.props.messageTypes, { id: messageType });
     this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1);
+  }
+
+  markMessageConversations( mode ) {
+    const ids = [] 
+    this.props.checkedIds.forEach( id => ids.push( id.id ))
+    if (mode == 'unread') {
+      this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType)
+    } else if (mode == 'read') {
+      this.props.markMessageConversationsRead(ids, this.props.selectedMessageType)
+    }
+    this.props.clearCheckedIds()
   }
 
   toogleDrawer() {
@@ -78,78 +78,124 @@ class MessagingCenter extends Component {
     this.setState({ wideview: !this.state.wideview })
   }
 
-  render() {
-    const messageType = this.props.match.params.messageType
-    let selectedMessageTypeConversations = this.props.messageConversations[messageType];
+  toogleDialog() {
+    this.setState({ dialogOpen: !this.state.dialogOpen} );
+  };
 
+  render() {
+    const messageType = this.props.match.params.messageType;
     const id = this.props.location.pathname.split('/').slice(-1)[0];
-    const displayMessagePanel = _.find(this.props.messageTypes, { id: id }) == undefined
+    const checkedOptions = this.props.checkedOptions;
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.toogleDialog}
+      />,
+      <FlatButton
+        label="Submit"
+        primary={true}
+        keyboardFocused={true}
+        onClick={() => {
+          this.toogleDialog()
+          this.props.deleteMessageConversations(this.props.checkedIds, this.props.selectedMessageType)
+        }}
+      />,
+    ];
 
     return (
       <div style={grid} >
-        <FlatButton
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            gridRow: '1',
-            gridColumn: '1',
-            height: flatButtonHeight,
-            width: '150px'
-          }}
-          icon={<CreateMessageIcon />}
-          containerElement={<Link to={'/' + messageType + "/create"} />}
-          label="Compose"
-        /> 
-        <div style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          gridRow: '1',
-          gridColumn: '1',
-        }}>
-          <FlatButton
-            style={{ textAlign: 'right', marginRight: '5px' }}
-            icon={<ViewList style={{ marginRight: '5px' }} />}
-            onClick={() => this.toogleDrawer()}
-          />
-        </div>
-        <TextField
-          style={{
-            gridRow: '1',
-            gridColumn: '2',
-            height: flatButtonHeight,
-          }}
-          fullWidth
-          hintText={'Search'}
-          onChange={(event, messageFilter) => this.props.setMessageFilter(messageFilter)}
-          type="search"
-          margin="normal"
+        <Dialog
+          title="Are you sure you want to delete selected message conversations?"
+          actions={actions}
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.toogleDialog}
         />
-        <div style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
+        <Paper style={{
+          gridArea: '1 / 1 / span 1 / span 3',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(150px, 15%) 20% 65%',
+          backgroundColor: checkedOptions ? theme.palette.accent3Color : theme.palette.accent2Color,
+          zIndex: 10,
         }}>
           <FlatButton
-            style={{ textAlign: 'right', marginRight: '5px' }}
-            icon={<ViewList style={{ marginRight: '5px' }} />}
-            onClick={() => this.toogleWideview()}
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignSelf: 'center',
+              gridArea: '1 / 1',
+              width: '150px'
+            }}
+            icon={ !checkedOptions ? <CreateMessageIcon /> : <NavigationBack />}
+            onClick={() => checkedOptions ? this.props.clearCheckedIds() : history.push( '/' + messageType + '/create' )}
+            label={checkedOptions ? "Back" : "Compose" }
           />
-        </div>
+          {!checkedOptions && <TextField
+            style={{
+              gridArea: '1 / 2',
+              height: headerHight,
+            }}
+            fullWidth
+            hintText={'Search'}
+            onChange={(event, messageFilter) => this.props.setMessageFilter(messageFilter)}
+            type="search"
+            margin="normal"
+          />}
+
+          <div
+            style={{
+              gridArea: '1 / 3',
+              display: 'grid',
+              gridTemplateColumns: '90% 10%'
+            }}>
+            {checkedOptions &&
+              <div
+                className={'messageConversationOptions'}
+                style={{
+                  gridArea: '1 / 1',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  alignSelf: 'center',
+                }}>
+                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
+                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
+                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
+              </div>}
+            <div style={{
+              gridArea: '1 / 2',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignSelf: 'center',
+            }}>
+              <FlatButton
+                style={{ textAlign: 'right', marginRight: '5px' }}
+                icon={<ViewList style={{ marginRight: '5px' }} />}
+                onClick={() => this.toogleWideview()}
+              />
+            </div>
+          </div>
+        </Paper>
 
         <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} children={this.props.messageTypes} />
 
-        {id == 'create' ?
-          <CreateMessage />
-          :
-          <MessageConversationList wideview={this.state.wideview}/>
-        }
+        {id == 'create' &&
+          <CreateMessage wideview={this.state.wideview} />}
 
-        {displayMessagePanel ?
-          <MessagePanel wideview={this.state.wideview} selectedMessageConversation={this.props.selectedMessageConversation} />
+        <MessageConversationList wideview={this.state.wideview} />
+
+        {(this.props.selectedMessageConversation && id != 'create') ?
+          <MessageConversation
+            messageConversation={this.props.selectedMessageConversation}
+            wideview={this.state.wideview}
+            disableLink={true}
+          />
           :
           !this.state.wideview &&
-          <div style={{ 
-            textAlign: 'center', 
-            paddingTop: '100px' 
+          <div style={{
+            textAlign: 'center',
+            paddingTop: '100px'
           }}>
             <Subheader style={subheader}>{'Select a message'}</Subheader>
             <MailIcon style={{
@@ -166,18 +212,24 @@ class MessagingCenter extends Component {
 export default compose(
   connect(
     state => {
+      const checkedOptions = state.messaging.checkedIds.length > 0;
       return {
         messageTypes: state.messaging.messageTypes,
         messageConversations: state.messaging.messageConversations,
+        selectedMessageType: state.messaging.selectedMessageType,
         selectedMessageConversation: state.messaging.selectedMessageConversation,
+        checkedIds: state.messaging.checkedIds,
+        checkedOptions: checkedOptions,
         loaded: state.messaging.loaded,
-      };
+      }
     },
     dispatch => ({
       loadMessageConversations: (messageType, selectedMessageType, selectedId) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, selectedMessageType, selectedId } }),
-      markMessageConversationsUnread: markedUnreadConversations => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations } }),
+      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
+      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
+      clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+      deleteMessageConversations: (messageConversationIds, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATIONS, payload: { messageConversationIds, messageType } }),
     }),
   ),
-  pure,
 )(MessagingCenter);

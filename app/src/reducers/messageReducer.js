@@ -1,6 +1,7 @@
 import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
 import i18next from 'i18next';
+import history from 'utils/history';
 
 const NEUTRAL = 'NEUTRAL';
 const POSITIVE = 'POSITIVE';
@@ -11,9 +12,8 @@ export const initialState = {
     selectedMessageConversation: undefined,
     messageTypes: messageTypes,
     selectedMessageType: undefined,
-    selectedIds: [],
+    checkedIds: [],
     messsageFilter: '',
-    loaded: false,
     snackMessage: '',
     snackType: NEUTRAL,
 };
@@ -90,6 +90,20 @@ function messageReducer(state = initialState, action) {
                 snackType: POSITIVE,
             }
 
+        case actions.MESSAGE_CONVERSATIONS_DELETE_ERROR:
+            return {
+                ...state,
+                snackMessage: action.payload.error.message,
+                snackType: NEGATIVE,
+            }
+            
+        case actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS:
+            return {
+                ...state,
+                snackMessage: 'Successfully deleted message conversations',
+                snackType: POSITIVE,
+            }
+
         case actions.CLEAR_SNACK_MESSAGE:
             return {
                 ...state,
@@ -117,17 +131,23 @@ function messageReducer(state = initialState, action) {
             let messageConversation = action.payload.messageConversation
 
             messageConversation.selectedValue = action.payload.selectedValue;
-            let selectedIds = state.selectedIds != undefined ? state.selectedIds : []
+            let checkedIds = state.checkedIds
             if ( action.payload.selectedValue ) {
-                selectedIds.push( { 'id' : messageConversation.id } )
+                checkedIds.push( { 'id' : messageConversation.id } )
             } else {
-                selectedIds = _.filter(selectedIds, { 'id' : messageConversation.id});
+                checkedIds = checkedIds.filter((element) => element.id != messageConversation.id);
             }
 
             return {
                 ...state,
-                selectedIds: selectedIds,
+                checkedIds: checkedIds,
             };
+
+        case actions.CLEAR_CHECKED:
+            return {
+                ...state,
+                checkedIds: [],
+            }
         
         case actions.SET_SELECTED_MESSAGE_CONVERSATION:
             return {
@@ -136,9 +156,10 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.SET_SELECTED_MESSAGE_TYPE:
+            history.push( '/' + action.payload.messageTypeId)
             return {
                 ...state,
-                selectedIds: [],
+                checkedIds: [],
                 selectedMessageType: _.find(state.messageTypes, { id: action.payload.messageTypeId }),
                 selectedMessageConversations: state.messageConversations[action.payload.messageTypeId],
                 selectedMessageConversation: undefined,

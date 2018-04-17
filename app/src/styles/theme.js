@@ -22,7 +22,7 @@ export default getMuiTheme({
         primary1Color: 'rgb(39, 102, 150)',
         blue50: blue50,
         primary2Color: blue100,
-        primary3Color: blue900,
+        primary3Color: blue300,
         accent1Color: pinkA200,
         accent2Color: grey100,
         accent3Color: grey300,

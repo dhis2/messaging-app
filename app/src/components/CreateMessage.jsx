@@ -42,10 +42,11 @@ class ReplyCard extends Component {
   }
 
   render() {
+    const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 3 / span 1 / span 1';
     return (
       <div style={{
+        gridArea: gridArea,
         margin: '10px',
-        gridArea: '2 / 2 / span 1 / span 2',
       }}>
         <Subheader style={subheader}> {'Create'}</Subheader>
         <Card>
@@ -74,7 +75,7 @@ class ReplyCard extends Component {
                   history.push('/PRIVATE')
                 }}
               />
-              <FlatButton label="Discard" onClick={() => history.push('/PRIVATE')} />
+              <FlatButton label="Discard" onClick={() => history.push( '/PRIVATE' )} />
             </CardActions>
           </CardText>
         </Card>

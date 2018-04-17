@@ -10,8 +10,6 @@ import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import Paper from 'material-ui/Paper';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import Divider from 'material-ui/Divider';
 
 import Message from './Message'
@@ -27,7 +25,7 @@ import * as actions from 'constants/actions';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
 
-class MessageConversation extends Component {
+class MessageConversationListItem extends Component {
   constructor(props) {
     super(props)
 
@@ -38,13 +36,13 @@ class MessageConversation extends Component {
     }
   }
 
-  setBackgroundColor = color => {
-    this.setState({
-      backgroundColor: color,
-    });
+  getBackgroundColor = (id) => {
+    if (this.props.selectedMessageConversation && id == this.props.selectedMessageConversation.id) {
+      return theme.palette.accent3Color
+    } else {
+      return this.state.backgroundColor
+    }
   };
-
-  getBackgroundColor = () => this.props.selectedMessageConversation && this.props.messageConversation.id == this.props.selectedMessageConversation.id ? theme.palette.accent3Color : this.state.backgroundColor;
 
   onClick = (messageConversation) => {
     this.props.setSelectedMessageConversation(messageConversation)
@@ -89,10 +87,6 @@ class MessageConversation extends Component {
     this.props.markMessageConversationsUnread([child.id], this.props.selectedMessageType)
   }
 
-  setSelected = (child, selectedValue) => {
-    this.props.setSelected(child, selectedValue)
-  }
-
   deleteMessageConversations = (child) => {
     this.props.deleteMessageConversation(child.id, this.props.selectedMessageType)
   }
@@ -102,15 +96,16 @@ class MessageConversation extends Component {
     const assigneValue = messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None';
     const message = messageConversation.messages[0]
     const title = !this.props.notification ? message.sender.displayName : this.props.selectedMessageType.displayName
+    const checked = _.find(this.props.checkedIds, {'id' : messageConversation.id}) != undefined
 
     return (
       <Paper style={{
-        backgroundColor: this.getBackgroundColor(),
+        backgroundColor: this.getBackgroundColor(messageConversation.id),
         display: 'grid',
         gridTemplateColumns: '90% 10%',
         gridTemplateRows: '10% 90%',
-        transition: 'all 0.2s ease-in-out',  
-        margin: this.props.wideview ? '10px 10px 10px 10px' : '',   
+        transition: 'all 0.2s ease-in-out',
+        margin: this.props.wideview ? '10px 10px 10px 10px' : '',
         borderLeftStyle: !messageConversation.read && !this.state.expanded ? 'solid' : '',
         borderLeftWidth: '3px',
         borderLeftColor: theme.palette.primary1Color,
@@ -119,28 +114,49 @@ class MessageConversation extends Component {
         position: 'relative',
         whiteSpace: 'nowrap',
       }}
-        onClick={() => !this.props.disableLink && this.onClick(messageConversation)}
+        onClick={(event) => {
+          event.target.innerText != '' && this.onClick(messageConversation)
+        }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
-        <Subheader style={subheader_minilist}> {title} </Subheader>
-        <div
+        <Subheader style={{
+          ...subheader_minilist,
+          color: theme.palette.accent4Color,
+        }}>
+          {title}
+        </Subheader>
+        <Checkbox
+          checked={checked}
           style={{
-            gridArea: '1 / 2',
+            gridArea: '1 / 1',
             display: 'flex',
-            justifyContent: 'flex-end'
+            alignSelf: 'center',
+            paddingLeft: '10px',
+            width: '50px'
           }}
-        >
-          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
-          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
-        </div>
+          onCheck={(event, isInputChecked) => {
+            this.props.setSelected(messageConversation, !messageConversation.selectedValue)
+          }}
+        />
+        {this.state.cursor == 'pointer' &&
+          <div
+            style={{
+              gridArea: '1 / 2',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignSelf: 'center',
+            }}>
+            <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
+            <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
+          </div>}
 
         <CardText style={{
           gridArea: '2 / 1 / span 1 / span 2',
           overflow: this.state.expanded ? 'auto' : 'hidden',
           textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
           whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
-          padding: '16px 16px 16px 16px',
+          padding: '10px',
           fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
         }}>
           {message.text}
@@ -155,7 +171,8 @@ export default compose(
     state => {
       return {
         selectedMessageConversation: state.messaging.selectedMessageConversation,
-        selectedMessageType: state.messaging.selectedMessageType
+        selectedMessageType: state.messaging.selectedMessageType,
+        checkedIds: state.messaging.checkedIds,
       }
     }
     ,
@@ -170,8 +187,7 @@ export default compose(
       deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
     }),
   ),
-  pure,
-)(MessageConversation);
+)(MessageConversationListItem);
 
 /*!this.props.disableLink && <Checkbox
             style={{

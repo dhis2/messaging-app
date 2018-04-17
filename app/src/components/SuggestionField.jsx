@@ -63,7 +63,6 @@ class SuggestionField extends Component {
   }
 
   onSuggestionClick = (chip) => {
-    console.log(chip, this.props)
     if (this.props.updateMessageConversation != undefined) {
       this.props.updateMessageConversation( chip )
     } else {

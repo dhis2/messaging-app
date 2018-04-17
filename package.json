@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "css-loader": "^0.28.9",
-    "d2": "^28.3.0",
+    "d2": "^29.1.5",
     "d2-ui": "^29.0.3",
     "d2-utilizr": "^0.2.15",
     "dhis2-uid": "^0.1.2",
@@ -48,7 +48,6 @@
     "material-ui-icons": "^1.0.0-beta.35",
     "moment": "^2.21.0",
     "react": "~16.2.0",
-    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "~16.2.0",
     "react-flip-move": "^3.0.0",
     "react-redux": "5",

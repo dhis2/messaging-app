@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 
-import { headerPositions } from '../styles/style'
-
-const CustomFontIcon = ({ size, child, selectedValue, onClick, icon, tooltip }) => {
+const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
   return (
     <IconButton
       style={{
-        ...headerPositions.first
+        marginTop: '0px',
+        marginRight: '10px',
+        padding: '0px',
+        height: '30px',
       }}
       tooltip={tooltip}
       tooltipPosition="bottom-left"  
@@ -20,7 +21,9 @@ const CustomFontIcon = ({ size, child, selectedValue, onClick, icon, tooltip }) 
           event.stopPropagation()
           event.preventDefault()
 
-          selectedValue != child.id && onClick(child)
+          if ( child ) {
+            selectedValue != child.id && onClick(child)
+          } else onClick()
         }}>
         {icon}
       </FontIcon>

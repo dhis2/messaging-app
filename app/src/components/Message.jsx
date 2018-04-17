@@ -35,7 +35,7 @@ class Message extends Component {
     const messageConversation = this.props.messageConversation
     const messageType = this.props.messageConversation.messageType
 
-    const fromTitle = !this.props.notification ? message.sender.displayName : ''
+    const fromTitle = !this.props.notification ? message.sender.displayName : 'System notification'
     const today = moment()
     const messageDate = moment(message.created)
     return (
@@ -70,7 +70,6 @@ class Message extends Component {
           <div
             content={messageDate.format('YYYY-MM-DD hh:mm')}
             placement={'bottom'}
-            fadeDuration={500}
             style={{
               gridArea: '1 / 2',
               display: 'flex',

@@ -32,30 +32,14 @@ class MessageConversation extends Component {
     super(props)
 
     this.state = {
-      backgroundColor: theme.palette.canvasColor,
       expanded: props.expanded != undefined ? props.expanded : true,
       cursor: 'auto',
     }
   }
 
-  setBackgroundColor = color => {
-    this.setState({
-      backgroundColor: color,
-    });
-  };
-
-  getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
-
-  onClick = (messageConversation) => {
-    this.props.setSelectedMessageConversation(messageConversation)
-    if (messageConversation && !messageConversation.read) {
-      this.props.markMessageConversationsRead([messageConversation.id], this.props.selectedMessageType)
-    }
-    history.push(`/${messageConversation.messageType}/${messageConversation.id}`)
+  componentWillUnmount() {
+    this.props.setSelectedMessageConversation( undefined )
   }
-
-  onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
-  onMouseLeave = () => { this.setState({ cursor: 'auto' }) }
 
   updateMessageConversation = (updateMessageConversation, messageConversation, identifier, key) => {
     switch (identifier) {
@@ -102,19 +86,54 @@ class MessageConversation extends Component {
 
     const messages = this.props.disableLink ? messageConversation.messages : messageConversation.messages.slice(0, 1);
     const displayExtendedInfo = (messageConversation.messageType == 'TICKET' || messageConversation.messageType == '') && this.props.wideview;
-    const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType) + 1)
+    const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType) + 1);
     const assigneValue = messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None';
+    const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 3 / span 1 / span 1';
 
     return (
-      <Paper style={{
-        backgroundColor: theme.palette.accent2Color,
-        marginBottom: this.props.disableLink && '50px',
-        display: 'grid',
-        gridTemplateColumns: '90% 10%',
-        gridTemplateRows: '10% 80% 10%',
-      }}>
-        <Subheader style={subheader}> {messageConversation.subject} </Subheader>
-        {/*!this.props.disableLink && <Checkbox
+      <div
+        id='messageconversation'
+        style={{
+          gridArea: gridArea,
+          margin: '0px 10px 10px 10px',
+          backgroundColor: theme.palette.accent2Color,
+          overflowY: 'scroll',
+          overflowX: 'hidden',
+          height: 'calc(100vh - 100px)',
+        }}
+      >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '80% 20%'
+        }}>
+          <Subheader style={{
+            ...subheader,
+            gridArea: '1 / 1',
+            display: 'flex',
+            alignSelf: 'center',
+          }}>
+            {messageConversation.subject}
+          </Subheader>
+          <div
+            style={{
+              gridArea: '1 / 2',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignSelf: 'center',
+            }}
+          >
+            <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
+          </div>
+        </div>
+        <Paper
+          style={{
+            marginBottom: '50px',
+            display: 'grid',
+            gridTemplateColumns: '90% 10%',
+            gridTemplateRows: '90% 10%',
+          }}
+        >
+          {/*!this.props.disableLink && <Checkbox
             style={{
               gridArea: '1 / 1 / span 1 / span 1',
               marginLeft: '5px',
@@ -192,29 +211,21 @@ class MessageConversation extends Component {
 
           
           */}
-        <div
-          style={{
-            gridArea: '1 / 2',
-            display: 'flex',
-            justifyContent: 'flex-end'
+
+          <Paper style={{
+            gridArea: '1 / 1 / span 1 / span 2',
+            padding: '0px',
           }}
-        >
-          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
-          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
-        </div>
-        <Paper style={{
-          gridArea: '2 / 1 / span 1 / span 2',
-          padding: '0px',
-        }}
-        >
-          {messages.map((message, i) => <Message key={message.id} message={message} messageConversation={messageConversation} notification={notification} lastMessage={i + 1 === messages.length} />)}
+          >
+            {messages.map((message, i) => <Message key={message.id} message={message} messageConversation={messageConversation} notification={notification} lastMessage={i + 1 === messages.length} />)}
+          </Paper>
+          {!notification &&
+            <ReplyCard
+              messageConversation={messageConversation}
+              gridArea={'2 / 1 / span 1 / span 2'}
+            />}
         </Paper>
-        {!notification &&
-          <ReplyCard
-            messageConversation={messageConversation}
-            gridArea={'3 / 1 / span 1 / span 2'}
-          />}
-      </Paper>
+      </div>
     )
   }
 }

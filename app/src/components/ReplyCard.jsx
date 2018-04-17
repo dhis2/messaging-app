@@ -23,7 +23,7 @@ class ReplyCard extends Component {
   }
 
   animateScroll = (duration) => {
-    const messagepanel = document.getElementById('messagepanel');
+    const messagepanel = document.getElementById('messageconversation');
 
     var start = messagepanel.scrollTop;
     var end = messagepanel.scrollHeight;
@@ -63,7 +63,8 @@ class ReplyCard extends Component {
   }
 
   replyMessage = () => {
-    this.props.replyMessage(this.state.input, this.props.messageConversation)
+    const messageType = _.find(this.props.messageTypes, { id: this.props.messageConversation.messageType });
+    this.props.replyMessage(this.state.input, this.props.messageConversation, messageType)
     this.wipeInput()
   }
 
@@ -102,7 +103,7 @@ class ReplyCard extends Component {
           />
           <CardActions>
             <FlatButton label="Send" onClick={this.replyMessage} />
-            <FlatButton label="Discard" onClick={ () => history.push( `${this.props.messageConversation.messageType}`)} />
+            <FlatButton label="Discard" onClick={ () => this.props.setSelectedMessageType( this.props.messageConversation.messageType) } />
           </CardActions>
         </CardText>
       </Card>
@@ -116,7 +117,8 @@ export default compose(
       return state
     },
     dispatch => ({
-      replyMessage: (message, messageConversation) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, messageConversation} }),
+      replyMessage: (message, messageConversation, messageType) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, messageConversation, messageType} }),
+      setSelectedMessageType: (messageTypeId) => dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
     }),
   ),
   pure,

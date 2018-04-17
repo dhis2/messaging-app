@@ -73,7 +73,8 @@ export const replyMessage = (message, messageConversationId) =>
 export const deleteMessageConversation = messageConversationId =>
   getD2Instance()
     .then(instance =>
-      instance.Api.getApi().delete(`messageConversations/${messageConversationId}`))
+      instance.Api.getApi().delete(`messageConversations/${messageConversationId}/${instance.currentUser.id}`)
+    )
     .then(result => result)
     .catch(error => {
       throw new Error(error);

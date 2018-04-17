@@ -1,10 +1,12 @@
 import * as actions from 'constants/actions';
 import { combineEpics } from 'redux-observable';
 
+import { getInstance as getD2Instance } from 'd2/lib/d2';
+
 import history from 'utils/history';
 import * as api from 'api/api';
 import { concatMap } from 'rxjs/operator/concatMap';
-import { mergeMap, mergeAll } from 'rxjs/operators';
+import { mergeMap, mergeAll, timeout } from 'rxjs/operators';
 import { merge } from 'rxjs/operator/merge';
 
 import {Observable} from 'rxjs/Rx'
@@ -78,8 +80,9 @@ const loadMessageConversations = action$ =>
       actions.LOAD_MESSAGE_CONVERSATIONS,
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
-      actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
       actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
+      actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
+      actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
       actions.REPLY_MESSAGE_SUCCESS,
   )
@@ -110,6 +113,28 @@ const loadMessageConversations = action$ =>
           })
         ));
 
+const deleteMessageConversations = action$ =>
+  action$
+    .ofType(
+      actions.DELETE_MESSAGE_CONVERSATIONS,
+  )
+    .concatMap(action => {
+      const promises = action.payload.messageConversationIds.map(messageConversationId => {
+        return api
+          .deleteMessageConversation(messageConversationId.id)
+      })
+
+      return Observable.from(Promise.all(promises)
+      .then(result => ({
+        type: actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
+        payload: { messageType: action.payload.messageType, page: 1 },
+      }))
+        .catch(error => ({
+          type: actions.MESSAGE_CONVERSATIONS_DELETE_ERROR,
+          payload: { error },
+        })))
+    });
+
 const deleteMessageConversation = action$ =>
   action$
     .ofType(
@@ -120,7 +145,7 @@ const deleteMessageConversation = action$ =>
         .deleteMessageConversation(action.payload.messageConversationId)
         .then(result => ({
           type: actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
-          payload: { messageType: action.payload.messageType, page: 1 }
+          payload: { messageType: action.payload.messageType, page: 1 },
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_DELETE_ERROR,
@@ -137,7 +162,7 @@ const sendMessage = action$ =>
         .sendMessage(action.payload.subject, action.payload.users, action.payload.message, action.payload.messageConversationId)
         .then(() => ({
           type: actions.SEND_MESSAGE_SUCCESS,
-          payload: { messageType: action.payload.messageType.id, page: 1 }
+          payload: { messageType: action.payload.messageType, page: 1 }
         }))
         .catch(error => ({
           type: actions.SEND_MESSAGE_ERROR,
@@ -154,7 +179,7 @@ const replyMessage = action$ =>
         .replyMessage(action.payload.message, action.payload.messageConversation.id)
         .then(() => ({
           type: actions.REPLY_MESSAGE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1 }
+          payload: { messageType: action.payload.messageType, page: 1 }
         }))
         .catch(error => ({
           type: actions.REPLY_MESSAGE_ERROR,
@@ -222,6 +247,7 @@ export default combineEpics(
   sendMessage,
   replyMessage,
   deleteMessageConversation,
+  deleteMessageConversations,
   markMessageConversationsRead,
   markMessageConversationsUnread,
   searchForRecipients
