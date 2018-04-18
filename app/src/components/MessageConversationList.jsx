@@ -31,7 +31,8 @@ class MessageConversationList extends Component {
   onScroll = (messageType) => {
     const messageList = document.getElementById('messagelist');
     if (this.isBottom(messageList) && messageType.loaded < messageType.total) {
-      this.props.loadMessageConversations(messageType.id, messageType.page + 1)
+      messageType.page++;
+      this.props.loadMoreMessageConversations(messageType)
     }
   }
 
@@ -97,9 +98,10 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue })
 
 const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue }) => {
   const notification = !!(NOTIFICATIONS.indexOf(messageType) + 1)
+
   return (
     (children && children.length != 0) ?
-      children
+      _.uniqWith(children, _.isEqual)
         .filter(child => child.status == filter || filter == 'ALL')
         .map(child => {
           return (
@@ -131,7 +133,7 @@ export default compose(
       };
     },
     dispatch => ({
-      loadMessageConversations: (messageType, page) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, page } }),
+      loadMoreMessageConversations: (messageType ) => dispatch({ type: actions.LOAD_MORE_MESSAGE_CONVERSATIONS, payload: { messageType } }),
     }),
   ),
   pure,

@@ -1,6 +1,5 @@
 import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
-import i18next from 'i18next';
 import history from 'utils/history';
 
 const NEUTRAL = 'NEUTRAL';
@@ -24,7 +23,7 @@ function messageReducer(state = initialState, action) {
     
     switch (action.type) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
-            let replaceMessageType = action.messageType
+            let replaceMessageType = _.find(messageTypes, {id: action.messageType.id})
             replaceMessageType.loaded = replaceMessageType.page == 1 ? action.payload.messageConversations.length :  replaceMessageType.loaded + action.payload.messageConversations.length
             replaceMessageType.total = action.payload.pager.total
             replaceMessageType.unread = action.nrOfUnread
@@ -171,19 +170,11 @@ function messageReducer(state = initialState, action) {
                 messsageFilter: action.payload.messageFilter
             };
         
-        case actions.MESSAGE_TYPE_LOADING:
-            messageType.loading = true
+        case actions.LOAD_MESSAGE_CONVERSATIONS:
+            let loadingMessageType = action.payload.messageType
+            loadingMessageType.loading = true
 
-            messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
-            return {
-                ...state,
-                messageTypes: messageTypes,
-            };
-
-        case actions.MESSAGE_TYPE_LOADED:
-            messageType.loading = false
-
-            messageTypes.splice( [_.findIndex(messageTypes, { 'id': action.messageType })], 1, messageType)
+            messageTypes.splice( [_.findIndex(messageTypes, { 'id': loadingMessageType.id })], 1, loadingMessageType)
             return {
                 ...state,
                 messageTypes: messageTypes,

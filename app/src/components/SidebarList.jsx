@@ -38,12 +38,10 @@ class SidebarList extends Component {
   render() {
     const gridColumn = this.props.gridColumn;
     const messageType = this.props.match.params.messageType;
-    const routeValue = gridColumn == 1 ? messageType : this.props.location.pathname.split('/').slice(-1)[0];
     const relativePath = gridColumn == 1 ? "/" : "/" + messageType + "/";
-    const children = this.props.children;
+    const messageTypes = this.props.messageTypes;
 
     const loading = !_.find(this.props.messageTypes, {id: messageType}).loading
-
     return (
       <div style={{
         display: 'flex',
@@ -64,18 +62,14 @@ class SidebarList extends Component {
             padding: '0px',
             height: 'calc(100vh - 100px)',
           }} >
-            {(!children || children.length == 0) && this.props.loaded && <Subheader >No message conversations</Subheader>}
-            {children &&
-              children.map(child => {
+            {messageTypes &&
+              messageTypes.map(messageType => {
                 return (
-                  <div key={child.id}>
+                  <div key={messageType.id}>
                     <MessageTypeItem
-                      child={child}
-                      onClick={() => this.props.setSelectedMessageType(child.id)}
-                      gridColumn={gridColumn}
-                      selectedValue={routeValue}
-                      relativePath={relativePath}
                       messageType={messageType}
+                      onClick={() => this.props.setSelectedMessageType(messageType.id)}
+                      selectedMessageType={this.props.selectedMessageType}
                       loading={loading}
                       />
                     <Divider />
@@ -93,6 +87,7 @@ export default compose(
   connect(
     state => {
       return {
+        selectedMessageType: state.messaging.selectedMessageType,
         messageTypes: state.messaging.messageTypes,
       };
     },

@@ -178,7 +178,7 @@ class MessagingCenter extends Component {
           </div>
         </Paper>
 
-        <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} children={this.props.messageTypes} />
+        <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} messageTypes={this.props.messageTypes} />
 
         {id == 'create' &&
           <CreateMessage wideview={this.state.wideview} />}

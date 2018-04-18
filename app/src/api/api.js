@@ -1,5 +1,6 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2';
 import MessageConversation from '../components/MessageConversation';
+import { pageSize } from '../constants/development'
 
 const messageConversationFields = '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]'
 export const getMessageConversationsWithIds = messageConversationIds =>
@@ -13,7 +14,7 @@ export const getMessageConversationsWithIds = messageConversationIds =>
 const order = 'lastMessage:desc';
 export const getMessageConversations = (messageType, page) =>
   getD2Instance()
-    .then(instance => instance.Api.getApi().get('messageConversations?pageSize=10&page=' + page, { fields: [messageConversationFields], order, filter: 'messageType:eq:' + messageType }))
+    .then(instance => instance.Api.getApi().get(`messageConversations?pageSize=${pageSize}&page=` + page, { fields: [messageConversationFields], order, filter: `messageType:eq:${messageType}` }))
     .then(result => ({ messageConversations: result.messageConversations, pager: result.pager}))
     .catch(error => {
       throw new Error(error);

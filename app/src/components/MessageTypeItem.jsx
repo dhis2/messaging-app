@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { List, ListItem } from 'material-ui/List';
 
 import CircularProgress from 'material-ui/CircularProgress';
-import InboxIcon from 'material-ui-icons/Inbox';
 import Badge from 'material-ui/Badge';
 import Subheader from 'material-ui/Subheader/Subheader';
 
@@ -26,7 +25,7 @@ class MessageTypeItem extends Component {
     });
   };
 
-  getBackgroundColor = (selectedValue, id) => id == selectedValue ? theme.palette.accent3Color : this.state.backgroundColor;
+  getBackgroundColor = (selectedValue, id) => (selectedValue && id == selectedValue.id) ? theme.palette.accent3Color : this.state.backgroundColor;
 
   setNeutral = () => this.setBackgroundColor(theme.palette.accent2Color);
   setFocus = () => this.setBackgroundColor('#e4e4e4');
@@ -44,7 +43,7 @@ class MessageTypeItem extends Component {
       <div
         style={{
           ...this.state,
-          backgroundColor: this.getBackgroundColor(this.props.selectedValue, this.props.child.id),
+          backgroundColor: this.getBackgroundColor(this.props.selectedMessageType, this.props.messageType.id),
           cursor: this.state.cursor,
           alignItems: 'center',
           height: '48px',
@@ -54,7 +53,7 @@ class MessageTypeItem extends Component {
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        onClick={() => this.onClick(`${this.props.relativePath}${this.props.child.id}`)}
+        onClick={() => this.onClick(`${this.props.messageType.id}`)}
       >
         <Subheader style={{
           marginLeft: '5px',
@@ -62,14 +61,14 @@ class MessageTypeItem extends Component {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          color: this.props.child.id == this.props.selectedValue ? theme.palette.primary1Color : theme.palette.accent4Color,
+          color: (this.props.selectedMessageType && this.props.messageType.id == this.props.selectedMessageType.id) ? theme.palette.primary1Color : theme.palette.accent4Color,
         }}>
-          {this.props.child.displayName}
+          {this.props.messageType.displayName}
         </Subheader>
         {!this.props.loading ?
             <CircularProgress style={{marginRight: '10px'}} color={theme.palette.primary2Color} />
-          : this.props.child.unread > 0 &&
-          <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.child.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} />}
+          : this.props.messageType.unread > 0 &&
+          <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.messageType.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} />}
       </div>
     )
   }

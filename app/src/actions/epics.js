@@ -62,15 +62,15 @@ const updateMessageConversationAssignee = action$ =>
           payload: { error },
         })));
 
-const sucess = action$ =>
+const loadMoreMessageConversations = action$ =>
   action$
     .ofType(
-      actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS
-    )
-    .mergeMap(action => 
-      Observable.of({
-        type: actions.MESSAGE_TYPE_LOADED,
-        payload: { messageType: action.payload.messageType }
+      actions.LOAD_MORE_MESSAGE_CONVERSATIONS,
+  )
+    .debounceTime(100)
+    .concatMap(action => Observable.of({
+        type: actions.LOAD_MESSAGE_CONVERSATIONS,
+        payload: action.payload,
       })
     )
 
@@ -106,12 +106,7 @@ const loadMessageConversations = action$ =>
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
           payload: { error },
-        }),
-          Observable.of({
-            type: actions.MESSAGE_TYPE_LOADING,
-            payload: { messageType: action.payload.messageType }
-          })
-        ));
+        })));
 
 const deleteMessageConversations = action$ =>
   action$
@@ -243,6 +238,7 @@ export default combineEpics(
   updateMessageConversationStatus,
   updateMessageConversationPriority,
   updateMessageConversationAssignee,
+  loadMoreMessageConversations,
   loadMessageConversations,
   sendMessage,
   replyMessage,
