@@ -15,8 +15,7 @@ import Divider from 'material-ui/Divider';
 import Message from './Message'
 import ReplyCard from './ReplyCard'
 import CustomFontIcon from './CustomFontIcon'
-import CustomDropDown from './CustomDropDown'
-import SuggestionField from './SuggestionField'
+import ExtendedChoicePicker from './ExtendedChoicePicker'
 
 import { messageConversationContainer, messagePanelContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
@@ -55,54 +54,19 @@ class MessageConversationListItem extends Component {
   onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
   onMouseLeave = () => { this.setState({ cursor: 'auto' }) }
 
-  updateMessageConversation = (updateMessageConversation, messageConversation, identifier, key) => {
-    switch (identifier) {
-      case 'STATUS':
-        messageConversation.status = key;
-        break;
-      case 'PRIORITY':
-        messageConversation.priority = key;
-        break;
-      case 'ASSIGNEE':
-        messageConversation.assignee = key;
-        break;
-    }
-
-    updateMessageConversation(messageConversation, identifier)
-  }
-
-  updateMessageConversationStatus = (child, identifier) => {
-    this.props.updateMessageConversationStatus(child, identifier)
-  }
-
-  updateMessageConversationPriority = (child, identifier) => {
-    this.props.updateMessageConversationPriority(child, identifier)
-  }
-
-  updateMessageConversationAssignee = (child, identifier) => {
-    this.props.updateMessageConversationAssignee(child, identifier)
-  }
-
-  markUnread = (child) => {
-    this.props.markMessageConversationsUnread([child.id], this.props.selectedMessageType)
-  }
-
-  deleteMessageConversations = (child) => {
-    this.props.deleteMessageConversation(child.id, this.props.selectedMessageType)
-  }
-
   render() {
     const messageConversation = this.props.messageConversation;
-    const assigneValue = messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None';
-    const message = messageConversation.messages[0]
-    const title = !this.props.notification ? message.sender.displayName : this.props.selectedMessageType.displayName
-    const checked = _.find(this.props.checkedIds, {'id' : messageConversation.id}) != undefined
+    const message = messageConversation.messages[0];
+    const title = !this.props.notification ? message.sender.displayName : this.props.selectedMessageType.displayName;
+    const checked = _.find(this.props.checkedIds, {'id' : messageConversation.id}) != undefined;
+
+    const displayExtendedChoices = this.props.displayExtendedChoices; 
 
     return (
       <Paper style={{
         backgroundColor: this.getBackgroundColor(messageConversation.id),
         display: 'grid',
-        gridTemplateColumns: '90% 10%',
+        gridTemplateColumns: '20% 20% 15% 40% 5%',
         gridTemplateRows: '10% 90%',
         transition: 'all 0.2s ease-in-out',
         margin: this.props.wideview ? '10px 10px 10px 10px' : '',
@@ -115,7 +79,8 @@ class MessageConversationListItem extends Component {
         whiteSpace: 'nowrap',
       }}
         onClick={(event) => {
-          event.target.innerText != '' && this.onClick(messageConversation)
+          const onClick = event.target.innerText != undefined && event.target.innerText != ''
+          onClick && this.onClick(messageConversation)
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
@@ -139,10 +104,14 @@ class MessageConversationListItem extends Component {
             this.props.setSelected(messageConversation, !messageConversation.selectedValue)
           }}
         />
+
+        {displayExtendedChoices && 
+          <ExtendedChoicePicker messageConversation={messageConversation} /> }
+
         {this.state.cursor == 'pointer' &&
           <div
             style={{
-              gridArea: '1 / 2',
+              gridArea: '1 / 5',
               display: 'flex',
               justifyContent: 'flex-end',
               alignSelf: 'center',
@@ -150,9 +119,8 @@ class MessageConversationListItem extends Component {
             <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
             <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
           </div>}
-
         <CardText style={{
-          gridArea: '2 / 1 / span 1 / span 2',
+          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 3' : '2 / 1 / span 1 / span 5',
           overflow: this.state.expanded ? 'auto' : 'hidden',
           textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
           whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
@@ -177,9 +145,6 @@ export default compose(
     }
     ,
     dispatch => ({
-      updateMessageConversationStatus: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_STATUS, payload: { messageConversation, identifier } }),
-      updateMessageConversationPriority: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_PRIORITY, payload: { messageConversation, identifier } }),
-      updateMessageConversationAssignee: (messageConversation, identifier) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATION_ASSIGNEE, payload: { messageConversation, identifier } }),
       setSelected: (messageConversation, selectedValue) => dispatch({ type: actions.SET_SELECTED_VALUE, payload: { messageConversation, selectedValue } }),
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),

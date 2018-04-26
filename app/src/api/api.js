@@ -20,23 +20,23 @@ export const getMessageConversations = (messageType, page) =>
       throw new Error(error);
     });
 
-export const updateMessageConversationStatus = (messageConversation) => 
+export const updateMessageConversationStatus = (messageConversationId, value) => 
     getD2Instance()
-      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/status?messageConversationStatus=${messageConversation.status}`))
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversationId}/status?messageConversationStatus=${value}`))
       .catch(error => {
         throw new Error(error);
       });
 
-export const updateMessageConversationPriority = (messageConversation) => 
+export const updateMessageConversationPriority = (messageConversationId, value) => 
     getD2Instance()
-      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/priority?messageConversationPriority=${messageConversation.priority}`))
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversationId}/priority?messageConversationPriority=${value}`))
       .catch(error => {
         throw new Error(error);
       });
 
-export const updateMessageConversationAssignee = (messageConversation) => 
+export const updateMessageConversationAssignee = (messageConversationId, value) => 
     getD2Instance()
-      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversation.id}/assign?userId=${messageConversation.assignee.id}`))
+      .then(instance => instance.Api.getApi().post(`messageConversations/${messageConversationId}/assign?userId=${value}`))
       .catch(error => {
         throw error;
       });

@@ -11,6 +11,40 @@ import { merge } from 'rxjs/operator/merge';
 
 import {Observable} from 'rxjs/Rx'
 
+const updateMessageConversations = action$ =>
+  action$
+    .ofType(
+      actions.UPDATE_MESSAGE_CONVERSATIONS,
+  )
+    .concatMap(action => {
+      let promises = action.payload.messageConversationIds.map(messageConversationId => {
+        let promise = undefined;
+        switch (action.payload.identifier) {
+          case 'STATUS':
+            promise = api.updateMessageConversationStatus(messageConversationId, action.payload.value)
+            break;
+          case 'PRIORITY':
+            promise = api.updateMessageConversationPriority(messageConversationId, action.payload.value)
+            break;
+          case 'ASSIGNEE':
+            promise = api.updateMessageConversationAssignee(messageConversationId, action.payload.value)
+            break;
+        }
+        return promise;
+      })
+      console.log(promises)
+
+      return Observable.from(Promise.all(promises)
+        .then(result => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
+          payload: { messageType: action.payload.messageType, page: 1, identifier: action.payload.identifier }
+        }))
+        .catch(error => ({
+          type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
+          payload: { error },
+        })))
+    });
+
 const updateMessageConversationStatus = action$ =>
   action$
     .ofType(
@@ -21,7 +55,7 @@ const updateMessageConversationStatus = action$ =>
         .updateMessageConversationStatus(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier  }
+          payload: { messageType: action.payload.messageType, page: 1, identifier: action.payload.identifier  }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -38,7 +72,7 @@ const updateMessageConversationPriority = action$ =>
         .updateMessageConversationPriority(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier }
+          payload: { messageType: action.payload.messageType, page: 1, identifier: action.payload.identifier }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -55,7 +89,7 @@ const updateMessageConversationAssignee = action$ =>
         .updateMessageConversationAssignee(action.payload.messageConversation)
         .then(() => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-          payload: { messageType: action.payload.messageConversation.messageType, page: 1, identifier: action.payload.identifier  }
+          payload: { messageType: action.payload.messageType, page: 1, identifier: action.payload.identifier  }
         }))
         .catch(error => ({
           type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
@@ -235,6 +269,7 @@ const searchForRecipients = action$ =>
         })));
 
 export default combineEpics(
+  updateMessageConversations,
   updateMessageConversationStatus,
   updateMessageConversationPriority,
   updateMessageConversationAssignee,

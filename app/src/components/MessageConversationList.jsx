@@ -16,8 +16,9 @@ import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
 
-const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'Open' }, { key: 'PENDING', displayName: 'Pending' }, { key: 'INVALID', displayName: 'Invalid' }, { key: 'SOLVED', displayName: 'Solved' }]
+const statusList = [{ key: 'ALL', displayName: 'All' }, { key: 'OPEN', displayName: 'Open' }, { key: 'PENDING', displayName: 'Pending' }, { key: 'SOLVED', displayName: 'Solved' }, { key: 'INVALID', displayName: 'Invalid' }]
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
+
 
 class MessageConversationList extends Component {
   constructor(props) {
@@ -54,7 +55,9 @@ class MessageConversationList extends Component {
           messageType={ this.props.selectedMessageType ? this.props.selectedMessageType.id : ''}
           loaded={this.props.loaded}
           wideview={this.props.wideview}
-          selectedValue={this.props.selectedMessageConversation ? this.props.selectedMessageConversation.id : ''} />
+          selectedValue={this.props.selectedMessageConversation ? this.props.selectedMessageConversation.id : ''} 
+          displayExtendedChoices={this.props.displayExtendedChoices}
+          />
       </div>
       :
       <div/>
@@ -62,7 +65,7 @@ class MessageConversationList extends Component {
   }
 }
 
-const MessageList = ({ children, messageType, loaded, wideview, selectedValue }) => {
+const MessageList = ({ children, messageType, loaded, wideview, selectedValue, displayExtendedChoices }) => {
   return (
     messageType == 'TICKET' ?
       <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
@@ -79,7 +82,9 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue })
                 messageType={messageType}
                 loaded={loaded}
                 wideview={wideview}
-                selectedValue={selectedValue} />
+                selectedValue={selectedValue} 
+                displayExtendedChoices={displayExtendedChoices}
+                />
             </Tab>
           )
         })}
@@ -92,12 +97,13 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue })
         loaded={loaded}
         wideview={wideview}
         selectedValue={selectedValue}
+        displayExtendedChoices={displayExtendedChoices}
       />
   )
 }
 
-const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue }) => {
-  const notification = !!(NOTIFICATIONS.indexOf(messageType) + 1)
+const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, displayExtendedChoices }) => {
+  const notification = !!(NOTIFICATIONS.indexOf(messageType) + 1);
 
   return (
     (children && children.length != 0) ?
@@ -112,6 +118,7 @@ const TableComponent = ({ filter, children, messageType, loaded, wideview, selec
               selectedValue={selectedValue}
               expanded={false}
               notification={notification}
+              displayExtendedChoices={displayExtendedChoices}
             />
           )
         })

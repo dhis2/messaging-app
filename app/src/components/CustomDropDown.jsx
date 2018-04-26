@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 
 import Subheader from 'material-ui/Subheader/Subheader';
-import DropDownMenu from 'material-ui/DropDownMenu';
+import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const CustomDropDown = ({subheader, gridColumn, onChange, value, children}) => (
-  <div style={{
-    gridArea: '1 / ' + gridColumn,
-    width: '200px',
-  }}>
-    <Subheader style={{ paddingLeft: '24px' }}> {subheader} </Subheader>
-
-    <DropDownMenu 
-      onChange={onChange}
-      value={value}
-      anchorOrigin={
-        { "horizontal": "left", "vertical": "bottom" }
-      }
-    >
-      {children.map(child => {
-        return child
-      })}
-    </DropDownMenu>
-  </div>
+const CustomDropDown = ({ subheader, gridColumn, floatingLabelText, onChange, value, children }) => (
+  <SelectField
+    style={{
+      gridArea: '1 / ' + gridColumn + ' / span 2 / span 1',
+      width: '200px'
+    }}
+    floatingLabelText={floatingLabelText}
+    onChange={onChange}
+    value={value}
+  >
+    {children.map(child => {
+      return child
+    })}
+  </SelectField>
 )
 
 export default CustomDropDown;

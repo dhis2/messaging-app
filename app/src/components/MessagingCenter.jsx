@@ -24,12 +24,14 @@ import { grid, subheader } from '../styles/style';
 import SidebarList from './SidebarList';
 import MessageConversation from './MessageConversation';
 import MessageConversationList from './MessageConversationList';
+import ExtendedChoicePicker from './ExtendedChoicePicker';
 import CreateMessage from './CreateMessage';
 import CustomFontIcon from './CustomFontIcon';
 
 import history from 'utils/history';
 
 const headerHight = '48px'
+const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
 
 class MessagingCenter extends Component {
   state = {}
@@ -39,7 +41,7 @@ class MessagingCenter extends Component {
 
     this.state = {
       drawerOpen: true,
-      wideview: false,
+      wideview: true,
       checkedItems: false,
       dialogOpen: false,
     };
@@ -86,6 +88,7 @@ class MessagingCenter extends Component {
     const messageType = this.props.match.params.messageType;
     const id = this.props.location.pathname.split('/').slice(-1)[0];
     const checkedOptions = this.props.checkedOptions;
+    const displayExtendedChoices = this.props.selectedMessageType ? !!(EXTENDED_CHOICES.indexOf(this.props.selectedMessageType.id) + 1) && this.state.wideview : false;
 
     const actions = [
       <FlatButton
@@ -101,7 +104,7 @@ class MessagingCenter extends Component {
           this.toogleDialog()
           this.props.deleteMessageConversations(this.props.checkedIds, this.props.selectedMessageType)
         }}
-      />,
+      />, 
     ];
 
     return (
@@ -159,6 +162,7 @@ class MessagingCenter extends Component {
                   justifyContent: 'flex-end',
                   alignSelf: 'center',
                 }}>
+                {displayExtendedChoices && <ExtendedChoicePicker clearCheckedIds={this.props.clearCheckedIds} /> }
                 <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
                 <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
                 <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
@@ -183,7 +187,12 @@ class MessagingCenter extends Component {
         {id == 'create' &&
           <CreateMessage wideview={this.state.wideview} />}
 
-        <MessageConversationList wideview={this.state.wideview} />
+        {
+          id != 'create' ? 
+           <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices}/>
+           : !this.state.wideview &&
+          <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices}/>
+        }
 
         {(this.props.selectedMessageConversation && id != 'create') ?
           <MessageConversation

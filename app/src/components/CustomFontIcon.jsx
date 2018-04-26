@@ -18,17 +18,16 @@ const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
       }}
       tooltip={tooltip}
       tooltipPosition="bottom-left"  
-     
     >
       {icon == 'delete' &&
         <Delete 
           onClick={(event) => {
-          event.stopPropagation()
-          event.preventDefault()
-  
-          if ( child ) {
-            selectedValue != child.id && onClick(child)
-          } else onClick()
+            event.stopPropagation()
+            event.preventDefault()
+    
+            if ( child ) {
+              selectedValue != child.id && onClick(child)
+            } else onClick()
         }}
         />
       }

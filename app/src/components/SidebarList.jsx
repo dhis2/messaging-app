@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 
 import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader/Subheader';
-
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
