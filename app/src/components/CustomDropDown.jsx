@@ -8,8 +8,9 @@ const CustomDropDown = ({ subheader, gridColumn, floatingLabelText, onChange, va
   <SelectField
     style={{
       gridArea: '1 / ' + gridColumn + ' / span 2 / span 1',
-      width: '200px'
+      height: '100%',
     }}
+    fullWidth
     floatingLabelText={floatingLabelText}
     onChange={onChange}
     value={value}

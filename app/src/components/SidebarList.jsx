@@ -14,6 +14,7 @@ import MessageTypeItem from './MessageTypeItem'
 
 import theme from '../styles/theme';
 import * as actions from 'constants/actions';
+import history from 'utils/history';
 
 /*const mapChildren = gridColumn == 2 ? _.filter( children, (child) => {
    return (
@@ -67,7 +68,10 @@ class SidebarList extends Component {
                   <div key={messageType.id}>
                     <MessageTypeItem
                       messageType={messageType}
-                      onClick={() => this.props.setSelectedMessageType(messageType.id)}
+                      onClick={() => {
+                        this.props.setSelectedMessageType(messageType.id)
+                        history.push( '/' + messageType.id)
+                      }}              
                       selectedMessageType={this.props.selectedMessageType}
                       loading={loading}
                       />

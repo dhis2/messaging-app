@@ -14,7 +14,6 @@ const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
         marginTop: '0px',
         marginRight: '10px',
         padding: '0px',
-        height: '30px',
       }}
       tooltip={tooltip}
       tooltipPosition="bottom-left"  

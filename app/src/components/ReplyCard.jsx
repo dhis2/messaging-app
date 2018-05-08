@@ -63,7 +63,7 @@ class ReplyCard extends Component {
   }
 
   replyMessage = () => {
-    const messageType = _.find(this.props.messageTypes, { id: this.props.messageConversation.messageType });
+    const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
     this.props.replyMessage(this.state.input, this.props.messageConversation, messageType)
     this.wipeInput()
   }
@@ -103,7 +103,10 @@ class ReplyCard extends Component {
           />
           <CardActions>
             <FlatButton label="Send" onClick={this.replyMessage} />
-            <FlatButton label="Discard" onClick={ () => this.props.setSelectedMessageType( this.props.messageConversation.messageType) } />
+            <FlatButton label="Discard" onClick={ () => {
+              this.props.setSelectedMessageType( this.props.messageConversation.messageType) 
+              history.push( '/' + this.props.messageConversation.messageType)    
+            }} />
           </CardActions>
         </CardText>
       </Card>
@@ -114,7 +117,9 @@ class ReplyCard extends Component {
 export default compose(
   connect(
     state => {
-      return state
+      return {
+        messageTypes: state.messaging.messageTypes
+      }
     },
     dispatch => ({
       replyMessage: (message, messageConversation, messageType) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, messageConversation, messageType} }),

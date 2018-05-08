@@ -52,7 +52,7 @@ class MessageConversationList extends Component {
         }}>
         <MessageList
           children={this.props.messageConversations[this.props.selectedMessageType.id]}
-          messageType={ this.props.selectedMessageType ? this.props.selectedMessageType.id : ''}
+          messageType={ this.props.selectedMessageType ? this.props.selectedMessageType : ''}
           loaded={this.props.loaded}
           wideview={this.props.wideview}
           selectedValue={this.props.selectedMessageConversation ? this.props.selectedMessageConversation.id : ''} 
@@ -67,7 +67,7 @@ class MessageConversationList extends Component {
 
 const MessageList = ({ children, messageType, loaded, wideview, selectedValue, displayExtendedChoices }) => {
   return (
-    messageType == 'TICKET' ?
+    messageType.id == 'TICKET' ?
       <Tabs inkBarStyle={{ backgroundColor: theme.palette.primary1Color }}>
         {statusList.map(status => {
           return (
@@ -103,7 +103,7 @@ const MessageList = ({ children, messageType, loaded, wideview, selectedValue, d
 }
 
 const TableComponent = ({ filter, children, messageType, loaded, wideview, selectedValue, displayExtendedChoices }) => {
-  const notification = !!(NOTIFICATIONS.indexOf(messageType) + 1);
+  const notification = !!(NOTIFICATIONS.indexOf(messageType.id) + 1);
 
   return (
     (children && children.length != 0) ?
@@ -123,7 +123,7 @@ const TableComponent = ({ filter, children, messageType, loaded, wideview, selec
           )
         })
       :
-      <Subheader>No message conversations</Subheader>
+      !messageType.loading ? <Subheader> No {messageType.displayName.toLowerCase()}s </Subheader> : <div/>
   )
 }
 
@@ -135,7 +135,6 @@ export default compose(
         messageConversations: state.messaging.messageConversations,
         selectedMessageConversation: state.messaging.selectedMessageConversation,
         selectedMessageType: state.messaging.selectedMessageType,
-        loaded: state.messaging.loaded,
         messageFilter: state.messaging.messsageFilter,
       };
     },

@@ -35,13 +35,15 @@ class Message extends Component {
     const messageConversation = this.props.messageConversation
     const messageType = this.props.messageConversation.messageType
 
-    const fromTitle = !this.props.notification ? message.sender.displayName : 'System notification'
+    const fromTitle = message.sender ? message.sender.displayName : 'System notification'
     const today = moment()
     const messageDate = moment(message.created)
+
     return (
       <div style={{
         backgroundColor: theme.palette.canvasColor,
-        padding: '16px 16px 16px 16px'
+        padding: '16px 16px 16px 16px',
+        gridArea: '1 / 1 / span 1 / span 2',
       }}
       >
         <div

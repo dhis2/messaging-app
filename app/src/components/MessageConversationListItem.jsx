@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, pure, lifecycle } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
@@ -35,8 +35,12 @@ class MessageConversationListItem extends Component {
     }
   }
 
-  getBackgroundColor = (id) => {
-    if (this.props.selectedMessageConversation && id == this.props.selectedMessageConversation.id) {
+  getBackgroundColor = (messageConversation, checked) => {
+    const selectedMessageConversation = this.props.selectedMessageConversation && messageConversation.id == this.props.selectedMessageConversation.id;
+
+    if ( checked && !selectedMessageConversation ) {
+      return theme.palette.blue50
+    } else if (selectedMessageConversation) {
       return theme.palette.accent3Color
     } else {
       return this.state.backgroundColor
@@ -57,16 +61,16 @@ class MessageConversationListItem extends Component {
   render() {
     const messageConversation = this.props.messageConversation;
     const message = messageConversation.messages[0];
-    const title = !this.props.notification ? message.sender.displayName : this.props.selectedMessageType.displayName;
+    const title = message.sender ? message.sender.displayName : this.props.selectedMessageType.displayName;
     const checked = _.find(this.props.checkedIds, {'id' : messageConversation.id}) != undefined;
 
-    const displayExtendedChoices = this.props.displayExtendedChoices; 
+    const displayExtendedChoices = this.props.displayExtendedChoices;
 
     return (
       <Paper style={{
-        backgroundColor: this.getBackgroundColor(messageConversation.id),
+        backgroundColor: this.getBackgroundColor(messageConversation, checked),
         display: 'grid',
-        gridTemplateColumns: '20% 20% 15% 40% 5%',
+        gridTemplateColumns: '20% 20% 15% 45%',
         gridTemplateRows: '10% 90%',
         transition: 'all 0.2s ease-in-out',
         margin: this.props.wideview ? '10px 10px 10px 10px' : '',
@@ -81,6 +85,7 @@ class MessageConversationListItem extends Component {
         onClick={(event) => {
           const onClick = event.target.innerText != undefined && event.target.innerText != ''
           onClick && this.onClick(messageConversation)
+          onClick && this.props.clearCheckedIds()
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
@@ -105,22 +110,10 @@ class MessageConversationListItem extends Component {
           }}
         />
 
-        {displayExtendedChoices && 
-          <ExtendedChoicePicker messageConversation={messageConversation} /> }
+        <ExtendedChoicePicker messageConversation={messageConversation} displayExtendedChoices={displayExtendedChoices}/>
 
-        {this.state.cursor == 'pointer' &&
-          <div
-            style={{
-              gridArea: '1 / 5',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'center',
-            }}>
-            <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.deleteMessageConversations} icon={'delete'} tooltip={'Delete'} />
-            <CustomFontIcon size={5} child={this.props.messageConversation} onClick={this.markUnread} icon={'markunread'} tooltip={'Mark as unread'} />
-          </div>}
         <CardText style={{
-          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 3' : '2 / 1 / span 1 / span 5',
+          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 3' : '2 / 1 / span 1 / span 4',
           overflow: this.state.expanded ? 'auto' : 'hidden',
           textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
           whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
@@ -141,92 +134,15 @@ export default compose(
         selectedMessageConversation: state.messaging.selectedMessageConversation,
         selectedMessageType: state.messaging.selectedMessageType,
         checkedIds: state.messaging.checkedIds,
+        numberOfCheckedIds: state.messaging.checkedIds.length,
       }
     }
     ,
     dispatch => ({
       setSelected: (messageConversation, selectedValue) => dispatch({ type: actions.SET_SELECTED_VALUE, payload: { messageConversation, selectedValue } }),
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
-      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
-      deleteMessageConversation: (messageConversationId, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATION, payload: { messageConversationId, messageType } }),
+      clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
     }),
   ),
 )(MessageConversationListItem);
-
-/*!this.props.disableLink && <Checkbox
-            style={{
-              gridArea: '1 / 1 / span 1 / span 1',
-              marginLeft: '5px',
-              display: 'flex',
-              alignSelf: 'center',
-            }}
-            onCheck={() => this.setSelected(messageConversation, !messageConversation.selectedValue)}
-          />
-          
-           {true &&
-            <CustomDropDown
-              gridColumn={4}
-              subheader={'Status'}
-              onChange={(event, key, value) => this.updateMessageConversation(this.updateMessageConversationStatus, messageConversation, 'STATUS', value)}
-              value={messageConversation.status}
-              children={
-                [
-                  <MenuItem key={'OPEN'} value={'OPEN'} primaryText="Open" />,
-                  <MenuItem key={'PENDING'} value={'PENDING'} primaryText="Pending" />,
-                  <MenuItem key={'INVALID'} value={'INVALID'} primaryText="Invalid" />,
-                  <MenuItem key={'SOLVED'} value={'SOLVED'} primaryText="Solved" />
-                ]
-              }
-            />
-          }
-
-          {true &&
-            <CustomDropDown
-              gridColumn={5}
-              subheader={'Status'}
-              onChange={(event, key, value) => this.updateMessageConversation(this.updateMessageConversationPriority, messageConversation, 'PRIORITY', value)}
-              value={messageConversation.priority}
-              children={
-                [
-                  <MenuItem key={'LOW'} value={'LOW'} primaryText="Low" />,
-                  <MenuItem key={'MEDIUM'} value={'MEDIUM'} primaryText="Medium" />,
-                  <MenuItem key={'HIGH'} value={'HIGH'} primaryText="High" />
-                ]
-              }
-            />
-          }
-           {false &&
-          <CustomDropDown
-            gridColumn={3}
-            subheader={'Assignee'}
-            value={assigneValue}
-            children={
-              [
-                <MenuItem key={assigneValue} value={assigneValue} primaryText={assigneValue} />,
-                <SuggestionField
-                  updateMessageConversation={(chip) => this.updateMessageConversation(this.updateMessageConversationAssignee, messageConversation, 'ASSIGNEE', chip)}
-                  key={'suggestionField'}
-                  label={'Assignee'}
-                />
-              ]
-            }
-          />
-        }
-
-          <div
-            onClick={() => !this.props.disableLink && this.onClick(messageConversation)}
-            onMouseEnter={this.onMouseEnter}
-            onMouseLeave={this.onMouseLeave}
-            style={{
-              //cursor: this.props.disableLink ? 'auto' : this.state.cursor,
-              gridArea: !this.props.disableLink ? '1 / 2 / span 1 / span 2' : '1 / 1 / span 1 / span 5',
-              display: 'grid',
-              gridTemplateColumns: '20% 80%',
-              padding: '16px 0px 16px 16px',
-              boxSizing: 'border-box',
-              position: 'relative',
-              whiteSpace: 'nowrap',
-            }}
-          >
-          */

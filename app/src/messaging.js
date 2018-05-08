@@ -1,8 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { getManifest } from 'd2/lib/d2';
-import registerServiceWorker from './registerServiceWorker';
-import 'whatwg-fetch';
 
 import Messaging from 'components/Messaging';
 import { BASE_URL, SYSTEM_AUTH } from 'constants/development';
@@ -23,5 +21,4 @@ getManifest('./manifest.webapp')
         };
         
         render(<Messaging config={config} />, document.getElementById('messaging'));
-    })
-    .then(registerServiceWorker);
+    });

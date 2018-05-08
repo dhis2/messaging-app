@@ -5,7 +5,7 @@ import { compose, lifecycle } from 'recompose';
 
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
-import Dialog from 'material-ui/Dialog';
+
 import CreateMessageIcon from 'material-ui-icons/Add';
 import NavigationBack from 'material-ui-icons/ArrowBack';
 import TextField from 'material-ui/TextField';
@@ -26,29 +26,26 @@ import MessageConversation from './MessageConversation';
 import MessageConversationList from './MessageConversationList';
 import ExtendedChoicePicker from './ExtendedChoicePicker';
 import CreateMessage from './CreateMessage';
-import CustomFontIcon from './CustomFontIcon';
+
+import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
 
 import history from 'utils/history';
 
-const headerHight = '48px'
+const headerHight = '48px';
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
 
 class MessagingCenter extends Component {
-  state = {}
-
   constructor(props) {
     super(props)
 
     this.state = {
-      drawerOpen: true,
-      wideview: true,
       checkedItems: false,
       dialogOpen: false,
     };
   }
 
   componentWillMount() {
-    const selectedMessageType = this.props.match.params.messageType
+    const selectedMessageType = this.props.match.params.messageType;
     const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
     this.props.messageTypes.map(messageType => {
@@ -61,61 +58,30 @@ class MessagingCenter extends Component {
     this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1);
   }
 
-  markMessageConversations( mode ) {
-    const ids = [] 
-    this.props.checkedIds.forEach( id => ids.push( id.id ))
-    if (mode == 'unread') {
-      this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType)
-    } else if (mode == 'read') {
-      this.props.markMessageConversationsRead(ids, this.props.selectedMessageType)
-    }
-    this.props.clearCheckedIds()
-  }
+  componentDidUpdate() {
+    const selectedMessageType = this.props.match.params.messageType
+    const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
-  toogleDrawer() {
-    this.setState({ drawerOpen: !this.state.drawerOpen })
+    if (selectedMessageType != selectedId) {
+      const messageConversation = _.find(this.props.messageConversations[selectedMessageType], { 'id': selectedId })
+      this.props.setSelectedMessageConversation(messageConversation)
+    } else {
+      this.props.setSelectedMessageConversation(undefined)
+    }
   }
 
   toogleWideview() {
     this.setState({ wideview: !this.state.wideview })
   }
 
-  toogleDialog() {
-    this.setState({ dialogOpen: !this.state.dialogOpen} );
-  };
-
   render() {
     const messageType = this.props.match.params.messageType;
     const id = this.props.location.pathname.split('/').slice(-1)[0];
     const checkedOptions = this.props.checkedOptions;
-    const displayExtendedChoices = this.props.selectedMessageType ? !!(EXTENDED_CHOICES.indexOf(this.props.selectedMessageType.id) + 1) && this.state.wideview : false;
-
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onClick={this.toogleDialog}
-      />,
-      <FlatButton
-        label="Submit"
-        primary={true}
-        keyboardFocused={true}
-        onClick={() => {
-          this.toogleDialog()
-          this.props.deleteMessageConversations(this.props.checkedIds, this.props.selectedMessageType)
-        }}
-      />, 
-    ];
+    const displayExtendedChoices = this.props.selectedMessageType ? !!(EXTENDED_CHOICES.indexOf(this.props.selectedMessageType.id) + 1) : false;
 
     return (
       <div style={grid} >
-        <Dialog
-          title="Are you sure you want to delete selected message conversations?"
-          actions={actions}
-          modal={false}
-          open={this.state.dialogOpen}
-          onRequestClose={this.toogleDialog}
-        />
         <Paper style={{
           gridArea: '1 / 1 / span 1 / span 3',
           display: 'grid',
@@ -123,7 +89,7 @@ class MessagingCenter extends Component {
           backgroundColor: checkedOptions ? theme.palette.accent3Color : theme.palette.accent2Color,
           zIndex: 10,
         }}>
-          <FlatButton
+          {messageType == 'PRIVATE' && <FlatButton
             style={{
               display: 'flex',
               justifyContent: 'flex-start',
@@ -131,14 +97,15 @@ class MessagingCenter extends Component {
               gridArea: '1 / 1',
               width: '150px'
             }}
-            icon={ !checkedOptions ? <CreateMessageIcon /> : <NavigationBack />}
-            onClick={() => checkedOptions ? this.props.clearCheckedIds() : history.push( '/' + messageType + '/create' )}
-            label={checkedOptions ? "Back" : "Compose" }
-          />
+            icon={!checkedOptions ? <CreateMessageIcon /> : <NavigationBack />}
+            onClick={() => checkedOptions ? this.props.clearCheckedIds() : history.push('/' + messageType + '/create')}
+            label={checkedOptions ? "Back" : "Compose"}
+          />}
           {!checkedOptions && <TextField
             style={{
               gridArea: '1 / 2',
               height: headerHight,
+              padding: '0px 0px'
             }}
             fullWidth
             hintText={'Search'}
@@ -147,28 +114,9 @@ class MessagingCenter extends Component {
             margin="normal"
           />}
 
-          <div
-            style={{
+          {checkedOptions && <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices}/>}
+          <div style={{
               gridArea: '1 / 3',
-              display: 'grid',
-              gridTemplateColumns: '90% 10%'
-            }}>
-            {checkedOptions &&
-              <div
-                className={'messageConversationOptions'}
-                style={{
-                  gridArea: '1 / 1',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  alignSelf: 'center',
-                }}>
-                {displayExtendedChoices && <ExtendedChoicePicker clearCheckedIds={this.props.clearCheckedIds} /> }
-                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
-                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
-                <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
-              </div>}
-            <div style={{
-              gridArea: '1 / 2',
               display: 'flex',
               justifyContent: 'flex-end',
               alignSelf: 'center',
@@ -179,7 +127,6 @@ class MessagingCenter extends Component {
                 onClick={() => this.toogleWideview()}
               />
             </div>
-          </div>
         </Paper>
 
         <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} messageTypes={this.props.messageTypes} />
@@ -189,9 +136,9 @@ class MessagingCenter extends Component {
 
         {
           id != 'create' ? 
-           <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices}/>
+            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview } />
            : !this.state.wideview &&
-          <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices}/>
+            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview } />
         }
 
         {(this.props.selectedMessageConversation && id != 'create') ?
@@ -221,24 +168,21 @@ class MessagingCenter extends Component {
 export default compose(
   connect(
     state => {
-      const checkedOptions = state.messaging.checkedIds.length > 0;
       return {
         messageTypes: state.messaging.messageTypes,
         messageConversations: state.messaging.messageConversations,
         selectedMessageType: state.messaging.selectedMessageType,
         selectedMessageConversation: state.messaging.selectedMessageConversation,
         checkedIds: state.messaging.checkedIds,
-        checkedOptions: checkedOptions,
+        checkedOptions: state.messaging.checkedIds.length > 0,
         loaded: state.messaging.loaded,
       }
     },
     dispatch => ({
       loadMessageConversations: (messageType, selectedMessageType, selectedId) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, selectedMessageType, selectedId } }),
-      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
-      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-      deleteMessageConversations: (messageConversationIds, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATIONS, payload: { messageConversationIds, messageType } }),
+      setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
     }),
   ),
 )(MessagingCenter);

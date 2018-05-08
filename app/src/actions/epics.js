@@ -32,7 +32,6 @@ const updateMessageConversations = action$ =>
         }
         return promise;
       })
-      console.log(promises)
 
       return Observable.from(Promise.all(promises)
         .then(result => ({
@@ -150,7 +149,7 @@ const deleteMessageConversations = action$ =>
     .concatMap(action => {
       const promises = action.payload.messageConversationIds.map(messageConversationId => {
         return api
-          .deleteMessageConversation(messageConversationId.id)
+          .deleteMessageConversation(messageConversationId)
       })
 
       return Observable.from(Promise.all(promises)
@@ -163,23 +162,6 @@ const deleteMessageConversations = action$ =>
           payload: { error },
         })))
     });
-
-const deleteMessageConversation = action$ =>
-  action$
-    .ofType(
-      actions.DELETE_MESSAGE_CONVERSATION,
-  )
-    .concatMap(action =>
-      api
-        .deleteMessageConversation(action.payload.messageConversationId)
-        .then(result => ({
-          type: actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
-          payload: { messageType: action.payload.messageType, page: 1 },
-        }))
-        .catch(error => ({
-          type: actions.MESSAGE_CONVERSATION_DELETE_ERROR,
-          payload: { error },
-        })));
 
 const sendMessage = action$ =>
   action$
@@ -277,7 +259,6 @@ export default combineEpics(
   loadMessageConversations,
   sendMessage,
   replyMessage,
-  deleteMessageConversation,
   deleteMessageConversations,
   markMessageConversationsRead,
   markMessageConversationsUnread,

@@ -155,7 +155,6 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.SET_SELECTED_MESSAGE_TYPE:
-            history.push( '/' + action.payload.messageTypeId)
             return {
                 ...state,
                 checkedIds: [],

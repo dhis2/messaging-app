@@ -6,8 +6,10 @@ import CustomDropDown from './CustomDropDown';
 import MenuItem from 'material-ui/MenuItem';
 
 import SuggestionField from './SuggestionField';
+import CustomFontIcon from './CustomFontIcon';
 
 import * as actions from 'constants/actions';
+import extendedChoices from 'constants/extendedChoices';
 
 class ExtendedChoicePicker extends Component {
   constructor(props) {
@@ -19,12 +21,15 @@ class ExtendedChoicePicker extends Component {
     this.props.clearCheckedIds && this.props.clearCheckedIds()
   }
 
-  markUnread = (child) => {
-    this.props.markMessageConversationsUnread([child.id], this.props.selectedMessageType)
-  }
-
-  deleteMessageConversations = (child) => {
-    this.props.deleteMessageConversation(child.id, this.props.selectedMessageType)
+  markMessageConversations(mode) {
+    const ids = []
+    this.props.checkedIds.forEach(id => ids.push(id.id))
+    if (mode == 'unread') {
+      this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType)
+    } else if (mode == 'read') {
+      this.props.markMessageConversationsRead(ids, this.props.selectedMessageType)
+    }
+    this.props.clearCheckedIds()
   }
 
   render() {
@@ -34,53 +39,75 @@ class ExtendedChoicePicker extends Component {
 
     return (
       <div style={{
-        gridArea: '1 / 4 / span 2 / span 1',
         display: 'grid',
-        gridTemplateColumns: '33% 33% 33%',
+        gridArea: '1 / 4',
+        gridTemplateColumns: '85% 15%',
+        alignSelf: 'bottom'
       }}>
-        <CustomDropDown
-          gridColumn={1}
-          floatingLabelText={'Status'}
-          onChange={(event, key, value) => {console.log(event, key, value) 
-            this.updateMessageConversation( multiSelect ? this.props.checkedIds.map(id => id.id) : [messageConversation.id], 'STATUS', value )}}
-          value={!multiSelect && messageConversation.status}
-          children={
-            [
-              <MenuItem key={'OPEN'} value={'OPEN'} primaryText="Open" />,
-              <MenuItem key={'PENDING'} value={'PENDING'} primaryText="Pending" />,
-              <MenuItem key={'INVALID'} value={'INVALID'} primaryText="Invalid" />,
-              <MenuItem key={'SOLVED'} value={'SOLVED'} primaryText="Solved" />
-            ]
-          }
-        />
-        <CustomDropDown
-          gridColumn={2}
-          floatingLabelText={'Priority'}
-          onChange={(event, key, value) => this.updateMessageConversation( multiSelect ? this.props.checkedIds.map(id => id.id) : [messageConversation.id], 'PRIORITY', value )}
-          value={!multiSelect && messageConversation.priority}
-          children={
-            [
-              <MenuItem key={'LOW'} value={'LOW'} primaryText="Low" />,
-              <MenuItem key={'MEDIUM'} value={'MEDIUM'} primaryText="Medium" />,
-              <MenuItem key={'HIGH'} value={'HIGH'} primaryText="High" />
-            ]
-          }
-        />
-        <CustomDropDown
-          gridColumn={3}
-          floatingLabelText={'Assignee'}
-          value={assigneValue}
-          children={
-            [
-              <MenuItem key={assigneValue} value={assigneValue} primaryText={assigneValue} />,
-              <SuggestionField
-                updateMessageConversation={(chip) => this.updateMessageConversation( multiSelect ? this.props.checkedIds.map(id => id.id) : [messageConversation.id], 'ASSIGNEE', chip.id )}
-                key={'suggestionField'}
-                label={'Assignee'}
-              />
-            ]
-          }
-        />
+        {this.props.displayExtendedChoices && <div style={{
+          display: 'grid',
+          gridArea: '1 / 1',
+          gridTemplateColumns: '32% 32% 32%',
+          gridColumnGap: '1%',
+          height: '48px',
+          width: '100%',
+        }}>
+          <CustomDropDown
+            style={{
+              height: '48px',
+            }}
+            gridColumn={1}
+            floatingLabelText={'Status'}
+            value={!multiSelect && messageConversation.status}
+            children={
+              extendedChoices.STATUS.map(elem =>
+                <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation([messageConversation.id], 'STATUS', elem.key)} />
+              )
+            }
+          />
+          <CustomDropDown
+            style={{
+              height: '48px',
+            }}
+            gridColumn={2}
+            floatingLabelText={'Priority'}
+            value={!multiSelect && messageConversation.priority}
+            children={
+              [
+                extendedChoices.PRIORITY.map(elem =>
+                  <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation([messageConversation.id], 'PRIORITY', elem.key)} />
+                )
+              ]
+            }
+          />
+          <CustomDropDown
+            style={{
+              height: '48px',
+            }}
+            gridColumn={3}
+            floatingLabelText={'Assignee'}
+            value={assigneValue}
+            children={
+              [
+                <MenuItem key={assigneValue} value={assigneValue} primaryText={assigneValue} />,
+                <SuggestionField
+                  updateMessageConversation={(chip) => this.updateMessageConversation([messageConversation.id], 'ASSIGNEE', chip.id)}
+                  key={'suggestionField'}
+                  label={'Assignee'}
+                />
+              ]
+            }
+          />
+        </div>}
+        <div
+          style={{
+            gridArea: '1 / 2',
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}>
+          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.props.deleteMessageConversations([child.id], this.props.selectedMessageType)} icon={'delete'} tooltip={'Delete'} />
+          <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.props.markMessageConversationsUnread([child.id], this.props.selectedMessageType)} icon={'markunread'} tooltip={'Mark as unread'} />
+        </div>
       </div>
     )
   }
@@ -96,7 +123,10 @@ export default compose(
     }
     ,
     dispatch => ({
+      deleteMessageConversations: (messageConversationIds, messageType) => dispatch({ type: actions.DELETE_MESSAGE_CONVERSATIONS, payload: { messageConversationIds, messageType } }),
       updateMessageConversations: (messageConversationIds, identifier, value, messageType) => dispatch({ type: actions.UPDATE_MESSAGE_CONVERSATIONS, payload: { messageConversationIds, identifier, value, messageType } }),
+      markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
+      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
     }),
   ),
 )(ExtendedChoicePicker);
