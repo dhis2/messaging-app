@@ -13,9 +13,11 @@ import Divider from 'material-ui/Divider';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
 import CustomFontIcon from './CustomFontIcon';
+import AssignToDialog from './AssignToDialog';
 
 import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
+import MessageConversation from './MessageConversation';
 
 class ExtendedChoicePicker extends Component {
   constructor(props) {
@@ -24,17 +26,22 @@ class ExtendedChoicePicker extends Component {
     this.state = {
       checkedItems: false,
       dialogOpen: false,
+      assignToOpen: false,
     };
   }
 
+  getIds() {
+    return this.props.messageConversation ? [this.props.messageConversation.id] : this.props.checkedIds.map(id => id.id);
+  }
+
   updateMessageConversation = (identifier, value) => {
-    this.props.updateMessageConversations(this.props.checkedIds.map(id => id.id), identifier, value, this.props.selectedMessageType)
+    const ids = this.getIds()
+    this.props.updateMessageConversations(ids, identifier, value, this.props.selectedMessageType)
     this.props.clearCheckedIds && this.props.clearCheckedIds()
   }
 
   markMessageConversations(mode) {
-    const ids = []
-    this.props.checkedIds.forEach(id => ids.push(id.id))
+    const ids = this.getIds()
     if (mode == 'unread') {
       this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType)
     } else if (mode == 'read') {
@@ -63,7 +70,7 @@ class ExtendedChoicePicker extends Component {
         primary={true}
         keyboardFocused={true}
         onClick={() => {
-          this.props.deleteMessageConversations(this.props.checkedIds.map(id => id.id), this.props.selectedMessageType)
+          this.props.deleteMessageConversations(this.getIds(), this.props.selectedMessageType)
           this.toogleDialog()
           this.props.clearCheckedIds()
         }}
@@ -73,18 +80,22 @@ class ExtendedChoicePicker extends Component {
     return (
       <div
         style={{
-          gridArea: '1 / 2',
+          gridArea: this.props.gridArea,
           display: 'flex',
-          justifyContent: 'flex-start',
+          justifyContent: this.props.justifyContent,
+          width: '100%',
+          marginRight: '10px'
         }}>
         <Dialog
-          title="Are you sure you want to delete selected message conversations?"
+          title="Are you sure you want to delete selected message conversation(s)?"
           actions={actions}
           modal={false}
           open={this.state.dialogOpen}
           onRequestClose={this.toogleDialog}
         />
-        <Subheader style={{ padding: '0px 0px' }} > {this.props.numberOfCheckedIds} selected </Subheader>
+        <AssignToDialog open={this.state.assignToOpen} onRequestClose={() => this.setState({ assignToOpen: !this.state.assignToOpen})} updateMessageConversations={(id) => this.updateMessageConversation('ASSIGNEE', id)}/>
+
+        {!this.props.messageConversation && <Subheader style={{ padding: '0px 0px' }} > {this.props.numberOfCheckedIds} selected </Subheader>}
         <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
         <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
         <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
@@ -106,6 +117,8 @@ class ExtendedChoicePicker extends Component {
               <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation('PRIORITY', elem.key)}/>
             )
           }
+          <Divider />
+          <MenuItem key={'assignTo'} value={'assignTo'} primaryText={'Assign to'} onClick={() => this.setState({ assignToOpen: !this.state.assignToOpen })} />
         </IconMenu>}
       </div>
     )

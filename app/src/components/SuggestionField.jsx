@@ -100,6 +100,7 @@ class SuggestionField extends Component {
         style={{ marginBottom: 16 }}
         value={this.props.selectedList}
         fullWidth
+        openOnFocus={true}
         searchText={this.state.input}
         floatingLabelText={this.props.label}
         dataSource={this.props.suggestions}

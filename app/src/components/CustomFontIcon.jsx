@@ -12,7 +12,6 @@ const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
     <IconButton
       style={{
         marginTop: '0px',
-        marginRight: '10px',
         padding: '0px',
       }}
       tooltip={tooltip}

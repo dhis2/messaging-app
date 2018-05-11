@@ -11,6 +11,8 @@ import NavigationBack from 'material-ui-icons/ArrowBack';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import ViewList from 'material-ui-icons/ViewList';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader/Subheader';
 import { ToolbarSeparator } from 'material-ui/Toolbar';
 import MailIcon from 'material-ui-icons/MailOutline';
@@ -26,8 +28,10 @@ import MessageConversation from './MessageConversation';
 import MessageConversationList from './MessageConversationList';
 import ExtendedChoicePicker from './ExtendedChoicePicker';
 import CreateMessage from './CreateMessage';
-
 import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
+
+import extendedChoices from '../constants/extendedChoices'
+
 
 import history from 'utils/history';
 
@@ -40,7 +44,9 @@ class MessagingCenter extends Component {
 
     this.state = {
       checkedItems: false,
-      dialogOpen: false,
+      wideview: true,
+      statusFilter: null,
+      priorityFilter: null,
     };
   }
 
@@ -85,11 +91,11 @@ class MessagingCenter extends Component {
         <Paper style={{
           gridArea: '1 / 1 / span 1 / span 3',
           display: 'grid',
-          gridTemplateColumns: 'minmax(150px, 15%) 20% 65%',
+          gridTemplateColumns: 'minmax(150px, 15%) 20% 20% 45%',
           backgroundColor: checkedOptions ? theme.palette.accent3Color : theme.palette.accent2Color,
           zIndex: 10,
         }}>
-          {messageType == 'PRIVATE' && <FlatButton
+          {messageType == 'PRIVATE' && !checkedOptions && <FlatButton
             style={{
               display: 'flex',
               justifyContent: 'flex-start',
@@ -97,10 +103,24 @@ class MessagingCenter extends Component {
               gridArea: '1 / 1',
               width: '150px'
             }}
-            icon={!checkedOptions ? <CreateMessageIcon /> : <NavigationBack />}
-            onClick={() => checkedOptions ? this.props.clearCheckedIds() : history.push('/' + messageType + '/create')}
-            label={checkedOptions ? "Back" : "Compose"}
+            icon={<CreateMessageIcon />}
+            onClick={() => history.push('/' + messageType + '/create')}
+            label={"Compose"}
           />}
+
+          {checkedOptions && <FlatButton
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignSelf: 'center',
+              gridArea: '1 / 1',
+              width: '150px'
+            }}
+            icon={<NavigationBack />}
+            onClick={() => this.props.clearCheckedIds()}
+            label={"Back"}
+          />}
+
           {!checkedOptions && <TextField
             style={{
               gridArea: '1 / 2',
@@ -114,19 +134,77 @@ class MessagingCenter extends Component {
             margin="normal"
           />}
 
-          {checkedOptions && <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices}/>}
+          {checkedOptions && <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} gridArea={'1 / 2'} justifyContent={'flex-start'} />}
+
+          {displayExtendedChoices && <div style={{
+            gridArea: '1 / 3',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginLeft: '10px',
+            height: headerHight,
+          }}>
+          <SelectField
+            style={{width: '150px', height: headerHight}}
+            labelStyle={{color: this.state.statusFilter == null ? 'lightGray' : 'black', top: this.state.statusFilter == null ? '-15px' : '-5px'}}
+            selectedMenuItemStyle={{color: 'orange'}}
+            floatingLabelText={this.state.statusFilter == null ? 'Status' : ''}
+            floatingLabelStyle={{
+              top: '15px'
+            }}
+            iconStyle={{
+              top: this.state.statusFilter == null ? '-15px' : '0px'
+            }}
+            value={this.state.statusFilter}
+            onChange={(event, key, payload) => {
+              this.setState({
+                statusFilter: payload
+              })
+            }}
+          >
+            <MenuItem key={null} value={null} primaryText={''} />
+            {extendedChoices.STATUS.map(elem =>
+              <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} />
+            )}
+          </SelectField>
+
+          <SelectField
+            style={{width: '150px', height: headerHight}}
+            labelStyle={{color: this.state.priorityFilter == null ? 'lightGray' : 'black', top: this.state.priorityFilter == null ? '-15px' : '-5px'}}
+            selectedMenuItemStyle={{color: 'orange'}}
+            floatingLabelText={this.state.priorityFilter == null ? 'Priority' : ''}
+            floatingLabelStyle={{
+              top: '15px'
+            }}
+            iconStyle={{
+              top: this.state.priorityFilter == null ? '-15px' : '0px'
+            }}
+            value={this.state.priorityFilter}
+            onChange={(event, key, payload) => {
+              this.setState({
+                priorityFilter: payload
+              })
+            }}
+          >
+            <MenuItem key={null} value={null} primaryText={''} />
+            {extendedChoices.PRIORITY.map(elem =>
+              <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} />
+            )}
+          </SelectField>
+          </div>}
+
           <div style={{
-              gridArea: '1 / 3',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignSelf: 'center',
-            }}>
-              <FlatButton
-                style={{ textAlign: 'right', marginRight: '5px' }}
-                icon={<ViewList style={{ marginRight: '5px' }} />}
-                onClick={() => this.toogleWideview()}
-              />
-            </div>
+            gridArea: '1 / 4',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignSelf: 'center',
+          }}>
+            <FlatButton
+              style={{ textAlign: 'right', marginRight: '5px' }}
+              icon={<ViewList style={{ marginRight: '5px' }} />}
+              onClick={() => this.toogleWideview()}
+            />
+          </div>
         </Paper>
 
         <SidebarList {...this.props} drawerOpen={this.state.drawerOpen} gridColumn={1} messageTypes={this.props.messageTypes} />
@@ -135,10 +213,10 @@ class MessagingCenter extends Component {
           <CreateMessage wideview={this.state.wideview} />}
 
         {
-          id != 'create' ? 
-            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview } />
-           : !this.state.wideview &&
-            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview } />
+          id != 'create' ?
+            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview} statusFilter={this.state.statusFilter} priorityFilter={this.state.priorityFilter} />
+            : !this.state.wideview &&
+            <MessageConversationList wideview={this.state.wideview} displayExtendedChoices={displayExtendedChoices && this.state.wideview} />
         }
 
         {(this.props.selectedMessageConversation && id != 'create') ?

@@ -29,7 +29,6 @@ class ExtendedChoicePicker extends Component {
     } else if (mode == 'read') {
       this.props.markMessageConversationsRead(ids, this.props.selectedMessageType)
     }
-    this.props.clearCheckedIds()
   }
 
   render() {

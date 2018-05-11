@@ -15,7 +15,7 @@ import Divider from 'material-ui/Divider';
 import Message from './Message'
 import ReplyCard from './ReplyCard'
 import CustomFontIcon from './CustomFontIcon'
-import ExtendedChoicePicker from './ExtendedChoicePicker'
+import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker'
 
 import { messageConversationContainer, messagePanelContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
@@ -38,7 +38,7 @@ class MessageConversationListItem extends Component {
   getBackgroundColor = (messageConversation, checked) => {
     const selectedMessageConversation = this.props.selectedMessageConversation && messageConversation.id == this.props.selectedMessageConversation.id;
 
-    if ( checked && !selectedMessageConversation ) {
+    if (checked && !selectedMessageConversation) {
       return theme.palette.blue50
     } else if (selectedMessageConversation) {
       return theme.palette.accent3Color
@@ -62,7 +62,7 @@ class MessageConversationListItem extends Component {
     const messageConversation = this.props.messageConversation;
     const message = messageConversation.messages[0];
     const title = message.sender ? message.sender.displayName : this.props.selectedMessageType.displayName;
-    const checked = _.find(this.props.checkedIds, {'id' : messageConversation.id}) != undefined;
+    const checked = _.find(this.props.checkedIds, { 'id': messageConversation.id }) != undefined;
 
     const displayExtendedChoices = this.props.displayExtendedChoices;
 
@@ -70,8 +70,8 @@ class MessageConversationListItem extends Component {
       <Paper style={{
         backgroundColor: this.getBackgroundColor(messageConversation, checked),
         display: 'grid',
-        gridTemplateColumns: '20% 20% 15% 45%',
-        gridTemplateRows: '10% 90%',
+        gridTemplateColumns: this.props.wideview ? '50% 10% 10% 10% 20%' : '50% 0% 0% 0% 50%',
+        gridTemplateRows: '15% 85%',
         transition: 'all 0.2s ease-in-out',
         margin: this.props.wideview ? '10px 10px 10px 10px' : '',
         borderLeftStyle: !messageConversation.read && !this.state.expanded ? 'solid' : '',
@@ -110,10 +110,8 @@ class MessageConversationListItem extends Component {
           }}
         />
 
-        <ExtendedChoicePicker messageConversation={messageConversation} displayExtendedChoices={displayExtendedChoices}/>
-
-        <CardText style={{
-          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 3' : '2 / 1 / span 1 / span 4',
+         <CardText style={{
+          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 1' : '2 / 1 / span 1 / span 5',
           overflow: this.state.expanded ? 'auto' : 'hidden',
           textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
           whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
@@ -122,9 +120,24 @@ class MessageConversationListItem extends Component {
         }}>
           {message.text}
         </CardText>
+
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/2'} title={'Status'} label={messageConversation.status} /> }
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/3'} title={'Priority'} label={messageConversation.priority} /> }
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/4'} title={'Assignee'} label={messageConversation.assignee ? messageConversation.assignee.displayName : undefined} /> }
+
+        <ToolbarExtendedChoicePicker messageConversation={messageConversation} displayExtendedChoices={displayExtendedChoices} gridArea={'1 / 5'} justifyContent={'flex-end'} />
       </Paper>
     )
   }
+}
+
+const ExtendedChoiceLabel = ({ gridArea, title, label }) => {
+  return (
+    <div style={{ gridArea: gridArea }}>
+      <Subheader style={{ height: '32px' }}> {title} </Subheader>
+      <Subheader style={{ color: 'black', height: '32px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} > {label ? label : 'None'} </Subheader>
+    </div>
+  )
 }
 
 export default compose(
