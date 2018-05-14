@@ -41,7 +41,6 @@ class SidebarList extends Component {
     const relativePath = gridColumn == 1 ? "/" : "/" + messageType + "/";
     const messageTypes = this.props.messageTypes;
 
-    const loading = !_.find(this.props.messageTypes, {id: messageType}).loading
     return (
       <div style={{
         display: 'flex',
@@ -71,9 +70,9 @@ class SidebarList extends Component {
                       onClick={() => {
                         this.props.setSelectedMessageType(messageType.id)
                         history.push( '/' + messageType.id)
-                      }}              
+                      }}
                       selectedMessageType={this.props.selectedMessageType}
-                      loading={loading}
+                      loading={messageType.loading}
                       />
                     <Divider />
                   </div>

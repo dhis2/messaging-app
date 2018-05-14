@@ -55,13 +55,27 @@ class MessagingCenter extends Component {
     const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
     this.props.messageTypes.map(messageType => {
-      this.props.loadMessageConversations(messageType, selectedMessageType, selectedId);
+      this.props.loadMessageConversations(messageType, selectedMessageType, selectedId, this.props.messageFilter);
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.selectedMessageType || this.props.selectedMessageType.id != nextProps.selectedMessageType.id) {
+      this.setState({
+        statusFilter: null,
+        priorityFilter: null,
+      })
+    }
+
+    if ( this.props.messageFilter != nextProps.messageFilter ) {
+      const selectedMessageConversationId = nextProps.selectedMessageConversation ? nextProps.selectedMessageConversation.id : undefined;
+      this.props.loadMessageConversations(nextProps.selectedMessageType, nextProps.selectedMessageType.id, selectedMessageConversationId, nextProps.messageFilter);
+    }
   }
 
   loadMoreMessageConversations(messageType) {
     let messageTypeState = _.find(this.props.messageTypes, { id: messageType });
-    this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1);
+    this.props.loadMessageConversations(messageTypeState.id, messageTypeState.page + 1, this.props.messageFilter);
   }
 
   componentDidUpdate() {
@@ -92,7 +106,7 @@ class MessagingCenter extends Component {
           gridArea: '1 / 1 / span 1 / span 3',
           display: 'grid',
           gridTemplateColumns: 'minmax(150px, 15%) 20% 20% 45%',
-          backgroundColor: checkedOptions ? theme.palette.accent3Color : theme.palette.accent2Color,
+          backgroundColor: checkedOptions ? theme.palette.blue50 : theme.palette.accent2Color,
           zIndex: 10,
         }}>
           {messageType == 'PRIVATE' && !checkedOptions && <FlatButton
@@ -129,6 +143,7 @@ class MessagingCenter extends Component {
             }}
             fullWidth
             hintText={'Search'}
+            value={this.props.messageFilter}
             onChange={(event, messageFilter) => this.props.setMessageFilter(messageFilter)}
             type="search"
             margin="normal"
@@ -147,7 +162,7 @@ class MessagingCenter extends Component {
           <SelectField
             style={{width: '150px', height: headerHight}}
             labelStyle={{color: this.state.statusFilter == null ? 'lightGray' : 'black', top: this.state.statusFilter == null ? '-15px' : '-5px'}}
-            selectedMenuItemStyle={{color: 'orange'}}
+            selectedMenuItemStyle={{color: theme.palette.primary1Color}}
             floatingLabelText={this.state.statusFilter == null ? 'Status' : ''}
             floatingLabelStyle={{
               top: '15px'
@@ -171,13 +186,13 @@ class MessagingCenter extends Component {
           <SelectField
             style={{width: '150px', height: headerHight}}
             labelStyle={{color: this.state.priorityFilter == null ? 'lightGray' : 'black', top: this.state.priorityFilter == null ? '-15px' : '-5px'}}
-            selectedMenuItemStyle={{color: 'orange'}}
+            selectedMenuItemStyle={{color: theme.palette.primary1Color}}
             floatingLabelText={this.state.priorityFilter == null ? 'Priority' : ''}
             floatingLabelStyle={{
               top: '15px'
             }}
             iconStyle={{
-              top: this.state.priorityFilter == null ? '-15px' : '0px'
+              top: this.state.priorityFilter == null ? '-15px' : '0px',
             }}
             value={this.state.priorityFilter}
             onChange={(event, key, payload) => {
@@ -249,6 +264,7 @@ export default compose(
       return {
         messageTypes: state.messaging.messageTypes,
         messageConversations: state.messaging.messageConversations,
+        messageFilter: state.messaging.messageFilter,
         selectedMessageType: state.messaging.selectedMessageType,
         selectedMessageConversation: state.messaging.selectedMessageConversation,
         checkedIds: state.messaging.checkedIds,
@@ -257,7 +273,7 @@ export default compose(
       }
     },
     dispatch => ({
-      loadMessageConversations: (messageType, selectedMessageType, selectedId) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, selectedMessageType, selectedId } }),
+      loadMessageConversations: (messageType, selectedMessageType, selectedId, messageFilter) => dispatch({ type: actions.LOAD_MESSAGE_CONVERSATIONS, payload: { messageType, selectedMessageType, selectedId, messageFilter } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),

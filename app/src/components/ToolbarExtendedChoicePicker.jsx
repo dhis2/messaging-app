@@ -37,7 +37,7 @@ class ExtendedChoicePicker extends Component {
   updateMessageConversation = (identifier, value) => {
     const ids = this.getIds()
     this.props.updateMessageConversations(ids, identifier, value, this.props.selectedMessageType)
-    this.props.clearCheckedIds && this.props.clearCheckedIds()
+    this.props.checkedIds.length > 0 && this.props.clearCheckedIds()
   }
 
   markMessageConversations(mode) {
@@ -47,7 +47,7 @@ class ExtendedChoicePicker extends Component {
     } else if (mode == 'read') {
       this.props.markMessageConversationsRead(ids, this.props.selectedMessageType)
     }
-    this.props.clearCheckedIds()
+    this.props.checkedIds.length > 0 && this.props.clearCheckedIds()
   }
 
   toogleDialog() {

@@ -18,7 +18,6 @@ export const subheader_minilist = {
 export const messagePanelContainer = {
   overflowY: 'scroll',
   overflowX: 'hidden',
-  borderRightStyle: 'solid',
   borderRightWidth: '1px',
   borderRightColor: theme.palette.accent4Color,
   height: 'calc(100vh - 100px)',

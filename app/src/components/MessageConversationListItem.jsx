@@ -30,7 +30,6 @@ class MessageConversationListItem extends Component {
 
     this.state = {
       backgroundColor: theme.palette.canvasColor,
-      expanded: props.expanded != undefined ? props.expanded : true,
       cursor: 'auto',
     }
   }
@@ -86,6 +85,7 @@ class MessageConversationListItem extends Component {
           const onClick = event.target.innerText != undefined && event.target.innerText != ''
           onClick && this.onClick(messageConversation)
           onClick && this.props.clearCheckedIds()
+          onClick && this.props.wideview && this.props.setMessageFilter( '' ) 
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
@@ -112,9 +112,9 @@ class MessageConversationListItem extends Component {
 
          <CardText style={{
           gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 1' : '2 / 1 / span 1 / span 5',
-          overflow: this.state.expanded ? 'auto' : 'hidden',
-          textOverflow: this.state.expanded ? 'initial' : 'ellipsis',
-          whiteSpace: this.state.expanded ? 'normal' : 'nowrap',
+          overflow: this.props.wideview ? 'auto' : 'hidden',
+          textOverflow: this.props.wideview ? 'initial' : 'ellipsis',
+          whiteSpace: this.props.wideview ? 'normal' : 'nowrap',
           padding: '10px',
           fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
         }}>
@@ -156,6 +156,7 @@ export default compose(
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+      setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
     }),
   ),
 )(MessageConversationListItem);

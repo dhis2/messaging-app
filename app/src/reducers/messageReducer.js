@@ -12,7 +12,7 @@ export const initialState = {
     messageTypes: messageTypes,
     selectedMessageType: undefined,
     checkedIds: [],
-    messsageFilter: '',
+    messageFilter: '',
     snackMessage: '',
     snackType: NEUTRAL,
 };
@@ -53,7 +53,7 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
-            }
+            };
 
         case actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS:
             let snackMessage = ''
@@ -73,58 +73,42 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 snackMessage: snackMessage,
                 snackType: POSITIVE,
-            }
+            };
         
         case actions.MESSAGE_CONVERSATION_DELETE_ERROR:
             return {
                 ...state,
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
-            }
+            };
 
         case actions.MESSAGE_CONVERSATION_DELETE_SUCCESS:
             return {
                 ...state,
                 snackMessage: 'Successfully deleted message conversation',
                 snackType: POSITIVE,
-            }
+            };
 
         case actions.MESSAGE_CONVERSATIONS_DELETE_ERROR:
             return {
                 ...state,
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
-            }
+            };
             
         case actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS:
             return {
                 ...state,
                 snackMessage: 'Successfully deleted message conversations',
                 snackType: POSITIVE,
-            }
+            };
 
         case actions.CLEAR_SNACK_MESSAGE:
             return {
                 ...state,
                 snackMessage: '',
                 snackType: NEUTRAL,
-            }
-
-        /*case actions.MESSAGE_CONVERSATIONS_UPDATE_SUCCESS:
-            let updateMessageType = action.messageConversations[0].messageType
-            let messageConversations = state.messageConversations[updateMessageType]
-
-            action.messageConversations.map( messageConversation => {
-                messageConversations.splice( [_.findIndex(messageConversations, { 'id': messageConversation.id })], 1, messageConversation )
-            })
-
-            return {
-                ...state,
-                messageConversations: {
-                    ...state.messageConversations,
-                    [updateMessageType]: messageConversations
-                },
-            };*/
+            };
         
         case actions.SET_SELECTED_VALUE:
             let messageConversation = action.payload.messageConversation
@@ -146,13 +130,13 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: [],
-            }
+            };
         
         case actions.SET_SELECTED_MESSAGE_CONVERSATION:
             return {
                 ...state,
                 selectedMessageConversation: action.payload.messageConversation
-            }
+            };
 
         case actions.SET_SELECTED_MESSAGE_TYPE:
             return {
@@ -161,19 +145,19 @@ function messageReducer(state = initialState, action) {
                 selectedMessageType: _.find(state.messageTypes, { id: action.payload.messageTypeId }),
                 selectedMessageConversations: state.messageConversations[action.payload.messageTypeId],
                 selectedMessageConversation: undefined,
-            }
+            };
         
         case actions.SET_MESSAGE_FILTER:
             return {
                 ...state,
-                messsageFilter: action.payload.messageFilter
+                messageFilter: action.payload.messageFilter
             };
         
         case actions.LOAD_MESSAGE_CONVERSATIONS:
             let loadingMessageType = action.payload.messageType
             loadingMessageType.loading = true
 
-            messageTypes.splice( [_.findIndex(messageTypes, { 'id': loadingMessageType.id })], 1, loadingMessageType)
+            messageTypes[_.findIndex(messageTypes, { 'id': loadingMessageType.id })] = loadingMessageType
             return {
                 ...state,
                 messageTypes: messageTypes,

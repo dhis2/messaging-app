@@ -65,7 +65,7 @@ class MessageTypeItem extends Component {
         }}>
           {this.props.messageType.displayName}
         </Subheader>
-        {!this.props.loading ?
+        {this.props.loading ?
             <CircularProgress style={{marginRight: '10px'}} color={theme.palette.primary2Color} />
           : this.props.messageType.unread > 0 &&
           <Badge style={{ marginTop: '12px', marginRight: '5px' }} badgeContent={this.props.messageType.unread} secondary={true} badgeStyle={{ backgroundColor: '#439E8E' }} />}

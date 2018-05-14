@@ -9,9 +9,9 @@ const extendedChoices = {
   ,
   PRIORITY:
     [
-      { key: 'LOW', value: 'LOW', primaryText: "Low" },
-      { key: 'MEDIUM', value: 'MEDIUM', primaryText: "Medium" },
       { key: 'HIGH', value: 'HIGH', primaryText: "High" },
+      { key: 'MEDIUM', value: 'MEDIUM', primaryText: "Medium" },
+      { key: 'LOW', value: 'LOW', primaryText: "Low" },
     ]
 };
 

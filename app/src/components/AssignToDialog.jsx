@@ -25,11 +25,15 @@ class AssignToDialog extends Component {
       <Dialog
         open={this.props.open}
         onRequestClose={() => {
-          this.props.selectedList.length > 0 && this.props.updateMessageConversations(this.props.selectedList.map(id => id.id)[0])
           this.props.onRequestClose();
         }}
       >
         <SuggestionField
+          updateMessageConversation={(chip) => {
+            this.props.updateMessageConversations([chip.id]);
+            this.props.onRequestClose();
+            this.props.clearRecipientSearch();
+          }}
           key={'suggestionField'}
           label={'Assignee'}
         />
@@ -47,6 +51,7 @@ export default compose(
     }
     ,
     dispatch => ({
+      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
     }),
   ),
 )(AssignToDialog);

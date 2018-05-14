@@ -32,7 +32,9 @@ class MessageConversationList extends Component {
     const displayMessageList = !this.props.wideview || this.props.selectedMessageConversation == undefined;
 
     const gridArea = this.props.wideview ? '2 / 2 / span 1 / span 2' : '2 / 2 / span 1 / span 1';
-    const children = this.props.messageConversations[this.props.selectedMessageType.id];
+    const children =  _.uniqWith(this.props.messageConversations[this.props.selectedMessageType.id], _.isEqual)
+    .filter(child => (child.status == this.props.statusFilter || this.props.statusFilter == null) && (child.priority == this.props.priorityFilter || this.props.priorityFilter == null) ) 
+
     const messageType = this.props.selectedMessageType ? this.props.selectedMessageType : '';
     const selectedValue = this.props.selectedMessageConversation ? this.props.selectedMessageConversation.id : '';
 
@@ -44,20 +46,18 @@ class MessageConversationList extends Component {
           onScroll={() => this.onScroll(this.props.selectedMessageType)}
           style={{
             gridArea: gridArea,
+            borderRightStyle:this.props.wideview ? '' : 'solid',
             ...messagePanelContainer
           }}>
           
           {(children && children.length != 0) ?
-            _.uniqWith(children, _.isEqual)
-              .filter(child => (child.status == this.props.statusFilter || this.props.statusFilter == null) && (child.priority == this.props.priorityFilter || this.props.priorityFilter == null) ) 
-              .map(child => {
+              children.map(child => {
                 return (
                   <MessageConversationListItem
                     key={child.id}
                     messageConversation={child}
                     wideview={this.props.wideview}
                     selectedValue={selectedValue}
-                    expanded={false}
                     notification={notification}
                     displayExtendedChoices={this.props.displayExtendedChoices}
                   />

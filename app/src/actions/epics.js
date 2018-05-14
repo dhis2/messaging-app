@@ -121,7 +121,7 @@ const loadMessageConversations = action$ =>
   )
     .mergeMap(action =>
       api
-        .getMessageConversations(action.payload.messageType.id, action.payload.messageType.page)
+        .getMessageConversations(action.payload.messageType.id, action.payload.messageType.page, action.payload.messageFilter)
         .then(result =>
           api.getNrOfUnread(action.payload.messageType.id)
             .then(nrOfUnread => ({

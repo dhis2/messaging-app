@@ -12,9 +12,9 @@ export const getMessageConversationsWithIds = messageConversationIds =>
     });
 
 const order = 'lastMessage:desc';
-export const getMessageConversations = (messageType, page) =>
+export const getMessageConversations = (messageType, page, messageFilter) =>
   getD2Instance()
-    .then(instance => instance.Api.getApi().get(`messageConversations?pageSize=${pageSize}&page=` + page, { fields: [messageConversationFields], order, filter: `messageType:eq:${messageType}` }))
+    .then(instance => instance.Api.getApi().get(`messageConversations?pageSize=${pageSize}&page=${page}` + ( messageFilter != '' && messageFilter != undefined ? `&queryString=${messageFilter}` : '' ), { fields: [messageConversationFields], order, filter: `messageType:eq:${messageType}` }))
     .then(result => ({ messageConversations: result.messageConversations, pager: result.pager}))
     .catch(error => {
       throw new Error(error);
