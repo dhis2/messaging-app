@@ -1,15 +1,16 @@
 import theme from '../styles/theme';
+import { fontFamily } from '../constants/development'
 
 export const subheader = {
-  color: theme.palette.accent4Color,
   fontSize: '20px',
-  gridArea: '1 / 1'
+  gridArea: '1 / 1',
+  fontFamily: fontFamily,
 };
 
 export const subheader_minilist = {
   fontSize: '14px',
   paddingLeft: '50px',
-  fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
+  fontFamily: fontFamily,
   display: 'flex',
   alignSelf: 'center',
   gridArea: '1 / 1'
@@ -32,11 +33,3 @@ export const grid = {
   height: 'calc(100vh - 55px)',
   position: 'fixed'
 };
-
-export const tabsStyles = {
-  tabItem: {
-    color: theme.palette.textColor,
-    backgroundColor: theme.palette.accent2Color,
-    paddingBottom: '10px',
-  }
-}

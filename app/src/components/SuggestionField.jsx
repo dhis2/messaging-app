@@ -73,6 +73,7 @@ class SuggestionField extends Component {
   
       doInsert && this.props.setSelected( [...this.props.selectedList, chip] )
     }
+    this.props.clearRecipientSearch()
   };
 
   onRemoveChip = (id) => {
@@ -123,8 +124,8 @@ export default compose(
     },
     dispatch => ({
       searchForRecipients: searchValue => dispatch({ type: actions.RECIPIENT_SEARCH, payload: { searchValue } }),
+      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
       setSelected: selectedList => dispatch({ type: actions.SET_SELECTED, payload: { selectedList } }),
     }),
   ),
-  pure,
 )(SuggestionField);

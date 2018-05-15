@@ -19,7 +19,7 @@ import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
 import MessageConversation from './MessageConversation';
 
-class ExtendedChoicePicker extends Component {
+class ToolbarExtendedChoicePicker extends Component {
   constructor(props) {
     super(props)
 
@@ -31,7 +31,7 @@ class ExtendedChoicePicker extends Component {
   }
 
   getIds() {
-    return this.props.messageConversation ? [this.props.messageConversation.id] : this.props.checkedIds.map(id => id.id);
+    return this.props.selectedMessageConversation ? [this.props.selectedMessageConversation.id] : this.props.checkedIds.map(id => id.id);
   }
 
   updateMessageConversation = (identifier, value) => {
@@ -55,9 +55,9 @@ class ExtendedChoicePicker extends Component {
   };
 
   render() {
-    const messageConversation = this.props.messageConversation;
-    const multiSelect = !messageConversation;
-    const assigneValue = multiSelect ? '' : messageConversation.assignee != undefined ? messageConversation.assignee.displayName : 'None';
+    const messageConversation = this.props.selectedMessageConversation;
+    const multiSelect = this.props.checkedIds.length > 0;
+    const display = multiSelect || messageConversation != undefined;
 
     const actions = [
       <FlatButton
@@ -77,14 +77,14 @@ class ExtendedChoicePicker extends Component {
       />,
     ];
 
+    const displayNumberOfCheckedIds = this.props.numberOfCheckedIds > 25 ? '25+' : this.props.numberOfCheckedIds;
+
     return (
-      <div
+      display ? <div
         style={{
-          gridArea: this.props.gridArea,
-          display: 'flex',
-          justifyContent: this.props.justifyContent,
-          width: '100%',
-          marginRight: '10px'
+          width: '400px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)'
         }}>
         <Dialog
           title="Are you sure you want to delete selected message conversation(s)?"
@@ -95,32 +95,37 @@ class ExtendedChoicePicker extends Component {
         />
         <AssignToDialog open={this.state.assignToOpen} onRequestClose={() => this.setState({ assignToOpen: !this.state.assignToOpen})} updateMessageConversations={(id) => this.updateMessageConversation('ASSIGNEE', id)}/>
 
-        {!this.props.messageConversation && <Subheader style={{ padding: '0px 0px' }} > {this.props.numberOfCheckedIds} selected </Subheader>}
-        <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
-        <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
-        <CustomFontIcon size={5} child={this.props.messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
-        {this.props.displayExtendedChoices && <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        >
-          <Subheader style={{ padding: '0px 16px' }} > Set status </Subheader>
-          {
-            extendedChoices.STATUS.map( elem => 
-              <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation('STATUS', elem.key)}/>
-            )
-          }
-          <Divider />
-          <Subheader style={{ padding: '0px 16px' }} > Set priority </Subheader>
-          {
-            extendedChoices.PRIORITY.map( elem => 
-              <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation('PRIORITY', elem.key)}/>
-            )
-          }
-          <Divider />
-          <MenuItem key={'assignTo'} value={'assignTo'} primaryText={'Assign to'} onClick={() => this.setState({ assignToOpen: !this.state.assignToOpen })} />
-        </IconMenu>}
-      </div>
+        {multiSelect && <Subheader style={{ gridArea: '1 / 1 / span 1 / span 1', padding: '0px 0px' }} > {displayNumberOfCheckedIds} selected </Subheader>}
+
+        <div style={{gridArea: '1 / 3 / span 1 / span 2'}}>
+          <CustomFontIcon size={5} child={messageConversation} onClick={(child) => this.toogleDialog()} icon={'delete'} tooltip={'Delete selected'} />
+          <CustomFontIcon size={5} child={messageConversation} onClick={(child) => this.markMessageConversations('unread')} icon={'markunread'} tooltip={'Mark selected as unread'} />
+          <CustomFontIcon size={5} child={messageConversation} onClick={(child) => this.markMessageConversations('read')} icon={'done'} tooltip={'Mark selected as read'} />
+          {this.props.displayExtendedChoices && <IconMenu
+            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+          >
+            <Subheader style={{ padding: '0px 16px' }} > Set status </Subheader>
+            {
+              extendedChoices.STATUS.map( elem => 
+                <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation('STATUS', elem.key)}/>
+              )
+            }
+            <Divider />
+            <Subheader style={{ padding: '0px 16px' }} > Set priority </Subheader>
+            {
+              extendedChoices.PRIORITY.map( elem => 
+                <MenuItem key={elem.key} value={elem.value} primaryText={elem.primaryText} onClick={() => this.updateMessageConversation('PRIORITY', elem.key)}/>
+              )
+            }
+            <Divider />
+            <MenuItem key={'assignTo'} value={'assignTo'} primaryText={'Assign to'} onClick={() => this.setState({ assignToOpen: !this.state.assignToOpen })} />
+          </IconMenu>}
+        </div>
+      </div> 
+      : 
+      <div/>
     )
   }
 }
@@ -130,6 +135,7 @@ export default compose(
     state => {
       return {
         selectedMessageType: state.messaging.selectedMessageType,
+        selectedMessageConversation: state.messaging.selectedMessageConversation,
         checkedIds: state.messaging.checkedIds,
         numberOfCheckedIds: state.messaging.checkedIds.length,
       }
@@ -143,4 +149,4 @@ export default compose(
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
     }),
   ),
-)(ExtendedChoicePicker);
+)(ToolbarExtendedChoicePicker);

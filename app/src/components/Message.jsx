@@ -23,6 +23,8 @@ import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';
 
+import { fontFamily } from '../constants/development';
+
 const moment = require('moment');
 
 class Message extends Component {
@@ -56,7 +58,7 @@ class Message extends Component {
         >
           <div style={{
             gridArea: '1 / 1',
-            fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
+            fontFamily: fontFamily,
           }}>
             {fromTitle}
           </div>
@@ -64,7 +66,7 @@ class Message extends Component {
           <CardText style={{
             gridArea: '2 / 1',
             padding: '16px 0px 16px 0px',
-            fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
+            fontFamily: fontFamily,
           }}>
             {message.text}
           </CardText>
@@ -84,7 +86,7 @@ class Message extends Component {
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
+              fontFamily: fontFamily,
             }}>
               {today.year() == messageDate.year() ? messageDate.format('MMM DD') : messageDate.format('ll')}
             </div>

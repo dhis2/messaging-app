@@ -21,7 +21,9 @@ import { messageConversationContainer, messagePanelContainer, subheader_minilist
 import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';
+import { fontFamily } from '../constants/development';
 
+const moment = require('moment');
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
 
 class MessageConversationListItem extends Component {
@@ -59,17 +61,20 @@ class MessageConversationListItem extends Component {
 
   render() {
     const messageConversation = this.props.messageConversation;
-    const message = messageConversation.messages[0];
+    const message = messageConversation.messages[messageConversation.messages.length - 1];
     const title = message.sender ? message.sender.displayName : this.props.selectedMessageType.displayName;
     const checked = _.find(this.props.checkedIds, { 'id': messageConversation.id }) != undefined;
 
     const displayExtendedChoices = this.props.displayExtendedChoices;
+    
+    const today = moment()
+    const messageDate = moment(message.created)
 
     return (
       <Paper style={{
         backgroundColor: this.getBackgroundColor(messageConversation, checked),
         display: 'grid',
-        gridTemplateColumns: this.props.wideview ? '50% 10% 10% 10% 20%' : '50% 0% 0% 0% 50%',
+        gridTemplateColumns: this.props.wideview ? '65% 10% 10% 10% 5%' : '50% 0% 0% 20% 30%',
         gridTemplateRows: '15% 85%',
         transition: 'all 0.2s ease-in-out',
         margin: this.props.wideview ? '10px 10px 10px 10px' : '',
@@ -85,17 +90,18 @@ class MessageConversationListItem extends Component {
           const onClick = event.target.innerText != undefined && event.target.innerText != ''
           onClick && this.onClick(messageConversation)
           onClick && this.props.clearCheckedIds()
-          onClick && this.props.wideview && this.props.setMessageFilter( '' ) 
+          onClick && this.props.wideview && this.props.setMessageFilter('')
+          onClick && this.props.clearRecipientSearch( )
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
-        <Subheader style={{
+        <div style={{
           ...subheader_minilist,
-          color: theme.palette.accent4Color,
+          color: 'black',
         }}>
           {title}
-        </Subheader>
+        </div>
         <Checkbox
           checked={checked}
           style={{
@@ -110,22 +116,29 @@ class MessageConversationListItem extends Component {
           }}
         />
 
-         <CardText style={{
-          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 1' : '2 / 1 / span 1 / span 5',
-          overflow: this.props.wideview ? 'auto' : 'hidden',
-          textOverflow: this.props.wideview ? 'initial' : 'ellipsis',
-          whiteSpace: this.props.wideview ? 'normal' : 'nowrap',
+        <CardText style={{
+          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 1' : '2 / 1 / span 1 / span 4',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
           padding: '10px',
-          fontFamily: 'Roboto, Helvetica, Arial, sans-serif'
+          fontFamily: fontFamily,
         }}>
           {message.text}
         </CardText>
 
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/2'} title={'Status'} label={messageConversation.status} /> }
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/3'} title={'Priority'} label={messageConversation.priority} /> }
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/4'} title={'Assignee'} label={messageConversation.assignee ? messageConversation.assignee.displayName : undefined} /> }
-
-        <ToolbarExtendedChoicePicker messageConversation={messageConversation} displayExtendedChoices={displayExtendedChoices} gridArea={'1 / 5'} justifyContent={'flex-end'} />
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/2'} title={'Status'} label={messageConversation.status} />}
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/3'} title={'Priority'} label={messageConversation.priority} />}
+        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/4'} title={'Assignee'} label={messageConversation.assignee ? messageConversation.assignee.displayName : undefined} />}
+        <Subheader style={{
+          display: 'flex',
+          gridArea: '1 / 5',
+          justifyContent: 'flex-end',
+          paddingRight: '10px',
+          fontFamily: fontFamily,
+        }}>
+          {today.year() == messageDate.year() ? messageDate.format('MMM DD') : messageDate.format('ll')}
+        </Subheader>
       </Paper>
     )
   }
@@ -156,6 +169,7 @@ export default compose(
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
     }),
   ),

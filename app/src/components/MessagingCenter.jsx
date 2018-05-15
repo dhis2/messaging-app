@@ -132,7 +132,7 @@ class MessagingCenter extends Component {
             }}
             icon={<NavigationBack />}
             onClick={() => this.props.clearCheckedIds()}
-            label={"Back"}
+            label={"Undo"}
           />}
 
           {!checkedOptions && <TextField
@@ -148,8 +148,6 @@ class MessagingCenter extends Component {
             type="search"
             margin="normal"
           />}
-
-          {checkedOptions && <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} gridArea={'1 / 2'} justifyContent={'flex-start'} />}
 
           {displayExtendedChoices && <div style={{
             gridArea: '1 / 3',
@@ -211,12 +209,24 @@ class MessagingCenter extends Component {
           <div style={{
             gridArea: '1 / 4',
             display: 'flex',
+            flexDirection: 'row',
             justifyContent: 'flex-end',
             alignSelf: 'center',
           }}>
+            <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices}/>
+            <div style={{
+                borderRight: '1px solid black', 
+                alignSelf: 'center',
+                height: '26px',
+                padding: '5px'
+            }} />
             <FlatButton
-              style={{ textAlign: 'right', marginRight: '5px' }}
-              icon={<ViewList style={{ marginRight: '5px' }} />}
+              style={{
+                display: 'flex',
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}
+              icon={<ViewList />}
               onClick={() => this.toogleWideview()}
             />
           </div>
