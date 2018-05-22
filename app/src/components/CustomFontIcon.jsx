@@ -15,7 +15,7 @@ const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
         padding: '0px',
       }}
       tooltip={tooltip}
-      tooltipPosition="bottom-left"  
+      tooltipPosition="bottom-left"
     >
       {icon == 'delete' &&
         <Delete 

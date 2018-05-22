@@ -16,7 +16,6 @@ class AssignToDialog extends Component {
     super(props)
 
     this.state = {
-      assignId: undefined,
     }
   }
 
@@ -29,11 +28,11 @@ class AssignToDialog extends Component {
         }}
       >
         <SuggestionField
-          updateMessageConversation={(chip) => {
+          onSuggestionClick={(chip) => {
             this.props.updateMessageConversations([chip.id]);
             this.props.onRequestClose();
-            this.props.clearRecipientSearch();
           }}
+          recipients={[]}
           key={'suggestionField'}
           label={'Assignee'}
         />
@@ -46,12 +45,10 @@ export default compose(
   connect(
     state => {
       return {
-        selectedList: state.recipient.selected,
       }
     }
     ,
     dispatch => ({
-      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
     }),
   ),
 )(AssignToDialog);

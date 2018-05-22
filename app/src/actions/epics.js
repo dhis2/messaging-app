@@ -114,7 +114,6 @@ const loadMessageConversations = action$ =>
       actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
       actions.MARK_MESSAGE_CONVERSATIONS_UNREAD_SUCCESS,
       actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-      actions.MESSAGE_CONVERSATION_DELETE_SUCCESS,
       actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
       actions.SEND_MESSAGE_SUCCESS,
       actions.REPLY_MESSAGE_SUCCESS,
@@ -170,7 +169,7 @@ const sendMessage = action$ =>
   )
     .concatMap(action =>
       api
-        .sendMessage(action.payload.subject, action.payload.users, action.payload.message, action.payload.messageConversationId)
+        .sendMessage(action.payload.subject, action.payload.users, action.payload.userGroups, action.payload.organisationUnits, action.payload.message, action.payload.messageConversationId)
         .then(() => ({
           type: actions.SEND_MESSAGE_SUCCESS,
           payload: { messageType: action.payload.messageType, page: 1 }
@@ -187,7 +186,7 @@ const replyMessage = action$ =>
   )
     .concatMap(action =>
       api
-        .replyMessage(action.payload.message, action.payload.messageConversation.id)
+        .replyMessage(action.payload.message, action.payload.users, action.payload.userGroups, action.payload.organisationUnits, action.payload.messageConversation.id)
         .then(() => ({
           type: actions.REPLY_MESSAGE_SUCCESS,
           payload: { messageType: action.payload.messageType, page: 1 }
@@ -233,23 +232,6 @@ const markMessageConversationsUnread = action$ => {
 };
 
 
-const searchForRecipients = action$ =>
-  action$
-    .ofType(
-      actions.RECIPIENT_SEARCH,
-  )
-    .switchMap(action =>
-      api
-        .getUsers(action.payload.searchValue)
-        .then(suggestions => ({
-          type: actions.RECIPIENT_SEARCH_SUCCESS,
-          payload: { suggestions },
-        }))
-        .catch(error => ({
-          type: actions.RECIPIENT_SEARCH_ERROR,
-          payload: { error },
-        })));
-
 export default combineEpics(
   updateMessageConversations,
   updateMessageConversationStatus,
@@ -262,5 +244,4 @@ export default combineEpics(
   deleteMessageConversations,
   markMessageConversationsRead,
   markMessageConversationsUnread,
-  searchForRecipients
 );

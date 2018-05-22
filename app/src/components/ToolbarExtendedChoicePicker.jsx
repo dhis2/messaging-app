@@ -31,7 +31,7 @@ class ToolbarExtendedChoicePicker extends Component {
   }
 
   getIds() {
-    return this.props.selectedMessageConversation ? [this.props.selectedMessageConversation.id] : this.props.checkedIds.map(id => id.id);
+    return this.props.selectedMessageConversation && this.props.checkedIds.length == 0 ? [this.props.selectedMessageConversation.id] : this.props.checkedIds.map(id => id.id);
   }
 
   updateMessageConversation = (identifier, value) => {
@@ -77,7 +77,7 @@ class ToolbarExtendedChoicePicker extends Component {
       />,
     ];
 
-    const displayNumberOfCheckedIds = this.props.numberOfCheckedIds > 25 ? '25+' : this.props.numberOfCheckedIds;
+    const displayNumberOfCheckedIds = this.props.checkedIds.length > 25 ? '25+' : this.props.checkedIds.length;
 
     return (
       display ? <div
@@ -137,7 +137,6 @@ export default compose(
         selectedMessageType: state.messaging.selectedMessageType,
         selectedMessageConversation: state.messaging.selectedMessageConversation,
         checkedIds: state.messaging.checkedIds,
-        numberOfCheckedIds: state.messaging.checkedIds.length,
       }
     }
     ,
@@ -148,5 +147,7 @@ export default compose(
       markMessageConversationsUnread: (markedUnreadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD, payload: { markedUnreadConversations, messageType } }),
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
     }),
+    null,
+    { pure: false }
   ),
 )(ToolbarExtendedChoicePicker);

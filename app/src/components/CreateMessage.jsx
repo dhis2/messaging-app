@@ -22,6 +22,7 @@ class ReplyCard extends Component {
   state = {
     subject: '',
     input: '',
+    recipients: [],
   }
 
   subjectUpdate = (event, newValue) => {
@@ -34,11 +35,20 @@ class ReplyCard extends Component {
 
   sendMessage = () => {
     const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
-    this.props.sendMessage(this.state.subject, this.props.recipients, this.state.input, generateCode(), messageType)
+    const users = this.state.recipients.filter(r => r.type == 'user');
+    const userGroups = this.state.recipients.filter(r => r.type == 'userGroup')
+    const organisationUnits = this.state.recipients.filter(r => r.type == 'organisationUnit')
+    this.props.sendMessage(this.state.subject, users, userGroups, organisationUnits, this.state.input, generateCode(), messageType)
   }
 
   wipeInput = () => {
-    this.setState({ subject: '', input: '' })
+    this.setState({ subject: '', input: '', recipients: [] })
+  }
+
+  updateRecipients = (recipients) => {
+    this.setState({
+      recipients: recipients
+    })
   }
 
   render() {
@@ -51,7 +61,7 @@ class ReplyCard extends Component {
         <Subheader style={subheader}> {'Create'}</Subheader>
         <Card>
           <CardText>
-            <SuggestionField label={'To'} messageConversation={this.props.messageConversation} />
+            <SuggestionField label={'To'} messageConversation={this.props.messageConversation} recipients={this.state.recipients} updateRecipients={this.updateRecipients} />
             <TextField
               hintText="Subject"
               fullWidth
@@ -89,11 +99,10 @@ export default compose(
     state => {
       return {
         messageTypes: state.messaging.messageTypes,
-        recipients: state.recipient.selected
       }
     },
     dispatch => ({
-      sendMessage: (subject, users, message, messageConversationId, messageType) => dispatch({ type: actions.SEND_MESSAGE, payload: { subject, users, message, messageConversationId, messageType } }),
+      sendMessage: (subject, users, userGroups, organisationUnits, message, messageConversationId, messageType) => dispatch({ type: actions.SEND_MESSAGE, payload: { subject, users, userGroups, organisationUnits, message, messageConversationId, messageType } }),
     }),
   ),
   pure,

@@ -18,7 +18,7 @@ import CustomFontIcon from './CustomFontIcon'
 import CustomDropDown from './CustomDropDown'
 import SuggestionField from './SuggestionField'
 
-import { messageConversationContainer, messagePanelContainer, subheader } from '../styles/style';
+import { messageConversationContainer, subheader } from '../styles/style';
 import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';

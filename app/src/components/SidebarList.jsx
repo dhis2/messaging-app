@@ -60,7 +60,6 @@ class SidebarList extends Component {
                       onClick={() => {
                         this.props.setSelectedMessageType(messageType.id)
                         history.push( '/' + messageType.id)
-                        this.props.clearRecipientSearch( )
                       }}
                       selectedMessageType={this.props.selectedMessageType}
                       loading={messageType.loading}
@@ -86,7 +85,6 @@ export default compose(
     },
     dispatch => ({
       setSelectedMessageType: (messageTypeId) => dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
-      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
     }),
   ),

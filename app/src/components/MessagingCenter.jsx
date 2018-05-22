@@ -149,7 +149,7 @@ class MessagingCenter extends Component {
             margin="normal"
           />}
 
-          {displayExtendedChoices && <div style={{
+          {displayExtendedChoices && !checkedOptions && <div style={{
             gridArea: '1 / 3',
             display: 'flex',
             flexDirection: 'row',
@@ -249,6 +249,7 @@ class MessagingCenter extends Component {
             messageConversation={this.props.selectedMessageConversation}
             wideview={this.state.wideview}
             disableLink={true}
+            displayExtendedChoices={displayExtendedChoices}
           />
           :
           !this.state.wideview &&

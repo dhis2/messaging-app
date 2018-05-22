@@ -75,19 +75,6 @@ function messageReducer(state = initialState, action) {
                 snackType: POSITIVE,
             };
         
-        case actions.MESSAGE_CONVERSATION_DELETE_ERROR:
-            return {
-                ...state,
-                snackMessage: action.payload.error.message,
-                snackType: NEGATIVE,
-            };
-
-        case actions.MESSAGE_CONVERSATION_DELETE_SUCCESS:
-            return {
-                ...state,
-                snackMessage: 'Successfully deleted message conversation',
-                snackType: POSITIVE,
-            };
 
         case actions.MESSAGE_CONVERSATIONS_DELETE_ERROR:
             return {
@@ -99,7 +86,7 @@ function messageReducer(state = initialState, action) {
         case actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS:
             return {
                 ...state,
-                snackMessage: 'Successfully deleted message conversations',
+                snackMessage: 'Successfully deleted message conversation(s)',
                 snackType: POSITIVE,
             };
 
@@ -110,7 +97,7 @@ function messageReducer(state = initialState, action) {
                 snackType: NEUTRAL,
             };
         
-        case actions.SET_SELECTED_VALUE:
+        case actions.SET_CHECKED:
             let messageConversation = action.payload.messageConversation
 
             messageConversation.selectedValue = action.payload.selectedValue;

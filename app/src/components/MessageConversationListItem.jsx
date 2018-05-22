@@ -16,8 +16,9 @@ import Message from './Message'
 import ReplyCard from './ReplyCard'
 import CustomFontIcon from './CustomFontIcon'
 import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker'
+import ExtendedInformation from './ExtendedInformation'
 
-import { messageConversationContainer, messagePanelContainer, subheader_minilist } from '../styles/style';
+import { messageConversationContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';
@@ -74,7 +75,7 @@ class MessageConversationListItem extends Component {
       <Paper style={{
         backgroundColor: this.getBackgroundColor(messageConversation, checked),
         display: 'grid',
-        gridTemplateColumns: this.props.wideview ? '65% 10% 10% 10% 5%' : '50% 0% 0% 20% 30%',
+        gridTemplateColumns: 'repeat(10, 1fr)',
         gridTemplateRows: '15% 85%',
         transition: 'all 0.2s ease-in-out',
         margin: this.props.wideview ? '10px 10px 10px 10px' : '',
@@ -91,7 +92,6 @@ class MessageConversationListItem extends Component {
           onClick && this.onClick(messageConversation)
           onClick && this.props.clearCheckedIds()
           onClick && this.props.wideview && this.props.setMessageFilter('')
-          onClick && this.props.clearRecipientSearch( )
         }}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
@@ -112,12 +112,12 @@ class MessageConversationListItem extends Component {
             width: '50px'
           }}
           onCheck={(event, isInputChecked) => {
-            this.props.setSelected(messageConversation, !messageConversation.selectedValue)
+            this.props.setChecked(messageConversation, !messageConversation.selectedValue)
           }}
         />
 
         <CardText style={{
-          gridArea: displayExtendedChoices ? '2 / 1 / span 1 / span 1' : '2 / 1 / span 1 / span 4',
+          gridArea: '2 / 1 / span 1 / span 6',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -127,12 +127,10 @@ class MessageConversationListItem extends Component {
           {message.text}
         </CardText>
 
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/2'} title={'Status'} label={messageConversation.status} />}
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/3'} title={'Priority'} label={messageConversation.priority} />}
-        {displayExtendedChoices && <ExtendedChoiceLabel gridArea={'1/4'} title={'Assignee'} label={messageConversation.assignee ? messageConversation.assignee.displayName : undefined} />}
+        {displayExtendedChoices && <ExtendedInformation messageConversation={messageConversation} gridArea={'1 / 7 / span 1 / span 3'} />}
         <Subheader style={{
           display: 'flex',
-          gridArea: '1 / 5',
+          gridArea: '1 / 10',
           justifyContent: 'flex-end',
           paddingRight: '10px',
           fontFamily: fontFamily,
@@ -142,15 +140,6 @@ class MessageConversationListItem extends Component {
       </Paper>
     )
   }
-}
-
-const ExtendedChoiceLabel = ({ gridArea, title, label }) => {
-  return (
-    <div style={{ gridArea: gridArea }}>
-      <Subheader style={{ height: '32px' }}> {title} </Subheader>
-      <Subheader style={{ color: 'black', height: '32px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} > {label ? label : 'None'} </Subheader>
-    </div>
-  )
 }
 
 export default compose(
@@ -165,11 +154,10 @@ export default compose(
     }
     ,
     dispatch => ({
-      setSelected: (messageConversation, selectedValue) => dispatch({ type: actions.SET_SELECTED_VALUE, payload: { messageConversation, selectedValue } }),
+      setChecked: (messageConversation, selectedValue) => dispatch({ type: actions.SET_CHECKED, payload: { messageConversation, selectedValue } }),
       setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
       markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
       clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-      clearRecipientSearch: () => dispatch({ type: actions.RECIPIENT_SEARCH_SUCCESS, payload: { suggestions: [] } }),
       setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
     }),
   ),

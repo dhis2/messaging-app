@@ -17,9 +17,20 @@ import { cardStyles } from '../styles/style';
 import history from 'utils/history';
 
 class ReplyCard extends Component {
-  state = {
-    input: '',
-    expanded: false,
+  constructor(props){
+    super(props) 
+
+    this.state = {
+      input: '',
+      expanded: false,
+      recipients: [],
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if ( this.props.messageConversation.id != nextProps.messageConversation.id ) {
+      this.setState({ expanded: false })
+    }
   }
 
   animateScroll = (duration) => {
@@ -62,9 +73,18 @@ class ReplyCard extends Component {
     this.setState({input: newValue})
   }
 
+  updateRecipients = (recipients) => {
+    this.setState({
+      recipients: recipients
+    })
+  }
+
   replyMessage = () => {
     const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
-    this.props.replyMessage(this.state.input, this.props.messageConversation, messageType)
+    const users = this.state.recipients.filter(r => r.type == 'user');
+    const userGroups = this.state.recipients.filter(r => r.type == 'userGroup')
+    const organisationUnits = this.state.recipients.filter(r => r.type == 'organisationUnit')
+    this.props.replyMessage(this.state.input, users, userGroups, organisationUnits, this.props.messageConversation, messageType)
     this.wipeInput()
   }
 
@@ -79,7 +99,7 @@ class ReplyCard extends Component {
           marginTop: '5px',
           gridArea: this.props.gridArea,
         }}
-        expanded={this.state.expanded} 
+        expanded={this.state.expanded}
         onExpandChange={this.handleExpandChange}
       >
         <CardHeader
@@ -90,7 +110,7 @@ class ReplyCard extends Component {
         </CardHeader>
 
         <CardText expandable>
-          <SuggestionField label={'To'} messageConversation={this.props.messageConversation} />
+          <SuggestionField label={'Add recipients to conversation'} messageConversation={this.props.messageConversation} recipients={this.state.recipients} updateRecipients={this.updateRecipients} />
           <TextField
             key={this.props.messageConversation.id}
             id={this.props.messageConversation.id}
@@ -122,7 +142,7 @@ export default compose(
       }
     },
     dispatch => ({
-      replyMessage: (message, messageConversation, messageType) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, messageConversation, messageType} }),
+      replyMessage: (message, users, userGroups, organisationUnits, messageConversation, messageType) => dispatch({ type: actions.REPLY_MESSAGE, payload: {message, users, userGroups, organisationUnits, messageConversation, messageType} }),
       setSelectedMessageType: (messageTypeId) => dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
     }),
   ),

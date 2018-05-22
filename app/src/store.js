@@ -4,7 +4,6 @@ import { createLogger } from 'redux-logger';
 
 import messageReducer from 'reducers/messageReducer';
 import Epics from 'actions/epics';
-import recipientReducer from './reducers/recipientReducer';
 
 const middlewares = [createEpicMiddleware(Epics)];
 
@@ -17,7 +16,6 @@ if (process.env.NODE_ENV === 'development') {
 
 const reducer = combineReducers({
     messaging: messageReducer,
-    recipient: recipientReducer,
 });
 
 export default createStore(reducer, composeEnhancers(applyMiddleware(...middlewares)));
