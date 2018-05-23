@@ -19,6 +19,6 @@ getManifest('./manifest.webapp')
             headers: production ? null : null,
             schemas,
         };
-        
+
         render(<Messaging config={config} />, document.getElementById('messaging'));
     });

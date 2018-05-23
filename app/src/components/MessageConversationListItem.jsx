@@ -12,11 +12,11 @@ import Checkbox from 'material-ui/Checkbox';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-import Message from './Message'
-import ReplyCard from './ReplyCard'
-import CustomFontIcon from './CustomFontIcon'
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker'
-import ExtendedInformation from './ExtendedInformation'
+import Message from './Message';
+import ReplyCard from './ReplyCard';
+import CustomFontIcon from './CustomFontIcon';
+import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
+import ExtendedInformation from './ExtendedInformation';
 
 import { messageConversationContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
@@ -25,140 +25,178 @@ import * as actions from 'constants/actions';
 import { fontFamily } from '../constants/development';
 
 const moment = require('moment');
-const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT']
+const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 
 class MessageConversationListItem extends Component {
-  constructor(props) {
-    super(props)
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      backgroundColor: theme.palette.canvasColor,
-      cursor: 'auto',
+        this.state = {
+            backgroundColor: theme.palette.canvasColor,
+            cursor: 'auto',
+        };
     }
-  }
 
-  getBackgroundColor = (messageConversation, checked) => {
-    const selectedMessageConversation = this.props.selectedMessageConversation && messageConversation.id == this.props.selectedMessageConversation.id;
+    getBackgroundColor(messageConversation, checked) {
+        const selectedMessageConversation =
+            this.props.selectedMessageConversation &&
+            messageConversation.id == this.props.selectedMessageConversation.id;
 
-    if (checked && !selectedMessageConversation) {
-      return theme.palette.blue50
-    } else if (selectedMessageConversation) {
-      return theme.palette.accent3Color
-    } else {
-      return this.state.backgroundColor
+        if (checked && !selectedMessageConversation) {
+            return theme.palette.blue50;
+        } else if (selectedMessageConversation) {
+            return theme.palette.accent3Color;
+        } else {
+            return this.state.backgroundColor;
+        }
     }
-  };
 
-  onClick = (messageConversation) => {
-    this.props.setSelectedMessageConversation(messageConversation)
-    if (messageConversation && !messageConversation.read) {
-      this.props.markMessageConversationsRead([messageConversation.id], this.props.selectedMessageType)
+    onClick(messageConversation) {
+        this.props.setSelectedMessageConversation(messageConversation);
+        if (messageConversation && !messageConversation.read) {
+            this.props.markMessageConversationsRead(
+                [messageConversation.id],
+                this.props.selectedMessageType,
+            );
+        }
+        history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
     }
-    history.push(`/${messageConversation.messageType}/${messageConversation.id}`)
-  }
 
-  onMouseEnter = () => { this.setState({ cursor: 'pointer' }) }
-  onMouseLeave = () => { this.setState({ cursor: 'auto' }) }
+    onMouseEnter = () => this.setState({ cursor: 'pointer' });
+    onMouseLeave = () => this.setState({ cursor: 'auto' });
 
-  render() {
-    const messageConversation = this.props.messageConversation;
-    const message = messageConversation.messages[messageConversation.messages.length - 1];
-    const title = message.sender ? message.sender.displayName : this.props.selectedMessageType.displayName;
-    const checked = _.find(this.props.checkedIds, { 'id': messageConversation.id }) != undefined;
+    render() {
+        const messageConversation = this.props.messageConversation;
+        const message = messageConversation.messages[messageConversation.messages.length - 1];
+        const title = message.sender
+            ? message.sender.displayName
+            : this.props.selectedMessageType.displayName;
+        const checked = _.find(this.props.checkedIds, { id: messageConversation.id }) != undefined;
 
-    const displayExtendedChoices = this.props.displayExtendedChoices;
-    
-    const today = moment()
-    const messageDate = moment(message.created)
+        const displayExtendedChoices = this.props.displayExtendedChoices;
 
-    return (
-      <Paper style={{
-        backgroundColor: this.getBackgroundColor(messageConversation, checked),
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 1fr)',
-        gridTemplateRows: '15% 85%',
-        transition: 'all 0.2s ease-in-out',
-        margin: this.props.wideview ? '10px 10px 10px 10px' : '',
-        borderLeftStyle: !messageConversation.read && !this.state.expanded ? 'solid' : '',
-        borderLeftWidth: '3px',
-        borderLeftColor: theme.palette.primary1Color,
-        cursor: this.state.cursor,
-        boxSizing: 'border-box',
-        position: 'relative',
-        whiteSpace: 'nowrap',
-      }}
-        onClick={(event) => {
-          const onClick = event.target.innerText != undefined && event.target.innerText != ''
-          onClick && this.onClick(messageConversation)
-          onClick && this.props.clearCheckedIds()
-          onClick && this.props.wideview && this.props.setMessageFilter('')
-        }}
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-      >
-        <div style={{
-          ...subheader_minilist,
-          color: 'black',
-        }}>
-          {title}
-        </div>
-        <Checkbox
-          checked={checked}
-          style={{
-            gridArea: '1 / 1',
-            display: 'flex',
-            alignSelf: 'center',
-            paddingLeft: '10px',
-            width: '50px'
-          }}
-          onCheck={(event, isInputChecked) => {
-            this.props.setChecked(messageConversation, !messageConversation.selectedValue)
-          }}
-        />
+        const today = moment();
+        const messageDate = moment(message.created);
 
-        <CardText style={{
-          gridArea: '2 / 1 / span 1 / span 6',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          padding: '10px',
-          fontFamily: fontFamily,
-        }}>
-          {message.text}
-        </CardText>
+        return (
+            <Paper
+                style={{
+                    backgroundColor: this.getBackgroundColor(messageConversation, checked),
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(10, 1fr)',
+                    gridTemplateRows: '15% 85%',
+                    transition: 'all 0.2s ease-in-out',
+                    margin: this.props.wideview ? '10px 10px 10px 10px' : '',
+                    borderLeftStyle:
+                        !messageConversation.read && !this.state.expanded ? 'solid' : '',
+                    borderLeftWidth: '3px',
+                    borderLeftColor: theme.palette.primary1Color,
+                    cursor: this.state.cursor,
+                    boxSizing: 'border-box',
+                    position: 'relative',
+                    whiteSpace: 'nowrap',
+                }}
+                onClick={event => {
+                    const onClick =
+                        event.target.innerText != undefined && event.target.innerText != '';
+                    onClick && this.onClick(messageConversation);
+                    onClick && this.props.clearCheckedIds();
+                    onClick && this.props.wideview && this.props.setMessageFilter('');
+                }}
+                onMouseEnter={this.onMouseEnter}
+                onMouseLeave={this.onMouseLeave}
+            >
+                <div
+                    style={{
+                        ...subheader_minilist,
+                        color: 'black',
+                    }}
+                >
+                    {title}
+                </div>
+                <Checkbox
+                    checked={checked}
+                    style={{
+                        gridArea: '1 / 1',
+                        display: 'flex',
+                        alignSelf: 'center',
+                        paddingLeft: '10px',
+                        width: '50px',
+                    }}
+                    onCheck={(event, isInputChecked) => {
+                        this.props.setChecked(
+                            messageConversation,
+                            !messageConversation.selectedValue,
+                        );
+                    }}
+                />
 
-        {displayExtendedChoices && <ExtendedInformation messageConversation={messageConversation} gridArea={'1 / 7 / span 1 / span 3'} />}
-        <Subheader style={{
-          display: 'flex',
-          gridArea: '1 / 10',
-          justifyContent: 'flex-end',
-          paddingRight: '10px',
-          fontFamily: fontFamily,
-        }}>
-          {today.year() == messageDate.year() ? messageDate.format('MMM DD') : messageDate.format('ll')}
-        </Subheader>
-      </Paper>
-    )
-  }
+                <CardText
+                    style={{
+                        gridArea: '2 / 1 / span 1 / span 6',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        padding: '10px',
+                        fontFamily: fontFamily,
+                    }}
+                >
+                    {message.text}
+                </CardText>
+
+                {displayExtendedChoices && (
+                    <ExtendedInformation
+                        messageConversation={messageConversation}
+                        gridArea={'1 / 7 / span 1 / span 3'}
+                    />
+                )}
+                <Subheader
+                    style={{
+                        display: 'flex',
+                        gridArea: '1 / 10',
+                        justifyContent: 'flex-end',
+                        paddingRight: '10px',
+                        fontFamily: fontFamily,
+                    }}
+                >
+                    {today.year() == messageDate.year()
+                        ? messageDate.format('MMM DD')
+                        : messageDate.format('ll')}
+                </Subheader>
+            </Paper>
+        );
+    }
 }
 
 export default compose(
-  connect(
-    state => {
-      return {
-        selectedMessageConversation: state.messaging.selectedMessageConversation,
-        selectedMessageType: state.messaging.selectedMessageType,
-        checkedIds: state.messaging.checkedIds,
-        numberOfCheckedIds: state.messaging.checkedIds.length,
-      }
-    }
-    ,
-    dispatch => ({
-      setChecked: (messageConversation, selectedValue) => dispatch({ type: actions.SET_CHECKED, payload: { messageConversation, selectedValue } }),
-      setSelectedMessageConversation: (messageConversation) => dispatch({ type: actions.SET_SELECTED_MESSAGE_CONVERSATION, payload: { messageConversation } }),
-      markMessageConversationsRead: (markedReadConversations, messageType) => dispatch({ type: actions.MARK_MESSAGE_CONVERSATIONS_READ, payload: { markedReadConversations, messageType } }),
-      clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-      setMessageFilter: messageFilter => dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
-    }),
-  ),
+    connect(
+        state => {
+            return {
+                selectedMessageConversation: state.messaging.selectedMessageConversation,
+                selectedMessageType: state.messaging.selectedMessageType,
+                checkedIds: state.messaging.checkedIds,
+                numberOfCheckedIds: state.messaging.checkedIds.length,
+            };
+        },
+        dispatch => ({
+            setChecked: (messageConversation, selectedValue) =>
+                dispatch({
+                    type: actions.SET_CHECKED,
+                    payload: { messageConversation, selectedValue },
+                }),
+            setSelectedMessageConversation: messageConversation =>
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+                    payload: { messageConversation },
+                }),
+            markMessageConversationsRead: (markedReadConversations, messageType) =>
+                dispatch({
+                    type: actions.MARK_MESSAGE_CONVERSATIONS_READ,
+                    payload: { markedReadConversations, messageType },
+                }),
+            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+            setMessageFilter: messageFilter =>
+                dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
+        }),
+    ),
 )(MessageConversationListItem);

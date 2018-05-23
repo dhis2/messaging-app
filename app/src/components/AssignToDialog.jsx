@@ -12,43 +12,40 @@ import FlatButton from 'material-ui/FlatButton';
 import SuggestionField from './SuggestionField';
 
 class AssignToDialog extends Component {
-  constructor(props) {
-    super(props)
+    constructor(props) {
+        super(props);
 
-    this.state = {
+        this.state = {};
     }
-  }
 
-  render() {
-    return (
-      <Dialog
-        open={this.props.open}
-        onRequestClose={() => {
-          this.props.onRequestClose();
-        }}
-      >
-        <SuggestionField
-          onSuggestionClick={(chip) => {
-            this.props.updateMessageConversations([chip.id]);
-            this.props.onRequestClose();
-          }}
-          recipients={[]}
-          key={'suggestionField'}
-          label={'Assignee'}
-        />
-      </Dialog>
-    )
-  }
+    render() {
+        return (
+            <Dialog
+                open={this.props.open}
+                onRequestClose={() => {
+                    this.props.onRequestClose();
+                }}
+            >
+                <SuggestionField
+                    onSuggestionClick={chip => {
+                        this.props.updateMessageConversations([chip.id]);
+                        this.props.onRequestClose();
+                    }}
+                    searchOnlyUsers={true}
+                    recipients={[]}
+                    key={'suggestionField'}
+                    label={'Assignee'}
+                />
+            </Dialog>
+        );
+    }
 }
 
 export default compose(
-  connect(
-    state => {
-      return {
-      }
-    }
-    ,
-    dispatch => ({
-    }),
-  ),
+    connect(
+        state => {
+            return {};
+        },
+        dispatch => ({}),
+    ),
 )(AssignToDialog);

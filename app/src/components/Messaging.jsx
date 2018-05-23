@@ -25,7 +25,7 @@ const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 let ContentLoader = () => (
     <Router history={history}>
         <div>
-            <Route exact path="/" component={() => <Redirect to="/PRIVATE" />}/>
+            <Route exact path="/" component={() => <Redirect to="/PRIVATE" />} />
             <Route path="/:messageType" component={MessagingCenter} />
         </div>
     </Router>

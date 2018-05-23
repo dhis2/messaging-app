@@ -4,11 +4,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        app: [
-            'babel-polyfill',
-            'whatwg-fetch',
-            './app/src/messaging.js',
-        ], 
+        app: ['babel-polyfill', 'whatwg-fetch', './app/src/messaging.js'],
     },
     output: {
         path: path.join(__dirname, 'build'),
@@ -18,7 +14,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'DHIS2 Messaging',
             filename: 'index.html',
-            template: 'app/index.html',
+            template: 'public/index.html',
         }),
     ],
     module: {

@@ -9,47 +9,53 @@ import { compose, pure, lifecycle } from 'recompose';
 const DEFAULT_MESSAGE_DURATION = 4000;
 
 class CustomSnackBar extends Component {
-  state = {
-    show: false,
-  };
+    constructor(props) {
+        super(props);
 
-  componentWillReceiveProps = () => {
-    this.setState({
-      show: true,
-    });
-  };
+        this.state = {
+            show: false,
+        };
+    }
 
-  closeMessage = () => {
-    this.props.clearSnackMessage()
-    this.setState({
-      show: false,
-    });
-  };
+    componentWillReceiveProps() {
+        this.setState({
+            show: true,
+        });
+    }
 
-  render = () => (
-    <Snackbar
-      open={this.props.message != '' && this.state.show}
-      message={this.props.message}
-      autoHideDuration={DEFAULT_MESSAGE_DURATION}
-      onRequestClose={this.closeMessage}
-      contentStyle={{ color: this.props.type === 'NEGATIVE' ? pinkA200 : 'white' }}
-      style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}
-      bodyStyle={{ pointerEvents: 'initial', maxWidth: 'none' }}
-    />
-  );
+    closeMessage() {
+        this.props.clearSnackMessage();
+        this.setState({
+            show: false,
+        });
+    }
+
+    render() {
+        return (
+            <Snackbar
+                open={this.props.message != '' && this.state.show}
+                message={this.props.message}
+                autoHideDuration={DEFAULT_MESSAGE_DURATION}
+                onRequestClose={this.closeMessage}
+                contentStyle={{ color: this.props.type === 'NEGATIVE' ? pinkA200 : 'white' }}
+                style={{ pointerEvents: 'none', whiteSpace: 'nowrap' }}
+                bodyStyle={{ pointerEvents: 'initial', maxWidth: 'none' }}
+            />
+        );
+    }
 }
 
 export default compose(
-  connect(
-    state => {
-      return {
-        message: state.messaging.snackMessage,
-        type: state.messaging.snackType,
-      };
-    },
-    dispatch => ({
-      clearSnackMessage: () => dispatch({ type: actions.CLEAR_SNACK_MESSAGE }),
-    }),
-  ),
-  pure,
-)(CustomSnackBar)
+    connect(
+        state => {
+            return {
+                message: state.messaging.snackMessage,
+                type: state.messaging.snackType,
+            };
+        },
+        dispatch => ({
+            clearSnackMessage: () => dispatch({ type: actions.CLEAR_SNACK_MESSAGE }),
+        }),
+    ),
+    pure,
+)(CustomSnackBar);

@@ -2,9 +2,7 @@ import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
 import history from 'utils/history';
 
-const NEUTRAL = 'NEUTRAL';
-const POSITIVE = 'POSITIVE';
-const NEGATIVE = 'NEGATIVE';
+import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
 export const initialState = {
     messageConversations: {},
@@ -19,23 +17,39 @@ export const initialState = {
 
 function messageReducer(state = initialState, action) {
     let messageTypes = state.messageTypes;
-    let messageType = _.find(messageTypes, {id: action.messageType});
-    
+    let messageType = _.find(messageTypes, { id: action.messageType });
+
     switch (action.type) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
-            let replaceMessageType = _.find(messageTypes, {id: action.messageType.id})
-            replaceMessageType.loaded = replaceMessageType.page == 1 ? action.payload.messageConversations.length :  replaceMessageType.loaded + action.payload.messageConversations.length
-            replaceMessageType.total = action.payload.pager.total
-            replaceMessageType.unread = action.nrOfUnread
-            replaceMessageType.page = action.payload.pager.page
-            replaceMessageType.loading = false
-            messageTypes.splice( [_.findIndex(messageTypes, { 'id': replaceMessageType.id })], 1, replaceMessageType)
+            let replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
+            replaceMessageType.loaded =
+                replaceMessageType.page == 1
+                    ? action.payload.messageConversations.length
+                    : replaceMessageType.loaded + action.payload.messageConversations.length;
+            replaceMessageType.total = action.payload.pager.total;
+            replaceMessageType.unread = action.nrOfUnread;
+            replaceMessageType.page = action.payload.pager.page;
+            replaceMessageType.loading = false;
+            messageTypes.splice(
+                [_.findIndex(messageTypes, { id: replaceMessageType.id })],
+                1,
+                replaceMessageType,
+            );
 
-            const prevStateConversations = state.messageConversations[replaceMessageType.id]
-            const replaceConversations = replaceMessageType.page == 1 ? action.payload.messageConversations :  _.unionWith( prevStateConversations, action.payload.messageConversations, _.isEqual )
+            const prevStateConversations = state.messageConversations[replaceMessageType.id];
+            const replaceConversations =
+                replaceMessageType.page == 1
+                    ? action.payload.messageConversations
+                    : _.unionWith(
+                          prevStateConversations,
+                          action.payload.messageConversations,
+                          _.isEqual,
+                      );
 
             const setSelectedMessageType = action.selectedMessageType == replaceMessageType.id;
-            let selectedMessageConversation =  _.find(replaceConversations, { id: action.selectedId })
+            let selectedMessageConversation = _.find(replaceConversations, {
+                id: action.selectedId,
+            });
 
             return {
                 ...state,
@@ -44,10 +58,14 @@ function messageReducer(state = initialState, action) {
                     ...state.messageConversations,
                     [replaceMessageType.id]: replaceConversations,
                 },
-                selectedMessageConversation: setSelectedMessageType ? selectedMessageConversation : state.selectedMessageConversation,
-                selectedMessageType: setSelectedMessageType ? replaceMessageType : state.selectedMessageType,
+                selectedMessageConversation: setSelectedMessageType
+                    ? selectedMessageConversation
+                    : state.selectedMessageConversation,
+                selectedMessageType: setSelectedMessageType
+                    ? replaceMessageType
+                    : state.selectedMessageType,
             };
-        
+
         case actions.MESSAGE_CONVERSATION_UPDATE_ERROR:
             return {
                 ...state,
@@ -56,16 +74,16 @@ function messageReducer(state = initialState, action) {
             };
 
         case actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS:
-            let snackMessage = ''
+            let snackMessage = '';
             switch (action.payload.identifier) {
                 case 'STATUS':
-                    snackMessage = 'Successfully updated status'
+                    snackMessage = 'Successfully updated status';
                     break;
                 case 'PRIORITY':
-                    snackMessage = 'Successfully updated priority'
+                    snackMessage = 'Successfully updated priority';
                     break;
                 case 'ASSIGNEE':
-                    snackMessage = 'Successfully updated assignee'
+                    snackMessage = 'Successfully updated assignee';
                     break;
             }
 
@@ -74,7 +92,6 @@ function messageReducer(state = initialState, action) {
                 snackMessage: snackMessage,
                 snackType: POSITIVE,
             };
-        
 
         case actions.MESSAGE_CONVERSATIONS_DELETE_ERROR:
             return {
@@ -82,12 +99,19 @@ function messageReducer(state = initialState, action) {
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
             };
-            
+
         case actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS:
             return {
                 ...state,
                 snackMessage: 'Successfully deleted message conversation(s)',
                 snackType: POSITIVE,
+            };
+
+        case actions.DISPLAY_SNACK_MESSAGE:
+            return {
+                ...state,
+                snackMessage: action.payload.message,
+                snackType: action.payload.snackType,
             };
 
         case actions.CLEAR_SNACK_MESSAGE:
@@ -96,16 +120,16 @@ function messageReducer(state = initialState, action) {
                 snackMessage: '',
                 snackType: NEUTRAL,
             };
-        
+
         case actions.SET_CHECKED:
-            let messageConversation = action.payload.messageConversation
+            let messageConversation = action.payload.messageConversation;
 
             messageConversation.selectedValue = action.payload.selectedValue;
-            let checkedIds = state.checkedIds
-            if ( action.payload.selectedValue ) {
-                checkedIds.push( { 'id' : messageConversation.id } )
+            let checkedIds = state.checkedIds;
+            if (action.payload.selectedValue) {
+                checkedIds.push({ id: messageConversation.id });
             } else {
-                checkedIds = checkedIds.filter((element) => element.id != messageConversation.id);
+                checkedIds = checkedIds.filter(element => element.id != messageConversation.id);
             }
 
             return {
@@ -118,38 +142,43 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 checkedIds: [],
             };
-        
+
         case actions.SET_SELECTED_MESSAGE_CONVERSATION:
             return {
                 ...state,
-                selectedMessageConversation: action.payload.messageConversation
+                selectedMessageConversation: action.payload.messageConversation,
             };
 
         case actions.SET_SELECTED_MESSAGE_TYPE:
             return {
                 ...state,
                 checkedIds: [],
-                selectedMessageType: _.find(state.messageTypes, { id: action.payload.messageTypeId }),
-                selectedMessageConversations: state.messageConversations[action.payload.messageTypeId],
+                selectedMessageType: _.find(state.messageTypes, {
+                    id: action.payload.messageTypeId,
+                }),
+                selectedMessageConversations:
+                    state.messageConversations[action.payload.messageTypeId],
                 selectedMessageConversation: undefined,
             };
-        
+
         case actions.SET_MESSAGE_FILTER:
             return {
                 ...state,
-                messageFilter: action.payload.messageFilter
+                messageFilter: action.payload.messageFilter,
             };
-        
-        case actions.LOAD_MESSAGE_CONVERSATIONS:
-            let loadingMessageType = action.payload.messageType
-            loadingMessageType.loading = true
 
-            messageTypes[_.findIndex(messageTypes, { 'id': loadingMessageType.id })] = loadingMessageType
+        case actions.LOAD_MESSAGE_CONVERSATIONS:
+            let loadingMessageType = action.payload.messageType;
+            loadingMessageType.loading = true;
+
+            messageTypes[
+                _.findIndex(messageTypes, { id: loadingMessageType.id })
+            ] = loadingMessageType;
             return {
                 ...state,
                 messageTypes: messageTypes,
             };
-        
+
         default:
             return state;
     }

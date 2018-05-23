@@ -11,7 +11,7 @@
         "import/no-extraneous-dependencies": "off",
         "import/extensions": "off",
         "import/no-unresolved": "off",
-        "react/jsx-no-bind": ["on", {
+        "react/jsx-no-bind": [1, {
             "allowArrowFunctions": true
         }]
     }
