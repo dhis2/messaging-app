@@ -40,7 +40,6 @@
     "d2": "^29.1.5",
     "d2-ui": "^29.0.3",
     "d2-utilizr": "^0.2.15",
-    "dhis2-uid": "^0.1.2",
     "history": "^4.7.2",
     "i18next": "^10.6.0",
     "material-ui": "^0.20.0",
@@ -82,6 +81,7 @@
       "name": "Henning Håkonsen",
       "company": "DHIS2"
     },
+    "description": "App for messaging",
     "default_locale": "en",
     "activities": {
       "dhis": {

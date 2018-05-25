@@ -23,12 +23,12 @@ class CustomSnackBar extends Component {
         });
     }
 
-    closeMessage() {
+    closeMessage = () => {
         this.props.clearSnackMessage();
         this.setState({
             show: false,
         });
-    }
+    };
 
     render() {
         return (

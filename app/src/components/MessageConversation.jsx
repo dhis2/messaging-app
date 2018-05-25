@@ -19,6 +19,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import ExpandMore from 'material-ui-icons/ExpandMore';
+import ExpandLess from 'material-ui-icons/ExpandLess';
 
 import Message from './Message';
 import ReplyCard from './ReplyCard';
@@ -45,20 +46,19 @@ class MessageConversation extends Component {
         super(props);
 
         this.state = {
-            participants: [],
             recipients: [],
             recipientsExpanded: false,
             currentUser: undefined,
         };
     }
 
-    updateRecipients(recipients) {
+    updateRecipients = recipients => {
         this.setState({
             recipients: recipients,
         });
-    }
+    };
 
-    addRecipients() {
+    addRecipients = () => {
         const users = this.state.recipients.filter(r => r.type == 'user');
         const userGroups = this.state.recipients.filter(r => r.type == 'userGroup');
         const organisationUnits = this.state.recipients.filter(r => r.type == 'organisationUnit');
@@ -69,24 +69,18 @@ class MessageConversation extends Component {
             this.props.messageConversation,
             this.props.selectedMessageType,
         );
-        this.fetchParticipants(this.props.messageConversation);
-    }
 
-    fetchParticipants(messageConversation) {
-        api.fetchParticipants(messageConversation.id).then(({ userMessages }) => {
-            getD2Instance().then(instance => {
-                this.setState({
-                    participants: userMessages,
-                    currentUser: instance.currentUser,
-                });
-            });
+        this.setState({
+            recipients: [],
         });
-    }
+    };
 
     componentWillMount() {
-        if (this.props.messageConversation) {
-            this.fetchParticipants(this.props.messageConversation);
-        }
+        getD2Instance().then(instance => {
+            this.setState({
+                currentUser: instance.currentUser,
+            });
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -94,7 +88,6 @@ class MessageConversation extends Component {
             this.props.messageConversation.id != nextProps.messageConversation.id &&
             nextProps.messageConversation != undefined
         ) {
-            this.fetchParticipants(nextProps.messageConversation);
             this.setState({
                 recipientsExpanded: false,
             });
@@ -114,9 +107,10 @@ class MessageConversation extends Component {
             ? '2 / 2 / span 1 / span 2'
             : '2 / 3 / span 1 / span 1';
 
-        const participants = this.state.participants
+        const participants = messageConversation.userMessages
             .map(
                 userMessage =>
+                    this.state.currentUser == undefined ||
                     this.state.recipientsExpanded ||
                     this.state.currentUser.id != userMessage.user.id
                         ? userMessage.user.displayName
@@ -205,16 +199,26 @@ class MessageConversation extends Component {
                                 marginTop: '0px',
                                 padding: '0px',
                             }}
-                            tooltip={'Explore'}
+                            tooltip={!this.state.recipientsExpanded ? 'Expand' : 'Hide'}
                             tooltipPosition="bottom-left"
                         >
-                            <ExpandMore
-                                onClick={() =>
-                                    this.setState({
-                                        recipientsExpanded: !this.state.recipientsExpanded,
-                                    })
-                                }
-                            />
+                            {!this.state.recipientsExpanded ? (
+                                <ExpandMore
+                                    onClick={() =>
+                                        this.setState({
+                                            recipientsExpanded: !this.state.recipientsExpanded,
+                                        })
+                                    }
+                                />
+                            ) : (
+                                <ExpandLess
+                                    onClick={() =>
+                                        this.setState({
+                                            recipientsExpanded: !this.state.recipientsExpanded,
+                                        })
+                                    }
+                                />
+                            )}
                         </IconButton>
                     </div>
                     {this.props.displayExtendedChoices && (
@@ -246,6 +250,7 @@ class MessageConversation extends Component {
                                 message={message}
                                 messageConversation={messageConversation}
                                 notification={notification}
+                                currentUser={this.state.currentUser}
                                 lastMessage={i + 1 === messages.length}
                             />
                         ))}

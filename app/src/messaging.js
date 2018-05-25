@@ -13,6 +13,7 @@ getManifest('./manifest.webapp')
     .catch(() => BASE_URL)
     .then(url => {
         const baseUrl = `${url}/api/${dhisVersion}`;
+        //const baseUrl = 'https://play.dhis2.org/dev/api/29';
         const production = process.env.NODE_ENV === 'production';
         const config = {
             baseUrl,

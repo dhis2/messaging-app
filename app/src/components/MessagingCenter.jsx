@@ -87,14 +87,14 @@ class MessagingCenter extends Component {
         }
     }
 
-    loadMoreMessageConversations(messageType) {
+    loadMoreMessageConversations = messageType => {
         let messageTypeState = _.find(this.props.messageTypes, { id: messageType });
         this.props.loadMessageConversations(
             messageTypeState.id,
             messageTypeState.page + 1,
             this.props.messageFilter,
         );
-    }
+    };
 
     componentDidUpdate() {
         const selectedMessageType = this.props.match.params.messageType;
@@ -113,9 +113,9 @@ class MessagingCenter extends Component {
         }
     }
 
-    toogleWideview() {
+    toogleWideview = () => {
         this.setState({ wideview: !this.state.wideview });
-    }
+    };
 
     render() {
         const messageType = this.props.match.params.messageType;

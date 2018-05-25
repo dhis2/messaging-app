@@ -22,6 +22,7 @@ class ReplyCard extends Component {
 
         this.state = {
             input: '',
+            inputError: false,
             expanded: false,
         };
     }
@@ -65,7 +66,7 @@ class ReplyCard extends Component {
     handleExpandChange = expanded => {
         this.animateScroll(500);
 
-        this.setState({ expanded: expanded });
+        this.setState({ expanded: expanded, inputError: false });
     };
 
     texFieldUpdate = (event, newValue) => {
@@ -73,29 +74,26 @@ class ReplyCard extends Component {
     };
 
     replyMessage = () => {
-        if (this.state.input == '') {
-            this.props.displaySnackMessage('Please fill inn message', NEGATIVE);
-        } else {
-            const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
-            const users = this.state.recipients.filter(r => r.type == 'user');
-            const userGroups = this.state.recipients.filter(r => r.type == 'userGroup');
-            const organisationUnits = this.state.recipients.filter(
-                r => r.type == 'organisationUnit',
-            );
+        const error = this.state.input === '';
+        this.setState({
+            inputError: this.state.input === '',
+        });
+        if (!error) {
             this.props.replyMessage(
                 this.state.input,
-                users,
-                userGroups,
-                organisationUnits,
-                this.props.messageConversation,
-                messageType,
+                this.props.selectedMessageConversation,
+                this.props.selectedMessageType,
             );
             this.wipeInput();
         }
     };
 
     wipeInput = () => {
-        this.setState({ input: '', expanded: false });
+        this.setState({
+            input: '',
+            expanded: false,
+            inputError: false,
+        });
     };
 
     render() {
@@ -120,6 +118,7 @@ class ReplyCard extends Component {
                         multiLine
                         fullWidth
                         floatingLabelText="Message"
+                        errorText={this.state.inputError ? 'This field is required' : ''}
                         onChange={this.texFieldUpdate}
                     />
                     <CardActions>
@@ -144,25 +143,17 @@ export default compose(
     connect(
         state => {
             return {
+                selectedMessageConversation: state.messaging.selectedMessageConversation,
+                selectedMessageType: state.messaging.selectedMessageType,
                 messageTypes: state.messaging.messageTypes,
             };
         },
         dispatch => ({
-            replyMessage: (
-                message,
-                users,
-                userGroups,
-                organisationUnits,
-                messageConversation,
-                messageType,
-            ) =>
+            replyMessage: (message, messageConversation, messageType) =>
                 dispatch({
                     type: actions.REPLY_MESSAGE,
                     payload: {
                         message,
-                        users,
-                        userGroups,
-                        organisationUnits,
                         messageConversation,
                         messageType,
                     },

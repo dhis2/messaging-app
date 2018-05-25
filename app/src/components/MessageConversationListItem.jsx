@@ -37,7 +37,7 @@ class MessageConversationListItem extends Component {
         };
     }
 
-    getBackgroundColor(messageConversation, checked) {
+    getBackgroundColor = (messageConversation, checked) => {
         const selectedMessageConversation =
             this.props.selectedMessageConversation &&
             messageConversation.id == this.props.selectedMessageConversation.id;
@@ -49,9 +49,9 @@ class MessageConversationListItem extends Component {
         } else {
             return this.state.backgroundColor;
         }
-    }
+    };
 
-    onClick(messageConversation) {
+    onClick = messageConversation => {
         this.props.setSelectedMessageConversation(messageConversation);
         if (messageConversation && !messageConversation.read) {
             this.props.markMessageConversationsRead(
@@ -60,7 +60,7 @@ class MessageConversationListItem extends Component {
             );
         }
         history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
-    }
+    };
 
     onMouseEnter = () => this.setState({ cursor: 'pointer' });
     onMouseLeave = () => this.setState({ cursor: 'auto' });

@@ -30,13 +30,13 @@ class ToolbarExtendedChoicePicker extends Component {
         };
     }
 
-    getIds() {
+    getIds = () => {
         return this.props.selectedMessageConversation && this.props.checkedIds.length == 0
             ? [this.props.selectedMessageConversation.id]
             : this.props.checkedIds.map(id => id.id);
-    }
+    };
 
-    updateMessageConversation(identifier, value) {
+    updateMessageConversation = (identifier, value) => {
         const ids = this.getIds();
         this.props.updateMessageConversations(
             ids,
@@ -45,9 +45,9 @@ class ToolbarExtendedChoicePicker extends Component {
             this.props.selectedMessageType,
         );
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
-    }
+    };
 
-    markMessageConversations(mode) {
+    markMessageConversations = mode => {
         const ids = this.getIds();
         if (mode == 'unread') {
             this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType);
@@ -55,11 +55,11 @@ class ToolbarExtendedChoicePicker extends Component {
             this.props.markMessageConversationsRead(ids, this.props.selectedMessageType);
         }
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
-    }
+    };
 
-    toogleDialog() {
+    toogleDialog = () => {
         this.setState({ dialogOpen: !this.state.dialogOpen });
-    }
+    };
 
     render() {
         const messageConversation = this.props.selectedMessageConversation;

@@ -22,12 +22,12 @@ class MessageTypeItem extends Component {
         };
     }
 
-    setBackgroundColorcolor() {
+    setBackgroundColorcolor = () => {
         this.setState({
             backgroundColor: color,
             cursor: 'auto',
         });
-    }
+    };
 
     getBackgroundColor = (selectedValue, id) =>
         selectedValue && id == selectedValue.id

@@ -104,14 +104,11 @@ export const sendMessage = (subject, users, userGroups, organisationUnits, text,
             throw new Error(error);
         });
 
-export const replyMessage = (text, users, userGroups, organisationUnits, messageConversationId) =>
+export const replyMessage = (message, messageConversationId) =>
     getD2Instance()
         .then(instance =>
-            instance.Api.getApi().post('messageConversations/' + messageConversationId, {
-                text,
-                users,
-                userGroups,
-                organisationUnits,
+            instance.Api.getApi().post('messageConversations/' + messageConversationId, message, {
+                headers: { 'Content-Type': 'text/plain' },
             }),
         )
         .catch(error => {

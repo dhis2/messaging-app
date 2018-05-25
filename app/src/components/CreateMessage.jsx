@@ -18,7 +18,7 @@ import history from 'utils/history';
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
-const { generateCode } = require('dhis2-uid');
+import { generateUid } from 'd2/lib/uid';
 
 class CreateMessage extends Component {
     constructor(props) {
@@ -65,7 +65,7 @@ class CreateMessage extends Component {
                 userGroups,
                 organisationUnits,
                 this.state.input,
-                generateCode(),
+                generateUid(),
                 messageType,
             );
             history.push('/PRIVATE');

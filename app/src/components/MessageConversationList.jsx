@@ -16,17 +16,17 @@ import theme from '../styles/theme';
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 
 class MessageConversationList extends Component {
-    isBottom(el) {
+    isBottom = el => {
         return el.scrollHeight - el.scrollTop < window.outerHeight;
-    }
+    };
 
-    onScroll(messageType) {
+    onScroll = messageType => {
         const messageList = document.getElementById('messagelist');
         if (this.isBottom(messageList) && messageType.loaded < messageType.total) {
             messageType.page++;
             this.props.loadMoreMessageConversations(messageType);
         }
-    }
+    };
 
     render() {
         const displayMessageList =

@@ -37,7 +37,11 @@ class Message extends Component {
         const messageConversation = this.props.messageConversation;
         const messageType = this.props.messageConversation.messageType;
 
-        const fromTitle = message.sender ? message.sender.displayName : 'System notification';
+        const fromTitle = message.sender
+            ? this.props.currentUser && this.props.currentUser.id === message.sender.id
+                ? 'me'
+                : message.sender.displayName
+            : 'System notification';
         const today = moment();
         const messageDate = moment(message.created);
 
