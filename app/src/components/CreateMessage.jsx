@@ -98,7 +98,6 @@ class CreateMessage extends Component {
                     <CardText>
                         <SuggestionField
                             label={'To'}
-                            messageConversation={this.props.messageConversation}
                             recipients={this.state.recipients}
                             updateRecipients={this.updateRecipients}
                             errorText={this.state.recipientError ? 'This field is required' : ''}

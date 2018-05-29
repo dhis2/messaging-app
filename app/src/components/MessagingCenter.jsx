@@ -26,7 +26,6 @@ import { grid, subheader } from '../styles/style';
 import SidebarList from './SidebarList';
 import MessageConversation from './MessageConversation';
 import MessageConversationList from './MessageConversationList';
-import ExtendedChoicePicker from './ExtendedChoicePicker';
 import CreateMessage from './CreateMessage';
 import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
 
@@ -53,12 +52,18 @@ class MessagingCenter extends Component {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
+        if (selectedId != selectedMessageType && selectedId != 'create') {
+            const initialMessageConversation = { id: selectedId };
+            this.props.setSelectedMessageConversation(initialMessageConversation);
+        }
+
         this.props.messageTypes.map(messageType => {
             this.props.loadMessageConversations(
                 messageType,
                 selectedMessageType,
-                selectedId,
                 this.props.messageFilter,
+                this.state.statusFilter,
+                this.state.priorityFilter,
             );
         });
     }
@@ -81,9 +86,35 @@ class MessagingCenter extends Component {
             this.props.loadMessageConversations(
                 nextProps.selectedMessageType,
                 nextProps.selectedMessageType.id,
-                selectedMessageConversationId,
                 nextProps.messageFilter,
+                this.state.statusFilter,
+                this.state.priorityFilter,
             );
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const selectedMessageType = this.props.match.params.messageType;
+        const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+
+        if (
+            prevState.statusFilter != this.state.statusFilter ||
+            prevState.priorityFilter != this.state.priorityFilter
+        ) {
+            this.props.loadMessageConversations(
+                this.props.selectedMessageType,
+                this.props.selectedMessageType.id,
+                this.props.messageFilter,
+                this.state.statusFilter,
+                this.state.priorityFilter,
+            );
+        }
+
+        if (
+            selectedMessageType == selectedId &&
+            this.props.selectedMessageConversation != undefined
+        ) {
+            this.props.clearSelectedMessageConversation();
         }
     }
 
@@ -93,25 +124,10 @@ class MessagingCenter extends Component {
             messageTypeState.id,
             messageTypeState.page + 1,
             this.props.messageFilter,
+            this.state.statusFilter,
+            this.state.priorityFilter,
         );
     };
-
-    componentDidUpdate() {
-        const selectedMessageType = this.props.match.params.messageType;
-        const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
-
-        if (selectedMessageType != selectedId) {
-            const messageConversation = _.find(
-                this.props.messageConversations[selectedMessageType],
-                {
-                    id: selectedId,
-                },
-            );
-            this.props.setSelectedMessageConversation(messageConversation);
-        } else {
-            this.props.setSelectedMessageConversation(undefined);
-        }
-    }
 
     toogleWideview = () => {
         this.setState({ wideview: !this.state.wideview });
@@ -316,8 +332,6 @@ class MessagingCenter extends Component {
                     <MessageConversationList
                         wideview={this.state.wideview}
                         displayExtendedChoices={displayExtendedChoices && this.state.wideview}
-                        statusFilter={this.state.statusFilter}
-                        priorityFilter={this.state.priorityFilter}
                     />
                 ) : (
                     !this.state.wideview && (
@@ -328,32 +342,32 @@ class MessagingCenter extends Component {
                     )
                 )}
 
-                {this.props.selectedMessageConversation && id != 'create' ? (
-                    <MessageConversation
-                        messageConversation={this.props.selectedMessageConversation}
-                        wideview={this.state.wideview}
-                        disableLink={true}
-                        displayExtendedChoices={displayExtendedChoices}
-                    />
-                ) : (
-                    !this.state.wideview && (
-                        <div
-                            style={{
-                                textAlign: 'center',
-                                paddingTop: '100px',
-                            }}
-                        >
-                            <Subheader style={subheader}>{'Select a message'}</Subheader>
-                            <MailIcon
-                                style={{
-                                    color: theme.palette.primary1Color,
-                                    width: 120,
-                                    height: 120,
-                                }}
-                            />
-                        </div>
-                    )
-                )}
+                {this.props.selectedMessageConversation && id != 'create'
+                    ? this.props.selectedMessageConversation != undefined && (
+                          <MessageConversation
+                              messageConversation={this.props.selectedMessageConversation}
+                              wideview={this.state.wideview}
+                              disableLink={true}
+                              displayExtendedChoices={displayExtendedChoices}
+                          />
+                      )
+                    : !this.state.wideview && (
+                          <div
+                              style={{
+                                  textAlign: 'center',
+                                  paddingTop: '100px',
+                              }}
+                          >
+                              <Subheader style={subheader}>{'Select a message'}</Subheader>
+                              <MailIcon
+                                  style={{
+                                      color: theme.palette.primary1Color,
+                                      width: 120,
+                                      height: 120,
+                                  }}
+                              />
+                          </div>
+                      )}
             </div>
         );
     }
@@ -377,12 +391,19 @@ export default compose(
             loadMessageConversations: (
                 messageType,
                 selectedMessageType,
-                selectedId,
                 messageFilter,
+                statusFilter,
+                priorityFilter,
             ) =>
                 dispatch({
                     type: actions.LOAD_MESSAGE_CONVERSATIONS,
-                    payload: { messageType, selectedMessageType, selectedId, messageFilter },
+                    payload: {
+                        messageType,
+                        selectedMessageType,
+                        messageFilter,
+                        statusFilter,
+                        priorityFilter,
+                    },
                 }),
             setMessageFilter: messageFilter =>
                 dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
@@ -391,6 +412,10 @@ export default compose(
                 dispatch({
                     type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
                     payload: { messageConversation },
+                }),
+            clearSelectedMessageConversation: () =>
+                dispatch({
+                    type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
                 }),
         }),
     ),

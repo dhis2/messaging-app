@@ -58,37 +58,37 @@ class Message extends Component {
                         margin: this.props.wideview ? '5px 10px' : '',
                         paddingBottom: '0px',
                         display: 'grid',
-                        gridTemplateColumns: '80% 20%',
+                        gridTemplateColumns: 'repeat(10, 1fr)',
                     }}
                 >
                     <div
                         style={{
-                            gridArea: '1 / 1',
+                            gridArea: '1 / 1 / span 1 / span 8',
                             fontFamily: fontFamily,
                         }}
                     >
                         {fromTitle}
                     </div>
-
-                    <CardText
+                    <div
                         style={{
-                            gridArea: '2 / 1',
-                            padding: '16px 0px 16px 0px',
+                            gridArea: '1 / 9',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            color: theme.palette.accent4Color,
                             fontFamily: fontFamily,
                         }}
                     >
-                        {message.text}
-                    </CardText>
+                        {message.internal ? 'internal' : ''}
+                    </div>
 
                     <div
                         content={messageDate.format('YYYY-MM-DD hh:mm')}
                         placement={'bottom'}
                         style={{
-                            gridArea: '1 / 2',
+                            gridArea: '1 / 10',
                             display: 'flex',
                             justifyContent: 'flex-end',
                             marginRight: '10px',
-                            marginTop: '10px',
                         }}
                     >
                         <div
@@ -104,6 +104,16 @@ class Message extends Component {
                                 : messageDate.format('ll')}
                         </div>
                     </div>
+
+                    <CardText
+                        style={{
+                            gridArea: '2 / 1 / span 1 / span 8',
+                            padding: '16px 0px 16px 0px',
+                            fontFamily: fontFamily,
+                        }}
+                    >
+                        {message.text}
+                    </CardText>
                 </div>
                 {!this.props.lastMessage && <Divider />}
             </div>

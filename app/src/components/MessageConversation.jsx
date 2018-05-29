@@ -40,6 +40,7 @@ import * as actions from 'constants/actions';
 import * as api from 'api/api';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
+const maxParticipantsDisplay = 30;
 
 class MessageConversation extends Component {
     constructor(props) {
@@ -107,7 +108,8 @@ class MessageConversation extends Component {
             ? '2 / 2 / span 1 / span 2'
             : '2 / 3 / span 1 / span 1';
 
-        const participants = messageConversation.userMessages
+        let participants = messageConversation.userMessages
+            .slice(0, maxParticipantsDisplay)
             .map(
                 userMessage =>
                     this.state.currentUser == undefined ||
@@ -117,6 +119,14 @@ class MessageConversation extends Component {
                         : 'me',
             )
             .join(', ');
+
+        const userMessagesLength = messageConversation.userMessages.length;
+
+        if (userMessagesLength > maxParticipantsDisplay) {
+            participants = participants.concat(
+                ' (+ ' + (userMessagesLength - maxParticipantsDisplay) + ')',
+            );
+        }
 
         return (
             <div
@@ -291,6 +301,11 @@ export default compose(
                         messageConversation,
                         messageType,
                     },
+                }),
+            setSelectedMessageConversation: messageConversation =>
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+                    payload: { messageConversation },
                 }),
         }),
     ),

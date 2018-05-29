@@ -95,7 +95,9 @@ class ToolbarExtendedChoicePicker extends Component {
                 }}
             >
                 <Dialog
-                    title="Are you sure you want to delete selected message conversation(s)?"
+                    title={'Are you sure you want to delete selected message conversation'.concat(
+                        this.props.checkedIds.length > 1 ? '(s)?' : '?',
+                    )}
                     actions={actions}
                     modal={false}
                     open={this.state.dialogOpen}

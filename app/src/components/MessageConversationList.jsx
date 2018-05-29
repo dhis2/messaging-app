@@ -38,10 +38,6 @@ class MessageConversationList extends Component {
         const children = _.uniqWith(
             this.props.messageConversations[this.props.selectedMessageType.id],
             _.isEqual,
-        ).filter(
-            child =>
-                (child.status == this.props.statusFilter || this.props.statusFilter == null) &&
-                (child.priority == this.props.priorityFilter || this.props.priorityFilter == null),
         );
 
         const messageType = this.props.selectedMessageType ? this.props.selectedMessageType : '';
@@ -93,7 +89,6 @@ export default compose(
                 messageConversations: state.messaging.messageConversations,
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 selectedMessageType: state.messaging.selectedMessageType,
-                messageFilter: state.messaging.messsageFilter,
             };
         },
         dispatch => ({

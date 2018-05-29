@@ -2,24 +2,19 @@ import { getInstance as getD2Instance } from 'd2/lib/d2';
 import MessageConversation from '../components/MessageConversation';
 import { pageSize } from '../constants/development';
 
+const initialMessageConversationFields =
+    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read';
+
 const messageConversationFields =
     '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]';
-export const getMessageConversationsWithIds = messageConversationIds =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('messageConversations', {
-                fields: messageConversationFields,
-                filter: 'id:in:[' + messageConversationIds + ']',
-            }),
-        )
-        .then(result => result)
-        .catch(error => {
-            throw new Error(error);
-        });
 
 const order = 'lastMessage:desc';
-export const getMessageConversations = (messageType, page, messageFilter) =>
-    getD2Instance()
+export const getMessageConversations = (messageType, page, messageFilter, status, priority) => {
+    let filters = [`messageType:eq:${messageType}`];
+    status != null && filters.push(`status:eq:${status}`);
+    priority != null && filters.push(`priority:eq:${priority}`);
+
+    return getD2Instance()
         .then(instance =>
             instance.Api.getApi().get(
                 `messageConversations?pageSize=${pageSize}&page=${page}` +
@@ -27,9 +22,9 @@ export const getMessageConversations = (messageType, page, messageFilter) =>
                         ? `&queryString=${messageFilter}`
                         : ''),
                 {
-                    fields: [messageConversationFields],
+                    fields: [initialMessageConversationFields],
                     order,
-                    filter: `messageType:eq:${messageType}`,
+                    filter: filters,
                 },
             ),
         )
@@ -38,7 +33,20 @@ export const getMessageConversations = (messageType, page, messageFilter) =>
             pager: result.pager,
         }))
         .catch(error => {
-            throw new Error(error);
+            throw error;
+        });
+};
+
+export const getMessageConversation = messageConversation =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().get(`messageConversations/${messageConversation.id}`, {
+                fields: [messageConversationFields],
+            }),
+        )
+        .then(result => result)
+        .catch(error => {
+            throw error;
         });
 
 export const updateMessageConversationStatus = (messageConversationId, value) =>
@@ -49,7 +57,7 @@ export const updateMessageConversationStatus = (messageConversationId, value) =>
             ),
         )
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const updateMessageConversationPriority = (messageConversationId, value) =>
@@ -60,7 +68,7 @@ export const updateMessageConversationPriority = (messageConversationId, value) 
             ),
         )
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const updateMessageConversationAssignee = (messageConversationId, value) =>
@@ -84,7 +92,7 @@ export const getNrOfUnread = messageType =>
         )
         .then(result => result.pager.total)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const sendMessage = (subject, users, userGroups, organisationUnits, text, id) =>
@@ -101,18 +109,22 @@ export const sendMessage = (subject, users, userGroups, organisationUnits, text,
         )
         .then(() => ({ messageConversationId: id }))
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
-export const replyMessage = (message, messageConversationId) =>
+export const replyMessage = (message, internalReply, messageConversationId) =>
     getD2Instance()
         .then(instance =>
-            instance.Api.getApi().post('messageConversations/' + messageConversationId, message, {
-                headers: { 'Content-Type': 'text/plain' },
-            }),
+            instance.Api.getApi().post(
+                `messageConversations/${messageConversationId}?internal=${internalReply}`,
+                message,
+                {
+                    headers: { 'Content-Type': 'text/plain' },
+                },
+            ),
         )
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const deleteMessageConversation = messageConversationId =>
@@ -124,7 +136,7 @@ export const deleteMessageConversation = messageConversationId =>
         )
         .then(result => result)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const markRead = markedReadConversations =>
@@ -134,7 +146,7 @@ export const markRead = markedReadConversations =>
         )
         .then(result => result)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const markUnread = markedUnreadConversations =>
@@ -144,7 +156,7 @@ export const markUnread = markedUnreadConversations =>
         )
         .then(result => result)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 const MAX_RECIPIENT = 10;
@@ -154,12 +166,12 @@ const searchOrganisationUnits = searchValue =>
             instance.Api.getApi().get(`organisationUnits`, {
                 fields: 'id, displayName',
                 pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`],
+                filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
             }),
         )
         .then(result => result)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 /* Recipient search */
@@ -168,6 +180,7 @@ export const searchRecipients = searchValue =>
         .then(instance =>
             instance.Api.getApi().get(`sharing/search?key=${searchValue}`, {
                 pageSize: MAX_RECIPIENT,
+                filter: ['users:gte:1'],
             }),
         )
         .then(result =>
@@ -178,7 +191,7 @@ export const searchRecipients = searchValue =>
             })),
         )
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const fetchParticipants = messageConversationId =>
@@ -190,21 +203,18 @@ export const fetchParticipants = messageConversationId =>
         )
         .then(result => result)
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });
 
 export const addRecipients = (users, userGroups, organisationUnits, messageConversationId) =>
     getD2Instance()
         .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/addRecipients`,
-                {
-                    users,
-                    userGroups,
-                    organisationUnits,
-                },
-            ),
+            instance.Api.getApi().post(`messageConversations/${messageConversationId}/recipients`, {
+                users,
+                userGroups,
+                organisationUnits,
+            }),
         )
         .catch(error => {
-            throw new Error(error);
+            throw error;
         });

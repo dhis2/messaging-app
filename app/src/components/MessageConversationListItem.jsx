@@ -67,16 +67,15 @@ class MessageConversationListItem extends Component {
 
     render() {
         const messageConversation = this.props.messageConversation;
-        const message = messageConversation.messages[messageConversation.messages.length - 1];
-        const title = message.sender
-            ? message.sender.displayName
+        const title = messageConversation.lastSender
+            ? messageConversation.lastSender.displayName
             : this.props.selectedMessageType.displayName;
         const checked = _.find(this.props.checkedIds, { id: messageConversation.id }) != undefined;
 
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
         const today = moment();
-        const messageDate = moment(message.created);
+        const messageDate = moment(messageConversation.lastUpdated);
 
         return (
             <Paper
@@ -108,8 +107,16 @@ class MessageConversationListItem extends Component {
             >
                 <div
                     style={{
-                        ...subheader_minilist,
+                        fontFamily: fontFamily,
+                        fontSize: '14px',
+                        gridArea: '1 / 1 / span 1 / span 6',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignSelf: 'center',
                         color: 'black',
+                        marginLeft: '50px',
                     }}
                 >
                     {title}
@@ -121,7 +128,6 @@ class MessageConversationListItem extends Component {
                         display: 'flex',
                         alignSelf: 'center',
                         paddingLeft: '10px',
-                        width: '50px',
                     }}
                     onCheck={(event, isInputChecked) => {
                         this.props.setChecked(
@@ -133,7 +139,9 @@ class MessageConversationListItem extends Component {
 
                 <CardText
                     style={{
-                        gridArea: '2 / 1 / span 1 / span 6',
+                        gridArea: displayExtendedChoices
+                            ? '2 / 1 / span 1 / span 6'
+                            : '2 / 1 / span 1 / span 10',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -141,7 +149,7 @@ class MessageConversationListItem extends Component {
                         fontFamily: fontFamily,
                     }}
                 >
-                    {message.text}
+                    {messageConversation.subject}
                 </CardText>
 
                 {displayExtendedChoices && (
@@ -152,8 +160,8 @@ class MessageConversationListItem extends Component {
                 )}
                 <Subheader
                     style={{
-                        display: 'flex',
                         gridArea: '1 / 10',
+                        display: 'flex',
                         justifyContent: 'flex-end',
                         paddingRight: '10px',
                         fontFamily: fontFamily,

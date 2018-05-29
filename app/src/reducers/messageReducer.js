@@ -6,9 +6,9 @@ import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
 export const initialState = {
     messageConversations: {},
-    selectedMessageConversation: undefined,
     messageTypes: messageTypes,
     selectedMessageType: undefined,
+    selectedMessageConversation: undefined,
     checkedIds: [],
     messageFilter: '',
     snackMessage: '',
@@ -47,10 +47,6 @@ function messageReducer(state = initialState, action) {
                       );
 
             const setSelectedMessageType = action.selectedMessageType == replaceMessageType.id;
-            let selectedMessageConversation = _.find(replaceConversations, {
-                id: action.selectedId,
-            });
-
             return {
                 ...state,
                 messageTypes: messageTypes,
@@ -58,9 +54,6 @@ function messageReducer(state = initialState, action) {
                     ...state.messageConversations,
                     [replaceMessageType.id]: replaceConversations,
                 },
-                selectedMessageConversation: setSelectedMessageType
-                    ? selectedMessageConversation
-                    : state.selectedMessageConversation,
                 selectedMessageType: setSelectedMessageType
                     ? replaceMessageType
                     : state.selectedMessageType,
@@ -91,6 +84,13 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 snackMessage: snackMessage,
                 snackType: POSITIVE,
+            };
+
+        case actions.SEND_MESSAGE_ERROR:
+            return {
+                ...state,
+                snackMessage: action.payload.error.message,
+                snackType: NEGATIVE,
             };
 
         case actions.MESSAGE_CONVERSATIONS_DELETE_ERROR:
@@ -143,10 +143,16 @@ function messageReducer(state = initialState, action) {
                 checkedIds: [],
             };
 
-        case actions.SET_SELECTED_MESSAGE_CONVERSATION:
+        case actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS:
             return {
                 ...state,
                 selectedMessageConversation: action.payload.messageConversation,
+            };
+
+        case actions.CLEAR_SELECTED_MESSAGE_CONVERSATION:
+            return {
+                ...state,
+                selectedMessageConversation: undefined,
             };
 
         case actions.SET_SELECTED_MESSAGE_TYPE:

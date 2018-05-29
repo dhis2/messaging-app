@@ -5,6 +5,7 @@ import { compose, pure } from 'recompose';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import Checkbox from 'material-ui/Checkbox';
 
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
@@ -73,7 +74,7 @@ class ReplyCard extends Component {
         this.setState({ input: newValue });
     };
 
-    replyMessage = () => {
+    replyMessage = internalReply => {
         const error = this.state.input === '';
         this.setState({
             inputError: this.state.input === '',
@@ -81,6 +82,7 @@ class ReplyCard extends Component {
         if (!error) {
             this.props.replyMessage(
                 this.state.input,
+                internalReply,
                 this.props.selectedMessageConversation,
                 this.props.selectedMessageType,
             );
@@ -122,7 +124,11 @@ class ReplyCard extends Component {
                         onChange={this.texFieldUpdate}
                     />
                     <CardActions>
-                        <FlatButton label="Send" onClick={this.replyMessage} />
+                        <FlatButton label="Reply" onClick={() => this.replyMessage(false)} />
+                        <FlatButton
+                            label="Internal reply"
+                            onClick={() => this.replyMessage(true)}
+                        />
                         <FlatButton
                             label="Discard"
                             onClick={() => {
@@ -149,11 +155,12 @@ export default compose(
             };
         },
         dispatch => ({
-            replyMessage: (message, messageConversation, messageType) =>
+            replyMessage: (message, internalReply, messageConversation, messageType) =>
                 dispatch({
                     type: actions.REPLY_MESSAGE,
                     payload: {
                         message,
+                        internalReply,
                         messageConversation,
                         messageType,
                     },

@@ -13,7 +13,6 @@ export const subheader_minilist = {
     fontFamily: fontFamily,
     display: 'flex',
     alignSelf: 'center',
-    gridArea: '1 / 1',
 };
 
 export const messagePanelContainer = {

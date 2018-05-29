@@ -11,6 +11,28 @@ import { merge } from 'rxjs/operator/merge';
 
 import { Observable } from 'rxjs/Rx';
 
+const setSelectedMessageConversation = action$ =>
+    action$
+        .ofType(
+            actions.SET_SELECTED_MESSAGE_CONVERSATION,
+            actions.ADD_RECIPIENTS_SUCCESS,
+            actions.REPLY_MESSAGE_SUCCESS,
+        )
+        .switchMap(action =>
+            api
+                .getMessageConversation(action.payload.messageConversation)
+                .then(result => ({
+                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS,
+                    payload: {
+                        messageConversation: result,
+                    },
+                }))
+                .catch(error => ({
+                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION_ERROR,
+                    payload: { error },
+                })),
+        );
+
 const updateMessageConversations = action$ =>
     action$.ofType(actions.UPDATE_MESSAGE_CONVERSATIONS).concatMap(action => {
         let promises = action.payload.messageConversationIds.map(messageConversationId => {
@@ -129,8 +151,6 @@ const loadMessageConversations = action$ =>
             actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
             actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
             actions.SEND_MESSAGE_SUCCESS,
-            actions.REPLY_MESSAGE_SUCCESS,
-            actions.ADD_RECIPIENTS_SUCCESS,
         )
         .mergeMap(action =>
             api
@@ -138,6 +158,8 @@ const loadMessageConversations = action$ =>
                     action.payload.messageType.id,
                     action.payload.messageType.page,
                     action.payload.messageFilter,
+                    action.payload.statusFilter,
+                    action.payload.priorityFilter,
                 )
                 .then(result =>
                     api.getNrOfUnread(action.payload.messageType.id).then(nrOfUnread => ({
@@ -148,7 +170,6 @@ const loadMessageConversations = action$ =>
                         },
                         messageType: action.payload.messageType,
                         selectedMessageType: action.payload.selectedMessageType,
-                        selectedId: action.payload.selectedId,
                         nrOfUnread: nrOfUnread,
                     })),
                 )
@@ -201,10 +222,18 @@ const sendMessage = action$ =>
 const replyMessage = action$ =>
     action$.ofType(actions.REPLY_MESSAGE).concatMap(action =>
         api
-            .replyMessage(action.payload.message, action.payload.messageConversation.id)
+            .replyMessage(
+                action.payload.message,
+                action.payload.internalReply,
+                action.payload.messageConversation.id,
+            )
             .then(() => ({
                 type: actions.REPLY_MESSAGE_SUCCESS,
-                payload: { messageType: action.payload.messageType, page: 1 },
+                payload: {
+                    messageConversation: action.payload.messageConversation,
+                    messageType: action.payload.messageType,
+                    page: 1,
+                },
             }))
             .catch(error => ({
                 type: actions.REPLY_MESSAGE_ERROR,
@@ -252,7 +281,11 @@ const addRecipients = action$ => {
             )
             .then(() => ({
                 type: actions.ADD_RECIPIENTS_SUCCESS,
-                payload: { messageType: action.payload.messageType, page: 1 },
+                payload: {
+                    messageConversation: action.payload.messageConversation,
+                    messageType: action.payload.messageType,
+                    page: 1,
+                },
             }))
             .catch(error => ({
                 type: actions.ADD_RECIPIENTS_ERROR,
@@ -262,6 +295,7 @@ const addRecipients = action$ => {
 };
 
 export default combineEpics(
+    setSelectedMessageConversation,
     updateMessageConversations,
     updateMessageConversationStatus,
     updateMessageConversationPriority,
