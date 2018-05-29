@@ -25,7 +25,7 @@ export const messagePanelContainer = {
 
 export const grid = {
     display: 'grid',
-    gridTemplateColumns: 'minmax(150px, 15%) 20% 65%',
+    gridTemplateColumns: 'repeat(10, 1fr)',
     gridTemplateRows: '48px calc(100vh - 48px)',
     marginTop: '48px',
     width: '100%',

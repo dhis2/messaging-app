@@ -15,6 +15,7 @@ const setSelectedMessageConversation = action$ =>
     action$
         .ofType(
             actions.SET_SELECTED_MESSAGE_CONVERSATION,
+            actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
             actions.ADD_RECIPIENTS_SUCCESS,
             actions.REPLY_MESSAGE_SUCCESS,
         )

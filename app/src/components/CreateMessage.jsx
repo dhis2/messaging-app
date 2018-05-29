@@ -84,8 +84,8 @@ class CreateMessage extends Component {
 
     render() {
         const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 2'
-            : '2 / 3 / span 1 / span 1';
+            ? '2 / 2 / span 1 / span 9'
+            : '2 / 4 / span 1 / span 7';
         return (
             <div
                 style={{

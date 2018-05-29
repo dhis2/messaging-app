@@ -10,7 +10,7 @@ const messageTypes = [
     },
     {
         id: 'VALIDATION_RESULT',
-        displayName: 'Validation result',
+        displayName: 'Validation',
         unread: 0,
         loaded: 0,
         loading: false,

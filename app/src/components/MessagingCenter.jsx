@@ -145,50 +145,46 @@ class MessagingCenter extends Component {
             <div style={grid}>
                 <Paper
                     style={{
-                        gridArea: '1 / 1 / span 1 / span 3',
+                        gridArea: '1 / 1 / span 1 / span 10',
                         display: 'grid',
-                        gridTemplateColumns: 'minmax(150px, 15%) 20% 20% 45%',
+                        gridTemplateColumns: grid.gridTemplateColumns,
                         backgroundColor: checkedOptions
                             ? theme.palette.blue50
                             : theme.palette.accent2Color,
                         zIndex: 10,
                     }}
                 >
-                    {messageType == 'PRIVATE' &&
-                        !checkedOptions && (
+                    <div style={{ gridArea: '1 / 1', minWidth: '250px', alignSelf: 'center' }}>
+                        {messageType == 'PRIVATE' &&
+                            (!checkedOptions && (
+                                <FlatButton
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'flex-start',
+                                    }}
+                                    icon={<CreateMessageIcon />}
+                                    onClick={() => history.push('/' + messageType + '/create')}
+                                    label={'Compose'}
+                                />
+                            ))}
+
+                        {checkedOptions && (
                             <FlatButton
                                 style={{
                                     display: 'flex',
                                     justifyContent: 'flex-start',
-                                    alignSelf: 'center',
-                                    gridArea: '1 / 1',
-                                    width: '150px',
                                 }}
-                                icon={<CreateMessageIcon />}
-                                onClick={() => history.push('/' + messageType + '/create')}
-                                label={'Compose'}
+                                icon={<NavigationBack />}
+                                onClick={() => this.props.clearCheckedIds()}
+                                label={'Undo'}
                             />
                         )}
-
-                    {checkedOptions && (
-                        <FlatButton
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                alignSelf: 'center',
-                                gridArea: '1 / 1',
-                                width: '150px',
-                            }}
-                            icon={<NavigationBack />}
-                            onClick={() => this.props.clearCheckedIds()}
-                            label={'Undo'}
-                        />
-                    )}
+                    </div>
 
                     {!checkedOptions && (
                         <TextField
                             style={{
-                                gridArea: '1 / 2',
+                                gridArea: '1 / 2 / span 1 / span 2',
                                 height: headerHight,
                                 padding: '0px 0px',
                             }}
@@ -207,16 +203,19 @@ class MessagingCenter extends Component {
                         !checkedOptions && (
                             <div
                                 style={{
-                                    gridArea: '1 / 3',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
+                                    gridArea: '1 / 4 / span 1 / span 4',
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(4, 1fr)',
                                     marginLeft: '10px',
                                     height: headerHight,
                                 }}
                             >
                                 <SelectField
-                                    style={{ width: '150px', height: headerHight }}
+                                    style={{
+                                        width: '150px',
+                                        height: headerHight,
+                                        gridArea: '1 / 1',
+                                    }}
                                     labelStyle={{
                                         color:
                                             this.state.statusFilter == null ? 'lightGray' : 'black',
@@ -250,7 +249,11 @@ class MessagingCenter extends Component {
                                 </SelectField>
 
                                 <SelectField
-                                    style={{ width: '150px', height: headerHight }}
+                                    style={{
+                                        width: '150px',
+                                        height: headerHight,
+                                        gridArea: '1 / 2',
+                                    }}
                                     labelStyle={{
                                         color:
                                             this.state.priorityFilter == null
@@ -289,7 +292,7 @@ class MessagingCenter extends Component {
 
                     <div
                         style={{
-                            gridArea: '1 / 4',
+                            gridArea: '1 / 8 / span 1 / span 3',
                             display: 'flex',
                             flexDirection: 'row',
                             justifyContent: 'flex-end',
@@ -351,9 +354,11 @@ class MessagingCenter extends Component {
                               displayExtendedChoices={displayExtendedChoices}
                           />
                       )
-                    : !this.state.wideview && (
+                    : !this.state.wideview &&
+                      id != 'create' && (
                           <div
                               style={{
+                                  gridArea: '2 / 4 / span 1 / span 7',
                                   textAlign: 'center',
                                   paddingTop: '100px',
                               }}

@@ -109,11 +109,12 @@ class MessageConversationListItem extends Component {
                     style={{
                         fontFamily: fontFamily,
                         fontSize: '14px',
-                        gridArea: '1 / 1 / span 1 / span 6',
+                        gridArea: displayExtendedChoices
+                            ? '1 / 1 / span 1 / span 6'
+                            : '1 / 1 / span 1 / span 9',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        display: 'flex',
                         alignSelf: 'center',
                         color: 'black',
                         marginLeft: '50px',
@@ -127,7 +128,8 @@ class MessageConversationListItem extends Component {
                         gridArea: '1 / 1',
                         display: 'flex',
                         alignSelf: 'center',
-                        paddingLeft: '10px',
+                        marginLeft: '10px',
+                        width: '24px',
                     }}
                     onCheck={(event, isInputChecked) => {
                         this.props.setChecked(

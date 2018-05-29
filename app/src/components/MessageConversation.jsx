@@ -105,8 +105,8 @@ class MessageConversation extends Component {
             this.props.wideview;
         const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType) + 1);
         const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 2'
-            : '2 / 3 / span 1 / span 1';
+            ? '2 / 2 / span 1 / span 9'
+            : '2 / 4 / span 1 / span 7';
 
         let participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)

@@ -33,8 +33,8 @@ class MessageConversationList extends Component {
             !this.props.wideview || this.props.selectedMessageConversation == undefined;
 
         const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 2'
-            : '2 / 2 / span 1 / span 1';
+            ? '2 / 2 / span 1 / span 9'
+            : '2 / 2 / span 1 / span 2';
         const children = _.uniqWith(
             this.props.messageConversations[this.props.selectedMessageType.id],
             _.isEqual,
