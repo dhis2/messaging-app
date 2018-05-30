@@ -5,13 +5,24 @@ import history from 'utils/history';
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
 export const initialState = {
+    // Message conversation
     messageConversations: {},
     messageTypes: messageTypes,
     selectedMessageType: undefined,
     selectedMessageConversation: undefined,
     checkedIds: [],
     messageFilter: '',
+    isInFeedbackRecipientGroup: false,
+
+    // Input for create and reply
+    subject: '',
+    input: '',
+    recipients: [],
+
+    // Snackbar
     snackMessage: '',
+    onSnackActionClick: undefined,
+    onSnackRequestClose: undefined,
     snackType: NEUTRAL,
 };
 
@@ -112,6 +123,8 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 snackMessage: action.payload.message,
                 snackType: action.payload.snackType,
+                onSnackActionClick: action.payload.onSnackActionClick,
+                onSnackRequestClose: action.payload.onSnackRequestClose,
             };
 
         case actions.CLEAR_SNACK_MESSAGE:
@@ -167,6 +180,14 @@ function messageReducer(state = initialState, action) {
                 selectedMessageConversation: undefined,
             };
 
+        case actions.UPDATE_INPUT_FIELDS:
+            return {
+                ...state,
+                subject: action.payload.subject,
+                input: action.payload.input,
+                recipients: action.payload.recipients,
+            };
+
         case actions.SET_MESSAGE_FILTER:
             return {
                 ...state,
@@ -183,6 +204,12 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 messageTypes: messageTypes,
+            };
+
+        case actions.SET_IN_FEEDBACK_RECIPIENT_GROUP:
+            return {
+                ...state,
+                isInFeedbackRecipientGroup: action.payload.isInFeedbackRecipientGroup,
             };
 
         default:

@@ -89,9 +89,12 @@ class ToolbarExtendedChoicePicker extends Component {
         return display ? (
             <div
                 style={{
+                    gridArea: this.props.displayExtendedChoices
+                        ? '1 / 6 / span 1 / span 2'
+                        : '1 / 4 / span 1 / span 2',
                     width: '400px',
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
                 }}
             >
                 <Dialog
@@ -111,25 +114,11 @@ class ToolbarExtendedChoicePicker extends Component {
                     }
                 />
 
-                {multiSelect && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 1 / span 1 / span 1',
-                            padding: '0px 0px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {displayNumberOfCheckedIds} selected
-                    </Subheader>
-                )}
-
                 <div
                     style={{
-                        gridArea: '1 / 2 / span 1 / span 2',
+                        gridArea: '1 / 1 / span 1 / span 1',
                         display: 'flex',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'flex-start',
                     }}
                 >
                     <CustomFontIcon
@@ -153,51 +142,68 @@ class ToolbarExtendedChoicePicker extends Component {
                         icon={'done'}
                         tooltip={'Mark selected as read'}
                     />
-                    {this.props.displayExtendedChoices && (
-                        <IconMenu
-                            iconButtonElement={
-                                <IconButton>
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                            targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        >
-                            <Subheader style={{ padding: '0px 16px' }}> Set status </Subheader>
-                            {extendedChoices.STATUS.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                    onClick={() =>
-                                        this.updateMessageConversation('STATUS', elem.key)
-                                    }
-                                />
-                            ))}
-                            <Divider />
-                            <Subheader style={{ padding: '0px 16px' }}> Set priority </Subheader>
-                            {extendedChoices.PRIORITY.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                    onClick={() =>
-                                        this.updateMessageConversation('PRIORITY', elem.key)
-                                    }
-                                />
-                            ))}
-                            <Divider />
-                            <MenuItem
-                                key={'assignTo'}
-                                value={'assignTo'}
-                                primaryText={'Assign to'}
-                                onClick={() =>
-                                    this.setState({ assignToOpen: !this.state.assignToOpen })
+                    {this.props.displayExtendedChoices &&
+                        this.props.isInFeedbackRecipientGroup && (
+                            <IconMenu
+                                iconButtonElement={
+                                    <IconButton>
+                                        <MoreVertIcon />
+                                    </IconButton>
                                 }
-                            />
-                        </IconMenu>
-                    )}
+                                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                                targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            >
+                                <Subheader style={{ padding: '0px 16px' }}> Set status </Subheader>
+                                {extendedChoices.STATUS.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                        onClick={() =>
+                                            this.updateMessageConversation('STATUS', elem.key)
+                                        }
+                                    />
+                                ))}
+                                <Divider />
+                                <Subheader style={{ padding: '0px 16px' }}>
+                                    {' '}
+                                    Set priority{' '}
+                                </Subheader>
+                                {extendedChoices.PRIORITY.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                        onClick={() =>
+                                            this.updateMessageConversation('PRIORITY', elem.key)
+                                        }
+                                    />
+                                ))}
+                                <Divider />
+                                <MenuItem
+                                    key={'assignTo'}
+                                    value={'assignTo'}
+                                    primaryText={'Assign to'}
+                                    onClick={() =>
+                                        this.setState({ assignToOpen: !this.state.assignToOpen })
+                                    }
+                                />
+                            </IconMenu>
+                        )}
                 </div>
+                {multiSelect && (
+                    <Subheader
+                        style={{
+                            gridArea: '1 / 2 / span 1 / span 1',
+                            padding: '0px 0px',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {displayNumberOfCheckedIds} selected
+                    </Subheader>
+                )}
             </div>
         ) : (
             <div />
@@ -212,6 +218,7 @@ export default compose(
                 selectedMessageType: state.messaging.selectedMessageType,
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 checkedIds: state.messaging.checkedIds,
+                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
         dispatch => ({

@@ -10,7 +10,8 @@ import CreateMessageIcon from 'material-ui-icons/Add';
 import NavigationBack from 'material-ui-icons/ArrowBack';
 import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
-import ViewList from 'material-ui-icons/ViewList';
+import ViewFancy from 'material-ui-icons/ViewList';
+import ViewList from 'material-ui-icons/ViewHeadline';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader/Subheader';
@@ -31,6 +32,7 @@ import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
 
 import extendedChoices from '../constants/extendedChoices';
 
+import * as api from 'api/api';
 import history from 'utils/history';
 
 const headerHight = '48px';
@@ -56,6 +58,10 @@ class MessagingCenter extends Component {
             const initialMessageConversation = { id: selectedId };
             this.props.setSelectedMessageConversation(initialMessageConversation);
         }
+
+        api
+            .isInFeedbackRecipientGroup()
+            .then(result => this.props.setIsInFeedbackRecipientGroup(result));
 
         this.props.messageTypes.map(messageType => {
             this.props.loadMessageConversations(
@@ -96,6 +102,10 @@ class MessagingCenter extends Component {
     componentDidUpdate(prevProps, prevState) {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+
+        if (selectedId != 'create') {
+            this.props.updateInputFields('', '', []);
+        }
 
         if (
             prevState.statusFilter != this.state.statusFilter ||
@@ -155,18 +165,17 @@ class MessagingCenter extends Component {
                     }}
                 >
                     <div style={{ gridArea: '1 / 1', minWidth: '250px', alignSelf: 'center' }}>
-                        {messageType == 'PRIVATE' &&
-                            (!checkedOptions && (
-                                <FlatButton
-                                    style={{
-                                        display: 'flex',
-                                        justifyContent: 'flex-start',
-                                    }}
-                                    icon={<CreateMessageIcon />}
-                                    onClick={() => history.push('/' + messageType + '/create')}
-                                    label={'Compose'}
-                                />
-                            ))}
+                        {!checkedOptions && (
+                            <FlatButton
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-start',
+                                }}
+                                icon={<CreateMessageIcon />}
+                                onClick={() => history.push('/PRIVATE/create')}
+                                label={'Compose'}
+                            />
+                        )}
 
                         {checkedOptions && (
                             <FlatButton
@@ -176,7 +185,7 @@ class MessagingCenter extends Component {
                                 }}
                                 icon={<NavigationBack />}
                                 onClick={() => this.props.clearCheckedIds()}
-                                label={'Undo'}
+                                label={'Deselect all'}
                             />
                         )}
                     </div>
@@ -290,33 +299,23 @@ class MessagingCenter extends Component {
                             </div>
                         )}
 
+                    <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} />
+
                     <div
                         style={{
-                            gridArea: '1 / 8 / span 1 / span 3',
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'flex-end',
+                            gridArea: '1 / 10 / span 1 / span 1',
+                            borderLeft: '1px solid black',
                             alignSelf: 'center',
+                            marginLeft: '100px',
                         }}
                     >
-                        <ToolbarExtendedChoicePicker
-                            displayExtendedChoices={displayExtendedChoices}
-                        />
-                        <div
-                            style={{
-                                borderRight: '1px solid black',
-                                alignSelf: 'center',
-                                height: '26px',
-                                padding: '5px',
-                            }}
-                        />
                         <FlatButton
                             style={{
                                 display: 'flex',
                                 alignSelf: 'center',
                                 justifyContent: 'center',
                             }}
-                            icon={<ViewList />}
+                            icon={!this.state.wideview ? <ViewList /> : <ViewFancy />}
                             onClick={() => this.toogleWideview()}
                         />
                     </div>
@@ -410,6 +409,11 @@ export default compose(
                         priorityFilter,
                     },
                 }),
+            setIsInFeedbackRecipientGroup: isInFeedbackRecipientGroup =>
+                dispatch({
+                    type: actions.SET_IN_FEEDBACK_RECIPIENT_GROUP,
+                    payload: { isInFeedbackRecipientGroup },
+                }),
             setMessageFilter: messageFilter =>
                 dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
@@ -421,6 +425,11 @@ export default compose(
             clearSelectedMessageConversation: () =>
                 dispatch({
                     type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
+                }),
+            updateInputFields: (subject, input, recipients) =>
+                dispatch({
+                    type: actions.UPDATE_INPUT_FIELDS,
+                    payload: { subject, input, recipients },
                 }),
         }),
     ),

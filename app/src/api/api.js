@@ -174,6 +174,27 @@ const searchOrganisationUnits = searchValue =>
             throw error;
         });
 
+/* Feedback recipient query */
+
+export const isInFeedbackRecipientGroup = () =>
+    getD2Instance()
+        .then(instance => instance.Api.getApi().get(`me`, { fields: 'userGroups[id]' }))
+        .then(result =>
+            getD2Instance()
+                .then(instance => instance.Api.getApi().get(`configuration`))
+                .then(
+                    configuration =>
+                        _.find(result.userGroups, { id: configuration.feedbackRecipients.id }) !=
+                        undefined,
+                )
+                .catch(error => {
+                    throw error;
+                }),
+        )
+        .catch(error => {
+            throw error;
+        });
+
 /* Recipient search */
 export const searchRecipients = searchValue =>
     getD2Instance()

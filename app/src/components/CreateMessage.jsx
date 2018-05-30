@@ -6,7 +6,7 @@ import SuggestionField from './SuggestionField';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-
+import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader/Subheader';
@@ -25,38 +25,40 @@ class CreateMessage extends Component {
         super(props);
 
         this.state = {
-            subject: '',
             subjectError: false,
-            input: '',
             inputError: false,
-            recipients: [],
             recipientError: false,
+            snackbarOpen: false,
         };
     }
 
     subjectUpdate = (event, newValue) => {
-        this.setState({ subject: newValue });
+        this.props.updateInputFields(newValue, this.props.input, this.props.recipients);
     };
 
     inputUpdate = (event, newValue) => {
-        this.setState({ input: newValue });
+        this.props.updateInputFields(this.props.subject, newValue, this.props.recipients);
+    };
+
+    updateRecipients = recipients => {
+        this.props.updateInputFields(this.props.subject, this.props.input, recipients);
     };
 
     sendMessage = () => {
         const error =
-            this.state.input === '' ||
-            this.state.subject === '' ||
-            this.state.recipients.length === 0;
+            this.props.input === '' ||
+            this.props.subject === '' ||
+            this.props.recipients.length === 0;
         this.setState({
-            inputError: this.state.input === '',
-            subjectError: this.state.subject === '',
-            recipientError: this.state.recipients.length === 0,
+            inputError: this.props.input === '',
+            subjectError: this.props.subject === '',
+            recipientError: this.props.recipients.length === 0,
         });
         if (!error) {
             const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
-            const users = this.state.recipients.filter(r => r.type === 'user');
-            const userGroups = this.state.recipients.filter(r => r.type === 'userGroup');
-            const organisationUnits = this.state.recipients.filter(
+            const users = this.props.recipients.filter(r => r.type === 'user');
+            const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
+            const organisationUnits = this.props.recipients.filter(
                 r => r.type === 'organisationUnit',
             );
             this.props.sendMessage(
@@ -73,13 +75,7 @@ class CreateMessage extends Component {
     };
 
     wipeInput = () => {
-        this.setState({ subject: '', input: '', recipients: [] });
-    };
-
-    updateRecipients = recipients => {
-        this.setState({
-            recipients,
-        });
+        this.props.updateInputFields('', '', []);
     };
 
     render() {
@@ -98,14 +94,14 @@ class CreateMessage extends Component {
                     <CardText>
                         <SuggestionField
                             label={'To'}
-                            recipients={this.state.recipients}
+                            recipients={this.props.recipients}
                             updateRecipients={this.updateRecipients}
                             errorText={this.state.recipientError ? 'This field is required' : ''}
                         />
                         <TextField
                             floatingLabelText="Subject"
                             fullWidth
-                            value={this.state.subject}
+                            value={this.props.subject}
                             errorText={this.state.subjectError ? 'This field is required' : ''}
                             onChange={this.subjectUpdate}
                         />
@@ -114,7 +110,7 @@ class CreateMessage extends Component {
                             id={'createMessage'}
                             rows={5}
                             underlineShow={false}
-                            value={this.state.input}
+                            value={this.props.input}
                             multiLine
                             fullWidth
                             floatingLabelText="Message"
@@ -123,7 +119,18 @@ class CreateMessage extends Component {
                         />
                         <CardActions>
                             <FlatButton label="Send" onClick={() => this.sendMessage()} />
-                            <FlatButton label="Discard" onClick={() => history.push('/PRIVATE')} />
+                            <FlatButton
+                                label="Discard"
+                                onClick={() => {
+                                    this.props.displaySnackMessage(
+                                        'Message discarded',
+                                        () => history.push('/PRIVATE/create'),
+                                        () => this.wipeInput(),
+                                        NEGATIVE,
+                                    );
+                                    history.push('/PRIVATE');
+                                }}
+                            />
                         </CardActions>
                     </CardText>
                 </Card>
@@ -137,6 +144,9 @@ export default compose(
         state => {
             return {
                 messageTypes: state.messaging.messageTypes,
+                subject: state.messaging.subject,
+                input: state.messaging.input,
+                recipients: state.messaging.recipients,
             };
         },
         dispatch => ({
@@ -161,8 +171,16 @@ export default compose(
                         messageType,
                     },
                 }),
-            displaySnackMessage: (message, snackType) =>
-                dispatch({ type: actions.DISPLAY_SNACK_MESSAGE, payload: { message, snackType } }),
+            displaySnackMessage: (message, onSnackActionClick, onSnackRequestClose, snackType) =>
+                dispatch({
+                    type: actions.DISPLAY_SNACK_MESSAGE,
+                    payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
+                }),
+            updateInputFields: (subject, input, recipients) =>
+                dispatch({
+                    type: actions.UPDATE_INPUT_FIELDS,
+                    payload: { subject, input, recipients },
+                }),
         }),
     ),
     pure,

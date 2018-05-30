@@ -68,7 +68,11 @@ class MessageTypeItem extends Component {
                 <Subheader
                     style={{
                         marginLeft: '5px',
-                        fontSize: '18px',
+                        fontSize:
+                            this.props.selectedMessageType &&
+                            this.props.messageType.id == this.props.selectedMessageType.id
+                                ? '18px'
+                                : '16px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',

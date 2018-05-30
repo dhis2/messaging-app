@@ -23,6 +23,7 @@ import {
 export default getMuiTheme({
     palette: {
         primary1Color: 'rgb(39, 102, 150)',
+        negative: pinkA200,
         blue50: blue50,
         primary2Color: blue100,
         primary3Color: blue300,
@@ -36,8 +37,6 @@ export default getMuiTheme({
         alternateTextColor: white,
         canvasColor: white,
         borderColor: grey300,
-        disabledColor: fade(darkBlack, 0.3),
-        pickerHeaderColor: blue500,
         clockCircleColor: fade(darkBlack, 0.07),
         shadowColor: fullBlack,
     },

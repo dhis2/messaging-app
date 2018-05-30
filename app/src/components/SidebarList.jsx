@@ -44,7 +44,7 @@ class SidebarList extends Component {
                     borderRightStyle: 'solid',
                     borderRightWidth: '1px',
                     borderRightColor: theme.palette.accent4Color,
-                    overflowY: 'scroll',
+                    overflowY: 'hidden',
                     minWidth: '250px',
                 }}
             >

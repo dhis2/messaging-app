@@ -88,8 +88,8 @@ class MessageConversationListItem extends Component {
                     margin: this.props.wideview ? '10px 10px 10px 10px' : '',
                     borderLeftStyle:
                         !messageConversation.read && !this.state.expanded ? 'solid' : '',
-                    borderLeftWidth: '3px',
-                    borderLeftColor: theme.palette.primary1Color,
+                    borderLeftWidth: '6px',
+                    borderLeftColor: '#439E8E',
                     cursor: this.state.cursor,
                     boxSizing: 'border-box',
                     position: 'relative',
@@ -154,12 +154,13 @@ class MessageConversationListItem extends Component {
                     {messageConversation.subject}
                 </CardText>
 
-                {displayExtendedChoices && (
-                    <ExtendedInformation
-                        messageConversation={messageConversation}
-                        gridArea={'1 / 7 / span 1 / span 3'}
-                    />
-                )}
+                {displayExtendedChoices &&
+                    this.props.isInFeedbackRecipientGroup && (
+                        <ExtendedInformation
+                            messageConversation={messageConversation}
+                            gridArea={'1 / 7 / span 1 / span 3'}
+                        />
+                    )}
                 <Subheader
                     style={{
                         gridArea: '1 / 10',
@@ -186,6 +187,7 @@ export default compose(
                 selectedMessageType: state.messaging.selectedMessageType,
                 checkedIds: state.messaging.checkedIds,
                 numberOfCheckedIds: state.messaging.checkedIds.length,
+                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
         dispatch => ({

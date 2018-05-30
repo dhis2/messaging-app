@@ -22,7 +22,6 @@ class ReplyCard extends Component {
         super(props);
 
         this.state = {
-            input: '',
             inputError: false,
             expanded: false,
         };
@@ -71,17 +70,17 @@ class ReplyCard extends Component {
     };
 
     texFieldUpdate = (event, newValue) => {
-        this.setState({ input: newValue });
+        this.props.updateInputFields('', newValue, []);
     };
 
     replyMessage = internalReply => {
-        const error = this.state.input === '';
+        const error = this.props.input === '';
         this.setState({
-            inputError: this.state.input === '',
+            inputError: this.props.input === '',
         });
         if (!error) {
             this.props.replyMessage(
-                this.state.input,
+                this.props.input,
                 internalReply,
                 this.props.selectedMessageConversation,
                 this.props.selectedMessageType,
@@ -91,8 +90,8 @@ class ReplyCard extends Component {
     };
 
     wipeInput = () => {
+        this.props.updateInputFields('', '', []);
         this.setState({
-            input: '',
             expanded: false,
             inputError: false,
         });
@@ -116,13 +115,14 @@ class ReplyCard extends Component {
                         id={this.props.messageConversation.id}
                         rows={5}
                         underlineShow={false}
-                        value={this.state.input}
+                        value={this.props.input}
                         multiLine
                         fullWidth
                         floatingLabelText="Message"
                         errorText={this.state.inputError ? 'This field is required' : ''}
                         onChange={this.texFieldUpdate}
                     />
+
                     <CardActions>
                         <FlatButton label="Reply" onClick={() => this.replyMessage(false)} />
                         <FlatButton
@@ -132,7 +132,15 @@ class ReplyCard extends Component {
                         <FlatButton
                             label="Discard"
                             onClick={() => {
-                                this.wipeInput();
+                                this.props.displaySnackMessage(
+                                    'Reply discarded',
+                                    () =>
+                                        this.setState({
+                                            expanded: true,
+                                        }),
+                                    () => this.wipeInput(),
+                                    NEGATIVE,
+                                );
                                 this.setState({
                                     expanded: false,
                                 });
@@ -152,6 +160,7 @@ export default compose(
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 selectedMessageType: state.messaging.selectedMessageType,
                 messageTypes: state.messaging.messageTypes,
+                input: state.messaging.input,
             };
         },
         dispatch => ({
@@ -167,8 +176,16 @@ export default compose(
                 }),
             setSelectedMessageType: messageTypeId =>
                 dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
-            displaySnackMessage: (message, snackType) =>
-                dispatch({ type: actions.DISPLAY_SNACK_MESSAGE, payload: { message, snackType } }),
+            updateInputFields: (subject, input, recipients) =>
+                dispatch({
+                    type: actions.UPDATE_INPUT_FIELDS,
+                    payload: { subject, input, recipients },
+                }),
+            displaySnackMessage: (message, onSnackActionClick, onSnackRequestClose, snackType) =>
+                dispatch({
+                    type: actions.DISPLAY_SNACK_MESSAGE,
+                    payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
+                }),
         }),
     ),
     pure,
