@@ -43,6 +43,7 @@ class ToolbarExtendedChoicePicker extends Component {
             identifier,
             value,
             this.props.selectedMessageType,
+            this.props.selectedMessageConversation,
         );
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
     };
@@ -89,9 +90,7 @@ class ToolbarExtendedChoicePicker extends Component {
         return display ? (
             <div
                 style={{
-                    gridArea: this.props.displayExtendedChoices
-                        ? '1 / 6 / span 1 / span 2'
-                        : '1 / 4 / span 1 / span 2',
+                    gridArea: '1 / 2 / span 1 / span 2',
                     width: '400px',
                     display: 'grid',
                     gridTemplateColumns: 'repeat(2, 1fr)',
@@ -223,15 +222,32 @@ export default compose(
         },
         dispatch => ({
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+            setSelectedMessageConversation: messageConversation =>
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+                    payload: { messageConversation },
+                }),
             deleteMessageConversations: (messageConversationIds, messageType) =>
                 dispatch({
                     type: actions.DELETE_MESSAGE_CONVERSATIONS,
                     payload: { messageConversationIds, messageType },
                 }),
-            updateMessageConversations: (messageConversationIds, identifier, value, messageType) =>
+            updateMessageConversations: (
+                messageConversationIds,
+                identifier,
+                value,
+                messageType,
+                selectedMessageConversation,
+            ) =>
                 dispatch({
                     type: actions.UPDATE_MESSAGE_CONVERSATIONS,
-                    payload: { messageConversationIds, identifier, value, messageType },
+                    payload: {
+                        messageConversationIds,
+                        identifier,
+                        value,
+                        messageType,
+                        selectedMessageConversation,
+                    },
                 }),
             markMessageConversationsUnread: (markedUnreadConversations, messageType) =>
                 dispatch({

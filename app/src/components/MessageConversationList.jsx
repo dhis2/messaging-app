@@ -12,6 +12,7 @@ import MessageConversationListItem from './MessageConversationListItem';
 import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
+import ListItemHeader from './ListItemHeader';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 
@@ -56,6 +57,9 @@ class MessageConversationList extends Component {
                     ...messagePanelContainer,
                 }}
             >
+                {this.props.wideview && (
+                    <ListItemHeader displayExtendedChoices={this.props.displayExtendedChoices} />
+                )}
                 {children && children.length != 0 ? (
                     children.map(child => {
                         return (

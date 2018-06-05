@@ -75,7 +75,7 @@ class MessageConversationListItem extends Component {
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
         const today = moment();
-        const messageDate = moment(messageConversation.lastUpdated);
+        const messageDate = moment(messageConversation.lastMessage);
 
         return (
             <Paper
@@ -83,9 +83,8 @@ class MessageConversationListItem extends Component {
                     backgroundColor: this.getBackgroundColor(messageConversation, checked),
                     display: 'grid',
                     gridTemplateColumns: 'repeat(10, 1fr)',
-                    gridTemplateRows: '15% 85%',
+                    gridTemplateRows: this.props.wideview ? '' : '15% 85%',
                     transition: 'all 0.2s ease-in-out',
-                    margin: this.props.wideview ? '10px 10px 10px 10px' : '',
                     borderLeftStyle:
                         !messageConversation.read && !this.state.expanded ? 'solid' : '',
                     borderLeftWidth: '6px',
@@ -109,9 +108,11 @@ class MessageConversationListItem extends Component {
                     style={{
                         fontFamily: fontFamily,
                         fontSize: '14px',
-                        gridArea: displayExtendedChoices
-                            ? '1 / 1 / span 1 / span 6'
-                            : '1 / 1 / span 1 / span 9',
+                        gridArea: this.props.wideview
+                            ? '1 / 1 / span 1 / span 2'
+                            : displayExtendedChoices
+                                ? '1 / 1 / span 1 / span 6'
+                                : '1 / 1 / span 1 / span 9',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -141,9 +142,11 @@ class MessageConversationListItem extends Component {
 
                 <CardText
                     style={{
-                        gridArea: displayExtendedChoices
-                            ? '2 / 1 / span 1 / span 6'
-                            : '2 / 1 / span 1 / span 10',
+                        gridArea: this.props.wideview
+                            ? '1 / 3 / span 1 / span 6'
+                            : displayExtendedChoices
+                                ? '2 / 1 / span 1 / span 6'
+                                : '2 / 1 / span 1 / span 10',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',

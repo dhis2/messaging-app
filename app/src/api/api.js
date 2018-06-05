@@ -37,8 +37,9 @@ export const getMessageConversations = (messageType, page, messageFilter, status
         });
 };
 
-export const getMessageConversation = messageConversation =>
-    getD2Instance()
+export const getMessageConversation = messageConversation => {
+    console.log(messageConversation);
+    return getD2Instance()
         .then(instance =>
             instance.Api.getApi().get(`messageConversations/${messageConversation.id}`, {
                 fields: [messageConversationFields],
@@ -48,6 +49,7 @@ export const getMessageConversation = messageConversation =>
         .catch(error => {
             throw error;
         });
+};
 
 export const updateMessageConversationStatus = (messageConversationId, value) =>
     getD2Instance()

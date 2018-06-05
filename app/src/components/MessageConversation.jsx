@@ -262,6 +262,7 @@ class MessageConversation extends Component {
                     {this.props.displayExtendedChoices &&
                         this.props.isInFeedbackRecipientGroup && (
                             <ExtendedInformation
+                                showTitle
                                 messageConversation={messageConversation}
                                 gridArea={'1 / 10 / span 2 / span 1'}
                             />

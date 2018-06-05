@@ -190,14 +190,98 @@ class MessagingCenter extends Component {
                         )}
                     </div>
 
+                    {displayExtendedChoices &&
+                        !checkedOptions && (
+                            <SelectField
+                                style={{
+                                    width: '150px',
+                                    height: headerHight,
+                                    gridArea: '1 / 7',
+                                    marginRight: '10px',
+                                }}
+                                labelStyle={{
+                                    color: this.state.statusFilter == null ? 'lightGray' : 'black',
+                                    top: this.state.statusFilter == null ? '-15px' : '-5px',
+                                }}
+                                selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
+                                floatingLabelText={this.state.statusFilter == null ? 'Status' : ''}
+                                floatingLabelStyle={{
+                                    top: '15px',
+                                }}
+                                iconStyle={{
+                                    top: this.state.statusFilter == null ? '-15px' : '0px',
+                                }}
+                                value={this.state.statusFilter}
+                                onChange={(event, key, payload) => {
+                                    this.setState({
+                                        statusFilter: payload,
+                                    });
+                                }}
+                            >
+                                <MenuItem key={null} value={null} primaryText={''} />
+                                {extendedChoices.STATUS.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                    />
+                                ))}
+                            </SelectField>
+                        )}
+
+                    {displayExtendedChoices &&
+                        !checkedOptions && (
+                            <SelectField
+                                style={{
+                                    width: '150px',
+                                    height: headerHight,
+                                    gridArea: '1 / 8',
+                                    marginRight: '10px',
+                                }}
+                                labelStyle={{
+                                    color:
+                                        this.state.priorityFilter == null ? 'lightGray' : 'black',
+                                    top: this.state.priorityFilter == null ? '-15px' : '-5px',
+                                }}
+                                selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
+                                floatingLabelText={
+                                    this.state.priorityFilter == null ? 'Priority' : ''
+                                }
+                                floatingLabelStyle={{
+                                    top: '15px',
+                                }}
+                                iconStyle={{
+                                    top: this.state.priorityFilter == null ? '-15px' : '0px',
+                                }}
+                                value={this.state.priorityFilter}
+                                onChange={(event, key, payload) => {
+                                    this.setState({
+                                        priorityFilter: payload,
+                                    });
+                                }}
+                            >
+                                <MenuItem key={null} value={null} primaryText={''} />
+                                {extendedChoices.PRIORITY.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                    />
+                                ))}
+                            </SelectField>
+                        )}
+
+                    <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} />
+
                     {!checkedOptions && (
                         <TextField
                             style={{
-                                gridArea: '1 / 2 / span 1 / span 2',
+                                gridArea: '1 / 9 / span 1 / span 2',
                                 height: headerHight,
+                                width: '',
                                 padding: '0px 0px',
+                                marginRight: '100px',
                             }}
-                            fullWidth
                             hintText={'Search'}
                             value={this.props.messageFilter}
                             onChange={(event, messageFilter) =>
@@ -208,116 +292,29 @@ class MessagingCenter extends Component {
                         />
                     )}
 
-                    {displayExtendedChoices &&
-                        !checkedOptions && (
-                            <div
-                                style={{
-                                    gridArea: '1 / 4 / span 1 / span 4',
-                                    display: 'grid',
-                                    gridTemplateColumns: 'repeat(4, 1fr)',
-                                    marginLeft: '10px',
-                                    height: headerHight,
-                                }}
-                            >
-                                <SelectField
-                                    style={{
-                                        width: '150px',
-                                        height: headerHight,
-                                        gridArea: '1 / 1',
-                                    }}
-                                    labelStyle={{
-                                        color:
-                                            this.state.statusFilter == null ? 'lightGray' : 'black',
-                                        top: this.state.statusFilter == null ? '-15px' : '-5px',
-                                    }}
-                                    selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
-                                    floatingLabelText={
-                                        this.state.statusFilter == null ? 'Status' : ''
-                                    }
-                                    floatingLabelStyle={{
-                                        top: '15px',
-                                    }}
-                                    iconStyle={{
-                                        top: this.state.statusFilter == null ? '-15px' : '0px',
-                                    }}
-                                    value={this.state.statusFilter}
-                                    onChange={(event, key, payload) => {
-                                        this.setState({
-                                            statusFilter: payload,
-                                        });
-                                    }}
-                                >
-                                    <MenuItem key={null} value={null} primaryText={''} />
-                                    {extendedChoices.STATUS.map(elem => (
-                                        <MenuItem
-                                            key={elem.key}
-                                            value={elem.value}
-                                            primaryText={elem.primaryText}
-                                        />
-                                    ))}
-                                </SelectField>
-
-                                <SelectField
-                                    style={{
-                                        width: '150px',
-                                        height: headerHight,
-                                        gridArea: '1 / 2',
-                                    }}
-                                    labelStyle={{
-                                        color:
-                                            this.state.priorityFilter == null
-                                                ? 'lightGray'
-                                                : 'black',
-                                        top: this.state.priorityFilter == null ? '-15px' : '-5px',
-                                    }}
-                                    selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
-                                    floatingLabelText={
-                                        this.state.priorityFilter == null ? 'Priority' : ''
-                                    }
-                                    floatingLabelStyle={{
-                                        top: '15px',
-                                    }}
-                                    iconStyle={{
-                                        top: this.state.priorityFilter == null ? '-15px' : '0px',
-                                    }}
-                                    value={this.state.priorityFilter}
-                                    onChange={(event, key, payload) => {
-                                        this.setState({
-                                            priorityFilter: payload,
-                                        });
-                                    }}
-                                >
-                                    <MenuItem key={null} value={null} primaryText={''} />
-                                    {extendedChoices.PRIORITY.map(elem => (
-                                        <MenuItem
-                                            key={elem.key}
-                                            value={elem.value}
-                                            primaryText={elem.primaryText}
-                                        />
-                                    ))}
-                                </SelectField>
-                            </div>
-                        )}
-
-                    <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} />
-
                     <div
                         style={{
                             gridArea: '1 / 10 / span 1 / span 1',
-                            borderLeft: '1px solid black',
-                            alignSelf: 'center',
-                            marginLeft: '100px',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
                         }}
                     >
-                        <FlatButton
+                        <div
                             style={{
-                                display: 'flex',
+                                borderLeft: '1px solid black',
                                 alignSelf: 'center',
-                                justifyContent: 'center',
                             }}
-                            icon={!this.state.wideview ? <ViewList /> : <ViewFancy />}
-                            onClick={() => this.toogleWideview()}
-                        />
+                        >
+                            <FlatButton
+                                style={{
+                                    display: 'flex',
+                                    alignSelf: 'center',
+                                    justifyContent: 'center',
+                                }}
+                                icon={!this.state.wideview ? <ViewList /> : <ViewFancy />}
+                                onClick={() => this.toogleWideview()}
+                            />
+                        </div>
                     </div>
                 </Paper>
 

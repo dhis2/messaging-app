@@ -6,10 +6,11 @@ import { getInstance as getD2Instance } from 'd2/lib/d2';
 import history from 'utils/history';
 import * as api from 'api/api';
 import { concatMap } from 'rxjs/operator/concatMap';
-import { mergeMap, mergeAll, timeout } from 'rxjs/operators';
+import { mergeMap, mergeAll, timeout, concatAll } from 'rxjs/operators';
 import { merge } from 'rxjs/operator/merge';
 
 import { Observable } from 'rxjs/Rx';
+import { concat } from 'rxjs/operator/concat';
 
 const setSelectedMessageConversation = action$ =>
     action$
@@ -61,7 +62,7 @@ const updateMessageConversations = action$ =>
             return promise;
         });
 
-        return Observable.from(
+        const updateObservable = Observable.from(
             Promise.all(promises)
                 .then(result => ({
                     type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
@@ -76,6 +77,18 @@ const updateMessageConversations = action$ =>
                     payload: { error },
                 })),
         );
+
+        const setSelectedObservable =
+            action.payload.selectedMessageConversation &&
+            Observable.of({
+                type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+                payload: {
+                    messageConversation: action.payload.selectedMessageConversation,
+                },
+            });
+
+        console.log(updateObservable, setSelectedObservable);
+        return concat(updateObservable, setSelectedObservable);
     });
 
 const updateMessageConversationStatus = action$ =>
@@ -143,8 +156,8 @@ const loadMoreMessageConversations = action$ =>
             }),
         );
 
-const loadMessageConversations = action$ =>
-    action$
+const loadMessageConversations = action$ => {
+    return action$
         .ofType(
             actions.LOAD_MESSAGE_CONVERSATIONS,
             actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
@@ -179,6 +192,7 @@ const loadMessageConversations = action$ =>
                     payload: { error },
                 })),
         );
+};
 
 const deleteMessageConversations = action$ =>
     action$.ofType(actions.DELETE_MESSAGE_CONVERSATIONS).concatMap(action => {
