@@ -78,17 +78,16 @@ const updateMessageConversations = action$ =>
                 })),
         );
 
-        const setSelectedObservable =
-            action.payload.selectedMessageConversation &&
-            Observable.of({
-                type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                payload: {
-                    messageConversation: action.payload.selectedMessageConversation,
-                },
-            });
+        const setSelectedObservable = Observable.of({
+            type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+            payload: {
+                messageConversation: action.payload.selectedMessageConversation,
+            },
+        });
 
-        console.log(updateObservable, setSelectedObservable);
-        return concat(updateObservable, setSelectedObservable);
+        return action.payload.selectedMessageConversation
+            ? updateObservable.concat(updateObservable, setSelectedObservable)
+            : updateObservable.concat(updateObservable);
     });
 
 const updateMessageConversationStatus = action$ =>

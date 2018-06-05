@@ -140,7 +140,7 @@ class MessageConversationListItem extends Component {
                     }}
                 />
 
-                <CardText
+                <Subheader
                     style={{
                         gridArea: this.props.wideview
                             ? '1 / 3 / span 1 / span 6'
@@ -150,12 +150,12 @@ class MessageConversationListItem extends Component {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        padding: '10px',
+                        paddingLeft: '10px',
                         fontFamily: fontFamily,
                     }}
                 >
                     {messageConversation.subject}
-                </CardText>
+                </Subheader>
 
                 {displayExtendedChoices &&
                     this.props.isInFeedbackRecipientGroup && (
