@@ -217,11 +217,6 @@ export default compose(
         },
         dispatch => ({
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
             deleteMessageConversations: (messageConversationIds, messageType) =>
                 dispatch({
                     type: actions.DELETE_MESSAGE_CONVERSATIONS,

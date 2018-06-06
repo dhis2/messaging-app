@@ -339,11 +339,6 @@ export default compose(
                         messageType,
                     },
                 }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
         }),
     ),
     pure,

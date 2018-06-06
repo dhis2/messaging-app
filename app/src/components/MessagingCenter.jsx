@@ -92,7 +92,7 @@ class MessagingCenter extends Component {
     componentWillReceiveProps(nextProps) {
         if (
             !this.props.selectedMessageType ||
-            this.props.selectedMessageType.id != nextProps.selectedMessageType.id
+            this.props.selectedMessageType.id !== nextProps.selectedMessageType.id
         ) {
             this.setState({
                 statusFilter: null,
@@ -105,25 +105,25 @@ class MessagingCenter extends Component {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
-        if (selectedId != 'create' && this.props.doUpdateInputFields) {
+        if (selectedId !== 'create' && this.props.doUpdateInputFields) {
             this.props.updateInputFields('', '', []);
         }
 
         if (
             prevProps.selectedMessageType &&
-            this.props.selectedMessageType.id != prevProps.selectedMessageType.id
+            this.props.selectedMessageType.id !== prevProps.selectedMessageType.id
         ) {
             this.inputStream.next('');
             this.props.setMessageFilter('');
         }
 
         if (
-            this.props.selectedMessageType != undefined &&
+            this.props.selectedMessageType !== undefined &&
             !this.props.selectedMessageType.loading &&
-            (prevState.statusFilter != this.state.statusFilter ||
-                prevState.priorityFilter != this.state.priorityFilter ||
+            (prevState.statusFilter !== this.state.statusFilter ||
+                prevState.priorityFilter !== this.state.priorityFilter ||
                 prevProps.selectedMessageType === undefined ||
-                prevProps.selectedMessageType.id != this.props.selectedMessageType.id)
+                prevProps.selectedMessageType.id !== this.props.selectedMessageType.id)
         ) {
             this.props.loadMessageConversations(
                 this.props.selectedMessageType,
@@ -135,15 +135,15 @@ class MessagingCenter extends Component {
         }
 
         if (
-            selectedMessageType == selectedId &&
-            this.props.selectedMessageConversation != undefined
+            (selectedMessageType === selectedId || selectedId === 'create') &&
+            this.props.selectedMessageConversation !== undefined
         ) {
             this.props.clearSelectedMessageConversation();
         }
     }
 
     loadMoreMessageConversations = messageType => {
-        let messageTypeState = _.find(this.props.messageTypes, { id: messageType });
+        const messageTypeState = _.find(this.props.messageTypes, { id: messageType });
         this.props.loadMessageConversations(
             messageTypeState.id,
             messageTypeState.page + 1,
@@ -158,7 +158,6 @@ class MessagingCenter extends Component {
     };
 
     render() {
-        const messageType = this.props.match.params.messageType;
         const id = this.props.location.pathname.split('/').slice(-1)[0];
         const checkedOptions = this.props.checkedOptions;
         const displayExtendedChoices =
@@ -217,16 +216,16 @@ class MessagingCenter extends Component {
                                     width: '95%',
                                 }}
                                 labelStyle={{
-                                    color: this.state.statusFilter == null ? 'lightGray' : 'black',
-                                    top: this.state.statusFilter == null ? '-15px' : '-2px',
+                                    color: this.state.statusFilter === null ? 'lightGray' : 'black',
+                                    top: this.state.statusFilter === null ? '-15px' : '-2px',
                                 }}
                                 selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
-                                floatingLabelText={this.state.statusFilter == null ? 'Status' : ''}
+                                floatingLabelText={this.state.statusFilter === null ? 'Status' : ''}
                                 floatingLabelStyle={{
                                     top: '15px',
                                 }}
                                 iconStyle={{
-                                    top: this.state.statusFilter == null ? '-15px' : '0px',
+                                    top: this.state.statusFilter === null ? '-15px' : '0px',
                                 }}
                                 value={this.state.statusFilter}
                                 onChange={(event, key, payload) => {
@@ -257,18 +256,18 @@ class MessagingCenter extends Component {
                                 }}
                                 labelStyle={{
                                     color:
-                                        this.state.priorityFilter == null ? 'lightGray' : 'black',
-                                    top: this.state.priorityFilter == null ? '-15px' : '-2px',
+                                        this.state.priorityFilter === null ? 'lightGray' : 'black',
+                                    top: this.state.priorityFilter === null ? '-15px' : '-2px',
                                 }}
                                 selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
                                 floatingLabelText={
-                                    this.state.priorityFilter == null ? 'Priority' : ''
+                                    this.state.priorityFilter === null ? 'Priority' : ''
                                 }
                                 floatingLabelStyle={{
                                     top: '15px',
                                 }}
                                 iconStyle={{
-                                    top: this.state.priorityFilter == null ? '-15px' : '0px',
+                                    top: this.state.priorityFilter === null ? '-15px' : '0px',
                                 }}
                                 value={this.state.priorityFilter}
                                 onChange={(event, key, payload) => {
@@ -334,9 +333,9 @@ class MessagingCenter extends Component {
                     messageTypes={this.props.messageTypes}
                 />
 
-                {id == 'create' && <CreateMessage wideview={this.state.wideview} />}
+                {id === 'create' && <CreateMessage wideview={this.state.wideview} />}
 
-                {id != 'create' ? (
+                {id !== 'create' ? (
                     <MessageConversationList
                         wideview={this.state.wideview}
                         displayExtendedChoices={displayExtendedChoices && this.state.wideview}
@@ -350,8 +349,8 @@ class MessagingCenter extends Component {
                     )
                 )}
 
-                {this.props.selectedMessageConversation && id != 'create'
-                    ? this.props.selectedMessageConversation != undefined && (
+                {this.props.selectedMessageConversation && id !== 'create'
+                    ? this.props.selectedMessageConversation !== undefined && (
                           <MessageConversation
                               messageConversation={this.props.selectedMessageConversation}
                               wideview={this.state.wideview}
@@ -360,7 +359,7 @@ class MessagingCenter extends Component {
                           />
                       )
                     : !this.state.wideview &&
-                      id != 'create' && (
+                      id !== 'create' && (
                           <div
                               style={{
                                   gridArea: '2 / 5 / span 1 / span 6',
@@ -387,9 +386,9 @@ export default compose(
     connect(
         state => {
             const doUpdateInputFields =
-                state.messaging.subject != '' ||
-                state.messaging.input != '' ||
-                state.messaging.recipients.length != 0;
+                state.messaging.subject !== '' ||
+                state.messaging.input !== '' ||
+                state.messaging.recipients.length !== 0;
 
             return {
                 messageTypes: state.messaging.messageTypes,
