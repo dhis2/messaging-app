@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
 
@@ -107,9 +108,18 @@ class ReplyCard extends Component {
                 expanded={this.state.expanded}
                 onExpandChange={this.handleExpandChange}
             >
-                <CardHeader title={'REPLY'} actAsExpander showExpandableButton />
+                {!this.state.expanded && (
+                    <CardHeader
+                        style={{
+                            padding: '16px 16px 16px 16px',
+                        }}
+                        title={'REPLY'}
+                        actAsExpander
+                        showExpandableButton
+                    />
+                )}
 
-                <CardText expandable>
+                <CardText style={{ padding: '0px 0px 0px 16px' }} expandable>
                     <TextField
                         key={this.props.messageConversation.id}
                         id={this.props.messageConversation.id}
@@ -124,11 +134,18 @@ class ReplyCard extends Component {
                     />
 
                     <CardActions>
-                        <FlatButton label="Reply" onClick={() => this.replyMessage(false)} />
-                        <FlatButton
-                            label="Internal reply"
-                            onClick={() => this.replyMessage(true)}
+                        <RaisedButton
+                            primary
+                            label="Reply"
+                            onClick={() => this.replyMessage(false)}
                         />
+                        {this.props.isInFeedbackRecipientGroup && (
+                            <FlatButton
+                                primary
+                                label="Internal reply"
+                                onClick={() => this.replyMessage(true)}
+                            />
+                        )}
                         <FlatButton
                             label="Discard"
                             onClick={() => {
@@ -161,6 +178,7 @@ export default compose(
                 selectedMessageType: state.messaging.selectedMessageType,
                 messageTypes: state.messaging.messageTypes,
                 input: state.messaging.input,
+                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
         dispatch => ({

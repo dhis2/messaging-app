@@ -7,7 +7,7 @@ import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 export const initialState = {
     // Message conversation
     messageConversations: {},
-    messageTypes: messageTypes,
+    messageTypes,
     selectedMessageType: undefined,
     selectedMessageConversation: undefined,
     checkedIds: [],
@@ -27,16 +27,12 @@ export const initialState = {
 };
 
 function messageReducer(state = initialState, action) {
-    let messageTypes = state.messageTypes;
-    let messageType = _.find(messageTypes, { id: action.messageType });
+    const messageTypes = state.messageTypes;
 
     switch (action.type) {
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
             let replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
-            replaceMessageType.loaded =
-                replaceMessageType.page == 1
-                    ? action.payload.messageConversations.length
-                    : replaceMessageType.loaded + action.payload.messageConversations.length;
+            replaceMessageType.loaded = action.payload.messageConversations.length;
             replaceMessageType.total = action.payload.pager.total;
             replaceMessageType.unread = action.nrOfUnread;
             replaceMessageType.page = action.payload.pager.page;
@@ -47,23 +43,16 @@ function messageReducer(state = initialState, action) {
                 replaceMessageType,
             );
 
-            const prevStateConversations = state.messageConversations[replaceMessageType.id];
-            const replaceConversations =
-                replaceMessageType.page == 1
-                    ? action.payload.messageConversations
-                    : _.unionWith(
-                          prevStateConversations,
-                          action.payload.messageConversations,
-                          _.isEqual,
-                      );
-
-            const setSelectedMessageType = action.selectedMessageType == replaceMessageType.id;
+            const setSelectedMessageType =
+                action.selectedMessageType == replaceMessageType.id &&
+                (action.selectedMessageType == state.selectedMessageType ||
+                    state.selectedMessageType == undefined);
             return {
                 ...state,
                 messageTypes: messageTypes,
                 messageConversations: {
                     ...state.messageConversations,
-                    [replaceMessageType.id]: replaceConversations,
+                    [replaceMessageType.id]: action.payload.messageConversations,
                 },
                 selectedMessageType: setSelectedMessageType
                     ? replaceMessageType
@@ -137,7 +126,6 @@ function messageReducer(state = initialState, action) {
         case actions.SET_CHECKED:
             let messageConversation = action.payload.messageConversation;
 
-            messageConversation.selectedValue = action.payload.selectedValue;
             let checkedIds = state.checkedIds;
             if (action.payload.selectedValue) {
                 checkedIds.push({ id: messageConversation.id });
@@ -148,6 +136,12 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: checkedIds,
+            };
+
+        case actions.SET_ALL_CHECKED:
+            return {
+                ...state,
+                checkedIds: action.payload.messageConversationIds,
             };
 
         case actions.CLEAR_CHECKED:
@@ -201,9 +195,13 @@ function messageReducer(state = initialState, action) {
             messageTypes[
                 _.findIndex(messageTypes, { id: loadingMessageType.id })
             ] = loadingMessageType;
+
+            let selectedMessageType = state.selectedMessageType;
+            if (selectedMessageType) selectedMessageType.loading = true;
             return {
                 ...state,
                 messageTypes: messageTypes,
+                selectedMessageType: selectedMessageType,
             };
 
         case actions.SET_IN_FEEDBACK_RECIPIENT_GROUP:

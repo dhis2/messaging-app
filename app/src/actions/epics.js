@@ -155,8 +155,8 @@ const loadMoreMessageConversations = action$ =>
             }),
         );
 
-const loadMessageConversations = action$ => {
-    return action$
+const loadMessageConversations = action$ =>
+    action$
         .ofType(
             actions.LOAD_MESSAGE_CONVERSATIONS,
             actions.MARK_MESSAGE_CONVERSATIONS_READ_SUCCESS,
@@ -165,33 +165,53 @@ const loadMessageConversations = action$ => {
             actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
             actions.SEND_MESSAGE_SUCCESS,
         )
-        .mergeMap(action =>
-            api
-                .getMessageConversations(
-                    action.payload.messageType.id,
-                    action.payload.messageType.page,
-                    action.payload.messageFilter,
-                    action.payload.statusFilter,
-                    action.payload.priorityFilter,
-                )
-                .then(result =>
-                    api.getNrOfUnread(action.payload.messageType.id).then(nrOfUnread => ({
-                        type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
-                        payload: {
-                            messageConversations: result.messageConversations,
-                            pager: result.pager,
-                        },
-                        messageType: action.payload.messageType,
-                        selectedMessageType: action.payload.selectedMessageType,
-                        nrOfUnread: nrOfUnread,
+        .mergeMap(action => {
+            let promises = [];
+
+            for (let i = 1; i <= action.payload.messageType.page; i++) {
+                const promise = api
+                    .getMessageConversations(
+                        action.payload.messageType.id,
+                        i,
+                        action.payload.messageFilter,
+                        action.payload.statusFilter,
+                        action.payload.priorityFilter,
+                    )
+                    .then(result => ({
+                        messageConversations: result.messageConversations,
+                        pager: result.pager,
+                    }));
+
+                promises.push(promise);
+            }
+
+            return Observable.from(
+                Promise.all(promises)
+                    .then(result => {
+                        return api.getNrOfUnread(action.payload.messageType.id).then(nrOfUnread => {
+                            let messageConversations = result.reduce(
+                                (accumulated, r) => accumulated.concat(r.messageConversations),
+                                [],
+                            );
+
+                            return {
+                                type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
+                                payload: {
+                                    messageConversations: messageConversations,
+                                    pager: result[result.length - 1].pager,
+                                },
+                                messageType: action.payload.messageType,
+                                selectedMessageType: action.payload.selectedMessageType,
+                                nrOfUnread: nrOfUnread,
+                            };
+                        });
+                    })
+                    .catch(error => ({
+                        type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
+                        payload: { error },
                     })),
-                )
-                .catch(error => ({
-                    type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
-                    payload: { error },
-                })),
-        );
-};
+            );
+        });
 
 const deleteMessageConversations = action$ =>
     action$.ofType(actions.DELETE_MESSAGE_CONVERSATIONS).concatMap(action => {
@@ -223,6 +243,20 @@ const sendMessage = action$ =>
                 action.payload.message,
                 action.payload.messageConversationId,
             )
+            .then(() => ({
+                type: actions.SEND_MESSAGE_SUCCESS,
+                payload: { messageType: action.payload.messageType, page: 1 },
+            }))
+            .catch(error => ({
+                type: actions.SEND_MESSAGE_ERROR,
+                payload: { error },
+            })),
+    );
+
+const sendFeedbackMessage = action$ =>
+    action$.ofType(actions.SEND_FEEDBACK_MESSAGE).concatMap(action =>
+        api
+            .sendFeedbackMessage(action.payload.subject, action.payload.message)
             .then(() => ({
                 type: actions.SEND_MESSAGE_SUCCESS,
                 payload: { messageType: action.payload.messageType, page: 1 },
@@ -317,6 +351,7 @@ export default combineEpics(
     loadMoreMessageConversations,
     loadMessageConversations,
     sendMessage,
+    sendFeedbackMessage,
     replyMessage,
     deleteMessageConversations,
     markMessageConversationsRead,

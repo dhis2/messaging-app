@@ -5,11 +5,13 @@ import { compose, pure } from 'recompose';
 import SuggestionField from './SuggestionField';
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader/Subheader';
+import Checkbox from 'material-ui/Checkbox';
 
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
@@ -29,6 +31,7 @@ class CreateMessage extends Component {
             inputError: false,
             recipientError: false,
             snackbarOpen: false,
+            isMessageFeedback: false,
         };
     }
 
@@ -48,29 +51,37 @@ class CreateMessage extends Component {
         const error =
             this.props.input === '' ||
             this.props.subject === '' ||
-            this.props.recipients.length === 0;
+            (this.props.recipients.length === 0 && !this.state.isMessageFeedback);
         this.setState({
             inputError: this.props.input === '',
             subjectError: this.props.subject === '',
-            recipientError: this.props.recipients.length === 0,
+            recipientError: this.props.recipients.length === 0 && !this.state.isMessageFeedback,
         });
         if (!error) {
-            const messageType = _.find(this.props.messageTypes, { id: 'PRIVATE' });
+            const messageType = _.find(this.props.messageTypes, {
+                id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
+            });
             const users = this.props.recipients.filter(r => r.type === 'user');
             const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
             const organisationUnits = this.props.recipients.filter(
                 r => r.type === 'organisationUnit',
             );
-            this.props.sendMessage(
-                this.state.subject,
-                users,
-                userGroups,
-                organisationUnits,
-                this.state.input,
-                generateUid(),
-                messageType,
-            );
-            history.push('/PRIVATE');
+
+            if (this.state.isMessageFeedback) {
+                this.props.sendFeedbackMessage(this.props.subject, this.props.input, messageType);
+                history.push('/TICKET');
+            } else {
+                this.props.sendMessage(
+                    this.props.subject,
+                    users,
+                    userGroups,
+                    organisationUnits,
+                    this.props.input,
+                    generateUid(),
+                    messageType,
+                );
+                history.push('/PRIVATE');
+            }
         }
     };
 
@@ -93,11 +104,28 @@ class CreateMessage extends Component {
                 <Card>
                     <CardText>
                         <SuggestionField
+                            style={{ margin: '0px' }}
                             label={'To'}
+                            disabled={this.state.isMessageFeedback}
                             recipients={this.props.recipients}
                             updateRecipients={this.updateRecipients}
-                            errorText={this.state.recipientError ? 'This field is required' : ''}
+                            errorText={
+                                this.state.recipientError && !this.state.isMessageFeedback
+                                    ? 'This field is required'
+                                    : ''
+                            }
                         />
+                        <div style={{ marginTop: '10px' }}>
+                            <Checkbox
+                                label="Feedback message"
+                                checked={this.state.isMessageFeedback}
+                                onCheck={(event, isInputChecked) => {
+                                    this.setState({
+                                        isMessageFeedback: !this.state.isMessageFeedback,
+                                    });
+                                }}
+                            />
+                        </div>
                         <TextField
                             floatingLabelText="Subject"
                             fullWidth
@@ -118,7 +146,7 @@ class CreateMessage extends Component {
                             onChange={this.inputUpdate}
                         />
                         <CardActions>
-                            <FlatButton label="Send" onClick={() => this.sendMessage()} />
+                            <RaisedButton primary label="Send" onClick={() => this.sendMessage()} />
                             <FlatButton
                                 label="Discard"
                                 onClick={() => {
@@ -168,6 +196,15 @@ export default compose(
                         organisationUnits,
                         message,
                         messageConversationId,
+                        messageType,
+                    },
+                }),
+            sendFeedbackMessage: (subject, message, messageType) =>
+                dispatch({
+                    type: actions.SEND_FEEDBACK_MESSAGE,
+                    payload: {
+                        subject,
+                        message,
                         messageType,
                     },
                 }),

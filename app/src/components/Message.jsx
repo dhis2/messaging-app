@@ -72,8 +72,6 @@ class Message extends Component {
                     <div
                         style={{
                             gridArea: '1 / 9',
-                            display: 'flex',
-                            justifyContent: 'flex-end',
                             color: theme.palette.accent4Color,
                             fontFamily: fontFamily,
                         }}
@@ -107,9 +105,12 @@ class Message extends Component {
 
                     <CardText
                         style={{
-                            gridArea: '2 / 1 / span 1 / span 8',
+                            gridArea: '2 / 1 / span 1 / span 10',
                             padding: '16px 0px 16px 0px',
                             fontFamily: fontFamily,
+                            //overflowX: 'auto',
+                            //whiteSpace: 'normal',
+                            wordBreak: 'break-word',
                         }}
                     >
                         {message.text}

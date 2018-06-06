@@ -16,7 +16,6 @@ import Message from './Message';
 import ReplyCard from './ReplyCard';
 import CustomFontIcon from './CustomFontIcon';
 import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
-import ExtendedInformation from './ExtendedInformation';
 
 import { messageConversationContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
@@ -24,28 +23,34 @@ import history from 'utils/history';
 import * as actions from 'constants/actions';
 import { fontFamily } from '../constants/development';
 
-const moment = require('moment');
-const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
+const fontSize = '16px';
 
 class MessageConversationListItem extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            backgroundColor: theme.palette.canvasColor,
             cursor: 'auto',
+            allChecked: false,
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.checkedIds.length < nextProps.children.length) {
+            this.setState({ allChecked: false });
+        }
+    }
+
     render() {
-        const displayExtendedChoices = this.props.displayExtendedChoices;
+        const displayExtendedChoices =
+            this.props.displayExtendedChoices && this.props.isInFeedbackRecipientGroup;
 
         return (
             <Paper
                 style={{
-                    backgroundColor: this.state.backgroundColor,
+                    backgroundColor: theme.palette.canvasColor,
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(10, 1fr)',
+                    gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
                     gridTemplateRows: this.props.wideview ? '' : '15% 85%',
                     transition: 'all 0.2s ease-in-out',
                     boxSizing: 'border-box',
@@ -54,10 +59,31 @@ class MessageConversationListItem extends Component {
                     alignSelf: 'center',
                 }}
             >
+                <Checkbox
+                    checked={this.state.allChecked}
+                    style={{
+                        gridArea: '1 / 1',
+                        display: 'flex',
+                        alignSelf: 'center',
+                        marginLeft: '12px',
+                        width: '24px',
+                    }}
+                    onCheck={(event, isInputChecked) => {
+                        this.state.allChecked
+                            ? this.props.clearCheckedIds()
+                            : this.props.setAllChecked(
+                                  this.props.children.map(child => ({
+                                      id: child.id,
+                                  })),
+                              );
+
+                        this.setState({ allChecked: !this.state.allChecked });
+                    }}
+                />
                 <div
                     style={{
                         fontFamily: fontFamily,
-                        fontSize: '14px',
+                        fontSize: fontSize,
                         gridArea: '1 / 1 / span 1 / span 2',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -78,6 +104,7 @@ class MessageConversationListItem extends Component {
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         fontFamily: fontFamily,
+                        fontSize: fontSize,
                         color: 'black',
                         paddingLeft: '10px',
                     }}
@@ -85,44 +112,59 @@ class MessageConversationListItem extends Component {
                     {'Subject'}
                 </Subheader>
 
-                {displayExtendedChoices &&
-                    this.props.isInFeedbackRecipientGroup && (
-                        <div
-                            style={{
-                                gridArea: '1 / 7 / span 1 / span 3',
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(3, 1fr)',
-                            }}
-                        >
-                            <Subheader
-                                style={{ gridArea: '1 / 1', color: 'black', overflow: 'hidden' }}
-                            >
-                                {'Status'}
-                            </Subheader>
-                            <Subheader
-                                style={{
-                                    gridArea: '1 / 2',
-                                    color: 'black',
-                                    textOverflow: 'ellipsis',
-                                }}
-                            >
-                                {'Priority'}
-                            </Subheader>
-                            <Subheader
-                                style={{ gridArea: '1 / 3', color: 'black', whiteSpace: 'nowrap' }}
-                            >
-                                {'Assignee'}
-                            </Subheader>
-                        </div>
-                    )}
+                {displayExtendedChoices && (
+                    <Subheader
+                        style={{
+                            gridArea: '1 / 7',
+                            color: 'black',
+                            fontSize: fontSize,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {'Status'}
+                    </Subheader>
+                )}
+
+                {displayExtendedChoices && (
+                    <Subheader
+                        style={{
+                            gridArea: '1 / 8',
+                            color: 'black',
+                            fontSize: fontSize,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {'Priority'}
+                    </Subheader>
+                )}
+                {displayExtendedChoices && (
+                    <Subheader
+                        style={{
+                            gridArea: '1 / 9',
+                            color: 'black',
+                            fontSize: fontSize,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {'Assignee'}
+                    </Subheader>
+                )}
+
                 <Subheader
                     style={{
                         gridArea: '1 / 10',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        paddingRight: '10px',
                         fontFamily: fontFamily,
+                        fontSize: fontSize,
                         color: 'black',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                     }}
                 >
                     {'Date'}
@@ -136,13 +178,17 @@ export default compose(
     connect(
         state => {
             return {
-                selectedMessageConversation: state.messaging.selectedMessageConversation,
-                selectedMessageType: state.messaging.selectedMessageType,
                 checkedIds: state.messaging.checkedIds,
-                numberOfCheckedIds: state.messaging.checkedIds.length,
                 isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
-        dispatch => ({}),
+        dispatch => ({
+            setAllChecked: messageConversationIds =>
+                dispatch({
+                    type: actions.SET_ALL_CHECKED,
+                    payload: { messageConversationIds },
+                }),
+            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+        }),
     ),
 )(MessageConversationListItem);

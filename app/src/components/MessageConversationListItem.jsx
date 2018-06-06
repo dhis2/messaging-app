@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
 import Message from './Message';
-import ReplyCard from './ReplyCard';
 import CustomFontIcon from './CustomFontIcon';
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
-import ExtendedInformation from './ExtendedInformation';
+import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 
 import { messageConversationContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
@@ -76,19 +72,16 @@ class MessageConversationListItem extends Component {
 
         const today = moment();
         const messageDate = moment(messageConversation.lastMessage);
+        const color = !messageConversation.read ? 'black' : theme.palette.darkGray;
 
         return (
             <Paper
                 style={{
                     backgroundColor: this.getBackgroundColor(messageConversation, checked),
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(10, 1fr)',
+                    gridTemplateColumns: 'repeat(10, minmax(10px, 1fr)',
                     gridTemplateRows: this.props.wideview ? '' : '15% 85%',
                     transition: 'all 0.2s ease-in-out',
-                    borderLeftStyle:
-                        !messageConversation.read && !this.state.expanded ? 'solid' : '',
-                    borderLeftWidth: '6px',
-                    borderLeftColor: '#439E8E',
                     cursor: this.state.cursor,
                     boxSizing: 'border-box',
                     position: 'relative',
@@ -106,19 +99,18 @@ class MessageConversationListItem extends Component {
             >
                 <div
                     style={{
-                        fontFamily: fontFamily,
+                        fontFamily,
                         fontSize: '14px',
                         gridArea: this.props.wideview
                             ? '1 / 1 / span 1 / span 2'
-                            : displayExtendedChoices
-                                ? '1 / 1 / span 1 / span 6'
-                                : '1 / 1 / span 1 / span 9',
+                            : '1 / 1 / span 1 / span 6',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         alignSelf: 'center',
                         color: 'black',
                         marginLeft: '50px',
+                        fontWeight: !messageConversation.read ? 'bold' : '',
                     }}
                 >
                     {title}
@@ -129,48 +121,77 @@ class MessageConversationListItem extends Component {
                         gridArea: '1 / 1',
                         display: 'flex',
                         alignSelf: 'center',
-                        marginLeft: '10px',
+                        marginLeft: '12px',
                         width: '24px',
                     }}
                     onCheck={(event, isInputChecked) => {
-                        this.props.setChecked(
-                            messageConversation,
-                            !messageConversation.selectedValue,
-                        );
+                        this.props.setChecked(messageConversation, !checked);
                     }}
                 />
 
                 <Subheader
                     style={{
                         gridArea: this.props.wideview
-                            ? '1 / 3 / span 1 / span 6'
-                            : displayExtendedChoices
-                                ? '2 / 1 / span 1 / span 6'
-                                : '2 / 1 / span 1 / span 10',
+                            ? displayExtendedChoices
+                                ? '1 / 3 / span 1 / span 4'
+                                : '1 / 3 / span 1 / span 6'
+                            : '2 / 1 / span 1 / span 10',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         paddingLeft: '10px',
-                        fontFamily: fontFamily,
+                        marginTop: !this.props.wideview ? '-10px' : '',
+                        fontFamily,
+                        color,
+                        fontWeight: !messageConversation.read ? 'bold' : '',
                     }}
                 >
                     {messageConversation.subject}
                 </Subheader>
 
-                {displayExtendedChoices &&
-                    this.props.isInFeedbackRecipientGroup && (
-                        <ExtendedInformation
-                            messageConversation={messageConversation}
-                            gridArea={'1 / 7 / span 1 / span 3'}
-                        />
-                    )}
+                {displayExtendedChoices && (
+                    <ExtendedChoiceLabel
+                        showTitle={false}
+                        gridArea={'1/7'}
+                        title={'Status'}
+                        color={color}
+                        label={messageConversation.status}
+                    />
+                )}
+                {displayExtendedChoices && (
+                    <ExtendedChoiceLabel
+                        showTitle={false}
+                        gridArea={'1/8'}
+                        title={'Priority'}
+                        color={color}
+                        label={messageConversation.priority}
+                    />
+                )}
+                {displayExtendedChoices && (
+                    <ExtendedChoiceLabel
+                        showTitle={false}
+                        gridArea={'1/9'}
+                        title={'Assignee'}
+                        color={color}
+                        label={
+                            messageConversation.assignee
+                                ? messageConversation.assignee.displayName
+                                : undefined
+                        }
+                    />
+                )}
+
                 <Subheader
                     style={{
-                        gridArea: '1 / 10',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        paddingRight: '10px',
+                        gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
                         fontFamily: fontFamily,
+                        color: color,
+                        paddingRight: '10px',
+                        paddingLeft: this.props.wideview ? '16px' : '0px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: this.props.wideview ? '' : 'end',
                     }}
                 >
                     {today.year() == messageDate.year()
@@ -189,8 +210,6 @@ export default compose(
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 selectedMessageType: state.messaging.selectedMessageType,
                 checkedIds: state.messaging.checkedIds,
-                numberOfCheckedIds: state.messaging.checkedIds.length,
-                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
         dispatch => ({
@@ -213,5 +232,7 @@ export default compose(
             setMessageFilter: messageFilter =>
                 dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
         }),
+        null,
+        { pure: false },
     ),
 )(MessageConversationListItem);

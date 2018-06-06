@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-
-import { List, ListItem } from 'material-ui/List';
 
 import CircularProgress from 'material-ui/CircularProgress';
 import Badge from 'material-ui/Badge';
 import Subheader from 'material-ui/Subheader/Subheader';
 
-import CustomFontIcon from './CustomFontIcon';
-
 import theme from '../styles/theme';
-import history from 'utils/history';
-import { headerPositions } from '../styles/style';
 
 class MessageTypeItem extends Component {
     constructor(props) {
@@ -70,7 +63,7 @@ class MessageTypeItem extends Component {
                         marginLeft: '5px',
                         fontSize:
                             this.props.selectedMessageType &&
-                            this.props.messageType.id == this.props.selectedMessageType.id
+                            this.props.messageType.id === this.props.selectedMessageType.id
                                 ? '18px'
                                 : '16px',
                         overflow: 'hidden',
@@ -78,9 +71,9 @@ class MessageTypeItem extends Component {
                         whiteSpace: 'nowrap',
                         color:
                             this.props.selectedMessageType &&
-                            this.props.messageType.id == this.props.selectedMessageType.id
+                            this.props.messageType.id === this.props.selectedMessageType.id
                                 ? theme.palette.primary1Color
-                                : theme.palette.accent4Color,
+                                : theme.palette.darkGray,
                     }}
                 >
                     {this.props.messageType.displayName}
@@ -88,14 +81,18 @@ class MessageTypeItem extends Component {
                 {this.props.loading ? (
                     <CircularProgress
                         style={{ marginRight: '10px' }}
-                        color={theme.palette.primary2Color}
+                        color={theme.palette.primary1Color}
                     />
                 ) : (
                     this.props.messageType.unread > 0 && (
                         <Badge
                             style={{ marginTop: '12px', marginRight: '5px' }}
-                            badgeContent={this.props.messageType.unread}
-                            secondary={true}
+                            badgeContent={
+                                this.props.messageType.unread > 100
+                                    ? '99+'
+                                    : this.props.messageType.unread
+                            }
+                            secondary
                             badgeStyle={{ backgroundColor: '#439E8E' }}
                         />
                     )

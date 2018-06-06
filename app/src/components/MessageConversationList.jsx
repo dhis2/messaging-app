@@ -7,14 +7,16 @@ import Subheader from 'material-ui/Subheader/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import Toggle from 'material-ui/Toggle';
 import Paper from 'material-ui/Paper';
-import MessageConversationListItem from './MessageConversationListItem';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import * as actions from 'constants/actions';
 import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
 import theme from '../styles/theme';
 import ListItemHeader from './ListItemHeader';
+import MessageConversationListItem from './MessageConversationListItem';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
+const bottomEmptyHeight = 50;
 
 class MessageConversationList extends Component {
     isBottom = el => {
@@ -23,7 +25,11 @@ class MessageConversationList extends Component {
 
     onScroll = messageType => {
         const messageList = document.getElementById('messagelist');
-        if (this.isBottom(messageList) && messageType.loaded < messageType.total) {
+        if (
+            !this.props.selectedMessageType.loading &&
+            this.isBottom(messageList) &&
+            messageType.loaded < messageType.total
+        ) {
             messageType.page++;
             this.props.loadMoreMessageConversations(messageType);
         }
@@ -58,7 +64,10 @@ class MessageConversationList extends Component {
                 }}
             >
                 {this.props.wideview && (
-                    <ListItemHeader displayExtendedChoices={this.props.displayExtendedChoices} />
+                    <ListItemHeader
+                        children={children}
+                        displayExtendedChoices={this.props.displayExtendedChoices}
+                    />
                 )}
                 {children && children.length != 0 ? (
                     children.map(child => {
@@ -77,6 +86,22 @@ class MessageConversationList extends Component {
                     <Subheader> No {messageType.displayName.toLowerCase()} messages</Subheader>
                 ) : (
                     <div />
+                )}
+                {this.props.selectedMessageType.loading && (
+                    <div
+                        style={{
+                            backgroundColor: theme.palette.accent2Color,
+                            height: bottomEmptyHeight + 'px',
+                            transition: 'all 0.2s ease-in-out',
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <CircularProgress
+                            style={{ marginTop: '10px' }}
+                            color={theme.palette.primary1Color}
+                        />
+                    </div>
                 )}
             </div>
         ) : (
@@ -102,6 +127,7 @@ export default compose(
                     payload: { messageType },
                 }),
         }),
+        null,
+        { pure: false },
     ),
-    pure,
 )(MessageConversationList);

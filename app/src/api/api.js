@@ -3,7 +3,7 @@ import MessageConversation from '../components/MessageConversation';
 import { pageSize } from '../constants/development';
 
 const initialMessageConversationFields =
-    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read';
+    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage';
 
 const messageConversationFields =
     '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]';
@@ -38,7 +38,6 @@ export const getMessageConversations = (messageType, page, messageFilter, status
 };
 
 export const getMessageConversation = messageConversation => {
-    console.log(messageConversation);
     return getD2Instance()
         .then(instance =>
             instance.Api.getApi().get(`messageConversations/${messageConversation.id}`, {
@@ -110,6 +109,18 @@ export const sendMessage = (subject, users, userGroups, organisationUnits, text,
             }),
         )
         .then(() => ({ messageConversationId: id }))
+        .catch(error => {
+            throw error;
+        });
+
+export const sendFeedbackMessage = (subject, text) =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().post(`messageConversations/feedback?subject=${subject}`, text, {
+                headers: { 'Content-Type': 'text/plain' },
+            }),
+        )
+        .then(result => result)
         .catch(error => {
             throw error;
         });

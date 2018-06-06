@@ -1,6 +1,7 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { fade } from 'material-ui/utils/colorManipulator';
 import {
+    blue,
     blue50,
     blue100,
     blue200,
@@ -22,9 +23,9 @@ import {
 
 export default getMuiTheme({
     palette: {
-        primary1Color: 'rgb(39, 102, 150)',
         negative: pinkA200,
         blue50: blue50,
+        primary1Color: '#1D8BF1',
         primary2Color: blue100,
         primary3Color: blue300,
         accent1Color: grey50,

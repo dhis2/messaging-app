@@ -92,6 +92,7 @@ export default compose(
                 dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
         }),
+        null,
+        { pure: false },
     ),
-    pure,
 )(SidebarList);

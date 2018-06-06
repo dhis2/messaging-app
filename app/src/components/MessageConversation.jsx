@@ -1,44 +1,30 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, pure, lifecycle } from 'recompose';
+import { compose, pure } from 'recompose';
+
+import history from 'utils/history';
+import * as actions from 'constants/actions';
+import * as api from 'api/api';
 
 import { getInstance as getD2Instance } from 'd2/lib/d2';
 
-import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import AddIcon from 'material-ui-icons/Add';
 import NavigationBack from 'material-ui-icons/ArrowBack';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
-import Checkbox from 'material-ui/Checkbox';
 
 import Paper from 'material-ui/Paper';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import Divider from 'material-ui/Divider';
-import FontIcon from 'material-ui/FontIcon';
 import ExpandMore from 'material-ui-icons/ExpandMore';
 import ExpandLess from 'material-ui-icons/ExpandLess';
 
 import Message from './Message';
 import ReplyCard from './ReplyCard';
-import CustomFontIcon from './CustomFontIcon';
-import CustomDropDown from './CustomDropDown';
 import SuggestionField from './SuggestionField';
-import ExtendedInformation from './ExtendedInformation';
+import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 
-import {
-    messageConversationContainer,
-    messagePanelContainer,
-    subheader,
-    subheader_minilist,
-} from '../styles/style';
+import { subheader } from '../styles/style';
 import theme from '../styles/theme';
-import history from 'utils/history';
-import * as actions from 'constants/actions';
-import * as api from 'api/api';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 const maxParticipantsDisplay = 30;
@@ -54,12 +40,6 @@ class MessageConversation extends Component {
             cursor: 'auto',
         };
     }
-
-    updateRecipients = recipients => {
-        this.setState({
-            recipients: recipients,
-        });
-    };
 
     addRecipients = () => {
         const users = this.state.recipients.filter(r => r.type == 'user');
@@ -100,14 +80,16 @@ class MessageConversation extends Component {
     onMouseEnter = () => this.setState({ cursor: 'pointer' });
     onMouseLeave = () => this.setState({ cursor: 'auto' });
 
+    updateRecipients = recipients => {
+        this.setState({
+            recipients,
+        });
+    };
+
     render() {
         const messageConversation = this.props.messageConversation;
 
         const messages = messageConversation.messages;
-        const displayExtendedInfo =
-            (messageConversation.messageType == 'TICKET' ||
-                messageConversation.messageType == '') &&
-            this.props.wideview;
         const notification = !!(NOTIFICATIONS.indexOf(messageConversation.messageType) + 1);
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
@@ -129,7 +111,7 @@ class MessageConversation extends Component {
 
         if (userMessagesLength > maxParticipantsDisplay) {
             participants = participants.concat(
-                ' (+ ' + (userMessagesLength - maxParticipantsDisplay) + ')',
+                ' (+ '.concat(userMessagesLength - maxParticipantsDisplay).concat(')'),
             );
         }
 
@@ -137,7 +119,7 @@ class MessageConversation extends Component {
             <div
                 id="messageconversation"
                 style={{
-                    gridArea: gridArea,
+                    gridArea,
                     overflowY: 'scroll',
                     overflowX: 'hidden',
                     height: 'calc(100vh - 110px)',
@@ -148,16 +130,17 @@ class MessageConversation extends Component {
                     style={{
                         display: 'grid',
                         margin: '0px 10px 0px 10px',
-                        gridTemplateColumns: 'repeat(autofit, 1fr)',
+                        gridTemplateColumns: 'repeat(10, 1fr)',
+                        gridAutoFlow: 'column',
                         gridTemplateRows: '50% 30% 20%',
                     }}
                 >
                     <IconButton
                         style={{
                             display: 'flex',
+                            alignSelf: 'center',
                             gridArea: '1 / 1',
                         }}
-                        tooltip="bottom-right"
                         tooltipPosition="bottom-right"
                         onClick={() => history.push(`/${messageConversation.messageType}`)}
                         tooltip={'Show all messages'}
@@ -170,6 +153,7 @@ class MessageConversation extends Component {
                             display: 'flex',
                             alignSelf: 'center',
                             gridArea: '1 / 1 / span 1 / span 7',
+                            width: 'calc(100% - 50px)',
                             marginLeft: '50px',
                         }}
                     >
@@ -227,7 +211,7 @@ class MessageConversation extends Component {
                             onMouseEnter={this.onMouseEnter}
                             onMouseLeave={this.onMouseLeave}
                         >
-                            {'Participants: ' + participants}
+                            {'Participants: '.concat(participants)}
                         </Subheader>
                         <IconButton
                             style={{
@@ -259,14 +243,37 @@ class MessageConversation extends Component {
                         </IconButton>
                     </div>
 
-                    {this.props.displayExtendedChoices &&
-                        this.props.isInFeedbackRecipientGroup && (
-                            <ExtendedInformation
-                                showTitle
-                                messageConversation={messageConversation}
-                                gridArea={'1 / 10 / span 2 / span 1'}
-                            />
-                        )}
+                    {this.props.displayExtendedChoices && (
+                        <ExtendedChoiceLabel
+                            color={theme.palette.darkGray}
+                            showTitle
+                            gridArea={'1 / 8'}
+                            title={'Status'}
+                            label={messageConversation.status}
+                        />
+                    )}
+                    {this.props.displayExtendedChoices && (
+                        <ExtendedChoiceLabel
+                            color={theme.palette.darkGray}
+                            showTitle
+                            gridArea={'1 / 9'}
+                            title={'Priority'}
+                            label={messageConversation.priority}
+                        />
+                    )}
+                    {this.props.displayExtendedChoices && (
+                        <ExtendedChoiceLabel
+                            color={theme.palette.darkGray}
+                            showTitle
+                            gridArea={'1 / 10'}
+                            title={'Assignee'}
+                            label={
+                                messageConversation.assignee
+                                    ? messageConversation.assignee.displayName
+                                    : undefined
+                            }
+                        />
+                    )}
                 </div>
                 <div
                     style={{
@@ -312,7 +319,6 @@ export default compose(
         state => {
             return {
                 selectedMessageType: state.messaging.selectedMessageType,
-                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
             };
         },
         dispatch => ({
