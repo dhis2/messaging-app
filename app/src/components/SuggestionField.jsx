@@ -95,10 +95,9 @@ class SuggestionField extends Component {
     render() {
         return (
             <ChipInput
-                style={{ ...this.props.style }}
+                style={{ marginBottom: '16px', ...this.props.style }}
                 disabled={this.props.disabled == undefined ? false : this.props.disabled}
                 errorText={this.props.errorText}
-                style={{ marginBottom: 16, ...this.props.style }}
                 value={this.props.recipients}
                 fullWidth
                 openOnFocus={true}

@@ -12,13 +12,13 @@ class MessageTypeItem extends Component {
 
         this.state = {
             backgroundColor: theme.palette.accent2Color,
+            textColor: theme.palette.darkGray,
         };
     }
 
-    setBackgroundColorcolor = () => {
+    setTextColor = color => {
         this.setState({
             backgroundColor: color,
-            cursor: 'auto',
         });
     };
 
@@ -27,16 +27,21 @@ class MessageTypeItem extends Component {
             ? theme.palette.accent3Color
             : this.state.backgroundColor;
 
-    setNeutral = () => this.setBackgroundColor(theme.palette.accent2Color);
-    setFocus = () => this.setBackgroundColor('#e4e4e4');
-    setHover = () => this.setBackgroundColor(theme.palette.accent3Color);
+    setNeutralText = () => this.setTextColor(theme.palette.accent2Color);
+    setHoverText = () => this.setTextColor(theme.palette.accent3Color);
 
     onClick = () => {
         this.props.onClick();
     };
 
-    onMouseEnter = () => this.setState({ cursor: 'pointer' });
-    onMouseLeave = () => this.setState({ cursor: 'auto' });
+    onMouseEnter = () => {
+        this.setHoverText();
+        this.setState({ cursor: 'pointer' });
+    };
+    onMouseLeave = () => {
+        this.setNeutralText();
+        this.setState({ cursor: 'auto' });
+    };
 
     render() {
         return (
@@ -73,7 +78,7 @@ class MessageTypeItem extends Component {
                             this.props.selectedMessageType &&
                             this.props.messageType.id === this.props.selectedMessageType.id
                                 ? theme.palette.primary1Color
-                                : theme.palette.darkGray,
+                                : this.state.textColor,
                     }}
                 >
                     {this.props.messageType.displayName}

@@ -41,7 +41,7 @@ class Message extends Component {
             ? this.props.currentUser && this.props.currentUser.id === message.sender.id
                 ? 'me'
                 : message.sender.displayName
-            : 'System notification';
+            : 'system';
         const today = moment();
         const messageDate = moment(message.created);
 
@@ -67,16 +67,9 @@ class Message extends Component {
                             fontFamily: fontFamily,
                         }}
                     >
-                        {fromTitle}
-                    </div>
-                    <div
-                        style={{
-                            gridArea: '1 / 9',
-                            color: theme.palette.accent4Color,
-                            fontFamily: fontFamily,
-                        }}
-                    >
-                        {message.internal ? 'internal' : ''}
+                        {(message.internal ? 'Internal message from ' : 'Message from ').concat(
+                            fromTitle,
+                        )}
                     </div>
 
                     <div
@@ -108,8 +101,6 @@ class Message extends Component {
                             gridArea: '2 / 1 / span 1 / span 10',
                             padding: '16px 0px 16px 0px',
                             fontFamily: fontFamily,
-                            //overflowX: 'auto',
-                            //whiteSpace: 'normal',
                             wordBreak: 'break-word',
                         }}
                     >

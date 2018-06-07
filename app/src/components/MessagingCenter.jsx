@@ -49,13 +49,14 @@ class MessagingCenter extends Component {
             wideview: true,
             statusFilter: null,
             priorityFilter: null,
+            lastMessageFilter: '',
         };
     }
 
     inputStream = new Subject();
     componentWillMount() {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(messageFilter => {
-            if (this.props.selectedMessageType && this.props.messageFilter !== messageFilter) {
+            if (this.props.selectedMessageType && this.state.lastMessageFilter != messageFilter) {
                 this.props.loadMessageConversations(
                     this.props.selectedMessageType,
                     this.props.selectedMessageType.id,
@@ -63,6 +64,7 @@ class MessagingCenter extends Component {
                     this.state.statusFilter,
                     this.state.priorityFilter,
                 );
+                this.setState({ lastMessageFilter: messageFilter });
             }
         });
 
@@ -74,9 +76,9 @@ class MessagingCenter extends Component {
             this.props.setSelectedMessageConversation(initialMessageConversation);
         }
 
-        api
-            .isInFeedbackRecipientGroup()
-            .then(result => this.props.setIsInFeedbackRecipientGroup(result));
+        api.isInFeedbackRecipientGroup().then(result =>
+            this.props.setIsInFeedbackRecipientGroup(result),
+        );
 
         this.props.messageTypes.map(messageType =>
             this.props.loadMessageConversations(
@@ -90,8 +92,10 @@ class MessagingCenter extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(this.props, nextProps);
         if (
-            !this.props.selectedMessageType ||
+            this.props.selectedMessageType === undefined ||
+            nextProps.selectedMessageType === undefined ||
             this.props.selectedMessageType.id !== nextProps.selectedMessageType.id
         ) {
             this.setState({
@@ -105,11 +109,16 @@ class MessagingCenter extends Component {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
-        if (selectedId !== 'create' && this.props.doUpdateInputFields) {
+        if (
+            selectedId !== 'create' &&
+            this.props.doUpdateInputFields &&
+            this.props.snackMessage === ''
+        ) {
             this.props.updateInputFields('', '', []);
         }
 
         if (
+            this.props.selectedMessageType &&
             prevProps.selectedMessageType &&
             this.props.selectedMessageType.id !== prevProps.selectedMessageType.id
         ) {
@@ -132,6 +141,10 @@ class MessagingCenter extends Component {
                 this.state.statusFilter,
                 this.state.priorityFilter,
             );
+        }
+
+        if (selectedId === 'create' && this.props.selectedMessageType !== undefined) {
+            this.props.clearSelectedMessageType();
         }
 
         if (
@@ -160,6 +173,9 @@ class MessagingCenter extends Component {
     render() {
         const id = this.props.location.pathname.split('/').slice(-1)[0];
         const checkedOptions = this.props.checkedOptions;
+        const displaySearch =
+            !this.state.wideview ||
+            (this.props.selectedMessageConversation === undefined && id !== 'create');
         const displayExtendedChoices =
             (this.props.selectedMessageType
                 ? !!(EXTENDED_CHOICES.indexOf(this.props.selectedMessageType.id) + 1)
@@ -186,7 +202,9 @@ class MessagingCenter extends Component {
                                     justifyContent: 'flex-start',
                                 }}
                                 icon={<CreateMessageIcon />}
-                                onClick={() => history.push('/PRIVATE/create')}
+                                onClick={() => {
+                                    history.push('/create');
+                                }}
                                 label={'Compose'}
                             />
                         )}
@@ -207,6 +225,7 @@ class MessagingCenter extends Component {
                     <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} />
 
                     {displayExtendedChoices &&
+                        displaySearch &&
                         !checkedOptions && (
                             <SelectField
                                 style={{
@@ -246,6 +265,7 @@ class MessagingCenter extends Component {
                         )}
 
                     {displayExtendedChoices &&
+                        displaySearch &&
                         !checkedOptions && (
                             <SelectField
                                 style={{
@@ -287,25 +307,26 @@ class MessagingCenter extends Component {
                             </SelectField>
                         )}
 
-                    {!checkedOptions && (
-                        <TextField
-                            style={{
-                                gridArea: '1 / 9 / span 1 / span 2',
-                                height: headerHight,
-                                width: '',
-                                padding: '0px 0px',
-                                marginRight: '100px',
-                            }}
-                            hintText={'Search'}
-                            value={this.props.messageFilter}
-                            onChange={(event, messageFilter) => {
-                                this.inputStream.next(messageFilter);
-                                this.props.setMessageFilter(messageFilter);
-                            }}
-                            type="search"
-                            margin="normal"
-                        />
-                    )}
+                    {!checkedOptions &&
+                        displaySearch && (
+                            <TextField
+                                style={{
+                                    gridArea: '1 / 9 / span 1 / span 2',
+                                    height: headerHight,
+                                    width: '',
+                                    padding: '0px 0px',
+                                    marginRight: '100px',
+                                }}
+                                hintText={'Search'}
+                                value={this.props.messageFilter}
+                                onChange={(event, messageFilter) => {
+                                    this.inputStream.next(messageFilter);
+                                    this.props.setMessageFilter(messageFilter);
+                                }}
+                                type="search"
+                                margin="normal"
+                            />
+                        )}
 
                     <div
                         style={{
@@ -362,7 +383,7 @@ class MessagingCenter extends Component {
                       id !== 'create' && (
                           <div
                               style={{
-                                  gridArea: '2 / 5 / span 1 / span 6',
+                                  gridArea: '2 / 4 / span 1 / span 7',
                                   textAlign: 'center',
                                   paddingTop: '100px',
                               }}
@@ -386,11 +407,13 @@ export default compose(
     connect(
         state => {
             const doUpdateInputFields =
-                state.messaging.subject !== '' ||
-                state.messaging.input !== '' ||
-                state.messaging.recipients.length !== 0;
+                (state.messaging.subject !== '' ||
+                    state.messaging.input !== '' ||
+                    state.messaging.recipients.length !== 0) &&
+                !state.messaging.selectedMessageConversation;
 
             return {
+                snackMessage: state.messaging.snackMessage,
                 messageTypes: state.messaging.messageTypes,
                 messageConversations: state.messaging.messageConversations,
                 messageFilter: state.messaging.messageFilter,
@@ -438,6 +461,7 @@ export default compose(
                 dispatch({
                     type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
                 }),
+            clearSelectedMessageType: () => dispatch({ type: actions.CLEAR_SELECTED_MESSAGE_TYPE }),
             updateInputFields: (subject, input, recipients) =>
                 dispatch({
                     type: actions.UPDATE_INPUT_FIELDS,

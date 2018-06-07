@@ -11,7 +11,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader/Subheader';
-import Checkbox from 'material-ui/Checkbox';
+import RadioButton from 'material-ui/RadioButton';
 
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
@@ -27,9 +27,6 @@ class CreateMessage extends Component {
         super(props);
 
         this.state = {
-            subjectError: false,
-            inputError: false,
-            recipientError: false,
             snackbarOpen: false,
             isMessageFeedback: false,
         };
@@ -48,40 +45,27 @@ class CreateMessage extends Component {
     };
 
     sendMessage = () => {
-        const error =
-            this.props.input === '' ||
-            this.props.subject === '' ||
-            (this.props.recipients.length === 0 && !this.state.isMessageFeedback);
-        this.setState({
-            inputError: this.props.input === '',
-            subjectError: this.props.subject === '',
-            recipientError: this.props.recipients.length === 0 && !this.state.isMessageFeedback,
+        const messageType = _.find(this.props.messageTypes, {
+            id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
         });
-        if (!error) {
-            const messageType = _.find(this.props.messageTypes, {
-                id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
-            });
-            const users = this.props.recipients.filter(r => r.type === 'user');
-            const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
-            const organisationUnits = this.props.recipients.filter(
-                r => r.type === 'organisationUnit',
-            );
+        const users = this.props.recipients.filter(r => r.type === 'user');
+        const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
+        const organisationUnits = this.props.recipients.filter(r => r.type === 'organisationUnit');
 
-            if (this.state.isMessageFeedback) {
-                this.props.sendFeedbackMessage(this.props.subject, this.props.input, messageType);
-                history.push('/TICKET');
-            } else {
-                this.props.sendMessage(
-                    this.props.subject,
-                    users,
-                    userGroups,
-                    organisationUnits,
-                    this.props.input,
-                    generateUid(),
-                    messageType,
-                );
-                history.push('/PRIVATE');
-            }
+        if (this.state.isMessageFeedback) {
+            this.props.sendFeedbackMessage(this.props.subject, this.props.input, messageType);
+            history.push('/TICKET');
+        } else {
+            this.props.sendMessage(
+                this.props.subject,
+                users,
+                userGroups,
+                organisationUnits,
+                this.props.input,
+                generateUid(),
+                messageType,
+            );
+            history.push('/PRIVATE');
         }
     };
 
@@ -93,6 +77,13 @@ class CreateMessage extends Component {
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
             : '2 / 4 / span 1 / span 7';
+        const disabled =
+            this.props.subject === '' ||
+            this.props.input === '' ||
+            this.props.recipients.length === 0
+                ? true
+                : false;
+
         return (
             <div
                 style={{
@@ -109,17 +100,28 @@ class CreateMessage extends Component {
                             disabled={this.state.isMessageFeedback}
                             recipients={this.props.recipients}
                             updateRecipients={this.updateRecipients}
-                            errorText={
-                                this.state.recipientError && !this.state.isMessageFeedback
-                                    ? 'This field is required'
-                                    : ''
-                            }
                         />
                         <div style={{ marginTop: '10px' }}>
-                            <Checkbox
+                            <RadioButton
+                                label="Private message"
+                                checked={!this.state.isMessageFeedback}
+                                onCheck={(event, isInputChecked) => {
+                                    this.updateRecipients([]);
+                                    this.setState({
+                                        isMessageFeedback: !this.state.isMessageFeedback,
+                                    });
+                                }}
+                            />
+                        </div>
+                        <div style={{ marginTop: '10px' }}>
+                            <RadioButton
                                 label="Feedback message"
                                 checked={this.state.isMessageFeedback}
                                 onCheck={(event, isInputChecked) => {
+                                    this.updateRecipients([]);
+                                    this.updateRecipients([
+                                        { id: 'id', displayName: 'Feedback recipient group' },
+                                    ]);
                                     this.setState({
                                         isMessageFeedback: !this.state.isMessageFeedback,
                                     });
@@ -130,7 +132,6 @@ class CreateMessage extends Component {
                             floatingLabelText="Subject"
                             fullWidth
                             value={this.props.subject}
-                            errorText={this.state.subjectError ? 'This field is required' : ''}
                             onChange={this.subjectUpdate}
                         />
                         <TextField
@@ -142,13 +143,18 @@ class CreateMessage extends Component {
                             multiLine
                             fullWidth
                             floatingLabelText="Message"
-                            errorText={this.state.inputError ? 'This field is required' : ''}
                             onChange={this.inputUpdate}
                         />
                         <CardActions>
-                            <RaisedButton primary label="Send" onClick={() => this.sendMessage()} />
+                            <RaisedButton
+                                primary
+                                disabled={disabled}
+                                label="Send"
+                                onClick={() => this.sendMessage()}
+                            />
                             <FlatButton
                                 label="Discard"
+                                disabled={disabled}
                                 onClick={() => {
                                     this.props.displaySnackMessage(
                                         'Message discarded',

@@ -174,6 +174,12 @@ function messageReducer(state = initialState, action) {
                 selectedMessageConversation: undefined,
             };
 
+        case actions.CLEAR_SELECTED_MESSAGE_TYPE:
+            return {
+                ...state,
+                selectedMessageType: undefined,
+            };
+
         case actions.UPDATE_INPUT_FIELDS:
             return {
                 ...state,

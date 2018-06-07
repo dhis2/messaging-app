@@ -23,16 +23,9 @@ class ReplyCard extends Component {
         super(props);
 
         this.state = {
-            inputError: false,
-            expanded: false,
+            discardState: false,
         };
     }
-
-    componentWillReceiveProps = nextProps => {
-        if (this.props.messageConversation.id != nextProps.messageConversation.id) {
-            this.setState({ expanded: false });
-        }
-    };
 
     animateScroll = duration => {
         const messagepanel = document.getElementById('messageconversation');
@@ -45,10 +38,10 @@ class ReplyCard extends Component {
         function easeInOut(currentTime, start, change, duration) {
             currentTime /= duration / 2;
             if (currentTime < 1) {
-                return change / 2 * currentTime * currentTime + start;
+                return (change / 2) * currentTime * currentTime + start;
             }
             currentTime -= 1;
-            return -change / 2 * (currentTime * (currentTime - 2) - 1) + start;
+            return (-change / 2) * (currentTime * (currentTime - 2) - 1) + start;
         }
 
         function animate(elapsedTime) {
@@ -75,25 +68,18 @@ class ReplyCard extends Component {
     };
 
     replyMessage = internalReply => {
-        const error = this.props.input === '';
-        this.setState({
-            inputError: this.props.input === '',
-        });
-        if (!error) {
-            this.props.replyMessage(
-                this.props.input,
-                internalReply,
-                this.props.selectedMessageConversation,
-                this.props.selectedMessageType,
-            );
-            this.wipeInput();
-        }
+        this.props.replyMessage(
+            this.props.input,
+            internalReply,
+            this.props.selectedMessageConversation,
+            this.props.selectedMessageType,
+        );
+        this.wipeInput();
     };
 
     wipeInput = () => {
         this.props.updateInputFields('', '', []);
         this.setState({
-            expanded: false,
             inputError: false,
         });
     };
@@ -105,31 +91,18 @@ class ReplyCard extends Component {
                     marginTop: '5px',
                     gridArea: this.props.gridArea,
                 }}
-                expanded={this.state.expanded}
-                onExpandChange={this.handleExpandChange}
+                expanded
             >
-                {!this.state.expanded && (
-                    <CardHeader
-                        style={{
-                            padding: '16px 16px 16px 16px',
-                        }}
-                        title={'REPLY'}
-                        actAsExpander
-                        showExpandableButton
-                    />
-                )}
-
-                <CardText style={{ padding: '0px 0px 0px 16px' }} expandable>
+                <CardText style={{ padding: '0px 0px 0px 16px' }}>
                     <TextField
                         key={this.props.messageConversation.id}
                         id={this.props.messageConversation.id}
                         rows={5}
                         underlineShow={false}
-                        value={this.props.input}
+                        value={this.state.discardState ? '' : this.props.input}
                         multiLine
                         fullWidth
                         floatingLabelText="Message"
-                        errorText={this.state.inputError ? 'This field is required' : ''}
                         onChange={this.texFieldUpdate}
                     />
 
@@ -137,25 +110,38 @@ class ReplyCard extends Component {
                         <RaisedButton
                             primary
                             label="Reply"
+                            disabled={
+                                this.props.input === '' || this.state.discardState ? true : false
+                            }
                             onClick={() => this.replyMessage(false)}
                         />
-                        {this.props.isInFeedbackRecipientGroup && (
-                            <FlatButton
-                                primary
-                                label="Internal reply"
-                                onClick={() => this.replyMessage(true)}
-                            />
-                        )}
+                        {this.props.isInFeedbackRecipientGroup &&
+                            this.props.selectedMessageType.id === 'TICKET' && (
+                                <FlatButton
+                                    primary
+                                    label="Internal reply"
+                                    disabled={
+                                        this.props.input === '' || this.state.discardState
+                                            ? true
+                                            : false
+                                    }
+                                    onClick={() => this.replyMessage(true)}
+                                />
+                            )}
                         <FlatButton
                             label="Discard"
+                            disabled={
+                                this.props.input === '' || this.state.discardState ? true : false
+                            }
                             onClick={() => {
+                                this.setState({ discardState: true });
                                 this.props.displaySnackMessage(
                                     'Reply discarded',
-                                    () =>
-                                        this.setState({
-                                            expanded: true,
-                                        }),
-                                    () => this.wipeInput(),
+                                    () => this.setState({ discardState: false }),
+                                    () => {
+                                        this.setState({ discardState: false });
+                                        this.wipeInput();
+                                    },
                                     NEGATIVE,
                                 );
                                 this.setState({

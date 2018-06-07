@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 
-const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color }) => {
+const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color, fontWeight }) => {
     return (
         <div style={{ gridArea: gridArea }}>
             {showTitle && (
@@ -15,10 +15,10 @@ const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color }) => {
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                     color: color,
+                    fontWeight,
                 }}
             >
-                {' '}
-                {label ? label : 'None'}{' '}
+                {label && label !== 'NONE' ? label : '-'}
             </Subheader>
         </div>
     );

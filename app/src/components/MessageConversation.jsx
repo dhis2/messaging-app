@@ -13,6 +13,7 @@ import AddIcon from 'material-ui-icons/Add';
 import NavigationBack from 'material-ui-icons/ArrowBack';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
+import Chip from 'material-ui/Chip';
 
 import Paper from 'material-ui/Paper';
 import ExpandMore from 'material-ui-icons/ExpandMore';
@@ -35,7 +36,6 @@ class MessageConversation extends Component {
 
         this.state = {
             recipients: [],
-            recipientsExpanded: false,
             currentUser: undefined,
             cursor: 'auto',
         };
@@ -66,20 +66,6 @@ class MessageConversation extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (
-            this.props.messageConversation.id != nextProps.messageConversation.id &&
-            nextProps.messageConversation != undefined
-        ) {
-            this.setState({
-                recipientsExpanded: false,
-            });
-        }
-    }
-
-    onMouseEnter = () => this.setState({ cursor: 'pointer' });
-    onMouseLeave = () => this.setState({ cursor: 'auto' });
-
     updateRecipients = recipients => {
         this.setState({
             recipients,
@@ -104,15 +90,12 @@ class MessageConversation extends Component {
                     this.state.currentUser.id != userMessage.user.id
                         ? userMessage.user.displayName
                         : 'me',
-            )
-            .join(', ');
+            );
 
         const userMessagesLength = messageConversation.userMessages.length;
 
         if (userMessagesLength > maxParticipantsDisplay) {
-            participants = participants.concat(
-                ' (+ '.concat(userMessagesLength - maxParticipantsDisplay).concat(')'),
-            );
+            participants.push(' + '.concat(userMessagesLength - maxParticipantsDisplay));
         }
 
         return (
@@ -160,89 +143,62 @@ class MessageConversation extends Component {
                         {messageConversation.subject}
                     </Subheader>
 
-                    {this.state.recipientsExpanded && (
-                        <SuggestionField
-                            style={{ gridArea: '2 / 1 / span 1 / span 5' }}
-                            label={'Add recipients to conversation'}
-                            messageConversation={messageConversation}
-                            recipients={this.state.recipients}
-                            updateRecipients={this.updateRecipients}
-                        />
-                    )}
-                    {this.state.recipientsExpanded && (
+                    <div
+                        style={{
+                            gridArea: '2 / 1 / span 1 / span 6',
+                            display: 'grid',
+                            gridTemplateRows: '10% 90%',
+                        }}
+                    >
+                        <Subheader
+                            style={{
+                                paddingLeft: '12px',
+                                paddingTop: '10px',
+                                gridArea: '1 / 1',
+                            }}
+                        >
+                            Participants
+                        </Subheader>
+                        <div
+                            style={{
+                                paddingLeft: '12px',
+                                paddingTop: '10px',
+                                gridArea: '2 / 1',
+                                display: 'flex',
+                                flexWrap: 'wrap',
+                            }}
+                        >
+                            {participants.map(participant => (
+                                <Chip key={participant} style={{ height: '32px' }}>
+                                    {participant}
+                                </Chip>
+                            ))}
+                        </div>
+                    </div>
+                    <SuggestionField
+                        style={{
+                            gridArea: '3 / 1 / span 1 / span 5',
+                            paddingLeft: '12px',
+                            marginBottom: '0px',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                        }}
+                        label={'Add participants to conversation'}
+                        messageConversation={messageConversation}
+                        recipients={this.state.recipients}
+                        updateRecipients={this.updateRecipients}
+                    />
+                    <div style={{ alignSelf: 'end', marginBottom: '8px' }}>
                         <FlatButton
                             style={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                alignSelf: 'center',
-                                gridArea: '2 / 6',
-                                width: '100px',
+                                gridArea: '3 / 6',
+                                marginLeft: '14px',
                             }}
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
                             label={'Add'}
                         />
-                    )}
-
-                    <div
-                        style={{
-                            gridArea: this.state.recipientsExpanded
-                                ? '3 / 1 / span 1 / span 6'
-                                : '2 / 1 / span 1 / span 6',
-                            display: 'grid',
-                            gridTemplateColumns: '100% 48px',
-                        }}
-                    >
-                        <Subheader
-                            style={{
-                                fontSize: '14px',
-                                paddingLeft: '0px',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                gridArea: '1 / 1',
-                                whiteSpace: this.state.recipientsExpanded ? '' : 'nowrap',
-                                cursor: this.state.cursor,
-                            }}
-                            onClick={() => {
-                                this.setState({
-                                    recipientsExpanded: !this.state.recipientsExpanded,
-                                });
-                            }}
-                            onMouseEnter={this.onMouseEnter}
-                            onMouseLeave={this.onMouseLeave}
-                        >
-                            {'Participants: '.concat(participants)}
-                        </Subheader>
-                        <IconButton
-                            style={{
-                                marginTop: '0px',
-                                padding: '0px',
-                                alignSelf: 'right',
-                                gridArea: '1 / 2',
-                            }}
-                            tooltip={!this.state.recipientsExpanded ? 'Expand' : 'Hide'}
-                            tooltipPosition="bottom-left"
-                        >
-                            {!this.state.recipientsExpanded ? (
-                                <ExpandMore
-                                    onClick={() =>
-                                        this.setState({
-                                            recipientsExpanded: !this.state.recipientsExpanded,
-                                        })
-                                    }
-                                />
-                            ) : (
-                                <ExpandLess
-                                    onClick={() =>
-                                        this.setState({
-                                            recipientsExpanded: !this.state.recipientsExpanded,
-                                        })
-                                    }
-                                />
-                            )}
-                        </IconButton>
                     </div>
-
                     {this.props.displayExtendedChoices && (
                         <ExtendedChoiceLabel
                             color={theme.palette.darkGray}

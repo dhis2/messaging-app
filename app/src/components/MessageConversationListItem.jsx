@@ -58,8 +58,13 @@ class MessageConversationListItem extends Component {
         history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
     };
 
-    onMouseEnter = () => this.setState({ cursor: 'pointer' });
-    onMouseLeave = () => this.setState({ cursor: 'auto' });
+    onMouseEnter = () =>
+        this.setState({ cursor: 'pointer', backgroundColor: theme.palette.accent2Color });
+    onMouseLeave = () =>
+        this.setState({
+            cursor: 'auto',
+            backgroundColor: theme.palette.canvasColor,
+        });
 
     render() {
         const messageConversation = this.props.messageConversation;
@@ -72,7 +77,8 @@ class MessageConversationListItem extends Component {
 
         const today = moment();
         const messageDate = moment(messageConversation.lastMessage);
-        const color = !messageConversation.read ? 'black' : theme.palette.darkGray;
+        const fontWeight = !messageConversation.read ? 'bold' : '';
+        const fontColor = this.props.messageConversation.read ? 'black' : theme.palette.darkGray;
 
         return (
             <Paper
@@ -110,7 +116,7 @@ class MessageConversationListItem extends Component {
                         alignSelf: 'center',
                         color: 'black',
                         marginLeft: '50px',
-                        fontWeight: !messageConversation.read ? 'bold' : '',
+                        fontWeight,
                     }}
                 >
                     {title}
@@ -142,8 +148,8 @@ class MessageConversationListItem extends Component {
                         paddingLeft: '10px',
                         marginTop: !this.props.wideview ? '-10px' : '',
                         fontFamily,
-                        color,
-                        fontWeight: !messageConversation.read ? 'bold' : '',
+                        color: fontColor,
+                        fontWeight,
                     }}
                 >
                     {messageConversation.subject}
@@ -154,7 +160,8 @@ class MessageConversationListItem extends Component {
                         showTitle={false}
                         gridArea={'1/7'}
                         title={'Status'}
-                        color={color}
+                        color={fontColor}
+                        fontWeight={fontWeight}
                         label={messageConversation.status}
                     />
                 )}
@@ -163,7 +170,8 @@ class MessageConversationListItem extends Component {
                         showTitle={false}
                         gridArea={'1/8'}
                         title={'Priority'}
-                        color={color}
+                        color={fontColor}
+                        fontWeight={fontWeight}
                         label={messageConversation.priority}
                     />
                 )}
@@ -172,7 +180,8 @@ class MessageConversationListItem extends Component {
                         showTitle={false}
                         gridArea={'1/9'}
                         title={'Assignee'}
-                        color={color}
+                        color={fontColor}
+                        fontWeight={fontWeight}
                         label={
                             messageConversation.assignee
                                 ? messageConversation.assignee.displayName
@@ -185,13 +194,14 @@ class MessageConversationListItem extends Component {
                     style={{
                         gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
                         fontFamily: fontFamily,
-                        color: color,
+                        color: fontColor,
                         paddingRight: '10px',
                         paddingLeft: this.props.wideview ? '16px' : '0px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         textAlign: this.props.wideview ? '' : 'end',
+                        fontWeight,
                     }}
                 >
                     {today.year() == messageDate.year()
