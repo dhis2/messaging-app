@@ -12,6 +12,25 @@ import { merge } from 'rxjs/operator/merge';
 import { Observable } from 'rxjs/Rx';
 import { concat } from 'rxjs/operator/concat';
 
+const moment = require('moment');
+
+// Simple hack to solve negative time difference
+const ONE_SECOND = 1000;
+
+const setDisplayTimeDiff = action$ =>
+    action$.ofType(actions.SET_DISPLAY_TIME_DIFF).switchMap(() =>
+        api
+            .getServerDate()
+            .then(serverDate => ({
+                type: actions.SET_DISPLAY_TIME_DIFF_SUCCESS,
+                displayTimeDiff: moment().diff(moment(serverDate)) - ONE_SECOND,
+            }))
+            .catch(error => ({
+                type: actions.SET_DISPLAY_TIME_DIFF_ERROR,
+                payload: { error },
+            })),
+    );
+
 const setSelectedMessageConversation = action$ =>
     action$
         .ofType(
@@ -344,6 +363,7 @@ const addRecipients = action$ => {
 };
 
 export default combineEpics(
+    setDisplayTimeDiff,
     setSelectedMessageConversation,
     updateMessageConversations,
     updateMessageConversationStatus,

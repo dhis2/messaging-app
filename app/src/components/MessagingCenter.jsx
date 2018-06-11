@@ -22,6 +22,7 @@ import CreateMessage from './CreateMessage';
 import Toolbar from './Toolbar';
 
 import * as api from 'api/api';
+import { SET_DISPLAY_TIME_DIFF } from '../constants/actions';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
 
@@ -51,6 +52,8 @@ class MessagingCenter extends Component {
         this.props.messageTypes.map(messageType =>
             this.props.loadMessageConversations(messageType, selectedMessageType, null, null, null),
         );
+
+        this.props.setDisplayTimeDiff();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -228,6 +231,7 @@ export default compose(
                 }),
             setFilter: (filter, filterType) =>
                 dispatch({ type: actions.SET_FILTER, payload: { filter, filterType } }),
+            setDisplayTimeDiff: () => dispatch({ type: SET_DISPLAY_TIME_DIFF }),
         }),
         null,
         { pure: false },

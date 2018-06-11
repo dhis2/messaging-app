@@ -76,7 +76,7 @@ class MessageConversationListItem extends Component {
 
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
-        const today = moment();
+        const today = moment().subtract(this.props.displayTimeDiff);
         const messageDate = moment(messageConversation.lastMessage);
         const fontWeight = !messageConversation.read ? 'bold' : '';
         const fontColor = this.props.messageConversation.read ? 'black' : theme.palette.darkGray;
@@ -223,6 +223,7 @@ export default compose(
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 selectedMessageType: state.messaging.selectedMessageType,
                 checkedIds: state.messaging.checkedIds,
+                displayTimeDiff: state.messaging.displayTimeDiff,
             };
         },
         dispatch => ({

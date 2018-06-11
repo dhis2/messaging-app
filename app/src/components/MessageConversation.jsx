@@ -250,6 +250,7 @@ class MessageConversation extends Component {
                         {messages.map((message, i) => (
                             <Message
                                 key={message.id}
+                                displayTimeDiff={this.props.displayTimeDiff}
                                 message={message}
                                 messageConversation={messageConversation}
                                 notification={notification}
@@ -275,6 +276,7 @@ export default compose(
         state => {
             return {
                 selectedMessageType: state.messaging.selectedMessageType,
+                displayTimeDiff: state.messaging.displayTimeDiff,
             };
         },
         dispatch => ({

@@ -50,6 +50,15 @@ export const getMessageConversation = messageConversation => {
         });
 };
 
+export const getServerDate = () => {
+    return getD2Instance()
+        .then(instance => instance.Api.getApi().get('system/info'))
+        .then(result => result.serverDate)
+        .catch(error => {
+            throw error;
+        });
+};
+
 export const updateMessageConversationStatus = (messageConversationId, value) =>
     getD2Instance()
         .then(instance =>

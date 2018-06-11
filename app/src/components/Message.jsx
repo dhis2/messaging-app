@@ -42,7 +42,7 @@ class Message extends Component {
                 ? 'me'
                 : message.sender.displayName
             : 'system';
-        const today = moment();
+        const today = moment().subtract(this.props.displayTimeDiff);
         const messageDate = moment(message.created);
 
         return (

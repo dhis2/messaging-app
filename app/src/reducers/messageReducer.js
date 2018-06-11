@@ -15,6 +15,7 @@ export const initialState = {
     statusFilter: null,
     priorityFilter: null,
     isInFeedbackRecipientGroup: false,
+    displayTimeDiff: 0,
 
     // Input for create and reply
     subject: '',
@@ -32,6 +33,12 @@ function messageReducer(state = initialState, action) {
     const messageTypes = state.messageTypes;
 
     switch (action.type) {
+        case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
+            return {
+                ...state,
+                displayTimeDiff: action.displayTimeDiff,
+            };
+
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
             let replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
             replaceMessageType.loaded = action.payload.messageConversations.length;
