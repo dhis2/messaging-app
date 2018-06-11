@@ -55,6 +55,7 @@ class MessageConversationListItem extends Component {
                 this.props.selectedMessageType,
             );
         }
+        this.props.updateInputFields('', '', []);
         history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
     };
 
@@ -98,7 +99,7 @@ class MessageConversationListItem extends Component {
                         event.target.innerText != undefined && event.target.innerText != '';
                     onClick && this.onClick(messageConversation);
                     onClick && this.props.clearCheckedIds();
-                    onClick && this.props.wideview && this.props.setMessageFilter('');
+                    onClick && this.props.wideview && this.props.setFilter('', 'MESSAGE');
                 }}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
@@ -204,9 +205,11 @@ class MessageConversationListItem extends Component {
                         fontWeight,
                     }}
                 >
-                    {today.year() == messageDate.year()
-                        ? messageDate.format('MMM DD')
-                        : messageDate.format('ll')}
+                    {today.diff(messageDate, 'hours') < 72
+                        ? messageDate.from(today.utc())
+                        : today.year() == messageDate.year()
+                            ? messageDate.format('MMM DD')
+                            : messageDate.format('ll')}
                 </Subheader>
             </Paper>
         );
@@ -239,8 +242,13 @@ export default compose(
                     payload: { markedReadConversations, messageType },
                 }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setMessageFilter: messageFilter =>
-                dispatch({ type: actions.SET_MESSAGE_FILTER, payload: { messageFilter } }),
+            setFilter: (filter, filterType) =>
+                dispatch({ type: actions.SET_FILTER, payload: { filter, filterType } }),
+            updateInputFields: (subject, input, recipients) =>
+                dispatch({
+                    type: actions.UPDATE_INPUT_FIELDS,
+                    payload: { subject, input, recipients },
+                }),
         }),
         null,
         { pure: false },

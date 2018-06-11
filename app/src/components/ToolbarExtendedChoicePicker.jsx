@@ -19,6 +19,8 @@ import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
 import MessageConversation from './MessageConversation';
 
+const multiSelectDisplayLimit = 99;
+
 class ToolbarExtendedChoicePicker extends Component {
     constructor(props) {
         super(props);
@@ -85,7 +87,9 @@ class ToolbarExtendedChoicePicker extends Component {
         ];
 
         const displayNumberOfCheckedIds =
-            this.props.checkedIds.length > 25 ? '25+' : this.props.checkedIds.length;
+            this.props.checkedIds.length > multiSelectDisplayLimit
+                ? `${multiSelectDisplayLimit}+`
+                : this.props.checkedIds.length;
 
         return display ? (
             <div

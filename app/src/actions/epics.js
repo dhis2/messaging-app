@@ -164,6 +164,7 @@ const loadMessageConversations = action$ =>
             actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
             actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
             actions.SEND_MESSAGE_SUCCESS,
+            actions.REPLY_MESSAGE_SUCCESS,
         )
         .mergeMap(action => {
             let promises = [];

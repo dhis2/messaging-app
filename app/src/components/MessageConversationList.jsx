@@ -31,7 +31,12 @@ class MessageConversationList extends Component {
             messageType.loaded < messageType.total
         ) {
             messageType.page++;
-            this.props.loadMoreMessageConversations(messageType);
+            this.props.loadMoreMessageConversations(
+                messageType,
+                this.props.messageFilter,
+                this.props.statusFilter,
+                this.props.priorityFilter,
+            );
         }
     };
 
@@ -115,16 +120,24 @@ export default compose(
         state => {
             return {
                 messageTypes: state.messaging.messageTypes,
+                messageFilter: state.messaging.messageFilter,
+                statusFilter: state.messaging.statusFilter,
+                priorityFilter: state.messaging.priorityFilter,
                 messageConversations: state.messaging.messageConversations,
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 selectedMessageType: state.messaging.selectedMessageType,
             };
         },
         dispatch => ({
-            loadMoreMessageConversations: messageType =>
+            loadMoreMessageConversations: (
+                messageType,
+                messageFilter,
+                statusFilter,
+                priorityFilter,
+            ) =>
                 dispatch({
                     type: actions.LOAD_MORE_MESSAGE_CONVERSATIONS,
-                    payload: { messageType },
+                    payload: { messageType, messageFilter, statusFilter, priorityFilter },
                 }),
         }),
         null,

@@ -90,9 +90,11 @@ class Message extends Component {
                                 fontFamily: fontFamily,
                             }}
                         >
-                            {today.year() == messageDate.year()
-                                ? messageDate.format('MMM DD')
-                                : messageDate.format('ll')}
+                            {today.diff(messageDate, 'hours') < 72
+                                ? messageDate.from(today.utc())
+                                : today.year() == messageDate.year()
+                                    ? messageDate.format('MMM DD')
+                                    : messageDate.format('ll')}
                         </div>
                     </div>
 

@@ -11,7 +11,9 @@ export const initialState = {
     selectedMessageType: undefined,
     selectedMessageConversation: undefined,
     checkedIds: [],
-    messageFilter: '',
+    messageFilter: null,
+    statusFilter: null,
+    priorityFilter: null,
     isInFeedbackRecipientGroup: false,
 
     // Input for create and reply
@@ -174,12 +176,6 @@ function messageReducer(state = initialState, action) {
                 selectedMessageConversation: undefined,
             };
 
-        case actions.CLEAR_SELECTED_MESSAGE_TYPE:
-            return {
-                ...state,
-                selectedMessageType: undefined,
-            };
-
         case actions.UPDATE_INPUT_FIELDS:
             return {
                 ...state,
@@ -188,10 +184,21 @@ function messageReducer(state = initialState, action) {
                 recipients: action.payload.recipients,
             };
 
-        case actions.SET_MESSAGE_FILTER:
+        case actions.SET_FILTER:
             return {
                 ...state,
-                messageFilter: action.payload.messageFilter,
+                messageFilter:
+                    action.payload.filterType === 'MESSAGE'
+                        ? action.payload.filter
+                        : state.messageFilter,
+                statusFilter:
+                    action.payload.filterType === 'STATUS'
+                        ? action.payload.filter
+                        : state.statusFilter,
+                priorityFilter:
+                    action.payload.filterType === 'PRIORITY'
+                        ? action.payload.filter
+                        : state.priorityFilter,
             };
 
         case actions.LOAD_MESSAGE_CONVERSATIONS:
