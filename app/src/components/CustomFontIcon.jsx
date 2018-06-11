@@ -4,7 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
 
 import Delete from 'material-ui-icons/Delete';
-import MarkUnread from 'material-ui-icons/MarkUnread';
+import MarkUnread from 'material-ui-icons/Markunread';
 import Done from 'material-ui-icons/Done';
 
 const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
