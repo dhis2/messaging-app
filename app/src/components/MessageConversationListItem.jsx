@@ -2,19 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
 
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 
-import Message from './Message';
-import CustomFontIcon from './CustomFontIcon';
 import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 
-import { messageConversationContainer, subheader_minilist } from '../styles/style';
 import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';
@@ -99,7 +93,7 @@ class MessageConversationListItem extends Component {
                         event.target.innerText != undefined && event.target.innerText != '';
                     onClick && this.onClick(messageConversation);
                     onClick && this.props.clearCheckedIds();
-                    onClick && this.props.wideview && this.props.setFilter('', 'MESSAGE');
+                    onClick && this.props.wideview && this.props.setFilter(undefined, 'MESSAGE');
                 }}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}

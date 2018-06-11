@@ -11,9 +11,9 @@ export const initialState = {
     selectedMessageType: undefined,
     selectedMessageConversation: undefined,
     checkedIds: [],
-    messageFilter: null,
-    statusFilter: null,
-    priorityFilter: null,
+    messageFilter: undefined,
+    statusFilter: undefined,
+    priorityFilter: undefined,
     isInFeedbackRecipientGroup: false,
     displayTimeDiff: 0,
 

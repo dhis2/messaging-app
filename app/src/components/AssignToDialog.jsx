@@ -8,6 +8,7 @@ import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import i18n from 'd2-i18n';
 
 import SuggestionField from './SuggestionField';
 
@@ -34,7 +35,7 @@ class AssignToDialog extends Component {
                     searchOnlyUsers={true}
                     recipients={[]}
                     key={'suggestionField'}
-                    label={'Assignee'}
+                    label={i18n.t('Assignee')}
                 />
             </Dialog>
         );

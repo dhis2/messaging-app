@@ -25,6 +25,7 @@ import * as api from 'api/api';
 import { SET_DISPLAY_TIME_DIFF } from '../constants/actions';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
+const autoRefreshTime = 300000;
 
 class MessagingCenter extends Component {
     constructor(props) {
@@ -33,7 +34,41 @@ class MessagingCenter extends Component {
         this.state = {
             checkedItems: false,
             wideview: true,
+            autoRefresh: false,
+            timer: null,
+            counter: autoRefreshTime,
         };
+    }
+
+    autoRefresh() {
+        this.state.autoRefresh &&
+            this.props.loadMessageConversations(
+                this.props.selectedMessageType,
+                this.props.selectedMessageType,
+                this.props.messageFilter,
+                this.props.statusFilter,
+                this.props.priorityFilter,
+            );
+
+        this.setState({ counter: autoRefreshTime });
+        setTimeout(() => {
+            this.autoRefresh();
+        }, autoRefreshTime);
+    }
+
+    setAutoRefresh = autoRefresh => {
+        !autoRefresh && clearInterval(this.state.timer);
+        this.setState({
+            autoRefresh,
+            counter: !autoRefresh ? autoRefreshTime : this.state.counter,
+            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), 1000),
+        });
+    };
+
+    tick() {
+        this.setState({
+            counter: this.state.counter - 1000,
+        });
     }
 
     componentWillMount() {
@@ -54,6 +89,10 @@ class MessagingCenter extends Component {
         );
 
         this.props.setDisplayTimeDiff();
+
+        setTimeout(() => {
+            this.autoRefresh();
+        }, autoRefreshTime);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -115,6 +154,9 @@ class MessagingCenter extends Component {
                     drawerOpen={this.state.drawerOpen}
                     gridColumn={1}
                     messageTypes={this.props.messageTypes}
+                    autoRefresh={this.state.autoRefresh}
+                    counter={this.state.counter}
+                    setAutoRefresh={this.setAutoRefresh}
                 />
 
                 {id === 'create' && <CreateMessage wideview={this.state.wideview} />}

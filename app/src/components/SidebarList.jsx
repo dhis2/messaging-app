@@ -9,12 +9,15 @@ import Drawer from 'material-ui/Drawer';
 import Subheader from 'material-ui/Subheader/Subheader';
 import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
+import Toggle from 'material-ui/Toggle';
 
 import MessageTypeItem from './MessageTypeItem';
 
 import theme from '../styles/theme';
 import * as actions from 'constants/actions';
 import history from 'utils/history';
+
+const moment = require('moment');
 
 class SidebarList extends Component {
     constructor(props) {
@@ -48,32 +51,36 @@ class SidebarList extends Component {
                     minWidth: '250px',
                 }}
             >
-                <div>
-                    <List
-                        style={{
-                            padding: '0px',
-                            height: 'calc(100vh - 100px)',
-                        }}
-                    >
-                        {messageTypes &&
-                            messageTypes.map(messageType => {
-                                return (
-                                    <div key={messageType.id}>
-                                        <MessageTypeItem
-                                            messageType={messageType}
-                                            onClick={() => {
-                                                this.props.setSelectedMessageType(messageType.id);
-                                                history.push('/' + messageType.id);
-                                            }}
-                                            selectedMessageType={this.props.selectedMessageType}
-                                            loading={messageType.loading}
-                                        />
-                                        <Divider />
-                                    </div>
-                                );
-                            })}
-                    </List>
-                </div>
+                <List
+                    style={{
+                        padding: '0px',
+                        height: 'calc(100vh - 150px)',
+                    }}
+                >
+                    {messageTypes &&
+                        messageTypes.map(messageType => {
+                            return (
+                                <div key={messageType.id}>
+                                    <MessageTypeItem
+                                        messageType={messageType}
+                                        onClick={() => {
+                                            this.props.setSelectedMessageType(messageType.id);
+                                            history.push('/' + messageType.id);
+                                        }}
+                                        selectedMessageType={this.props.selectedMessageType}
+                                        loading={messageType.loading}
+                                    />
+                                    <Divider />
+                                </div>
+                            );
+                        })}
+                </List>
+                <Toggle
+                    style={{ width: '', margin: '0px 20px 0px 20px' }}
+                    label={`Auto refresh (${moment(this.props.counter).format('mm:ss')})`}
+                    toggled={this.props.autoRefresh}
+                    onToggle={() => this.props.setAutoRefresh(!this.props.autoRefresh)}
+                />
             </div>
         );
     }

@@ -14,10 +14,10 @@ import { compose, lifecycle, pure, branch, getContext, renderComponent } from 'r
 import MessagingCenter from 'components/MessagingCenter';
 import CustomSnackBar from 'components/CustomSnackBar';
 import * as actions from 'constants/actions';
-import initializeI18n from 'utils/i18n';
 import history from 'utils/history';
 
 import theme from '../styles/theme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
@@ -31,13 +31,32 @@ let ContentLoader = () => (
     </Router>
 );
 
-const Messaging = ({ config }) => (
+class AddD2Context extends React.Component {
+    getChildContext = () => ({
+        d2: this.props.d2,
+    });
+
+    render = () => <MuiThemeProvider muiTheme={theme}>{this.props.children}</MuiThemeProvider>;
+}
+
+AddD2Context.propTypes = {
+    children: PropTypes.object.isRequired,
+    d2: PropTypes.object.isRequired,
+};
+
+AddD2Context.childContextTypes = {
+    d2: PropTypes.object,
+};
+
+const Messaging = ({ d2 }) => (
     <Provider store={store}>
-        <D2UIApp initConfig={config} muiTheme={theme}>
-            <HeaderBar />
-            <CustomSnackBar />
-            <ContentLoader />
-        </D2UIApp>
+        <AddD2Context d2={d2}>
+            <div>
+                <HeaderBar />
+                <CustomSnackBar />
+                <ContentLoader />
+            </div>
+        </AddD2Context>
     </Provider>
 );
 

@@ -11,8 +11,8 @@ const messageConversationFields =
 const order = 'lastMessage:desc';
 export const getMessageConversations = (messageType, page, messageFilter, status, priority) => {
     let filters = [`messageType:eq:${messageType}`];
-    status != null && filters.push(`status:eq:${status}`);
-    priority != null && filters.push(`priority:eq:${priority}`);
+    status != undefined && filters.push(`status:eq:${status}`);
+    priority != undefined && filters.push(`priority:eq:${priority}`);
 
     return getD2Instance()
         .then(instance =>

@@ -13,6 +13,8 @@ import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader/Subheader';
 import RadioButton from 'material-ui/RadioButton';
 
+import i18n from 'd2-i18n';
+
 import * as actions from 'constants/actions';
 import theme from '../styles/theme';
 import { messageConversationContainer, subheader } from '../styles/style';
@@ -91,19 +93,19 @@ class CreateMessage extends Component {
                     margin: '10px',
                 }}
             >
-                <Subheader style={subheader}> {'Create'}</Subheader>
+                <Subheader style={subheader}> {i18n.t('Create')}</Subheader>
                 <Card>
                     <CardText>
                         <SuggestionField
                             style={{ margin: '0px' }}
-                            label={'To'}
+                            label={i18n.t('To')}
                             disabled={this.state.isMessageFeedback}
                             recipients={this.props.recipients}
                             updateRecipients={this.updateRecipients}
                         />
                         <div style={{ marginTop: '10px' }}>
                             <RadioButton
-                                label="Private message"
+                                label={i18n.t('Private message')}
                                 checked={!this.state.isMessageFeedback}
                                 onCheck={(event, isInputChecked) => {
                                     this.updateRecipients([]);
@@ -115,12 +117,15 @@ class CreateMessage extends Component {
                         </div>
                         <div style={{ marginTop: '10px' }}>
                             <RadioButton
-                                label="Feedback message"
+                                label={i18n.t('Feedback message')}
                                 checked={this.state.isMessageFeedback}
                                 onCheck={(event, isInputChecked) => {
                                     this.updateRecipients([]);
                                     this.updateRecipients([
-                                        { id: 'id', displayName: 'Feedback recipient group' },
+                                        {
+                                            id: 'id',
+                                            displayName: i18n.t('Feedback recipient group'),
+                                        },
                                     ]);
                                     this.setState({
                                         isMessageFeedback: !this.state.isMessageFeedback,
@@ -129,7 +134,7 @@ class CreateMessage extends Component {
                             />
                         </div>
                         <TextField
-                            floatingLabelText="Subject"
+                            floatingLabelText={i18n.t('Subject')}
                             fullWidth
                             value={this.props.subject}
                             onChange={this.subjectUpdate}
@@ -142,22 +147,22 @@ class CreateMessage extends Component {
                             value={this.props.input}
                             multiLine
                             fullWidth
-                            floatingLabelText="Message"
+                            floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
                         <CardActions>
                             <RaisedButton
                                 primary
                                 disabled={disabled}
-                                label="Send"
+                                label={i18n.t('Send')}
                                 onClick={() => this.sendMessage()}
                             />
                             <FlatButton
-                                label="Discard"
+                                label={i18n.t('Discard')}
                                 disabled={disabled}
                                 onClick={() => {
                                     this.props.displaySnackMessage(
-                                        'Message discarded',
+                                        i18n.t('Message discarded'),
                                         () => history.push('/PRIVATE/create'),
                                         () => this.wipeInput(),
                                         NEGATIVE,

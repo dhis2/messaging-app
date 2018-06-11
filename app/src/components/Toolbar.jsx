@@ -13,6 +13,8 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import i18n from 'd2-i18n';
+
 import { grid, subheader } from '../styles/style';
 import theme from '../styles/theme';
 import * as actions from '../constants/actions';
@@ -55,7 +57,9 @@ class Toolbar extends Component {
             this.props.selectedMessageType.id !== prevProps.selectedMessageType.id
         ) {
             this.inputStream.next('');
-            this.props.setFilter('', 'MESSAGE');
+            this.props.messageFilter !== undefined && this.props.setFilter(undefined, 'MESSAGE');
+            this.props.statusFilter !== undefined && this.props.setFilter(undefined, 'STATUS');
+            this.props.priorityFilter !== undefined && this.props.setFilter(undefined, 'PRIORITY');
         }
 
         if (
@@ -106,7 +110,7 @@ class Toolbar extends Component {
                             }}
                             icon={<CreateMessageIcon />}
                             onClick={() => history.push('/PRIVATE/create')}
-                            label={'Compose'}
+                            label={i18n.t('Compose')}
                         />
                     )}
 
@@ -136,16 +140,19 @@ class Toolbar extends Component {
                                 width: '95%',
                             }}
                             labelStyle={{
-                                color: this.props.statusFilter === null ? 'lightGray' : 'black',
-                                top: this.props.statusFilter === null ? '-15px' : '-2px',
+                                color:
+                                    this.props.statusFilter === undefined ? 'lightGray' : 'black',
+                                top: this.props.statusFilter === undefined ? '-15px' : '-2px',
                             }}
                             selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
-                            floatingLabelText={this.props.statusFilter === null ? 'Status' : ''}
+                            floatingLabelText={
+                                this.props.statusFilter === undefined ? 'Status' : ''
+                            }
                             floatingLabelStyle={{
                                 top: '15px',
                             }}
                             iconStyle={{
-                                top: this.props.statusFilter === null ? '-15px' : '0px',
+                                top: this.props.statusFilter === undefined ? '-15px' : '0px',
                             }}
                             value={this.props.statusFilter}
                             onChange={(event, key, payload) => {
@@ -174,16 +181,19 @@ class Toolbar extends Component {
                                 width: '95%',
                             }}
                             labelStyle={{
-                                color: this.props.priorityFilter === null ? 'lightGray' : 'black',
-                                top: this.props.priorityFilter === null ? '-15px' : '-2px',
+                                color:
+                                    this.props.priorityFilter === undefined ? 'lightGray' : 'black',
+                                top: this.props.priorityFilter === undefined ? '-15px' : '-2px',
                             }}
                             selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
-                            floatingLabelText={this.props.priorityFilter === null ? 'Priority' : ''}
+                            floatingLabelText={
+                                this.props.priorityFilter === undefined ? 'Priority' : ''
+                            }
                             floatingLabelStyle={{
                                 top: '15px',
                             }}
                             iconStyle={{
-                                top: this.props.priorityFilter === null ? '-15px' : '0px',
+                                top: this.props.priorityFilter === undefined ? '-15px' : '0px',
                             }}
                             value={this.props.priorityFilter}
                             onChange={(event, key, payload) => {

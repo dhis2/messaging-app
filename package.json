@@ -4,12 +4,15 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
-    "build": "webpack -p --config webpack.prod.js",
+    "build": "npm run localize && webpack -p --config webpack.prod.js",
     "postbuild": "npm run manifest",
     "test": "jest",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
-    "deploy": "mvn clean deploy"
+    "deploy": "mvn clean deploy",
+    "extract-pot": "d2-i18n-extract -p app/src/ -o i18n/",
+    "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./app/src/locales/",
+    "prestart": "npm run localize && d2-manifest package.json ./public/manifest.webapp"
   },
   "devDependencies": {
     "babel-core": "6",
@@ -38,10 +41,13 @@
   "dependencies": {
     "css-loader": "^0.28.9",
     "d2": "^29.1.5",
+    "d2-i18n": "^1.0.3",
+    "d2-i18n-extract": "^1.0.5",
+    "d2-i18n-generate": "^1.0.15",
     "d2-ui": "^29.0.3",
     "d2-utilizr": "^0.2.15",
     "history": "^4.7.2",
-    "i18next": "^10.6.0",
+    "i18next": "^11.3.2",
     "material-ui": "^0.20.0",
     "material-ui-chip-input": "^0.18.7",
     "material-ui-icons": "1.0.0-beta.35",
