@@ -5,8 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "webpack -p --config webpack.prod.js",
+    "postbuild": "npm run manifest",
     "test": "jest",
-    "eject": "react-scripts eject",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
     "deploy": "mvn clean deploy"
