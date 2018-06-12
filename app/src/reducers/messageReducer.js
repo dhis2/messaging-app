@@ -1,4 +1,5 @@
 import i18n from 'd2-i18n';
+import log from 'loglevel';
 
 import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
@@ -91,7 +92,7 @@ function messageReducer(state = initialState, action) {
                     snackMessage = i18n.t('Successfully updated assignee');
                     break;
                 default:
-                    console.error('Unexpected identifier for updateMessageConversations success');
+                    log('Unexpected identifier for updateMessageConversations success');
                     break;
             }
 

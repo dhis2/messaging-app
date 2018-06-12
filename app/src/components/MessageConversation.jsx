@@ -168,7 +168,14 @@ class MessageConversation extends Component {
                             }}
                         >
                             {participants.map(participant => (
-                                <Chip key={participant} style={{ height: '32px' }}>
+                                <Chip
+                                    key={participant}
+                                    style={{
+                                        height: '32px',
+                                        marginRight: '3px',
+                                        marginBottom: '3px',
+                                    }}
+                                >
                                     {participant}
                                 </Chip>
                             ))}
@@ -176,7 +183,7 @@ class MessageConversation extends Component {
                     </div>
                     <SuggestionField
                         style={{
-                            gridArea: '3 / 1 / span 1 / span 5',
+                            gridArea: '3 / 1 / span 1 / span 3',
                             paddingLeft: '12px',
                             marginBottom: '0px',
                             overflow: 'hidden',
@@ -189,10 +196,6 @@ class MessageConversation extends Component {
                     />
                     <div style={{ alignSelf: 'end', marginBottom: '8px' }}>
                         <FlatButton
-                            style={{
-                                gridArea: '3 / 6',
-                                marginLeft: '14px',
-                            }}
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
                             label={i18n.t('Add')}

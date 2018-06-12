@@ -31,7 +31,7 @@ class SidebarList extends Component {
                     display: 'flex',
                     flexDirection: 'column',
                     height: 'calc(100vh - 95px)',
-                    gridArea: '2 / ' + gridColumn + ' / span 1 / span 1',
+                    gridArea: `2 / ${gridColumn} / span 1 / span 1`,
                     borderLeftStyle: gridColumn === 2 && 'solid',
                     borderLeftWidth: '0.5px',
                     borderLeftColor: theme.palette.accent4Color,
@@ -39,7 +39,7 @@ class SidebarList extends Component {
                     borderRightWidth: '1px',
                     borderRightColor: theme.palette.accent4Color,
                     overflowY: 'hidden',
-                    minWidth: '250px',
+                    minWidth: '200px',
                 }}
             >
                 <List
@@ -55,7 +55,7 @@ class SidebarList extends Component {
                                     messageType={messageType}
                                     onClick={() => {
                                         this.props.setSelectedMessageType(messageType.id);
-                                        history.push('/' + messageType.id);
+                                        history.push(`/${messageType.id}`);
                                     }}
                                     selectedMessageType={this.props.selectedMessageType}
                                     loading={messageType.loading}

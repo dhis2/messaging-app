@@ -22,42 +22,6 @@ class ReplyCard extends Component {
         };
     }
 
-    animateScroll = duration => {
-        const messagepanel = document.getElementById('messageconversation');
-
-        const start = messagepanel.scrollTop;
-        const end = messagepanel.scrollHeight;
-        const change = end - start;
-        const increment = 5;
-
-        function easeInOut(currentTime, start, change, duration) {
-            currentTime /= duration / 2;
-            if (currentTime < 1) {
-                return (change / 2) * currentTime * currentTime + start;
-            }
-            currentTime -= 1;
-            return (-change / 2) * (currentTime * (currentTime - 2) - 1) + start;
-        }
-
-        function animate(elapsedTime) {
-            elapsedTime += increment;
-            var position = easeInOut(elapsedTime, start, change, duration);
-            messagepanel.scrollTop = position;
-            if (elapsedTime < duration) {
-                setTimeout(function() {
-                    animate(elapsedTime);
-                }, increment);
-            }
-        }
-        animate(0);
-    };
-
-    handleExpandChange = expanded => {
-        this.animateScroll(500);
-
-        this.setState({ expanded, inputError: false });
-    };
-
     texFieldUpdate = (event, newValue) => {
         this.props.updateInputFields('', newValue, []);
     };

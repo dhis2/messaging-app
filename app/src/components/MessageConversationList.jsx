@@ -71,18 +71,16 @@ class MessageConversationList extends Component {
                     />
                 )}
                 {children && children.length != 0 ? (
-                    children.map(child => {
-                        return (
-                            <MessageConversationListItem
-                                key={child.id}
-                                messageConversation={child}
-                                wideview={this.props.wideview}
-                                selectedValue={selectedValue}
-                                notification={notification}
-                                displayExtendedChoices={this.props.displayExtendedChoices}
-                            />
-                        );
-                    })
+                    children.map(child => (
+                        <MessageConversationListItem
+                            key={child.id}
+                            messageConversation={child}
+                            wideview={this.props.wideview}
+                            selectedValue={selectedValue}
+                            notification={notification}
+                            displayExtendedChoices={this.props.displayExtendedChoices}
+                        />
+                    ))
                 ) : !messageType.loading ? (
                     <Subheader>
                         {i18n.t(`No ${messageType.displayName.toLowerCase()} messages`)}
@@ -94,7 +92,7 @@ class MessageConversationList extends Component {
                     <div
                         style={{
                             backgroundColor: theme.palette.accent2Color,
-                            height: bottomEmptyHeight + 'px',
+                            height: `${bottomEmptyHeight}px`,
                             transition: 'all 0.2s ease-in-out',
                             display: 'flex',
                             justifyContent: 'center',

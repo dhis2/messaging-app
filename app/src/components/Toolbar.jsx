@@ -99,7 +99,7 @@ class Toolbar extends Component {
                     zIndex: 10,
                 }}
             >
-                <div style={{ gridArea: '1 / 1', minWidth: '250px', alignSelf: 'center' }}>
+                <div style={{ gridArea: '1 / 1', alignSelf: 'center' }}>
                     {!checkedOptions && (
                         <FlatButton
                             style={{

@@ -55,9 +55,8 @@ class MessageConversationListItem extends Component {
             return theme.palette.blue50;
         } else if (selectedMessageConversation) {
             return theme.palette.accent3Color;
-        } else {
-            return this.state.backgroundColor;
         }
+        return this.state.backgroundColor;
     };
 
     render() {

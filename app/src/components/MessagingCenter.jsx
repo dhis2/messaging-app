@@ -177,7 +177,7 @@ class MessagingCenter extends Component {
                           <MessageConversation
                               messageConversation={this.props.selectedMessageConversation}
                               wideview={this.state.wideview}
-                              disableLink={true}
+                              disableLink
                               displayExtendedChoices={displayExtendedChoices}
                           />
                       )
@@ -227,7 +227,7 @@ export default compose(
                 checkedOptions: state.messaging.checkedIds.length > 0,
                 loaded: state.messaging.loaded,
                 isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
-                doUpdateInputFields: doUpdateInputFields,
+                doUpdateInputFields,
             };
         },
         dispatch => ({

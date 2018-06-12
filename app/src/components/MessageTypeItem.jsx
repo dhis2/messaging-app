@@ -41,7 +41,7 @@ class MessageTypeItem extends Component {
     };
 
     getBackgroundColor = (selectedValue, id) =>
-        selectedValue && id == selectedValue.id
+        selectedValue && id === selectedValue.id
             ? theme.palette.accent3Color
             : this.state.backgroundColor;
 

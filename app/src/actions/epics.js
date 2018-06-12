@@ -2,6 +2,7 @@ import * as actions from 'constants/actions';
 import { combineEpics } from 'redux-observable';
 
 import { getInstance as getD2wInstance } from 'd2/lib/d2';
+import log from 'loglevel';
 
 import * as api from 'api/api';
 
@@ -73,7 +74,7 @@ const updateMessageConversations = action$ =>
                     );
                     break;
                 default:
-                    console.error('Unexpected identifier for updateMessageConversations');
+                    log('Unexpected identifier for updateMessageConversations');
                     break;
             }
             return promise;

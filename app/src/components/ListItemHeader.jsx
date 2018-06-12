@@ -88,7 +88,7 @@ class MessageConversationListItem extends Component {
 
                 <Subheader
                     style={{
-                        gridArea: '1 / 3 / span 1 / span 1',
+                        gridArea: '1 / 3 / span 1 / span 3',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',

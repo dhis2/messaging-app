@@ -33,7 +33,7 @@ class ToolbarExtendedChoicePicker extends Component {
     }
 
     getIds = () =>
-        this.props.selectedMessageConversation && this.props.checkedIds.length == 0
+        this.props.selectedMessageConversation && this.props.checkedIds.length === 0
             ? [this.props.selectedMessageConversation.id]
             : this.props.checkedIds.map(id => id.id);
 
