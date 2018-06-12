@@ -1,6 +1,7 @@
+import i18n from 'd2-i18n';
+
 import * as actions from 'constants/actions';
 import messageTypes from '../constants/messageTypes';
-import history from 'utils/history';
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
@@ -39,8 +40,8 @@ function messageReducer(state = initialState, action) {
                 displayTimeDiff: action.displayTimeDiff,
             };
 
-        case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS:
-            let replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
+        case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
+            const replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
             replaceMessageType.loaded = action.payload.messageConversations.length;
             replaceMessageType.total = action.payload.pager.total;
             replaceMessageType.unread = action.nrOfUnread;
@@ -53,12 +54,13 @@ function messageReducer(state = initialState, action) {
             );
 
             const setSelectedMessageType =
-                action.selectedMessageType == replaceMessageType.id &&
-                (action.selectedMessageType == state.selectedMessageType ||
-                    state.selectedMessageType == undefined);
+                action.selectedMessageType === replaceMessageType.id &&
+                (action.selectedMessageType === state.selectedMessageType ||
+                    state.selectedMessageType === undefined);
+
             return {
                 ...state,
-                messageTypes: messageTypes,
+                messageTypes,
                 messageConversations: {
                     ...state.messageConversations,
                     [replaceMessageType.id]: action.payload.messageConversations,
@@ -67,6 +69,7 @@ function messageReducer(state = initialState, action) {
                     ? replaceMessageType
                     : state.selectedMessageType,
             };
+        }
 
         case actions.MESSAGE_CONVERSATION_UPDATE_ERROR:
             return {
@@ -75,25 +78,29 @@ function messageReducer(state = initialState, action) {
                 snackType: NEGATIVE,
             };
 
-        case actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS:
+        case actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS: {
             let snackMessage = '';
             switch (action.payload.identifier) {
                 case 'STATUS':
-                    snackMessage = 'Successfully updated status';
+                    snackMessage = i18n.t('Successfully updated status');
                     break;
                 case 'PRIORITY':
-                    snackMessage = 'Successfully updated priority';
+                    snackMessage = i18n.t('Successfully updated priority');
                     break;
                 case 'ASSIGNEE':
-                    snackMessage = 'Successfully updated assignee';
+                    snackMessage = i18n.t('Successfully updated assignee');
+                    break;
+                default:
+                    console.error('Unexpected identifier for updateMessageConversations success');
                     break;
             }
 
             return {
                 ...state,
-                snackMessage: snackMessage,
+                snackMessage,
                 snackType: POSITIVE,
             };
+        }
 
         case actions.SEND_MESSAGE_ERROR:
             return {
@@ -112,7 +119,7 @@ function messageReducer(state = initialState, action) {
         case actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS:
             return {
                 ...state,
-                snackMessage: 'Successfully deleted message conversation(s)',
+                snackMessage: i18n.t('Successfully deleted message conversation(s)'),
                 snackType: POSITIVE,
             };
 
@@ -132,20 +139,21 @@ function messageReducer(state = initialState, action) {
                 snackType: NEUTRAL,
             };
 
-        case actions.SET_CHECKED:
-            let messageConversation = action.payload.messageConversation;
+        case actions.SET_CHECKED: {
+            const messageConversation = action.payload.messageConversation;
 
             let checkedIds = state.checkedIds;
             if (action.payload.selectedValue) {
                 checkedIds.push({ id: messageConversation.id });
             } else {
-                checkedIds = checkedIds.filter(element => element.id != messageConversation.id);
+                checkedIds = checkedIds.filter(element => element.id !== messageConversation.id);
             }
 
             return {
                 ...state,
-                checkedIds: checkedIds,
+                checkedIds,
             };
+        }
 
         case actions.SET_ALL_CHECKED:
             return {
@@ -208,21 +216,22 @@ function messageReducer(state = initialState, action) {
                         : state.priorityFilter,
             };
 
-        case actions.LOAD_MESSAGE_CONVERSATIONS:
-            let loadingMessageType = action.payload.messageType;
+        case actions.LOAD_MESSAGE_CONVERSATIONS: {
+            const loadingMessageType = action.payload.messageType;
             loadingMessageType.loading = true;
 
             messageTypes[
                 _.findIndex(messageTypes, { id: loadingMessageType.id })
             ] = loadingMessageType;
 
-            let selectedMessageType = state.selectedMessageType;
+            const selectedMessageType = state.selectedMessageType;
             if (selectedMessageType) selectedMessageType.loading = true;
             return {
                 ...state,
-                messageTypes: messageTypes,
-                selectedMessageType: selectedMessageType,
+                messageTypes,
+                selectedMessageType,
             };
+        }
 
         case actions.SET_IN_FEEDBACK_RECIPIENT_GROUP:
             return {

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Snackbar from 'material-ui/Snackbar';
-import theme from '../styles/theme';
 
 import * as actions from 'constants/actions';
-import { compose, pure, lifecycle } from 'recompose';
+import { compose, pure } from 'recompose';
+
+import theme from '../styles/theme';
 
 const DEFAULT_MESSAGE_DURATION = 4000;
 const contentColorStyle = {
@@ -39,7 +40,7 @@ class CustomSnackBar extends Component {
     render() {
         return (
             <Snackbar
-                open={this.props.message != '' && this.state.show}
+                open={this.props.message !== '' && this.state.show}
                 message={this.props.message}
                 autoHideDuration={DEFAULT_MESSAGE_DURATION}
                 onRequestClose={this.closeMessage}
@@ -60,14 +61,12 @@ class CustomSnackBar extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                message: state.messaging.snackMessage,
-                type: state.messaging.snackType,
-                onSnackActionClick: state.messaging.onSnackActionClick,
-                onSnackRequestClose: state.messaging.onSnackRequestClose,
-            };
-        },
+        state => ({
+            message: state.messaging.snackMessage,
+            type: state.messaging.snackType,
+            onSnackActionClick: state.messaging.onSnackActionClick,
+            onSnackRequestClose: state.messaging.onSnackRequestClose,
+        }),
         dispatch => ({
             clearSnackMessage: () => dispatch({ type: actions.CLEAR_SNACK_MESSAGE }),
         }),

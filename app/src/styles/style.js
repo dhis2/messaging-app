@@ -4,13 +4,13 @@ import { fontFamily } from '../constants/development';
 export const subheader = {
     fontSize: '20px',
     gridArea: '1 / 1',
-    fontFamily: fontFamily,
+    fontFamily,
 };
 
 export const subheader_minilist = {
     fontSize: '14px',
     paddingLeft: '50px',
-    fontFamily: fontFamily,
+    fontFamily,
     display: 'flex',
     alignSelf: 'center',
 };

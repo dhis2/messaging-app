@@ -4,7 +4,6 @@ import { compose, pure } from 'recompose';
 
 import history from 'utils/history';
 import * as actions from 'constants/actions';
-import * as api from 'api/api';
 
 import { getInstance as getD2Instance } from 'd2/lib/d2';
 
@@ -16,8 +15,8 @@ import IconButton from 'material-ui/IconButton';
 import Chip from 'material-ui/Chip';
 
 import Paper from 'material-ui/Paper';
-import ExpandMore from 'material-ui-icons/ExpandMore';
-import ExpandLess from 'material-ui-icons/ExpandLess';
+
+import i18n from 'd2-i18n';
 
 import Message from './Message';
 import ReplyCard from './ReplyCard';
@@ -41,10 +40,18 @@ class MessageConversation extends Component {
         };
     }
 
+    componentWillMount() {
+        getD2Instance().then(instance => {
+            this.setState({
+                currentUser: instance.currentUser,
+            });
+        });
+    }
+
     addRecipients = () => {
-        const users = this.state.recipients.filter(r => r.type == 'user');
-        const userGroups = this.state.recipients.filter(r => r.type == 'userGroup');
-        const organisationUnits = this.state.recipients.filter(r => r.type == 'organisationUnit');
+        const users = this.state.recipients.filter(r => r.type === 'user');
+        const userGroups = this.state.recipients.filter(r => r.type === 'userGroup');
+        const organisationUnits = this.state.recipients.filter(r => r.type === 'organisationUnit');
         this.props.addRecipients(
             users,
             userGroups,
@@ -57,14 +64,6 @@ class MessageConversation extends Component {
             recipients: [],
         });
     };
-
-    componentWillMount() {
-        getD2Instance().then(instance => {
-            this.setState({
-                currentUser: instance.currentUser,
-            });
-        });
-    }
 
     updateRecipients = recipients => {
         this.setState({
@@ -81,7 +80,7 @@ class MessageConversation extends Component {
             ? '2 / 2 / span 1 / span 9'
             : '2 / 4 / span 1 / span 7';
 
-        let participants = messageConversation.userMessages
+        const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
             .map(
                 userMessage =>
@@ -89,7 +88,7 @@ class MessageConversation extends Component {
                     this.state.recipientsExpanded ||
                     this.state.currentUser.id != userMessage.user.id
                         ? userMessage.user.displayName
-                        : 'me',
+                        : i18n.t('me'),
             );
 
         const userMessagesLength = messageConversation.userMessages.length;
@@ -126,7 +125,7 @@ class MessageConversation extends Component {
                         }}
                         tooltipPosition="bottom-right"
                         onClick={() => history.push(`/${messageConversation.messageType}`)}
-                        tooltip={'Show all messages'}
+                        tooltip={i18n.t('Show all messages')}
                     >
                         <NavigationBack />
                     </IconButton>
@@ -157,7 +156,7 @@ class MessageConversation extends Component {
                                 gridArea: '1 / 1',
                             }}
                         >
-                            Participants
+                            {i18n.t('Participants')}
                         </Subheader>
                         <div
                             style={{
@@ -183,7 +182,7 @@ class MessageConversation extends Component {
                             overflow: 'hidden',
                             whiteSpace: 'nowrap',
                         }}
-                        label={'Add participants to conversation'}
+                        label={i18n.t('Add participants to conversation')}
                         messageConversation={messageConversation}
                         recipients={this.state.recipients}
                         updateRecipients={this.updateRecipients}
@@ -196,7 +195,7 @@ class MessageConversation extends Component {
                             }}
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
-                            label={'Add'}
+                            label={i18n.t('Add')}
                         />
                     </div>
                     {this.props.displayExtendedChoices && (
@@ -204,7 +203,7 @@ class MessageConversation extends Component {
                             color={theme.palette.darkGray}
                             showTitle
                             gridArea={'1 / 8'}
-                            title={'Status'}
+                            title={i18n.t('Status')}
                             label={messageConversation.status}
                         />
                     )}
@@ -213,7 +212,7 @@ class MessageConversation extends Component {
                             color={theme.palette.darkGray}
                             showTitle
                             gridArea={'1 / 9'}
-                            title={'Priority'}
+                            title={i18n.t('Priority')}
                             label={messageConversation.priority}
                         />
                     )}
@@ -222,7 +221,7 @@ class MessageConversation extends Component {
                             color={theme.palette.darkGray}
                             showTitle
                             gridArea={'1 / 10'}
-                            title={'Assignee'}
+                            title={i18n.t('Assignee')}
                             label={
                                 messageConversation.assignee
                                     ? messageConversation.assignee.displayName
@@ -273,12 +272,10 @@ class MessageConversation extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                selectedMessageType: state.messaging.selectedMessageType,
-                displayTimeDiff: state.messaging.displayTimeDiff,
-            };
-        },
+        state => ({
+            selectedMessageType: state.messaging.selectedMessageType,
+            displayTimeDiff: state.messaging.displayTimeDiff,
+        }),
         dispatch => ({
             addRecipients: (
                 users,

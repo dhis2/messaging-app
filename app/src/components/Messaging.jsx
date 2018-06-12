@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
-import { connect, Provider } from 'react-redux';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import HeaderBarComponent from 'd2-ui/lib/app-header/HeaderBar';
 import headerBarStore$ from 'd2-ui/lib/app-header/headerBar.store';
 import withStateFrom from 'd2-ui/lib/component-helpers/withStateFrom';
-import D2UIApp from 'd2-ui/lib/app/D2UIApp';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import { compose, lifecycle, pure, branch, getContext, renderComponent } from 'recompose';
 
 import MessagingCenter from 'components/MessagingCenter';
 import CustomSnackBar from 'components/CustomSnackBar';
-import * as actions from 'constants/actions';
 import history from 'utils/history';
 
 import theme from '../styles/theme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import store from '../store';
 
 const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
-let ContentLoader = () => (
+const ContentLoader = () => (
     <Router history={history}>
         <div>
             <Route exact path="/" component={() => <Redirect to="/PRIVATE" />} />

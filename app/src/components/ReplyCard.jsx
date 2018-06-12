@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import Checkbox from 'material-ui/Checkbox';
-
-import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 
-import * as actions from 'constants/actions';
-import theme from '../styles/theme';
-import { cardStyles } from '../styles/style';
-import history from 'utils/history';
+import i18n from 'd2-i18n';
 
-import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
+import * as actions from 'constants/actions';
+
+import { NEGATIVE } from '../constants/development';
 
 class ReplyCard extends Component {
     constructor(props) {
@@ -30,10 +25,10 @@ class ReplyCard extends Component {
     animateScroll = duration => {
         const messagepanel = document.getElementById('messageconversation');
 
-        var start = messagepanel.scrollTop;
-        var end = messagepanel.scrollHeight;
-        var change = end - start;
-        var increment = 5;
+        const start = messagepanel.scrollTop;
+        const end = messagepanel.scrollHeight;
+        const change = end - start;
+        const increment = 5;
 
         function easeInOut(currentTime, start, change, duration) {
             currentTime /= duration / 2;
@@ -60,7 +55,7 @@ class ReplyCard extends Component {
     handleExpandChange = expanded => {
         this.animateScroll(500);
 
-        this.setState({ expanded: expanded, inputError: false });
+        this.setState({ expanded, inputError: false });
     };
 
     texFieldUpdate = (event, newValue) => {
@@ -102,41 +97,33 @@ class ReplyCard extends Component {
                         value={this.state.discardState ? '' : this.props.input}
                         multiLine
                         fullWidth
-                        floatingLabelText="Message"
+                        floatingLabelText={i18n.t('Message')}
                         onChange={this.texFieldUpdate}
                     />
 
                     <CardActions>
                         <RaisedButton
                             primary
-                            label="Reply"
-                            disabled={
-                                this.props.input === '' || this.state.discardState ? true : false
-                            }
+                            label={i18n.t('Reply')}
+                            disabled={this.props.input === '' || this.state.discardState}
                             onClick={() => this.replyMessage(false)}
                         />
                         {this.props.isInFeedbackRecipientGroup &&
                             this.props.selectedMessageType.id === 'TICKET' && (
                                 <FlatButton
                                     primary
-                                    label="Internal reply"
-                                    disabled={
-                                        this.props.input === '' || this.state.discardState
-                                            ? true
-                                            : false
-                                    }
+                                    label={i18n.t('Internal reply')}
+                                    disabled={this.props.input === '' || this.state.discardState}
                                     onClick={() => this.replyMessage(true)}
                                 />
                             )}
                         <FlatButton
-                            label="Discard"
-                            disabled={
-                                this.props.input === '' || this.state.discardState ? true : false
-                            }
+                            label={i18n.t('Discard')}
+                            disabled={this.props.input === '' || this.state.discardState}
                             onClick={() => {
                                 this.setState({ discardState: true });
                                 this.props.displaySnackMessage(
-                                    'Reply discarded',
+                                    i18n.t('Reply discarded'),
                                     () => this.setState({ discardState: false }),
                                     () => {
                                         this.setState({ discardState: false });
@@ -158,15 +145,13 @@ class ReplyCard extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                selectedMessageConversation: state.messaging.selectedMessageConversation,
-                selectedMessageType: state.messaging.selectedMessageType,
-                messageTypes: state.messaging.messageTypes,
-                input: state.messaging.input,
-                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
-            };
-        },
+        state => ({
+            selectedMessageConversation: state.messaging.selectedMessageConversation,
+            selectedMessageType: state.messaging.selectedMessageType,
+            messageTypes: state.messaging.messageTypes,
+            input: state.messaging.input,
+            isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+        }),
         dispatch => ({
             replyMessage: (message, internalReply, messageConversation, messageType) =>
                 dispatch({

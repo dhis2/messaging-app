@@ -4,18 +4,17 @@ import { compose } from 'recompose';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 import Checkbox from 'material-ui/Checkbox';
-
 import Paper from 'material-ui/Paper';
 
-import ExtendedChoiceLabel from './ExtendedChoiceLabel';
+import i18n from 'd2-i18n';
 
-import theme from '../styles/theme';
 import history from 'utils/history';
 import * as actions from 'constants/actions';
+import ExtendedChoiceLabel from './ExtendedChoiceLabel';
+import theme from '../styles/theme';
 import { fontFamily } from '../constants/development';
 
 const moment = require('moment');
-const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 
 class MessageConversationListItem extends Component {
     constructor(props) {
@@ -26,20 +25,6 @@ class MessageConversationListItem extends Component {
             cursor: 'auto',
         };
     }
-
-    getBackgroundColor = (messageConversation, checked) => {
-        const selectedMessageConversation =
-            this.props.selectedMessageConversation &&
-            messageConversation.id == this.props.selectedMessageConversation.id;
-
-        if (checked && !selectedMessageConversation) {
-            return theme.palette.blue50;
-        } else if (selectedMessageConversation) {
-            return theme.palette.accent3Color;
-        } else {
-            return this.state.backgroundColor;
-        }
-    };
 
     onClick = messageConversation => {
         this.props.setSelectedMessageConversation(messageConversation);
@@ -60,6 +45,20 @@ class MessageConversationListItem extends Component {
             cursor: 'auto',
             backgroundColor: theme.palette.canvasColor,
         });
+
+    getBackgroundColor = (messageConversation, checked) => {
+        const selectedMessageConversation =
+            this.props.selectedMessageConversation &&
+            messageConversation.id === this.props.selectedMessageConversation.id;
+
+        if (checked && !selectedMessageConversation) {
+            return theme.palette.blue50;
+        } else if (selectedMessageConversation) {
+            return theme.palette.accent3Color;
+        } else {
+            return this.state.backgroundColor;
+        }
+    };
 
     render() {
         const messageConversation = this.props.messageConversation;
@@ -90,7 +89,7 @@ class MessageConversationListItem extends Component {
                 }}
                 onClick={event => {
                     const onClick =
-                        event.target.innerText != undefined && event.target.innerText != '';
+                        event.target.innerText !== undefined && event.target.innerText != '';
                     onClick && this.onClick(messageConversation);
                     onClick && this.props.clearCheckedIds();
                     onClick && this.props.wideview && this.props.setFilter(undefined, 'MESSAGE');
@@ -154,7 +153,7 @@ class MessageConversationListItem extends Component {
                     <ExtendedChoiceLabel
                         showTitle={false}
                         gridArea={'1/7'}
-                        title={'Status'}
+                        title={i18n.t('Status')}
                         color={fontColor}
                         fontWeight={fontWeight}
                         label={messageConversation.status}
@@ -164,7 +163,7 @@ class MessageConversationListItem extends Component {
                     <ExtendedChoiceLabel
                         showTitle={false}
                         gridArea={'1/8'}
-                        title={'Priority'}
+                        title={i18n.t('Priority')}
                         color={fontColor}
                         fontWeight={fontWeight}
                         label={messageConversation.priority}
@@ -174,7 +173,7 @@ class MessageConversationListItem extends Component {
                     <ExtendedChoiceLabel
                         showTitle={false}
                         gridArea={'1/9'}
-                        title={'Assignee'}
+                        title={i18n.t('Assignee')}
                         color={fontColor}
                         fontWeight={fontWeight}
                         label={
@@ -188,7 +187,7 @@ class MessageConversationListItem extends Component {
                 <Subheader
                     style={{
                         gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
-                        fontFamily: fontFamily,
+                        fontFamily,
                         color: fontColor,
                         paddingRight: '10px',
                         paddingLeft: this.props.wideview ? '16px' : '0px',
@@ -212,14 +211,12 @@ class MessageConversationListItem extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                selectedMessageConversation: state.messaging.selectedMessageConversation,
-                selectedMessageType: state.messaging.selectedMessageType,
-                checkedIds: state.messaging.checkedIds,
-                displayTimeDiff: state.messaging.displayTimeDiff,
-            };
-        },
+        state => ({
+            selectedMessageConversation: state.messaging.selectedMessageConversation,
+            selectedMessageType: state.messaging.selectedMessageType,
+            checkedIds: state.messaging.checkedIds,
+            displayTimeDiff: state.messaging.displayTimeDiff,
+        }),
         dispatch => ({
             setChecked: (messageConversation, selectedValue) =>
                 dispatch({

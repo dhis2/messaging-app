@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, lifecycle } from 'recompose';
-
-import Toggle from 'material-ui/Toggle';
+import { compose } from 'recompose';
 
 import Subheader from 'material-ui/Subheader/Subheader';
-import { ToolbarSeparator } from 'material-ui/Toolbar';
 import MailIcon from 'material-ui-icons/MailOutline';
 
-import messageTypes from '../constants/messageTypes';
+import i18n from 'd2-i18n';
+
+import * as api from 'api/api';
 import * as actions from 'constants/actions';
 
 import theme from '../styles/theme';
@@ -21,7 +19,6 @@ import MessageConversationList from './MessageConversationList';
 import CreateMessage from './CreateMessage';
 import Toolbar from './Toolbar';
 
-import * as api from 'api/api';
 import { SET_DISPLAY_TIME_DIFF } from '../constants/actions';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
@@ -38,37 +35,6 @@ class MessagingCenter extends Component {
             timer: null,
             counter: autoRefreshTime,
         };
-    }
-
-    autoRefresh() {
-        this.state.autoRefresh &&
-            this.props.loadMessageConversations(
-                this.props.selectedMessageType,
-                this.props.selectedMessageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter,
-            );
-
-        this.setState({ counter: autoRefreshTime });
-        setTimeout(() => {
-            this.autoRefresh();
-        }, autoRefreshTime);
-    }
-
-    setAutoRefresh = autoRefresh => {
-        !autoRefresh && clearInterval(this.state.timer);
-        this.setState({
-            autoRefresh,
-            counter: !autoRefresh ? autoRefreshTime : this.state.counter,
-            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), 1000),
-        });
-    };
-
-    tick() {
-        this.setState({
-            counter: this.state.counter - 1000,
-        });
     }
 
     componentWillMount() {
@@ -125,6 +91,37 @@ class MessagingCenter extends Component {
         ) {
             this.props.clearSelectedMessageConversation();
         }
+    }
+
+    setAutoRefresh = autoRefresh => {
+        !autoRefresh && clearInterval(this.state.timer);
+        this.setState({
+            autoRefresh,
+            counter: !autoRefresh ? autoRefreshTime : this.state.counter,
+            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), 1000),
+        });
+    };
+
+    tick() {
+        this.setState({
+            counter: this.state.counter - 1000,
+        });
+    }
+
+    autoRefresh() {
+        this.state.autoRefresh &&
+            this.props.loadMessageConversations(
+                this.props.selectedMessageType,
+                this.props.selectedMessageType,
+                this.props.messageFilter,
+                this.props.statusFilter,
+                this.props.priorityFilter,
+            );
+
+        this.setState({ counter: autoRefreshTime });
+        setTimeout(() => {
+            this.autoRefresh();
+        }, autoRefreshTime);
     }
 
     toogleWideview = () => {
@@ -193,7 +190,7 @@ class MessagingCenter extends Component {
                                   paddingTop: '100px',
                               }}
                           >
-                              <Subheader style={subheader}>{'Select a message'}</Subheader>
+                              <Subheader style={subheader}>{i18n.t('Select a message')}</Subheader>
                               <MailIcon
                                   style={{
                                       color: theme.palette.primary1Color,

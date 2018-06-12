@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
 
 import Delete from 'material-ui-icons/Delete';
 import MarkUnread from 'material-ui-icons/Markunread';
@@ -17,40 +16,40 @@ const CustomFontIcon = ({ child, selectedValue, onClick, icon, tooltip }) => {
             tooltip={tooltip}
             tooltipPosition="bottom-left"
         >
-            {icon == 'delete' && (
+            {icon === 'delete' && (
                 <Delete
                     onClick={event => {
                         event.stopPropagation();
                         event.preventDefault();
 
                         if (child) {
-                            selectedValue != child.id && onClick(child);
+                            selectedValue !== child.id && onClick(child);
                         } else onClick();
                     }}
                 />
             )}
 
-            {icon == 'markunread' && (
+            {icon === 'markunread' && (
                 <MarkUnread
                     onClick={event => {
                         event.stopPropagation();
                         event.preventDefault();
 
                         if (child) {
-                            selectedValue != child.id && onClick(child);
+                            selectedValue !== child.id && onClick(child);
                         } else onClick();
                     }}
                 />
             )}
 
-            {icon == 'done' && (
+            {icon === 'done' && (
                 <Done
                     onClick={event => {
                         event.stopPropagation();
                         event.preventDefault();
 
                         if (child) {
-                            selectedValue != child.id && onClick(child);
+                            selectedValue !== child.id && onClick(child);
                         } else onClick();
                     }}
                 />

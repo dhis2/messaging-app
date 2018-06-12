@@ -1,14 +1,16 @@
+import i18n from 'd2-i18n';
+
 const extendedChoices = {
     STATUS: [
-        { key: 'OPEN', value: 'OPEN', primaryText: 'Open' },
-        { key: 'PENDING', value: 'PENDING', primaryText: 'Pending' },
-        { key: 'INVALID', value: 'INVALID', primaryText: 'Invalid' },
-        { key: 'SOLVED', value: 'SOLVED', primaryText: 'Solved' },
+        { key: 'OPEN', value: 'OPEN', primaryText: i18n.t('Open') },
+        { key: 'PENDING', value: 'PENDING', primaryText: i18n.t('Pending') },
+        { key: 'INVALID', value: 'INVALID', primaryText: i18n.t('Invalid') },
+        { key: 'SOLVED', value: 'SOLVED', primaryText: i18n.t('Solved') },
     ],
     PRIORITY: [
-        { key: 'HIGH', value: 'HIGH', primaryText: 'High' },
-        { key: 'MEDIUM', value: 'MEDIUM', primaryText: 'Medium' },
-        { key: 'LOW', value: 'LOW', primaryText: 'Low' },
+        { key: 'HIGH', value: 'HIGH', primaryText: i18n.t('High') },
+        { key: 'MEDIUM', value: 'MEDIUM', primaryText: i18n.t('Medium') },
+        { key: 'LOW', value: 'LOW', primaryText: i18n.t('Low') },
     ],
 };
 

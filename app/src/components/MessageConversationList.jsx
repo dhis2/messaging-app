@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, pure, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 
 import Subheader from 'material-ui/Subheader/Subheader';
-import { List, ListItem } from 'material-ui/List';
-import Toggle from 'material-ui/Toggle';
-import Paper from 'material-ui/Paper';
 import CircularProgress from 'material-ui/CircularProgress';
 
+import i18n from 'd2-i18n';
+
 import * as actions from 'constants/actions';
-import { tabsStyles, messagePanelContainer, cardStyles, grid } from '../styles/style';
+import { messagePanelContainer } from '../styles/style';
 import theme from '../styles/theme';
 import ListItemHeader from './ListItemHeader';
 import MessageConversationListItem from './MessageConversationListItem';
@@ -19,10 +17,6 @@ const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 const bottomEmptyHeight = 50;
 
 class MessageConversationList extends Component {
-    isBottom = el => {
-        return el.scrollHeight - el.scrollTop < window.outerHeight;
-    };
-
     onScroll = messageType => {
         const messageList = document.getElementById('messagelist');
         if (
@@ -39,6 +33,8 @@ class MessageConversationList extends Component {
             );
         }
     };
+
+    isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight;
 
     render() {
         const displayMessageList =
@@ -63,7 +59,7 @@ class MessageConversationList extends Component {
                 id={'messagelist'}
                 onScroll={() => this.onScroll(this.props.selectedMessageType)}
                 style={{
-                    gridArea: gridArea,
+                    gridArea,
                     borderRightStyle: this.props.wideview ? '' : 'solid',
                     ...messagePanelContainer,
                 }}
@@ -88,7 +84,9 @@ class MessageConversationList extends Component {
                         );
                     })
                 ) : !messageType.loading ? (
-                    <Subheader> No {messageType.displayName.toLowerCase()} messages</Subheader>
+                    <Subheader>
+                        {i18n.t(`No ${messageType.displayName.toLowerCase()} messages`)}
+                    </Subheader>
                 ) : (
                     <div />
                 )}
@@ -117,17 +115,15 @@ class MessageConversationList extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                messageTypes: state.messaging.messageTypes,
-                messageFilter: state.messaging.messageFilter,
-                statusFilter: state.messaging.statusFilter,
-                priorityFilter: state.messaging.priorityFilter,
-                messageConversations: state.messaging.messageConversations,
-                selectedMessageConversation: state.messaging.selectedMessageConversation,
-                selectedMessageType: state.messaging.selectedMessageType,
-            };
-        },
+        state => ({
+            messageTypes: state.messaging.messageTypes,
+            messageFilter: state.messaging.messageFilter,
+            statusFilter: state.messaging.statusFilter,
+            priorityFilter: state.messaging.priorityFilter,
+            messageConversations: state.messaging.messageConversations,
+            selectedMessageConversation: state.messaging.selectedMessageConversation,
+            selectedMessageType: state.messaging.selectedMessageType,
+        }),
         dispatch => ({
             loadMoreMessageConversations: (
                 messageType,

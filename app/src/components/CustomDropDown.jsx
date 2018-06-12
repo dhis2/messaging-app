@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import Subheader from 'material-ui/Subheader/Subheader';
 import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
 
-const CustomDropDown = ({
-    subheader,
-    gridColumn,
-    floatingLabelText,
-    onChange,
-    value,
-    children,
-}) => (
+const CustomDropDown = ({ gridColumn, floatingLabelText, onChange, value, children }) => (
     <SelectField
         style={{
             gridArea: '1 / ' + gridColumn + ' / span 2 / span 1',
@@ -22,9 +13,7 @@ const CustomDropDown = ({
         onChange={onChange}
         value={value}
     >
-        {children.map(child => {
-            return child;
-        })}
+        {children.map(child => child)}
     </SelectField>
 );
 

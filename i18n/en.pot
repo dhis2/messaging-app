@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-06-11T15:35:03.925Z\n"
-"PO-Revision-Date: 2018-06-11T15:35:03.925Z\n"
+"POT-Creation-Date: 2018-06-12T09:06:36.895Z\n"
+"PO-Revision-Date: 2018-06-12T09:06:36.895Z\n"
 
 msgid "Assignee"
 msgstr ""
@@ -41,5 +41,122 @@ msgstr ""
 msgid "Message discarded"
 msgstr ""
 
+msgid "NONE"
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Internal message from "
+msgstr ""
+
+msgid "Message from "
+msgstr ""
+
+msgid "me"
+msgstr ""
+
+msgid "Show all messages"
+msgstr ""
+
+msgid "Participants"
+msgstr ""
+
+msgid "Add participants to conversation"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Select a message"
+msgstr ""
+
+msgid "Reply"
+msgstr ""
+
+msgid "Internal reply"
+msgstr ""
+
+msgid "Reply discarded"
+msgstr ""
+
+msgid "Auto refresh"
+msgstr ""
+
 msgid "Compose"
+msgstr ""
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Submit"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Mark selected as unread"
+msgstr ""
+
+msgid "Mark selected as read"
+msgstr ""
+
+msgid "Set status"
+msgstr ""
+
+msgid "Set priority"
+msgstr ""
+
+msgid "Assign to"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Pending"
+msgstr ""
+
+msgid "Invalid"
+msgstr ""
+
+msgid "Solved"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Low"
+msgstr ""
+
+msgid "Successfully updated status"
+msgstr ""
+
+msgid "Successfully updated priority"
+msgstr ""
+
+msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully deleted message conversation(s)"
 msgstr ""

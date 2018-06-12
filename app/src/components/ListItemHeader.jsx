@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { compose, lifecycle } from 'recompose';
+import { compose } from 'recompose';
 
-import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader/Subheader';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
 import Checkbox from 'material-ui/Checkbox';
-
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
 
-import Message from './Message';
-import ReplyCard from './ReplyCard';
-import CustomFontIcon from './CustomFontIcon';
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
+import i18n from 'd2-i18n';
 
-import { messageConversationContainer, subheader_minilist } from '../styles/style';
-import theme from '../styles/theme';
-import history from 'utils/history';
 import * as actions from 'constants/actions';
+import theme from '../styles/theme';
 import { fontFamily } from '../constants/development';
 
 const fontSize = '16px';
@@ -82,8 +71,8 @@ class MessageConversationListItem extends Component {
                 />
                 <div
                     style={{
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
+                        fontFamily,
+                        fontSize,
                         gridArea: '1 / 1 / span 1 / span 2',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -94,7 +83,7 @@ class MessageConversationListItem extends Component {
                         alignSelf: 'center',
                     }}
                 >
-                    {'Sender'}
+                    {i18n.t('Sender')}
                 </div>
 
                 <Subheader
@@ -103,13 +92,13 @@ class MessageConversationListItem extends Component {
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
+                        fontFamily,
+                        fontSize,
                         color: 'black',
                         paddingLeft: '10px',
                     }}
                 >
-                    {'Subject'}
+                    {i18n.t('Subject')}
                 </Subheader>
 
                 {displayExtendedChoices && (
@@ -117,13 +106,13 @@ class MessageConversationListItem extends Component {
                         style={{
                             gridArea: '1 / 7',
                             color: 'black',
-                            fontSize: fontSize,
+                            fontSize,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        {'Status'}
+                        {i18n.t('Status')}
                     </Subheader>
                 )}
 
@@ -132,13 +121,13 @@ class MessageConversationListItem extends Component {
                         style={{
                             gridArea: '1 / 8',
                             color: 'black',
-                            fontSize: fontSize,
+                            fontSize,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        {'Priority'}
+                        {i18n.t('Priority')}
                     </Subheader>
                 )}
                 {displayExtendedChoices && (
@@ -146,28 +135,28 @@ class MessageConversationListItem extends Component {
                         style={{
                             gridArea: '1 / 9',
                             color: 'black',
-                            fontSize: fontSize,
+                            fontSize,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        {'Assignee'}
+                        {i18n.t('Assignee')}
                     </Subheader>
                 )}
 
                 <Subheader
                     style={{
                         gridArea: '1 / 10',
-                        fontFamily: fontFamily,
-                        fontSize: fontSize,
+                        fontFamily,
+                        fontSize,
                         color: 'black',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                     }}
                 >
-                    {'Date'}
+                    {i18n.t('Date')}
                 </Subheader>
             </Paper>
         );
@@ -176,12 +165,10 @@ class MessageConversationListItem extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                checkedIds: state.messaging.checkedIds,
-                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
-            };
-        },
+        state => ({
+            checkedIds: state.messaging.checkedIds,
+            isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+        }),
         dispatch => ({
             setAllChecked: messageConversationIds =>
                 dispatch({

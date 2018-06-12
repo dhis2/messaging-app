@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Subject, Observable } from 'rxjs/Rx';
-import { compose, pure, lifecycle } from 'recompose';
 
 import ViewFancy from 'material-ui-icons/ViewList';
 import ViewList from 'material-ui-icons/ViewHeadline';
@@ -15,11 +13,11 @@ import MenuItem from 'material-ui/MenuItem';
 
 import i18n from 'd2-i18n';
 
-import { grid, subheader } from '../styles/style';
-import theme from '../styles/theme';
-import * as actions from '../constants/actions';
-
 import history from 'utils/history';
+
+import { grid } from '../styles/style';
+import theme from '../styles/theme';
+
 import extendedChoices from '../constants/extendedChoices';
 import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
 
@@ -38,7 +36,7 @@ class Toolbar extends Component {
     inputStream = new Subject();
     componentWillMount() {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(messageFilter => {
-            if (this.props.selectedMessageType && this.state.lastMessageFilter != messageFilter) {
+            if (this.props.selectedMessageType && this.state.lastMessageFilter !== messageFilter) {
                 this.props.loadMessageConversations(
                     this.props.selectedMessageType,
                     this.props.selectedMessageType.id,
@@ -122,7 +120,7 @@ class Toolbar extends Component {
                             }}
                             icon={<NavigationBack />}
                             onClick={() => this.props.clearCheckedIds()}
-                            label={'Deselect all'}
+                            label={i18n.t('Deselect all')}
                         />
                     )}
                 </div>
@@ -146,7 +144,7 @@ class Toolbar extends Component {
                             }}
                             selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
                             floatingLabelText={
-                                this.props.statusFilter === undefined ? 'Status' : ''
+                                this.props.statusFilter === undefined ? i18n.t('Status') : ''
                             }
                             floatingLabelStyle={{
                                 top: '15px',
@@ -187,7 +185,7 @@ class Toolbar extends Component {
                             }}
                             selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
                             floatingLabelText={
-                                this.props.priorityFilter === undefined ? 'Priority' : ''
+                                this.props.priorityFilter === undefined ? i18n.t('Priority') : ''
                             }
                             floatingLabelStyle={{
                                 top: '15px',
@@ -221,7 +219,7 @@ class Toolbar extends Component {
                                 padding: '0px 0px',
                                 marginRight: '100px',
                             }}
-                            hintText={'Search'}
+                            hintText={i18n.t('Search')}
                             value={this.props.messageFilter}
                             onChange={(event, messageFilter) => {
                                 this.inputStream.next(messageFilter);

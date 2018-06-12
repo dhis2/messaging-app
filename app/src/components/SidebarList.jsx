@@ -1,37 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { compose, pure } from 'recompose';
+import { compose } from 'recompose';
 
-import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router';
-
-import Drawer from 'material-ui/Drawer';
-import Subheader from 'material-ui/Subheader/Subheader';
-import { List, ListItem } from 'material-ui/List';
+import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Toggle from 'material-ui/Toggle';
 
-import MessageTypeItem from './MessageTypeItem';
+import i18n from 'd2-i18n';
 
-import theme from '../styles/theme';
 import * as actions from 'constants/actions';
 import history from 'utils/history';
+
+import MessageTypeItem from './MessageTypeItem';
+import theme from '../styles/theme';
 
 const moment = require('moment');
 
 class SidebarList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         this.props.setSelectedMessageType(this.props.match.params.messageType);
     }
 
     render() {
         const gridColumn = this.props.gridColumn;
-        const messageType = this.props.match.params.messageType;
-        const relativePath = gridColumn == 1 ? '/' : '/' + messageType + '/';
         const messageTypes = this.props.messageTypes;
 
         return (
@@ -41,7 +32,7 @@ class SidebarList extends Component {
                     flexDirection: 'column',
                     height: 'calc(100vh - 95px)',
                     gridArea: '2 / ' + gridColumn + ' / span 1 / span 1',
-                    borderLeftStyle: gridColumn == 2 && 'solid',
+                    borderLeftStyle: gridColumn === 2 && 'solid',
                     borderLeftWidth: '0.5px',
                     borderLeftColor: theme.palette.accent4Color,
                     borderRightStyle: 'solid',
@@ -58,26 +49,26 @@ class SidebarList extends Component {
                     }}
                 >
                     {messageTypes &&
-                        messageTypes.map(messageType => {
-                            return (
-                                <div key={messageType.id}>
-                                    <MessageTypeItem
-                                        messageType={messageType}
-                                        onClick={() => {
-                                            this.props.setSelectedMessageType(messageType.id);
-                                            history.push('/' + messageType.id);
-                                        }}
-                                        selectedMessageType={this.props.selectedMessageType}
-                                        loading={messageType.loading}
-                                    />
-                                    <Divider />
-                                </div>
-                            );
-                        })}
+                        messageTypes.map(messageType => (
+                            <div key={messageType.id}>
+                                <MessageTypeItem
+                                    messageType={messageType}
+                                    onClick={() => {
+                                        this.props.setSelectedMessageType(messageType.id);
+                                        history.push('/' + messageType.id);
+                                    }}
+                                    selectedMessageType={this.props.selectedMessageType}
+                                    loading={messageType.loading}
+                                />
+                                <Divider />
+                            </div>
+                        ))}
                 </List>
                 <Toggle
                     style={{ width: '', margin: '0px 20px 0px 20px' }}
-                    label={`Auto refresh (${moment(this.props.counter).format('mm:ss')})`}
+                    label={`${i18n.t('Auto refresh')} (${moment(this.props.counter).format(
+                        'mm:ss',
+                    )})`}
                     toggled={this.props.autoRefresh}
                     onToggle={() => this.props.setAutoRefresh(!this.props.autoRefresh)}
                 />
@@ -88,12 +79,10 @@ class SidebarList extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                selectedMessageType: state.messaging.selectedMessageType,
-                messageTypes: state.messaging.messageTypes,
-            };
-        },
+        state => ({
+            selectedMessageType: state.messaging.selectedMessageType,
+            messageTypes: state.messaging.messageTypes,
+        }),
         dispatch => ({
             setSelectedMessageType: messageTypeId =>
                 dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),

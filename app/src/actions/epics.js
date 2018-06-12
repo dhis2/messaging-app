@@ -1,16 +1,11 @@
 import * as actions from 'constants/actions';
 import { combineEpics } from 'redux-observable';
 
-import { getInstance as getD2Instance } from 'd2/lib/d2';
+import { getInstance as getD2wInstance } from 'd2/lib/d2';
 
-import history from 'utils/history';
 import * as api from 'api/api';
-import { concatMap } from 'rxjs/operator/concatMap';
-import { mergeMap, mergeAll, timeout, concatAll } from 'rxjs/operators';
-import { merge } from 'rxjs/operator/merge';
 
 import { Observable } from 'rxjs/Rx';
-import { concat } from 'rxjs/operator/concat';
 
 const moment = require('moment');
 
@@ -56,8 +51,8 @@ const setSelectedMessageConversation = action$ =>
 
 const updateMessageConversations = action$ =>
     action$.ofType(actions.UPDATE_MESSAGE_CONVERSATIONS).concatMap(action => {
-        let promises = action.payload.messageConversationIds.map(messageConversationId => {
-            let promise = undefined;
+        const promises = action.payload.messageConversationIds.map(messageConversationId => {
+            let promise;
             switch (action.payload.identifier) {
                 case 'STATUS':
                     promise = api.updateMessageConversationStatus(
@@ -77,13 +72,16 @@ const updateMessageConversations = action$ =>
                         action.payload.value,
                     );
                     break;
+                default:
+                    console.error('Unexpected identifier for updateMessageConversations');
+                    break;
             }
             return promise;
         });
 
         const updateObservable = Observable.from(
             Promise.all(promises)
-                .then(result => ({
+                .then(() => ({
                     type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
                     payload: {
                         messageType: action.payload.messageType,
@@ -186,7 +184,7 @@ const loadMessageConversations = action$ =>
             actions.REPLY_MESSAGE_SUCCESS,
         )
         .mergeMap(action => {
-            let promises = [];
+            const promises = [];
 
             for (let i = 1; i <= action.payload.messageType.page; i++) {
                 const promise = api
@@ -207,9 +205,9 @@ const loadMessageConversations = action$ =>
 
             return Observable.from(
                 Promise.all(promises)
-                    .then(result => {
-                        return api.getNrOfUnread(action.payload.messageType.id).then(nrOfUnread => {
-                            let messageConversations = result.reduce(
+                    .then(result =>
+                        api.getNrOfUnread(action.payload.messageType.id).then(nrOfUnread => {
+                            const messageConversations = result.reduce(
                                 (accumulated, r) => accumulated.concat(r.messageConversations),
                                 [],
                             );
@@ -217,15 +215,15 @@ const loadMessageConversations = action$ =>
                             return {
                                 type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
                                 payload: {
-                                    messageConversations: messageConversations,
+                                    messageConversations,
                                     pager: result[result.length - 1].pager,
                                 },
                                 messageType: action.payload.messageType,
                                 selectedMessageType: action.payload.selectedMessageType,
-                                nrOfUnread: nrOfUnread,
+                                nrOfUnread,
                             };
-                        });
-                    })
+                        }),
+                    )
                     .catch(error => ({
                         type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
                         payload: { error },
@@ -241,7 +239,7 @@ const deleteMessageConversations = action$ =>
 
         return Observable.from(
             Promise.all(promises)
-                .then(result => ({
+                .then(() => ({
                     type: actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
                     payload: { messageType: action.payload.messageType, page: 1 },
                 }))
@@ -323,8 +321,8 @@ const markMessageConversationsRead = action$ =>
             })),
     );
 
-const markMessageConversationsUnread = action$ => {
-    return action$.ofType(actions.MARK_MESSAGE_CONVERSATIONS_UNREAD).concatMap(action =>
+const markMessageConversationsUnread = action$ =>
+    action$.ofType(actions.MARK_MESSAGE_CONVERSATIONS_UNREAD).concatMap(action =>
         api
             .markUnread(action.payload.markedUnreadConversations)
             .then(() => ({
@@ -336,10 +334,9 @@ const markMessageConversationsUnread = action$ => {
                 payload: { error },
             })),
     );
-};
 
-const addRecipients = action$ => {
-    return action$.ofType(actions.ADD_RECIPIENTS).concatMap(action =>
+const addRecipients = action$ =>
+    action$.ofType(actions.ADD_RECIPIENTS).concatMap(action =>
         api
             .addRecipients(
                 action.payload.users,
@@ -360,7 +357,6 @@ const addRecipients = action$ => {
                 payload: { error },
             })),
     );
-};
 
 export default combineEpics(
     setDisplayTimeDiff,

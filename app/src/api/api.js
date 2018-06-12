@@ -1,5 +1,4 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2';
-import MessageConversation from '../components/MessageConversation';
 import { pageSize } from '../constants/development';
 
 const initialMessageConversationFields =
@@ -10,7 +9,7 @@ const messageConversationFields =
 
 const order = 'lastMessage:desc';
 export const getMessageConversations = (messageType, page, messageFilter, status, priority) => {
-    let filters = [`messageType:eq:${messageType}`];
+    const filters = [`messageType:eq:${messageType}`];
     status != undefined && filters.push(`status:eq:${status}`);
     priority != undefined && filters.push(`priority:eq:${priority}`);
 
@@ -37,8 +36,8 @@ export const getMessageConversations = (messageType, page, messageFilter, status
         });
 };
 
-export const getMessageConversation = messageConversation => {
-    return getD2Instance()
+export const getMessageConversation = messageConversation =>
+    getD2Instance()
         .then(instance =>
             instance.Api.getApi().get(`messageConversations/${messageConversation.id}`, {
                 fields: [messageConversationFields],
@@ -48,16 +47,14 @@ export const getMessageConversation = messageConversation => {
         .catch(error => {
             throw error;
         });
-};
 
-export const getServerDate = () => {
-    return getD2Instance()
+export const getServerDate = () =>
+    getD2Instance()
         .then(instance => instance.Api.getApi().get('system/info'))
         .then(result => result.serverDate)
         .catch(error => {
             throw error;
         });
-};
 
 export const updateMessageConversationStatus = (messageConversationId, value) =>
     getD2Instance()
@@ -185,7 +182,7 @@ const MAX_RECIPIENT = 10;
 const searchOrganisationUnits = searchValue =>
     getD2Instance()
         .then(instance =>
-            instance.Api.getApi().get(`organisationUnits`, {
+            instance.Api.getApi().get('organisationUnits', {
                 fields: 'id, displayName',
                 pageSize: MAX_RECIPIENT,
                 filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
@@ -200,13 +197,13 @@ const searchOrganisationUnits = searchValue =>
 
 export const isInFeedbackRecipientGroup = () =>
     getD2Instance()
-        .then(instance => instance.Api.getApi().get(`me`, { fields: 'userGroups[id]' }))
+        .then(instance => instance.Api.getApi().get('me', { fields: 'userGroups[id]' }))
         .then(result =>
             getD2Instance()
-                .then(instance => instance.Api.getApi().get(`configuration`))
+                .then(instance => instance.Api.getApi().get('configuration'))
                 .then(
                     configuration =>
-                        _.find(result.userGroups, { id: configuration.feedbackRecipients.id }) !=
+                        _.find(result.userGroups, { id: configuration.feedbackRecipients.id }) !==
                         undefined,
                 )
                 .catch(error => {
@@ -230,7 +227,7 @@ export const searchRecipients = searchValue =>
             searchOrganisationUnits(searchValue).then(({ organisationUnits }) => ({
                 users: result.users,
                 userGroups: result.userGroups,
-                organisationUnits: organisationUnits,
+                organisationUnits,
             })),
         )
         .catch(error => {

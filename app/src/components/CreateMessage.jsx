@@ -2,27 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 
-import SuggestionField from './SuggestionField';
+import { generateUid } from 'd2/lib/uid';
+import i18n from 'd2-i18n';
 
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { Card, CardActions, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Subheader from 'material-ui/Subheader/Subheader';
 import RadioButton from 'material-ui/RadioButton';
 
-import i18n from 'd2-i18n';
-
 import * as actions from 'constants/actions';
-import theme from '../styles/theme';
-import { messageConversationContainer, subheader } from '../styles/style';
 import history from 'utils/history';
+import SuggestionField from './SuggestionField';
+import { subheader } from '../styles/style';
 
-import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
-
-import { generateUid } from 'd2/lib/uid';
+import { NEGATIVE } from '../constants/development';
 
 class CreateMessage extends Component {
     constructor(props) {
@@ -82,9 +77,7 @@ class CreateMessage extends Component {
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
-            this.props.recipients.length === 0
-                ? true
-                : false;
+            this.props.recipients.length === 0;
 
         return (
             <div
@@ -180,14 +173,12 @@ class CreateMessage extends Component {
 
 export default compose(
     connect(
-        state => {
-            return {
-                messageTypes: state.messaging.messageTypes,
-                subject: state.messaging.subject,
-                input: state.messaging.input,
-                recipients: state.messaging.recipients,
-            };
-        },
+        state => ({
+            messageTypes: state.messaging.messageTypes,
+            subject: state.messaging.subject,
+            input: state.messaging.input,
+            recipients: state.messaging.recipients,
+        }),
         dispatch => ({
             sendMessage: (
                 subject,

@@ -4,6 +4,8 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Badge from 'material-ui/Badge';
 import Subheader from 'material-ui/Subheader/Subheader';
 
+import i18n from 'd2-i18n';
+
 import theme from '../styles/theme';
 
 class MessageTypeItem extends Component {
@@ -15,20 +17,6 @@ class MessageTypeItem extends Component {
             textColor: theme.palette.darkGray,
         };
     }
-
-    setTextColor = color => {
-        this.setState({
-            backgroundColor: color,
-        });
-    };
-
-    getBackgroundColor = (selectedValue, id) =>
-        selectedValue && id == selectedValue.id
-            ? theme.palette.accent3Color
-            : this.state.backgroundColor;
-
-    setNeutralText = () => this.setTextColor(theme.palette.accent2Color);
-    setHoverText = () => this.setTextColor(theme.palette.accent3Color);
 
     onClick = () => {
         this.props.onClick();
@@ -43,9 +31,24 @@ class MessageTypeItem extends Component {
         this.setState({ cursor: 'auto' });
     };
 
+    setNeutralText = () => this.setTextColor(theme.palette.accent2Color);
+    setHoverText = () => this.setTextColor(theme.palette.accent3Color);
+
+    setTextColor = color => {
+        this.setState({
+            backgroundColor: color,
+        });
+    };
+
+    getBackgroundColor = (selectedValue, id) =>
+        selectedValue && id == selectedValue.id
+            ? theme.palette.accent3Color
+            : this.state.backgroundColor;
+
     render() {
         return (
             <div
+                role="presentation"
                 style={{
                     ...this.state,
                     backgroundColor: this.getBackgroundColor(
@@ -81,7 +84,7 @@ class MessageTypeItem extends Component {
                                 : this.state.textColor,
                     }}
                 >
-                    {this.props.messageType.displayName}
+                    {i18n.t(this.props.messageType.displayName)}
                 </Subheader>
                 {this.props.loading ? (
                     <CircularProgress

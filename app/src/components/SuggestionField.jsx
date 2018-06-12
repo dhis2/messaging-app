@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
+
 import { Subject, Observable } from 'rxjs/Rx';
-import Chip from 'material-ui/Chip';
-import AutoComplete from 'material-ui/AutoComplete';
 import ChipInput from 'material-ui-chip-input';
 
-import * as actions from 'constants/actions';
 import * as api from 'api/api';
-
-import { connect } from 'react-redux';
-import { compose, pure } from 'recompose';
 
 const searchDelay = 300;
 
@@ -23,18 +18,14 @@ class SuggestionField extends Component {
         this.state = {
             input: '',
             searchResult: [],
-            searchOnlyUsers: this.props.searchOnlyUsers ? true : false,
+            searchOnlyUsers: this.props.searchOnlyUsers,
         };
     }
-
-    onSearchRequest = key => {
-        this.state.api.get('sharing/search', { key }).then(searchResult => searchResult);
-    };
 
     inputStream = new Subject();
     componentWillMount = () => {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(input => {
-            const doSearch = _.find(this.state.searchResult, { displayName: input }) == undefined;
+            const doSearch = _.find(this.state.searchResult, { displayName: input }) === undefined;
             doSearch &&
                 input !== '' &&
                 api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
@@ -49,20 +40,24 @@ class SuggestionField extends Component {
                     }
 
                     this.setState({
-                        searchResult: searchResult,
+                        searchResult,
                     });
                 });
         });
     };
 
+    onSearchRequest = key => {
+        this.state.api.get('sharing/search', { key }).then(searchResult => searchResult);
+    };
+
     onSuggestionClick = chip => {
-        if (this.props.onSuggestionClick != undefined) {
+        if (this.props.onSuggestionClick !== undefined) {
             this.props.onSuggestionClick(chip);
         } else {
             this.wipeInput();
             this.inputStream.next('');
 
-            const doInsert = _.find(this.props.recipients, { id: chip.id }) == undefined;
+            const doInsert = _.find(this.props.recipients, { id: chip.id }) === undefined;
 
             doInsert &&
                 this.props.updateRecipients([
@@ -73,7 +68,7 @@ class SuggestionField extends Component {
     };
 
     onRemoveChip = id => {
-        _.remove(this.props.recipients, { id: id });
+        _.remove(this.props.recipients, { id });
 
         this.props.updateRecipients(this.props.recipients);
     };
@@ -96,11 +91,11 @@ class SuggestionField extends Component {
         return (
             <ChipInput
                 style={{ marginBottom: '16px', ...this.props.style }}
-                disabled={this.props.disabled == undefined ? false : this.props.disabled}
+                disabled={this.props.disabled === undefined ? false : this.props.disabled}
                 errorText={this.props.errorText}
                 value={this.props.recipients}
                 fullWidth
-                openOnFocus={true}
+                openOnFocus
                 searchText={this.state.input}
                 floatingLabelText={this.props.label}
                 dataSource={this.state.searchResult}
@@ -113,13 +108,4 @@ class SuggestionField extends Component {
     }
 }
 
-export default compose(
-    connect(
-        state => {
-            return {};
-        },
-        dispatch => ({}),
-        null,
-        { pure: false },
-    ),
-)(SuggestionField);
+export default SuggestionField;
