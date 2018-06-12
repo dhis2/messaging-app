@@ -92,7 +92,7 @@ function messageReducer(state = initialState, action) {
                     snackMessage = i18n.t('Successfully updated assignee');
                     break;
                 default:
-                    log('Unexpected identifier for updateMessageConversations success');
+                    log.error('Unexpected identifier for updateMessageConversations success');
                     break;
             }
 

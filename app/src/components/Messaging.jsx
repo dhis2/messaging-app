@@ -2,9 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import PropTypes from 'prop-types';
-import HeaderBarComponent from 'd2-ui/lib/app-header/HeaderBar';
-import headerBarStore$ from 'd2-ui/lib/app-header/headerBar.store';
-import withStateFrom from 'd2-ui/lib/component-helpers/withStateFrom';
+import HeaderBar from '@dhis2/d2-ui-header-bar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import { Router, Route } from 'react-router-dom';
@@ -16,8 +14,6 @@ import history from 'utils/history';
 
 import theme from '../styles/theme';
 import store from '../store';
-
-const HeaderBar = withStateFrom(headerBarStore$, HeaderBarComponent);
 
 const ContentLoader = () => (
     <Router history={history}>
@@ -49,7 +45,7 @@ const Messaging = ({ d2 }) => (
     <Provider store={store}>
         <AddD2Context d2={d2}>
             <div>
-                <HeaderBar />
+                <HeaderBar d2={d2} />
                 <CustomSnackBar />
                 <ContentLoader />
             </div>

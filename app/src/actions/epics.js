@@ -74,7 +74,7 @@ const updateMessageConversations = action$ =>
                     );
                     break;
                 default:
-                    log('Unexpected identifier for updateMessageConversations');
+                    log.error('Unexpected identifier for updateMessageConversations');
                     break;
             }
             return promise;
