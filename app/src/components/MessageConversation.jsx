@@ -144,7 +144,7 @@ class MessageConversation extends Component {
 
                     <div
                         style={{
-                            gridArea: '2 / 1 / span 1 / span 6',
+                            gridArea: '2 / 1 / span 1 / span 7',
                             display: 'grid',
                             gridTemplateRows: '10% 90%',
                         }}
@@ -183,7 +183,9 @@ class MessageConversation extends Component {
                     </div>
                     <SuggestionField
                         style={{
-                            gridArea: '3 / 1 / span 1 / span 3',
+                            gridArea: this.props.wideview
+                                ? '3 / 1 / span 1 / span 3'
+                                : '3 / 1 / span 1 / span 5',
                             paddingLeft: '12px',
                             marginBottom: '0px',
                             overflow: 'hidden',
@@ -194,7 +196,7 @@ class MessageConversation extends Component {
                         recipients={this.state.recipients}
                         updateRecipients={this.updateRecipients}
                     />
-                    <div style={{ alignSelf: 'end', marginBottom: '8px' }}>
+                    <div style={{ alignSelf: 'end', marginBottom: '8px', marginLeft: '12px' }}>
                         <FlatButton
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
