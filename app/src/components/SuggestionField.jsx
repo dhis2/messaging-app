@@ -26,7 +26,6 @@ class SuggestionField extends Component {
     inputStream = new Subject();
     componentWillMount = () => {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(input => {
-            console.log('input: ', input);
             const doSearch =
                 _.find(this.state.searchResult, { displayName: input }) === undefined &&
                 input !== '';
