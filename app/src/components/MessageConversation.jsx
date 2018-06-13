@@ -196,7 +196,16 @@ class MessageConversation extends Component {
                         recipients={this.state.recipients}
                         updateRecipients={this.updateRecipients}
                     />
-                    <div style={{ alignSelf: 'end', marginBottom: '8px', marginLeft: '12px' }}>
+                    <div
+                        style={{
+                            gridArea: this.props.wideview
+                                ? '3 / 4 / span 1 / span 2'
+                                : '3 / 6 / span 1 / span 2',
+                            alignSelf: 'end',
+                            marginBottom: '8px',
+                            paddingLeft: '12px',
+                        }}
+                    >
                         <FlatButton
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
