@@ -3,7 +3,22 @@ import React from 'react';
 import Subheader from 'material-ui/Subheader/Subheader';
 import i18n from 'd2-i18n';
 
-const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color, fontWeight }) => {
+const ExtendedChoiceLabel = ({
+    showTitle,
+    gridArea,
+    title,
+    label,
+    color,
+    fontWeight,
+    identifier,
+}) => {
+    const displayLabel =
+        title === 'Assignee'
+            ? label
+            : label && label !== 'NONE'
+                ? `${label.charAt(0)}${label.toLowerCase().substr(1, label.length)}`
+                : '-';
+
     return (
         <div style={{ gridArea }}>
             {showTitle && (
@@ -19,7 +34,7 @@ const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color, fontWei
                     fontWeight,
                 }}
             >
-                {label && label !== i18n.t('NONE') ? label : '-'}
+                {displayLabel}
             </Subheader>
         </div>
     );

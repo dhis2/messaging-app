@@ -155,7 +155,10 @@ class Toolbar extends Component {
                             }}
                             value={this.props.statusFilter}
                             onChange={(event, key, payload) => {
-                                this.props.setFilter(payload, 'STATUS');
+                                this.props.setFilter(
+                                    payload === null ? undefined : payload,
+                                    'STATUS',
+                                );
                             }}
                         >
                             <MenuItem key={null} value={null} primaryText={''} />
@@ -196,7 +199,10 @@ class Toolbar extends Component {
                             }}
                             value={this.props.priorityFilter}
                             onChange={(event, key, payload) => {
-                                this.props.setFilter(payload, 'PRIORITY');
+                                this.props.setFilter(
+                                    payload === null ? undefined : payload,
+                                    'PRIORITY',
+                                );
                             }}
                         >
                             <MenuItem key={null} value={null} primaryText={''} />

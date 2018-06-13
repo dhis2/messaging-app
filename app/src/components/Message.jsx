@@ -9,6 +9,7 @@ import theme from '../styles/theme';
 
 import { fontFamily } from '../constants/development';
 
+import Linkify from 'react-linkify';
 const moment = require('moment');
 
 const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
@@ -82,7 +83,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         wordBreak: 'break-word',
                     }}
                 >
-                    {message.text}
+                    <Linkify>{message.text}</Linkify>
                 </CardText>
             </div>
             {!lastMessage && <Divider />}

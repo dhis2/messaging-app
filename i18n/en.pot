@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-06-12T09:06:36.895Z\n"
-"PO-Revision-Date: 2018-06-12T09:06:36.895Z\n"
+"POT-Creation-Date: 2018-06-13T11:51:56.105Z\n"
+"PO-Revision-Date: 2018-06-13T11:51:56.105Z\n"
 
 msgid "Assignee"
 msgstr ""
@@ -39,9 +39,6 @@ msgid "Discard"
 msgstr ""
 
 msgid "Message discarded"
-msgstr ""
-
-msgid "NONE"
 msgstr ""
 
 msgid "Sender"
