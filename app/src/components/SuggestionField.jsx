@@ -19,30 +19,44 @@ class SuggestionField extends Component {
             input: '',
             searchResult: [],
             searchOnlyUsers: this.props.searchOnlyUsers,
+            limitSearchArray: this.props.limitSearchArray.map(item => item.user.id),
+            lastSearch: '',
         };
     }
 
     inputStream = new Subject();
     componentWillMount = () => {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(input => {
-            const doSearch = _.find(this.state.searchResult, { displayName: input }) === undefined;
-            doSearch &&
-                input !== '' &&
-                api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
-                    const addType = type => result => ({ ...result, type });
+            const doSearch =
+                _.find(this.state.searchResult, { displayName: input }) === undefined &&
+                input !== '';
 
-                    let searchResult = users.map(addType('user'));
+            if (doSearch) {
+                api.searchRecipients(input, this.state.limitSearchArray).then(
+                    ({ users, userGroups, organisationUnits }) => {
+                        const addType = type => result => ({ ...result, type });
 
-                    if (!this.state.searchOnlyUsers) {
-                        searchResult = searchResult
-                            .concat(userGroups.map(addType('userGroup')))
-                            .concat(organisationUnits.map(addType('organisationUnit')));
-                    }
+                        let searchResult = users.map(addType('user'));
 
-                    this.setState({
-                        searchResult,
-                    });
-                });
+                        if (!this.state.searchOnlyUsers) {
+                            searchResult = searchResult
+                                .concat(userGroups.map(addType('userGroup')))
+                                .concat(organisationUnits.map(addType('organisationUnit')));
+                        }
+
+                        this.setState({
+                            lastSearch: input,
+                            searchResult,
+                            limitSearchArray:
+                                searchResult.length != null
+                                    ? this.state.limitSearchArray.concat(
+                                          searchResult.map(item => item.id),
+                                      )
+                                    : this.state.limitSearchArray,
+                        });
+                    },
+                );
+            }
         });
     };
 
@@ -68,8 +82,11 @@ class SuggestionField extends Component {
     };
 
     onRemoveChip = id => {
-        _.remove(this.props.recipients, { id });
+        this.setState({
+            limitSearchArray: this.state.limitSearchArray.filter(item => item !== id),
+        });
 
+        _.remove(this.props.recipients, { id });
         this.props.updateRecipients(this.props.recipients);
     };
 

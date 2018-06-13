@@ -178,21 +178,6 @@ export const markUnread = markedUnreadConversations =>
             throw error;
         });
 
-const MAX_RECIPIENT = 10;
-const searchOrganisationUnits = searchValue =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('organisationUnits', {
-                fields: 'id, displayName',
-                pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
-            }),
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error;
-        });
-
 /* Feedback recipient query */
 
 export const isInFeedbackRecipientGroup = () =>
@@ -215,20 +200,51 @@ export const isInFeedbackRecipientGroup = () =>
         });
 
 /* Recipient search */
-export const searchRecipients = searchValue =>
+const MAX_RECIPIENT = 10;
+const searchOrganisationUnits = searchValue =>
     getD2Instance()
         .then(instance =>
-            instance.Api.getApi().get(`sharing/search?key=${searchValue}`, {
+            instance.Api.getApi().get('organisationUnits', {
+                fields: 'id, displayName',
                 pageSize: MAX_RECIPIENT,
-                filter: ['users:gte:1'],
+                filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
             }),
         )
-        .then(result =>
-            searchOrganisationUnits(searchValue).then(({ organisationUnits }) => ({
-                users: result.users,
-                userGroups: result.userGroups,
-                organisationUnits,
-            })),
+        .then(result => result)
+        .catch(error => {
+            throw error;
+        });
+
+const searchUserGroups = searchValue =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().get('userGroups', {
+                fields: 'id, displayName',
+                pageSize: MAX_RECIPIENT,
+                filter: [`displayName:token:${searchValue}`],
+            }),
+        )
+        .then(result => result)
+        .catch(error => {
+            throw error;
+        });
+
+export const searchRecipients = (searchValue, limitSearchArray) =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().get('users', {
+                pageSize: MAX_RECIPIENT,
+                filter: [`displayName:token:${searchValue}`, `id:!in:[${limitSearchArray}]`],
+            }),
+        )
+        .then(({ users }) =>
+            searchUserGroups(searchValue).then(({ userGroups }) =>
+                searchOrganisationUnits(searchValue).then(({ organisationUnits }) => ({
+                    users,
+                    userGroups,
+                    organisationUnits,
+                })),
+            ),
         )
         .catch(error => {
             throw error;

@@ -195,6 +195,7 @@ class MessageConversation extends Component {
                         messageConversation={messageConversation}
                         recipients={this.state.recipients}
                         updateRecipients={this.updateRecipients}
+                        limitSearchArray={messageConversation.userMessages}
                     />
                     <div
                         style={{

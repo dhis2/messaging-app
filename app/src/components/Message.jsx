@@ -4,12 +4,12 @@ import Divider from 'material-ui/Divider';
 import CardText from 'material-ui/Card/CardText';
 
 import i18n from 'd2-i18n';
+import Linkify from 'react-linkify';
 
 import theme from '../styles/theme';
 
 import { fontFamily } from '../constants/development';
 
-import Linkify from 'react-linkify';
 const moment = require('moment');
 
 const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
