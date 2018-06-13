@@ -23,6 +23,7 @@ import { SET_DISPLAY_TIME_DIFF } from '../constants/actions';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
 const autoRefreshTime = 300000;
+const subtractInterval = 10000;
 
 class MessagingCenter extends Component {
     constructor(props) {
@@ -98,13 +99,13 @@ class MessagingCenter extends Component {
         this.setState({
             autoRefresh,
             counter: !autoRefresh ? autoRefreshTime : this.state.counter,
-            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), 1000),
+            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), subtractInterval),
         });
     };
 
     tick() {
         this.setState({
-            counter: this.state.counter - 1000,
+            counter: this.state.counter - subtractInterval,
         });
     }
 

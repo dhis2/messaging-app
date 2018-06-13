@@ -105,6 +105,7 @@ class Toolbar extends Component {
                             style={{
                                 display: 'flex',
                                 justifyContent: 'flex-start',
+                                minWidth: '200px',
                             }}
                             icon={<CreateMessageIcon />}
                             onClick={() => history.push('/PRIVATE/create')}
