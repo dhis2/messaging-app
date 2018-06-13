@@ -229,12 +229,12 @@ const searchUserGroups = searchValue =>
             throw error;
         });
 
-export const searchRecipients = (searchValue, limitSearchArray) =>
+export const searchRecipients = searchValue =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().get('users', {
                 pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`, `id:!in:[${limitSearchArray}]`],
+                filter: [`displayName:token:${searchValue}`],
             }),
         )
         .then(({ users }) =>
