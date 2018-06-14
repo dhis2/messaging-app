@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Rx';
 const moment = require('moment');
 
 // Simple hack to solve negative time difference
-const ONE_SECOND = 1000;
+const FUTURE_HACK = 5000;
 
 const setDisplayTimeDiff = action$ =>
     action$.ofType(actions.SET_DISPLAY_TIME_DIFF).switchMap(() =>
@@ -19,7 +19,7 @@ const setDisplayTimeDiff = action$ =>
             .getServerDate()
             .then(serverDate => ({
                 type: actions.SET_DISPLAY_TIME_DIFF_SUCCESS,
-                displayTimeDiff: moment().diff(moment(serverDate)) - ONE_SECOND,
+                displayTimeDiff: moment().diff(moment(serverDate)) - FUTURE_HACK,
             }))
             .catch(error => ({
                 type: actions.SET_DISPLAY_TIME_DIFF_ERROR,

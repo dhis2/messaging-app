@@ -88,7 +88,7 @@ class MessageConversationListItem extends Component {
                 }}
                 onClick={event => {
                     const onClick =
-                        event.target.innerText !== undefined && event.target.innerText != '';
+                        event.target.innerText !== undefined && event.target.innerText !== '';
                     onClick && this.onClick(messageConversation);
                     onClick && this.props.clearCheckedIds();
                     onClick && this.props.wideview && this.props.setFilter(undefined, 'MESSAGE');
@@ -199,7 +199,7 @@ class MessageConversationListItem extends Component {
                 >
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today.utc())
-                        : today.year() == messageDate.year()
+                        : today.year() === messageDate.year()
                             ? messageDate.format('MMM DD')
                             : messageDate.format('ll')}
                 </Subheader>

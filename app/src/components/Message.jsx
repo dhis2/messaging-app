@@ -68,10 +68,12 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         }}
                     >
                         {today.diff(messageDate, 'hours') < 72
-                            ? messageDate.from(today.utc())
-                            : today.year() == messageDate.year()
-                                ? messageDate.format('MMM DD')
-                                : messageDate.format('ll')}
+                            ? `${messageDate.from(today.utc())}, ${messageDate
+                                  .add(displayTimeDiff)
+                                  .format('HH:mm')}`
+                            : today.year() === messageDate.year()
+                                ? messageDate.format('MMM DD, HH:mm')
+                                : messageDate.format('MMM DD, YYYY HH:mm')}
                     </div>
                 </div>
 

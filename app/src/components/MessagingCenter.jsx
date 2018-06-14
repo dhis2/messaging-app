@@ -103,12 +103,14 @@ class MessagingCenter extends Component {
 
     autoRefresh() {
         this.state.autoRefresh &&
-            this.props.loadMessageConversations(
-                this.props.selectedMessageType,
-                this.props.selectedMessageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter,
+            this.props.messageTypes.map(messageType =>
+                this.props.loadMessageConversations(
+                    messageType,
+                    this.props.selectedMessageType,
+                    this.props.messageFilter,
+                    this.props.statusFilter,
+                    this.props.priorityFilter,
+                ),
             );
 
         this.setState({ counter: autoRefreshTime });
