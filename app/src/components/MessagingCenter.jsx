@@ -79,14 +79,6 @@ class MessagingCenter extends Component {
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
         if (
-            selectedId !== 'create' &&
-            this.props.doUpdateInputFields &&
-            this.props.snackMessage === ''
-        ) {
-            this.props.updateInputFields('', '', []);
-        }
-
-        if (
             (selectedMessageType === selectedId || selectedId === 'create') &&
             this.props.selectedMessageConversation !== undefined
         ) {

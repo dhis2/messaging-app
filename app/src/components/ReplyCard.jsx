@@ -22,9 +22,9 @@ class ReplyCard extends Component {
         };
     }
 
-    texFieldUpdate = (event, newValue) => {
-        this.props.updateInputFields('', newValue, []);
-    };
+    componentWillUnmount() {
+        this.wipeInput();
+    }
 
     replyMessage = internalReply => {
         this.props.replyMessage(
@@ -41,6 +41,10 @@ class ReplyCard extends Component {
         this.setState({
             inputError: false,
         });
+    };
+
+    texFieldUpdate = (event, newValue) => {
+        this.props.updateInputFields('', newValue, []);
     };
 
     render() {

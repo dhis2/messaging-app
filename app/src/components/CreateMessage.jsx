@@ -24,9 +24,12 @@ class CreateMessage extends Component {
         super(props);
 
         this.state = {
-            snackbarOpen: false,
             isMessageFeedback: false,
         };
+    }
+
+    componentWillUnmount() {
+        this.wipeInput();
     }
 
     subjectUpdate = (event, newValue) => {
@@ -93,7 +96,16 @@ class CreateMessage extends Component {
                             style={{ margin: '0px' }}
                             label={i18n.t('To')}
                             disabled={this.state.isMessageFeedback}
-                            recipients={this.props.recipients}
+                            recipients={
+                                this.state.isMessageFeedback
+                                    ? [
+                                          {
+                                              id: 'id',
+                                              displayName: i18n.t('Feedback recipient group'),
+                                          },
+                                      ]
+                                    : this.props.recipients
+                            }
                             updateRecipients={this.updateRecipients}
                         />
                         <div style={{ marginTop: '10px' }}>
@@ -101,7 +113,6 @@ class CreateMessage extends Component {
                                 label={i18n.t('Private message')}
                                 checked={!this.state.isMessageFeedback}
                                 onCheck={(event, isInputChecked) => {
-                                    this.updateRecipients([]);
                                     this.setState({
                                         isMessageFeedback: !this.state.isMessageFeedback,
                                     });
@@ -113,13 +124,6 @@ class CreateMessage extends Component {
                                 label={i18n.t('Feedback message')}
                                 checked={this.state.isMessageFeedback}
                                 onCheck={(event, isInputChecked) => {
-                                    this.updateRecipients([]);
-                                    this.updateRecipients([
-                                        {
-                                            id: 'id',
-                                            displayName: i18n.t('Feedback recipient group'),
-                                        },
-                                    ]);
                                     this.setState({
                                         isMessageFeedback: !this.state.isMessageFeedback,
                                     });
@@ -221,6 +225,7 @@ export default compose(
                     payload: { subject, input, recipients },
                 }),
         }),
+        null,
+        { pure: false },
     ),
-    pure,
 )(CreateMessage);

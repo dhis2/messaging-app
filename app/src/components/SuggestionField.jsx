@@ -56,10 +56,6 @@ class SuggestionField extends Component {
         });
     };
 
-    onSearchRequest = key => {
-        this.state.api.get('sharing/search', { key }).then(searchResult => searchResult);
-    };
-
     onSuggestionClick = chip => {
         if (this.props.onSuggestionClick !== undefined) {
             this.props.onSuggestionClick(chip);
