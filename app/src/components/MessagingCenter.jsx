@@ -185,7 +185,9 @@ class MessagingCenter extends Component {
                                   paddingTop: '100px',
                               }}
                           >
-                              <Subheader style={subheader}>{i18n.t('Select a message')}</Subheader>
+                              <Subheader style={{ subheader }}>
+                                  {i18n.t('Select a message')}
+                              </Subheader>
                               <MailIcon
                                   style={{
                                       color: theme.palette.primary1Color,

@@ -49,7 +49,7 @@ class Toolbar extends Component {
         });
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (
             prevProps.selectedMessageType &&
             this.props.selectedMessageType.id !== prevProps.selectedMessageType.id

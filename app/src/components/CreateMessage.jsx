@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { compose, pure } from 'recompose';
+import { compose } from 'recompose';
 
 import { generateUid } from 'd2/lib/uid';
 import i18n from 'd2-i18n';

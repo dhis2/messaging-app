@@ -65,10 +65,9 @@ class MessageConversationList extends Component {
                 }}
             >
                 {this.props.wideview && (
-                    <ListItemHeader
-                        children={children}
-                        displayExtendedChoices={this.props.displayExtendedChoices}
-                    />
+                    <ListItemHeader displayExtendedChoices={this.props.displayExtendedChoices}>
+                        {children}
+                    </ListItemHeader>
                 )}
                 {children && children.length !== 0
                     ? children.map(child => (

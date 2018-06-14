@@ -1,5 +1,9 @@
 import theme from '../styles/theme';
 
+export const subheader = {
+    fontSize: '20px',
+};
+
 export const messagePanelContainer = {
     overflowY: 'scroll',
     overflowX: 'hidden',
