@@ -64,7 +64,7 @@ class MessageConversationListItem extends Component {
         const title = messageConversation.lastSender
             ? messageConversation.lastSender.displayName
             : this.props.selectedMessageType.displayName;
-        const checked = _.find(this.props.checkedIds, { id: messageConversation.id }) != undefined;
+        const checked = _.find(this.props.checkedIds, { id: messageConversation.id }) !== undefined;
 
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
@@ -198,7 +198,7 @@ class MessageConversationListItem extends Component {
                     }}
                 >
                     {today.diff(messageDate, 'hours') < 72
-                        ? messageDate.from(today.utc())
+                        ? messageDate.from(today)
                         : today.year() === messageDate.year()
                             ? messageDate.format('MMM DD')
                             : messageDate.format('ll')}
