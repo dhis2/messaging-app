@@ -38,7 +38,7 @@ class MessageConversationList extends Component {
 
     render() {
         const displayMessageList =
-            !this.props.wideview || this.props.selectedMessageConversation == undefined;
+            !this.props.wideview || this.props.selectedMessageConversation === undefined;
 
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
@@ -54,7 +54,7 @@ class MessageConversationList extends Component {
             : '';
 
         const notification = !!(NOTIFICATIONS.indexOf(messageType.id) + 1);
-        return displayMessageList ? (
+        return (
             <div
                 id={'messagelist'}
                 onScroll={() => this.onScroll(this.props.selectedMessageType)}
@@ -70,24 +70,22 @@ class MessageConversationList extends Component {
                         displayExtendedChoices={this.props.displayExtendedChoices}
                     />
                 )}
-                {children && children.length != 0 ? (
-                    children.map(child => (
-                        <MessageConversationListItem
-                            key={child.id}
-                            messageConversation={child}
-                            wideview={this.props.wideview}
-                            selectedValue={selectedValue}
-                            notification={notification}
-                            displayExtendedChoices={this.props.displayExtendedChoices}
-                        />
-                    ))
-                ) : !messageType.loading ? (
-                    <Subheader>
-                        {i18n.t(`No ${messageType.displayName.toLowerCase()} messages`)}
-                    </Subheader>
-                ) : (
-                    <div />
-                )}
+                {children && children.length !== 0
+                    ? children.map(child => (
+                          <MessageConversationListItem
+                              key={child.id}
+                              messageConversation={child}
+                              wideview={this.props.wideview}
+                              selectedValue={selectedValue}
+                              notification={notification}
+                              displayExtendedChoices={this.props.displayExtendedChoices}
+                          />
+                      ))
+                    : !this.props.selectedMessageType.loading && (
+                          <Subheader>
+                              {i18n.t(`No ${messageType.displayName.toLowerCase()} messages`)}
+                          </Subheader>
+                      )}
                 {this.props.selectedMessageType.loading && (
                     <div
                         style={{
@@ -105,8 +103,6 @@ class MessageConversationList extends Component {
                     </div>
                 )}
             </div>
-        ) : (
-            <div />
         );
     }
 }

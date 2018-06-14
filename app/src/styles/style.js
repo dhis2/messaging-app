@@ -1,19 +1,4 @@
 import theme from '../styles/theme';
-import { fontFamily } from '../constants/development';
-
-export const subheader = {
-    fontSize: '20px',
-    gridArea: '1 / 1',
-    fontFamily,
-};
-
-export const subheader_minilist = {
-    fontSize: '14px',
-    paddingLeft: '50px',
-    fontFamily,
-    display: 'flex',
-    alignSelf: 'center',
-};
 
 export const messagePanelContainer = {
     overflowY: 'scroll',

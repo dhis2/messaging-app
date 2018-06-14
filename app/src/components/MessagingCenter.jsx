@@ -151,19 +151,21 @@ class MessagingCenter extends Component {
 
                 {id === 'create' && <CreateMessage wideview={this.state.wideview} />}
 
-                {id !== 'create' ? (
-                    <MessageConversationList
-                        wideview={this.state.wideview}
-                        displayExtendedChoices={displayExtendedChoices && this.state.wideview}
-                    />
-                ) : (
+                {this.props.selectedMessageConversation === undefined &&
+                    !(this.state.wideview && id === 'create') && (
+                        <MessageConversationList
+                            wideview={this.state.wideview}
+                            displayExtendedChoices={displayExtendedChoices && this.state.wideview}
+                        />
+                    )}
+
+                {this.props.selectedMessageConversation !== undefined &&
                     !this.state.wideview && (
                         <MessageConversationList
                             wideview={this.state.wideview}
                             displayExtendedChoices={displayExtendedChoices && this.state.wideview}
                         />
-                    )
-                )}
+                    )}
 
                 {this.props.selectedMessageConversation && id !== 'create'
                     ? this.props.selectedMessageConversation !== undefined && (

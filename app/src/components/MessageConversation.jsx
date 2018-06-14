@@ -23,8 +23,8 @@ import ReplyCard from './ReplyCard';
 import SuggestionField from './SuggestionField';
 import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 
-import { subheader } from '../styles/style';
 import theme from '../styles/theme';
+import { fontFamily } from '../constants/development';
 
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 const maxParticipantsDisplay = 30;
@@ -131,12 +131,13 @@ class MessageConversation extends Component {
                     </IconButton>
                     <Subheader
                         style={{
-                            ...subheader,
                             display: 'flex',
                             alignSelf: 'center',
                             gridArea: '1 / 1 / span 1 / span 7',
                             width: 'calc(100% - 50px)',
                             marginLeft: '50px',
+                            fontSize: '20px',
+                            fontFamily,
                         }}
                     >
                         {messageConversation.subject}

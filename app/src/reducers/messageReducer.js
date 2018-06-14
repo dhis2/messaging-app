@@ -32,7 +32,7 @@ export const initialState = {
 };
 
 function messageReducer(state = initialState, action) {
-    const messageTypes = state.messageTypes;
+    const stateMessageTypes = state.messageTypes;
 
     switch (action.type) {
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
@@ -42,14 +42,14 @@ function messageReducer(state = initialState, action) {
             };
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
-            const replaceMessageType = _.find(messageTypes, { id: action.messageType.id });
+            const replaceMessageType = _.find(stateMessageTypes, { id: action.messageType.id });
             replaceMessageType.loaded = action.payload.messageConversations.length;
             replaceMessageType.total = action.payload.pager.total;
             replaceMessageType.unread = action.nrOfUnread;
             replaceMessageType.page = action.payload.pager.page;
             replaceMessageType.loading = false;
             messageTypes.splice(
-                [_.findIndex(messageTypes, { id: replaceMessageType.id })],
+                [_.findIndex(stateMessageTypes, { id: replaceMessageType.id })],
                 1,
                 replaceMessageType,
             );
@@ -184,7 +184,7 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: [],
-                selectedMessageType: _.find(state.messageTypes, {
+                selectedMessageType: _.find(stateMessageTypes, {
                     id: action.payload.messageTypeId,
                 }),
                 selectedMessageConversations:
