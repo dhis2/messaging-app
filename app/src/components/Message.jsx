@@ -18,9 +18,8 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
             ? 'me'
             : message.sender.displayName
         : 'system';
-    const today = moment().subtract(displayTimeDiff);
-    const messageDate = moment(message.created);
-    const displayMessageDate = moment(messageDate).add(displayTimeDiff);
+    const today = moment();
+    const messageDate = moment(message.created).add(displayTimeDiff);
 
     return (
         <div
@@ -69,10 +68,10 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         }}
                     >
                         {today.diff(messageDate, 'hours') < 72
-                            ? `${messageDate.from(today)}, ${displayMessageDate.format('HH:mm')}`
+                            ? `${messageDate.from(today)}, ${messageDate.format('HH:mm')}`
                             : today.year() === messageDate.year()
-                                ? displayMessageDate.format('MMM DD, HH:mm')
-                                : displayMessageDate.format('MMM DD, YYYY HH:mm')}
+                                ? messageDate.format('MMM DD, HH:mm')
+                                : messageDate.format('MMM DD, YYYY HH:mm')}
                     </div>
                 </div>
 

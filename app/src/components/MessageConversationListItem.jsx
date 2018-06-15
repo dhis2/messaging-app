@@ -68,8 +68,10 @@ class MessageConversationListItem extends Component {
 
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
-        const today = moment().subtract(this.props.displayTimeDiff);
-        const messageDate = moment(messageConversation.lastMessage);
+        const displayTimeDiff = this.props.displayTimeDiff;
+
+        const today = moment();
+        const messageDate = moment(messageConversation.lastMessage).add(displayTimeDiff);
         const fontWeight = !messageConversation.read ? 'bold' : '';
         const fontColor = this.props.messageConversation.read ? 'black' : theme.palette.darkGray;
 

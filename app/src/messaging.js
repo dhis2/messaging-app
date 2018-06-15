@@ -9,7 +9,7 @@ import 'whatwg-fetch';
 
 import configI18n from './utils/configI18n';
 
-const dhisVersion = 29;
+const dhisVersion = 30;
 const schemas = ['messageConversation'];
 
 let dhisConfig;
