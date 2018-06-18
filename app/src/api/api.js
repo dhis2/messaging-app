@@ -1,6 +1,8 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2';
 import { pageSize } from '../constants/development';
 
+const find = require('lodash/find');
+
 const initialMessageConversationFields =
     'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage';
 
@@ -188,7 +190,7 @@ export const isInFeedbackRecipientGroup = () =>
                 .then(instance => instance.Api.getApi().get('configuration'))
                 .then(
                     configuration =>
-                        _.find(result.userGroups, { id: configuration.feedbackRecipients.id }) !==
+                        find(result.userGroups, { id: configuration.feedbackRecipients.id }) !==
                         undefined,
                 )
                 .catch(error => {

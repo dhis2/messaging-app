@@ -99,6 +99,7 @@
     }
   },
   "jest": {
+    "automock": false,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
     ],

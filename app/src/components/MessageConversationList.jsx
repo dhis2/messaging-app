@@ -13,6 +13,9 @@ import theme from '../styles/theme';
 import ListItemHeader from './ListItemHeader';
 import MessageConversationListItem from './MessageConversationListItem';
 
+const uniqWith = require('lodash/uniqWith');
+const isEqual = require('lodash/isEqual');
+
 const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
 const bottomEmptyHeight = 50;
 
@@ -43,9 +46,9 @@ class MessageConversationList extends Component {
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
             : '2 / 2 / span 1 / span 2';
-        const children = _.uniqWith(
+        const children = uniqWith(
             this.props.messageConversations[this.props.selectedMessageType.id],
-            _.isEqual,
+            isEqual,
         );
 
         const messageType = this.props.selectedMessageType ? this.props.selectedMessageType : '';
