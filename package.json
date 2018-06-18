@@ -6,14 +6,15 @@
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "npm run localize && webpack -p --config webpack.prod.js",
     "postbuild": "npm run manifest",
-    "test": "jest",
+    "test": "react-scripts test --env=jsdom",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
     "deploy": "mvn clean deploy",
     "extract-pot": "d2-i18n-extract -p app/src/ -o i18n/",
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./app/src/locales/",
     "prestart": "npm run localize && d2-manifest package.json ./public/manifest.webapp",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-core": "6",
@@ -30,7 +31,7 @@
     "copy-webpack-plugin": "^4.3.1",
     "d2-manifest": "^1.0.0",
     "html-webpack-plugin": "^2.29.0",
-    "jest": "^22.1.4",
+    "jest": "^23.1.0",
     "redux-logger": "3.0.6",
     "regenerator-runtime": "^0.11.1",
     "webpack": "^3.10.0",
