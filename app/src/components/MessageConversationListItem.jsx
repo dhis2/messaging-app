@@ -14,6 +14,7 @@ import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 import theme from '../styles/theme';
 import { fontFamily } from '../constants/development';
 
+const find = require('lodash/find');
 const moment = require('moment');
 
 class MessageConversationListItem extends Component {
@@ -64,7 +65,7 @@ class MessageConversationListItem extends Component {
         const title = messageConversation.lastSender
             ? messageConversation.lastSender.displayName
             : this.props.selectedMessageType.displayName;
-        const checked = _.find(this.props.checkedIds, { id: messageConversation.id }) !== undefined;
+        const checked = find(this.props.checkedIds, { id: messageConversation.id }) !== undefined;
 
         const displayExtendedChoices = this.props.displayExtendedChoices;
 

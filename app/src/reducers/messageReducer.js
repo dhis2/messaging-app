@@ -6,6 +6,9 @@ import messageTypes from '../constants/messageTypes';
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
+let find = require('lodash/find');
+let findIndex = require('lodash/findIndex');
+
 export const initialState = {
     // Message conversation
     messageConversations: {},
@@ -42,14 +45,14 @@ function messageReducer(state = initialState, action) {
             };
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
-            const replaceMessageType = _.find(stateMessageTypes, { id: action.messageType.id });
+            const replaceMessageType = find(stateMessageTypes, { id: action.messageType.id });
             replaceMessageType.loaded = action.payload.messageConversations.length;
             replaceMessageType.total = action.payload.pager.total;
             replaceMessageType.unread = action.nrOfUnread;
             replaceMessageType.page = action.payload.pager.page;
             replaceMessageType.loading = false;
             messageTypes.splice(
-                [_.findIndex(stateMessageTypes, { id: replaceMessageType.id })],
+                [findIndex(stateMessageTypes, { id: replaceMessageType.id })],
                 1,
                 replaceMessageType,
             );
@@ -184,7 +187,7 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: [],
-                selectedMessageType: _.find(stateMessageTypes, {
+                selectedMessageType: find(stateMessageTypes, {
                     id: action.payload.messageTypeId,
                 }),
                 selectedMessageConversations:
@@ -222,7 +225,7 @@ function messageReducer(state = initialState, action) {
             loadingMessageType.loading = true;
 
             messageTypes[
-                _.findIndex(messageTypes, { id: loadingMessageType.id })
+                findIndex(messageTypes, { id: loadingMessageType.id })
             ] = loadingMessageType;
 
             const selectedMessageType = state.selectedMessageType;
