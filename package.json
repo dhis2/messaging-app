@@ -71,16 +71,6 @@
     "style-loader": "^0.20.1",
     "whatwg-fetch": "^2.0.3"
   },
-  "jest": {
-    "moduleNameMapper": {
-      "^actions[/](.+)": "<rootDir>/app/src/actions/$1",
-      "^api[/](.+)": "<rootDir>/app/src/api/$1",
-      "^constants[/](.+)": "<rootDir>/app/src/constants/$1",
-      "^components[/](.+)": "<rootDir>/app/src/components/$1",
-      "^reducers[/](.+)": "<rootDir>/app/src/reducers/$1",
-      "^utils[/](.+)": "<rootDir>/app/src/utils/$1"
-    }
-  },
   "manifest.webapp": {
     "name": "Messaging",
     "launch_path": "index.html",
