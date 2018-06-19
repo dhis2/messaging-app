@@ -19,6 +19,8 @@ import extendedChoices from 'constants/extendedChoices';
 import CustomFontIcon from './CustomFontIcon';
 import AssignToDialog from './AssignToDialog';
 
+import history from 'utils/history';
+
 const multiSelectDisplayLimit = 99;
 
 class ToolbarExtendedChoicePicker extends Component {
@@ -57,6 +59,7 @@ class ToolbarExtendedChoicePicker extends Component {
             this.props.markMessageConversationsRead(ids, this.props.selectedMessageType);
         }
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
+        history.push(`/${this.props.selectedMessageType}`);
     };
 
     toogleDialog = () => {

@@ -118,6 +118,7 @@ class Toolbar extends Component {
                             style={{
                                 display: 'flex',
                                 justifyContent: 'flex-start',
+                                minWidth: '200px',
                             }}
                             icon={<NavigationBack />}
                             onClick={() => this.props.clearCheckedIds()}
