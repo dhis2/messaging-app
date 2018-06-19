@@ -5,6 +5,8 @@ import ChipInput from 'material-ui-chip-input';
 
 import * as api from 'api/api';
 
+const find = require('lodash/find');
+const remove = require('lodash/remove');
 const searchDelay = 300;
 
 /*
@@ -27,8 +29,7 @@ class SuggestionField extends Component {
     componentWillMount = () => {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(input => {
             const doSearch =
-                _.find(this.state.searchResult, { displayName: input }) === undefined &&
-                input !== '';
+                find(this.state.searchResult, { displayName: input }) === undefined && input !== '';
 
             if (doSearch) {
                 api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
@@ -63,18 +64,18 @@ class SuggestionField extends Component {
             this.wipeInput();
             this.inputStream.next('');
 
-            const doInsert = _.find(this.props.recipients, { id: chip.id }) === undefined;
+            const doInsert = find(this.props.recipients, { id: chip.id }) === undefined;
 
             doInsert &&
                 this.props.updateRecipients([
                     ...this.props.recipients,
-                    _.find(this.state.searchResult, { id: chip.id }),
+                    find(this.state.searchResult, { id: chip.id }),
                 ]);
         }
     };
 
     onRemoveChip = id => {
-        _.remove(this.props.recipients, { id });
+        remove(this.props.recipients, { id });
         this.props.updateRecipients(this.props.recipients);
     };
 

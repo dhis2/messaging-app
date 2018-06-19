@@ -17,6 +17,7 @@ import history from 'utils/history';
 import SuggestionField from './SuggestionField';
 import { subheader } from '../styles/style';
 
+const find = require('lodash/find');
 import { NEGATIVE } from '../constants/development';
 
 class CreateMessage extends Component {
@@ -45,7 +46,7 @@ class CreateMessage extends Component {
     };
 
     sendMessage = () => {
-        const messageType = _.find(this.props.messageTypes, {
+        const messageType = find(this.props.messageTypes, {
             id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
         });
         const users = this.props.recipients.filter(r => r.type === 'user');
