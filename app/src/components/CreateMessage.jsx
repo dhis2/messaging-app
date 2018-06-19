@@ -108,27 +108,34 @@ class CreateMessage extends Component {
                             }
                             updateRecipients={this.updateRecipients}
                         />
-                        <div style={{ marginTop: '10px' }}>
-                            <RadioButton
-                                label={i18n.t('Private message')}
-                                checked={!this.state.isMessageFeedback}
-                                onCheck={(event, isInputChecked) => {
-                                    this.setState({
-                                        isMessageFeedback: !this.state.isMessageFeedback,
-                                    });
-                                }}
-                            />
-                        </div>
-                        <div style={{ marginTop: '10px' }}>
-                            <RadioButton
-                                label={i18n.t('Feedback message')}
-                                checked={this.state.isMessageFeedback}
-                                onCheck={(event, isInputChecked) => {
-                                    this.setState({
-                                        isMessageFeedback: !this.state.isMessageFeedback,
-                                    });
-                                }}
-                            />
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                            }}
+                        >
+                            <div style={{ width: '25%', marginTop: '10px' }}>
+                                <RadioButton
+                                    label={i18n.t('Private message')}
+                                    checked={!this.state.isMessageFeedback}
+                                    onCheck={(event, isInputChecked) => {
+                                        this.setState({
+                                            isMessageFeedback: !this.state.isMessageFeedback,
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <div style={{ width: '25%', marginTop: '10px' }}>
+                                <RadioButton
+                                    label={i18n.t('Feedback message')}
+                                    checked={this.state.isMessageFeedback}
+                                    onCheck={(event, isInputChecked) => {
+                                        this.setState({
+                                            isMessageFeedback: !this.state.isMessageFeedback,
+                                        });
+                                    }}
+                                />
+                            </div>
                         </div>
                         <TextField
                             floatingLabelText={i18n.t('Subject')}
