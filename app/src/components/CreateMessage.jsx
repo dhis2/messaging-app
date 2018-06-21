@@ -58,11 +58,9 @@ class CreateMessage extends Component {
             history.push('/TICKET');
         } else {
             this.props.sendMessage(
-                this.props.subject,
                 users,
                 userGroups,
                 organisationUnits,
-                this.props.input,
                 generateUid(),
                 messageType,
             );
@@ -115,7 +113,7 @@ class CreateMessage extends Component {
                                 flexDirection: 'row',
                             }}
                         >
-                            <div style={{ width: '25%', marginTop: '10px' }}>
+                            <div style={{ width: '300px', marginTop: '10px' }}>
                                 <RadioButton
                                     label={i18n.t('Private message')}
                                     checked={!this.state.isMessageFeedback}
@@ -126,7 +124,7 @@ class CreateMessage extends Component {
                                     }}
                                 />
                             </div>
-                            <div style={{ width: '25%', marginTop: '10px' }}>
+                            <div style={{ width: '300px', marginTop: '10px' }}>
                                 <RadioButton
                                     label={i18n.t('Feedback message')}
                                     checked={this.state.isMessageFeedback}
@@ -193,32 +191,26 @@ export default compose(
         }),
         dispatch => ({
             sendMessage: (
-                subject,
                 users,
                 userGroups,
                 organisationUnits,
-                message,
                 messageConversationId,
                 messageType,
             ) =>
                 dispatch({
                     type: actions.SEND_MESSAGE,
                     payload: {
-                        subject,
                         users,
                         userGroups,
                         organisationUnits,
-                        message,
                         messageConversationId,
                         messageType,
                     },
                 }),
-            sendFeedbackMessage: (subject, message, messageType) =>
+            sendFeedbackMessage: messageType =>
                 dispatch({
                     type: actions.SEND_FEEDBACK_MESSAGE,
                     payload: {
-                        subject,
-                        message,
                         messageType,
                     },
                 }),

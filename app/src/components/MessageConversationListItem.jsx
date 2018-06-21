@@ -5,6 +5,7 @@ import { compose } from 'recompose';
 import Subheader from 'material-ui/Subheader/Subheader';
 import Checkbox from 'material-ui/Checkbox';
 import Paper from 'material-ui/Paper';
+import Flag from 'material-ui-icons/Flag';
 
 import i18n from 'd2-i18n';
 
@@ -30,9 +31,13 @@ class MessageConversationListItem extends Component {
     onClick = messageConversation => {
         this.props.setSelectedMessageConversation(messageConversation);
         if (messageConversation && !messageConversation.read) {
-            this.props.markMessageConversationsRead(
+            this.props.markMessageConversations(
+                'read',
                 [messageConversation.id],
                 this.props.selectedMessageType,
+                this.props.messageFilter,
+                this.props.statusFilter,
+                this.props.priorityFilter,
             );
         }
         this.props.updateInputFields('', '', []);
@@ -99,24 +104,6 @@ class MessageConversationListItem extends Component {
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
             >
-                <div
-                    style={{
-                        fontFamily,
-                        fontSize: '14px',
-                        gridArea: this.props.wideview
-                            ? '1 / 1 / span 1 / span 2'
-                            : '1 / 1 / span 1 / span 6',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        alignSelf: 'center',
-                        color: 'black',
-                        marginLeft: '50px',
-                        fontWeight,
-                    }}
-                >
-                    {title}
-                </div>
                 <Checkbox
                     checked={checked}
                     style={{
@@ -130,7 +117,34 @@ class MessageConversationListItem extends Component {
                         this.props.setChecked(messageConversation, !checked);
                     }}
                 />
-
+                {messageConversation.followUp && (
+                    <Flag
+                        style={{
+                            gridArea: '1 / 1',
+                            color: theme.palette.followUp,
+                            alignSelf: 'center',
+                            marginLeft: '40px',
+                        }}
+                    />
+                )}
+                <div
+                    style={{
+                        fontFamily,
+                        fontSize: '14px',
+                        gridArea: this.props.wideview
+                            ? '1 / 1 / span 1 / span 2'
+                            : '1 / 1 / span 1 / span 6',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        alignSelf: 'center',
+                        color: 'black',
+                        marginLeft: messageConversation.followUp ? '70px' : '50px',
+                        fontWeight,
+                    }}
+                >
+                    {title}
+                </div>
                 <Subheader
                     style={{
                         gridArea: this.props.wideview
@@ -150,7 +164,6 @@ class MessageConversationListItem extends Component {
                 >
                     {messageConversation.subject}
                 </Subheader>
-
                 {displayExtendedChoices && (
                     <ExtendedChoiceLabel
                         showTitle={false}
@@ -171,21 +184,18 @@ class MessageConversationListItem extends Component {
                         label={messageConversation.priority}
                     />
                 )}
-                {displayExtendedChoices && (
-                    <ExtendedChoiceLabel
-                        showTitle={false}
-                        gridArea={'1/9'}
-                        title={i18n.t('Assignee')}
-                        color={fontColor}
-                        fontWeight={fontWeight}
-                        label={
-                            messageConversation.assignee
-                                ? messageConversation.assignee.displayName
-                                : undefined
-                        }
-                    />
-                )}
-
+                <ExtendedChoiceLabel
+                    showTitle={false}
+                    gridArea={'1/9'}
+                    title={i18n.t('Assignee')}
+                    color={fontColor}
+                    fontWeight={fontWeight}
+                    label={
+                        messageConversation.assignee
+                            ? messageConversation.assignee.displayName
+                            : undefined
+                    }
+                />
                 <Subheader
                     style={{
                         gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
@@ -218,6 +228,9 @@ export default compose(
             selectedMessageType: state.messaging.selectedMessageType,
             checkedIds: state.messaging.checkedIds,
             displayTimeDiff: state.messaging.displayTimeDiff,
+            messageFilter: state.messaging.messageFilter,
+            statusFilter: state.messaging.statusFilter,
+            priorityFilter: state.messaging.priorityFilter,
         }),
         dispatch => ({
             setChecked: (messageConversation, selectedValue) =>
@@ -230,10 +243,24 @@ export default compose(
                     type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
                     payload: { messageConversation },
                 }),
-            markMessageConversationsRead: (markedReadConversations, messageType) =>
+            markMessageConversations: (
+                mode,
+                markedConversations,
+                messageType,
+                messageFilter,
+                statusFilter,
+                priorityFilter,
+            ) =>
                 dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS_READ,
-                    payload: { markedReadConversations, messageType },
+                    type: actions.MARK_MESSAGE_CONVERSATIONS,
+                    payload: {
+                        mode,
+                        markedConversations,
+                        messageType,
+                        messageFilter,
+                        statusFilter,
+                        priorityFilter,
+                    },
                 }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
             setFilter: (filter, filterType) =>

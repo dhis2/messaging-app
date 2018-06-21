@@ -142,7 +142,6 @@ class MessageConversation extends Component {
                     >
                         {messageConversation.subject}
                     </Subheader>
-
                     <div
                         style={{
                             gridArea: '2 / 1 / span 1 / span 7',
@@ -232,19 +231,17 @@ class MessageConversation extends Component {
                             label={messageConversation.priority}
                         />
                     )}
-                    {this.props.displayExtendedChoices && (
-                        <ExtendedChoiceLabel
-                            color={theme.palette.darkGray}
-                            showTitle
-                            gridArea={'1 / 10'}
-                            title={i18n.t('Assignee')}
-                            label={
-                                messageConversation.assignee
-                                    ? messageConversation.assignee.displayName
-                                    : undefined
-                            }
-                        />
-                    )}
+                    <ExtendedChoiceLabel
+                        color={theme.palette.darkGray}
+                        showTitle
+                        gridArea={'1 / 10'}
+                        title={i18n.t('Assignee')}
+                        label={
+                            messageConversation.assignee
+                                ? messageConversation.assignee.displayName
+                                : undefined
+                        }
+                    />
                 </div>
                 <div
                     style={{
@@ -274,12 +271,10 @@ class MessageConversation extends Component {
                             />
                         ))}
                     </Paper>
-                    {!notification && (
-                        <ReplyCard
-                            messageConversation={messageConversation}
-                            gridArea={'2 / 1 / span 1 / span 2'}
-                        />
-                    )}
+                    <ReplyCard
+                        messageConversation={messageConversation}
+                        gridArea={'2 / 1 / span 1 / span 2'}
+                    />
                 </div>
             </div>
         );

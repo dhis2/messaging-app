@@ -85,7 +85,6 @@ class MessageConversationListItem extends Component {
                 >
                     {i18n.t('Sender')}
                 </div>
-
                 <Subheader
                     style={{
                         gridArea: '1 / 3 / span 1 / span 3',
@@ -100,7 +99,6 @@ class MessageConversationListItem extends Component {
                 >
                     {i18n.t('Subject')}
                 </Subheader>
-
                 {displayExtendedChoices && (
                     <Subheader
                         style={{
@@ -115,7 +113,6 @@ class MessageConversationListItem extends Component {
                         {i18n.t('Status')}
                     </Subheader>
                 )}
-
                 {displayExtendedChoices && (
                     <Subheader
                         style={{
@@ -130,21 +127,18 @@ class MessageConversationListItem extends Component {
                         {i18n.t('Priority')}
                     </Subheader>
                 )}
-                {displayExtendedChoices && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 9',
-                            color: 'black',
-                            fontSize,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {i18n.t('Assignee')}
-                    </Subheader>
-                )}
-
+                <Subheader
+                    style={{
+                        gridArea: '1 / 9',
+                        color: 'black',
+                        fontSize,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    {i18n.t('Assignee')}
+                </Subheader>
                 <Subheader
                     style={{
                         gridArea: '1 / 10',

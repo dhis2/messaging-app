@@ -19,6 +19,9 @@ export const initialState = {
     messageFilter: undefined,
     statusFilter: undefined,
     priorityFilter: undefined,
+    assignedToMeFilter: false,
+    markedForFollowUpFilter: false,
+    unreadFilter: false,
     isInFeedbackRecipientGroup: false,
     displayTimeDiff: 0,
 
@@ -94,6 +97,9 @@ function messageReducer(state = initialState, action) {
                 case 'ASSIGNEE':
                     snackMessage = i18n.t('Successfully updated assignee');
                     break;
+                case 'FOLLOW_UP':
+                    snackMessage = i18n.t('Successfully changed followup');
+                    break;
                 default:
                     log.error('Unexpected identifier for updateMessageConversations success');
                     break;
@@ -148,7 +154,7 @@ function messageReducer(state = initialState, action) {
 
             let checkedIds = state.checkedIds;
             if (action.payload.selectedValue) {
-                checkedIds.push({ id: messageConversation.id });
+                checkedIds.push(messageConversation);
             } else {
                 checkedIds = checkedIds.filter(element => element.id !== messageConversation.id);
             }
@@ -218,6 +224,18 @@ function messageReducer(state = initialState, action) {
                     action.payload.filterType === 'PRIORITY'
                         ? action.payload.filter
                         : state.priorityFilter,
+                assignedToMeFilter:
+                    action.payload.filterType === 'ASSIGNED_TO_ME'
+                        ? action.payload.filter
+                        : state.assignedToMeFilter,
+                markedForFollowUpFilter:
+                    action.payload.filterType === 'MARKED_FOR_FOLLOWUP'
+                        ? action.payload.filter
+                        : state.markedForFollowUpFilter,
+                unreadFilter:
+                    action.payload.filterType === 'UNREAD'
+                        ? action.payload.filter
+                        : state.unreadFilter,
             };
 
         case actions.LOAD_MESSAGE_CONVERSATIONS: {

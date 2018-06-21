@@ -29,7 +29,9 @@ class SuggestionField extends Component {
     componentWillMount = () => {
         this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(input => {
             const doSearch =
-                find(this.state.searchResult, { displayName: input }) === undefined && input !== '';
+                find(this.state.searchResult, { displayName: input }) === undefined &&
+                input !== '' &&
+                input.length > 2;
 
             if (doSearch) {
                 api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
@@ -52,7 +54,7 @@ class SuggestionField extends Component {
             this.setState({
                 lastSearch: input,
                 searchResult:
-                    this.state.lastSearch !== '' && input === '' ? [] : this.state.searchOnlyUsers,
+                    this.state.lastSearch !== '' && input === '' ? [] : this.state.searchResult,
             });
         });
     };
@@ -96,7 +98,12 @@ class SuggestionField extends Component {
     render() {
         return (
             <ChipInput
-                style={{ marginBottom: '16px', ...this.props.style }}
+                style={{
+                    marginBottom: '16px',
+                    ...this.props.style,
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                }}
                 disabled={this.props.disabled === undefined ? false : this.props.disabled}
                 errorText={this.props.errorText}
                 value={this.props.recipients}

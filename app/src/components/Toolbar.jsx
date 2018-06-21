@@ -10,6 +10,12 @@ import NavigationBack from 'material-ui-icons/ArrowBack';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Subheader from 'material-ui/Subheader';
+
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import Checkbox from 'material-ui/Checkbox/Checkbox';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 import i18n from 'd2-i18n';
 
@@ -58,6 +64,10 @@ class Toolbar extends Component {
             this.props.messageFilter !== undefined && this.props.setFilter(undefined, 'MESSAGE');
             this.props.statusFilter !== undefined && this.props.setFilter(undefined, 'STATUS');
             this.props.priorityFilter !== undefined && this.props.setFilter(undefined, 'PRIORITY');
+            this.props.assignedToMeFilter && this.props.setFilter(false, 'ASSIGNED_TO_ME');
+            this.props.markedForFollowUpFilter &&
+                this.props.setFilter(false, 'MARKED_FOR_FOLLOWUP');
+            this.props.unreadFilter && this.props.setFilter(false, 'UNREAD');
         }
 
         if (
@@ -65,15 +75,15 @@ class Toolbar extends Component {
             !this.props.selectedMessageType.loading &&
             (prevProps.statusFilter !== this.props.statusFilter ||
                 prevProps.priorityFilter !== this.props.priorityFilter ||
+                prevProps.assignedToMeFilter !== this.props.assignedToMeFilter ||
+                prevProps.markedForFollowUpFilter !== this.props.markedForFollowUpFilter ||
+                prevProps.unreadFilter !== this.props.unreadFilter ||
                 prevProps.selectedMessageType === undefined ||
                 prevProps.selectedMessageType.id !== this.props.selectedMessageType.id)
         ) {
             this.props.loadMessageConversations(
                 this.props.selectedMessageType,
                 this.props.selectedMessageType.id,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter,
             );
         }
     }
@@ -225,7 +235,7 @@ class Toolbar extends Component {
                                 height: headerHight,
                                 width: '',
                                 padding: '0px 0px',
-                                marginRight: '100px',
+                                marginRight: '140px',
                             }}
                             hintText={i18n.t('Search')}
                             value={this.props.messageFilter}
@@ -238,6 +248,61 @@ class Toolbar extends Component {
                         />
                     )}
 
+                {!checkedOptions &&
+                    displaySearch && (
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton>
+                                    <MoreVertIcon />
+                                </IconButton>
+                            }
+                            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                            style={{
+                                gridArea: '1 / 10 / span 1 / span 1',
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                paddingRight: '90px',
+                            }}
+                        >
+                            <Subheader style={{ padding: '0px 16px' }}>
+                                {i18n.t('Set filter')}
+                            </Subheader>
+                            <Checkbox
+                                style={{ padding: '0px 16px' }}
+                                key={'assignedToMeFilter'}
+                                label={i18n.t('Assigned to me')}
+                                checked={this.props.assignedToMeFilter}
+                                onClick={() => {
+                                    this.props.setFilter(
+                                        !this.props.assignedToMeFilter,
+                                        'ASSIGNED_TO_ME',
+                                    );
+                                }}
+                            />
+                            <Checkbox
+                                style={{ padding: '0px 16px' }}
+                                key={'markedForFollowUpFilter'}
+                                label={i18n.t('Marked for followup')}
+                                checked={this.props.markedForFollowUpFilter}
+                                onClick={() => {
+                                    this.props.setFilter(
+                                        !this.props.markedForFollowUpFilter,
+                                        'MARKED_FOR_FOLLOWUP',
+                                    );
+                                }}
+                            />
+                            <Checkbox
+                                style={{ padding: '0px 16px' }}
+                                key={'unreadFilter'}
+                                label={i18n.t('Unread messages')}
+                                checked={this.props.unreadFilter}
+                                onClick={() => {
+                                    this.props.setFilter(!this.props.unreadFilter, 'UNREAD');
+                                }}
+                            />
+                        </IconMenu>
+                    )}
                 <div
                     style={{
                         gridArea: '1 / 10 / span 1 / span 1',

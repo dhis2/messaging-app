@@ -21,6 +21,10 @@ import AssignToDialog from './AssignToDialog';
 
 import history from 'utils/history';
 
+const uniqWith = require('lodash/uniqWith');
+const pullAllWith = require('lodash/pullAllWith');
+const isEqual = require('lodash/isEqual');
+
 const multiSelectDisplayLimit = 99;
 
 class ToolbarExtendedChoicePicker extends Component {
@@ -31,6 +35,7 @@ class ToolbarExtendedChoicePicker extends Component {
             checkedItems: false,
             dialogOpen: false,
             assignToOpen: false,
+            iconMenuOpen: false,
         };
     }
 
@@ -38,6 +43,11 @@ class ToolbarExtendedChoicePicker extends Component {
         this.props.selectedMessageConversation && this.props.checkedIds.length === 0
             ? [this.props.selectedMessageConversation.id]
             : this.props.checkedIds.map(id => id.id);
+
+    getSelectedMessageConversations = () =>
+        this.props.selectedMessageConversation && this.props.checkedIds.length === 0
+            ? [this.props.selectedMessageConversation]
+            : this.props.checkedIds;
 
     updateMessageConversation = (identifier, value) => {
         const ids = this.getIds();
@@ -53,13 +63,8 @@ class ToolbarExtendedChoicePicker extends Component {
 
     markMessageConversations = mode => {
         const ids = this.getIds();
-        if (mode === 'unread') {
-            this.props.markMessageConversationsUnread(ids, this.props.selectedMessageType);
-        } else if (mode === 'read') {
-            this.props.markMessageConversationsRead(ids, this.props.selectedMessageType);
-        }
+        this.props.markMessageConversations(mode, ids, this.props.selectedMessageType);
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
-        history.push(`/${this.props.selectedMessageType}`);
     };
 
     toogleDialog = () => {
@@ -84,6 +89,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     );
                     this.toogleDialog();
                     this.props.clearCheckedIds();
+                    history.push(`/${this.props.selectedMessageType}`);
                 }}
             />,
         ];
@@ -93,6 +99,7 @@ class ToolbarExtendedChoicePicker extends Component {
                 ? `${multiSelectDisplayLimit}+`
                 : this.props.checkedIds.length;
 
+        console.log(this.getSelectedMessageConversations());
         return display ? (
             <div
                 style={{
@@ -117,6 +124,8 @@ class ToolbarExtendedChoicePicker extends Component {
                     updateMessageConversations={id =>
                         this.updateMessageConversation('ASSIGNEE', id)
                     }
+                    displaySnackMessage={this.props.displaySnackMessage}
+                    selectedMessageConversations={this.getSelectedMessageConversations()}
                 />
 
                 <div
@@ -147,7 +156,7 @@ class ToolbarExtendedChoicePicker extends Component {
                         icon={'done'}
                         tooltip={i18n.t('Mark selected as read')}
                     />
-                    {this.props.displayExtendedChoices && (
+                    {
                         <IconMenu
                             iconButtonElement={
                                 <IconButton>
@@ -158,43 +167,65 @@ class ToolbarExtendedChoicePicker extends Component {
                             targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                         >
                             <Subheader style={{ padding: '0px 16px' }}>
-                                {i18n.t('Set status')}
+                                {i18n.t('Set follow up')}
                             </Subheader>
-                            {extendedChoices.STATUS.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                    onClick={() =>
-                                        this.updateMessageConversation('STATUS', elem.key)
-                                    }
-                                />
-                            ))}
-                            <Divider />
-                            <Subheader style={{ padding: '0px 16px' }}>
-                                {i18n.t('Set priority')}
-                            </Subheader>
-                            {extendedChoices.PRIORITY.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                    onClick={() =>
-                                        this.updateMessageConversation('PRIORITY', elem.key)
-                                    }
-                                />
-                            ))}
-                            <Divider />
                             <MenuItem
-                                key={'assignTo'}
-                                value={'assignTo'}
-                                primaryText={i18n.t('Assign to')}
-                                onClick={() =>
-                                    this.setState({ assignToOpen: !this.state.assignToOpen })
-                                }
+                                key={'markFollowUp'}
+                                value={'markFollowUp'}
+                                primaryText={i18n.t('Mark for followup')}
+                                onClick={() => this.updateMessageConversation('FOLLOW_UP', true)}
                             />
+                            <MenuItem
+                                key={'clearFollowUp'}
+                                value={'clearFollowUp'}
+                                primaryText={i18n.t('Clear followup')}
+                                onClick={() => this.updateMessageConversation('FOLLOW_UP', false)}
+                            />
+                            {this.props.displayExtendedChoices && (
+                                <div>
+                                    <Divider />
+                                    <Subheader style={{ padding: '0px 16px' }}>
+                                        {i18n.t('Set status')}
+                                    </Subheader>
+                                    {extendedChoices.STATUS.map(elem => (
+                                        <MenuItem
+                                            key={`${elem.key}_status`}
+                                            value={elem.value}
+                                            primaryText={elem.primaryText}
+                                            onClick={() =>
+                                                this.updateMessageConversation('STATUS', elem.key)
+                                            }
+                                        />
+                                    ))}
+                                    <Divider />
+                                    <Subheader style={{ padding: '0px 16px' }}>
+                                        {i18n.t('Set priority')}
+                                    </Subheader>
+                                    {extendedChoices.PRIORITY.map(elem => (
+                                        <MenuItem
+                                            key={`${elem.key}_priority`}
+                                            value={elem.value}
+                                            primaryText={elem.primaryText}
+                                            onClick={() =>
+                                                this.updateMessageConversation('PRIORITY', elem.key)
+                                            }
+                                        />
+                                    ))}
+                                    <Divider />
+                                    <MenuItem
+                                        key={'assignTo'}
+                                        value={'assignTo'}
+                                        primaryText={i18n.t('Assign to')}
+                                        onClick={() =>
+                                            this.setState({
+                                                assignToOpen: !this.state.assignToOpen,
+                                            })
+                                        }
+                                    />
+                                </div>
+                            )}
                         </IconMenu>
-                    )}
+                    }
                 </div>
                 {multiSelect && (
                     <Subheader
@@ -225,6 +256,10 @@ export default compose(
         }),
         dispatch => ({
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
+            clearSelectedMessageConversation: () =>
+                dispatch({
+                    type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
+                }),
             deleteMessageConversations: (messageConversationIds, messageType) =>
                 dispatch({
                     type: actions.DELETE_MESSAGE_CONVERSATIONS,
@@ -247,15 +282,19 @@ export default compose(
                         selectedMessageConversation,
                     },
                 }),
-            markMessageConversationsUnread: (markedUnreadConversations, messageType) =>
+            markMessageConversations: (mode, markedConversations, messageType) =>
                 dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS_UNREAD,
-                    payload: { markedUnreadConversations, messageType },
+                    type: actions.MARK_MESSAGE_CONVERSATIONS,
+                    payload: {
+                        mode,
+                        markedConversations,
+                        messageType,
+                    },
                 }),
-            markMessageConversationsRead: (markedReadConversations, messageType) =>
+            displaySnackMessage: (message, onSnackActionClick, onSnackRequestClose, snackType) =>
                 dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS_READ,
-                    payload: { markedReadConversations, messageType },
+                    type: actions.DISPLAY_SNACK_MESSAGE,
+                    payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
                 }),
         }),
         null,

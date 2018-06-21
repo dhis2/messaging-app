@@ -4,20 +4,33 @@ import { pageSize } from '../constants/development';
 const find = require('lodash/find');
 
 const initialMessageConversationFields =
-    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage';
+    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp';
 
 const messageConversationFields =
     '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]';
 
 const order = 'lastMessage:desc';
-export const getMessageConversations = (messageType, page, messageFilter, status, priority) => {
+export const getMessageConversations = (
+    messageType,
+    page,
+    messageFilter,
+    status,
+    priority,
+    assignedToMeFilter,
+    markedForFollowUpFilter,
+    unreadFilter,
+) => {
     const filters = [`messageType:eq:${messageType}`];
     status != undefined && filters.push(`status:eq:${status}`);
     priority != undefined && filters.push(`priority:eq:${priority}`);
+    markedForFollowUpFilter && filters.push(`followUp:eq:true`);
+    unreadFilter && filters.push(`read:eq:false`);
 
     return getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(
+        .then(instance => {
+            assignedToMeFilter && filters.push(`assignee.id:eq:${instance.currentUser.id}`);
+
+            return instance.Api.getApi().get(
                 `messageConversations?pageSize=${pageSize}&page=${page}` +
                     (messageFilter != '' && messageFilter != undefined
                         ? `&queryString=${messageFilter}`
@@ -27,8 +40,8 @@ export const getMessageConversations = (messageType, page, messageFilter, status
                     order,
                     filter: filters,
                 },
-            ),
-        )
+            );
+        })
         .then(result => ({
             messageConversations: result.messageConversations,
             pager: result.pager,
@@ -65,6 +78,7 @@ export const updateMessageConversationStatus = (messageConversationId, value) =>
                 `messageConversations/${messageConversationId}/status?messageConversationStatus=${value}`,
             ),
         )
+        .then(result => result)
         .catch(error => {
             throw error;
         });
@@ -76,6 +90,7 @@ export const updateMessageConversationPriority = (messageConversationId, value) 
                 `messageConversations/${messageConversationId}/priority?messageConversationPriority=${value}`,
             ),
         )
+        .then(result => result)
         .catch(error => {
             throw error;
         });
@@ -87,6 +102,20 @@ export const updateMessageConversationAssignee = (messageConversationId, value) 
                 `messageConversations/${messageConversationId}/assign?userId=${value}`,
             ),
         )
+        .then(result => result)
+        .catch(error => {
+            throw error;
+        });
+
+export const updateMessageConversationFollowup = (messageConversationIds, value) =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().post(
+                `messageConversations/${value ? 'followup' : 'unfollowup'}`,
+                messageConversationIds,
+            ),
+        )
+        .then(result => result)
         .catch(error => {
             throw error;
         });
@@ -181,18 +210,33 @@ export const markUnread = markedUnreadConversations =>
         });
 
 /* Feedback recipient query */
-
 export const isInFeedbackRecipientGroup = () =>
     getD2Instance()
         .then(instance => instance.Api.getApi().get('me', { fields: 'userGroups[id]' }))
         .then(result =>
             getD2Instance()
-                .then(instance => instance.Api.getApi().get('configuration'))
-                .then(
-                    configuration =>
-                        find(result.userGroups, { id: configuration.feedbackRecipients.id }) !==
-                        undefined,
-                )
+                .then(instance => ({
+                    configuration: instance.Api.getApi()
+                        .get('configuration')
+                        .then(configuration => configuration),
+                    instance,
+                }))
+                .then(({ configuration, instance }) => {
+                    const getSymbolProperties = symbol =>
+                        Array.from(symbol[Object.getOwnPropertySymbols(symbol)[0]]);
+
+                    const userAuthorities = getSymbolProperties(instance.currentUser.authorities);
+                    const userIsAuthorized =
+                        userAuthorities.includes('ALL') ||
+                        configuration.then(
+                            configuration =>
+                                find(result.userGroups, {
+                                    id: configuration.feedbackRecipients.id,
+                                }) !== undefined,
+                        );
+
+                    return userIsAuthorized;
+                })
                 .catch(error => {
                     throw error;
                 }),

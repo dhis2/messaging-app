@@ -62,18 +62,6 @@ class MessagingCenter extends Component {
         }, autoRefreshTime);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (
-            !this.props.selectedMessageType ||
-            this.props.selectedMessageType.id !== nextProps.selectedMessageType.id
-        ) {
-            this.setState({
-                statusFilter: null,
-                priorityFilter: null,
-            });
-        }
-    }
-
     componentDidUpdate(prevProps, prevState) {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
@@ -104,13 +92,7 @@ class MessagingCenter extends Component {
     autoRefresh() {
         this.state.autoRefresh &&
             this.props.messageTypes.map(messageType =>
-                this.props.loadMessageConversations(
-                    messageType,
-                    this.props.selectedMessageType,
-                    this.props.messageFilter,
-                    this.props.statusFilter,
-                    this.props.priorityFilter,
-                ),
+                this.props.loadMessageConversations(messageType, this.props.selectedMessageType),
             );
 
         this.setState({ counter: autoRefreshTime });
@@ -220,6 +202,9 @@ export default compose(
                 messageFilter: state.messaging.messageFilter,
                 statusFilter: state.messaging.statusFilter,
                 priorityFilter: state.messaging.priorityFilter,
+                assignedToMeFilter: state.messaging.assignedToMeFilter,
+                markedForFollowUpFilter: state.messaging.markedForFollowUpFilter,
+                unreadFilter: state.messaging.unreadFilter,
                 selectedMessageType: state.messaging.selectedMessageType,
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
                 checkedIds: state.messaging.checkedIds,
@@ -230,21 +215,12 @@ export default compose(
             };
         },
         dispatch => ({
-            loadMessageConversations: (
-                messageType,
-                selectedMessageType,
-                messageFilter,
-                statusFilter,
-                priorityFilter,
-            ) =>
+            loadMessageConversations: (messageType, selectedMessageType) =>
                 dispatch({
                     type: actions.LOAD_MESSAGE_CONVERSATIONS,
                     payload: {
                         messageType,
                         selectedMessageType,
-                        messageFilter,
-                        statusFilter,
-                        priorityFilter,
                     },
                 }),
             setIsInFeedbackRecipientGroup: isInFeedbackRecipientGroup =>

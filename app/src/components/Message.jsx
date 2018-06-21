@@ -80,7 +80,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         gridArea: '2 / 1 / span 1 / span 10',
                         padding: '16px 0px 16px 0px',
                         fontFamily,
-                        wordBreak: 'break-word',
+                        whiteSpace: 'pre-wrap',
                     }}
                 >
                     <Linkify>{message.text}</Linkify>
