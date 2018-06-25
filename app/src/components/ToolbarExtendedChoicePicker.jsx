@@ -13,12 +13,15 @@ import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
+import Delete from 'material-ui-icons/Delete';
+import MarkUnread from 'material-ui-icons/Markunread';
+import Done from 'material-ui-icons/Done';
+
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
 
-import CustomFontIcon from './CustomFontIcon';
 import AssignToDialog from './AssignToDialog';
 
 import SuggestionField from './SuggestionField';
@@ -137,27 +140,32 @@ class ToolbarExtendedChoicePicker extends Component {
                         justifyContent: 'flex-start',
                     }}
                 >
-                    <CustomFontIcon
-                        size={5}
-                        child={messageConversation}
-                        onClick={() => this.toogleDialog()}
-                        icon={'delete'}
+                    <IconButton
                         tooltip={i18n.t('Delete selected')}
-                    />
-                    <CustomFontIcon
-                        size={5}
-                        child={messageConversation}
-                        onClick={() => this.markMessageConversations('unread')}
-                        icon={'markunread'}
+                        onClick={event => {
+                            this.toogleDialog();
+                        }}
+                    >
+                        <Delete />
+                    </IconButton>
+
+                    <IconButton
                         tooltip={i18n.t('Mark selected as unread')}
-                    />
-                    <CustomFontIcon
-                        size={5}
-                        child={messageConversation}
-                        onClick={() => this.markMessageConversations('read')}
-                        icon={'done'}
+                        onClick={event => {
+                            this.markMessageConversations('unread');
+                        }}
+                    >
+                        <MarkUnread />
+                    </IconButton>
+
+                    <IconButton
                         tooltip={i18n.t('Mark selected as read')}
-                    />
+                        onClick={event => {
+                            this.markMessageConversations('read');
+                        }}
+                    >
+                        <Done />
+                    </IconButton>
                     {this.props.displayExtendedChoices && (
                         <IconButton
                             onClick={() =>

@@ -231,7 +231,7 @@ const deleteMessageConversations = action$ =>
         );
     });
 
-const sendMessage = (action$, state) =>
+const sendMessage = (action$, store) =>
     action$.ofType(actions.SEND_MESSAGE).concatMap(action => {
         const state = store.getState();
         return api
@@ -253,7 +253,7 @@ const sendMessage = (action$, state) =>
             }));
     });
 
-const sendFeedbackMessage = action$ =>
+const sendFeedbackMessage = (action$, store) =>
     action$.ofType(actions.SEND_FEEDBACK_MESSAGE).concatMap(action => {
         const state = store.getState();
 
@@ -291,7 +291,7 @@ const replyMessage = action$ =>
             })),
     );
 
-const markMessageConversations = (action$, store) =>
+const markMessageConversations = action$ =>
     action$.ofType(actions.MARK_MESSAGE_CONVERSATIONS).concatMap(action => {
         let promise;
         if (action.payload.mode === 'read') {

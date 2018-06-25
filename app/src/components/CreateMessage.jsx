@@ -79,7 +79,7 @@ class CreateMessage extends Component {
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
-            this.props.recipients.length === 0;
+            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
 
         return (
             <div
