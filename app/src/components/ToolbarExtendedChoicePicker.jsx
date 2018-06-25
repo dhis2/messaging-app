@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
-import AssignMent from 'material-ui-icons/assignment';
+import Assignment from 'material-ui-icons/Assignment';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
@@ -167,7 +167,7 @@ class ToolbarExtendedChoicePicker extends Component {
                             }
                             tooltip={i18n.t('Assign')}
                         >
-                            <AssignMent />
+                            <Assignment />
                         </IconButton>
                     )}
                     {

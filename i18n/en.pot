@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-06-18T16:04:00.393Z\n"
-"PO-Revision-Date: 2018-06-18T16:04:00.393Z\n"
+"POT-Creation-Date: 2018-06-25T08:32:36.938Z\n"
+"PO-Revision-Date: 2018-06-25T08:32:36.938Z\n"
 
 msgid "Assignee"
 msgstr ""
@@ -53,12 +53,6 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-msgid "Internal message from "
-msgstr ""
-
-msgid "Message from "
-msgstr ""
-
 msgid "me"
 msgstr ""
 
@@ -98,6 +92,18 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+msgid "Set filter"
+msgstr ""
+
+msgid "Assigned to me"
+msgstr ""
+
+msgid "Marked for followup"
+msgstr ""
+
+msgid "Unread messages"
+msgstr ""
+
 msgid "Cancel"
 msgstr ""
 
@@ -113,16 +119,28 @@ msgstr ""
 msgid "Mark selected as read"
 msgstr ""
 
+msgid "Assign"
+msgstr ""
+
+msgid "Set follow up"
+msgstr ""
+
+msgid "Mark for followup"
+msgstr ""
+
+msgid "Clear followup"
+msgstr ""
+
 msgid "Set status"
 msgstr ""
 
 msgid "Set priority"
 msgstr ""
 
-msgid "Assign to"
+msgid "selected"
 msgstr ""
 
-msgid "selected"
+msgid "No status"
 msgstr ""
 
 msgid "Open"
@@ -135,6 +153,9 @@ msgid "Invalid"
 msgstr ""
 
 msgid "Solved"
+msgstr ""
+
+msgid "No priority"
 msgstr ""
 
 msgid "High"
@@ -153,6 +174,9 @@ msgid "Successfully updated priority"
 msgstr ""
 
 msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully changed followup"
 msgstr ""
 
 msgid "Successfully deleted message conversation(s)"
