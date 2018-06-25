@@ -3,11 +3,23 @@ import React, { Component } from 'react';
 import { Subject, Observable } from 'rxjs/Rx';
 import ChipInput from 'material-ui-chip-input';
 
+import i18n from 'd2-i18n';
 import * as api from 'api/api';
+import theme from '../styles/theme';
 
 const find = require('lodash/find');
 const remove = require('lodash/remove');
 const searchDelay = 300;
+
+const minCharLength = 2;
+
+const styles = {
+    error: {
+        info: {
+            color: theme.palette.primary4Color,
+        },
+    },
+};
 
 /*
  * An AutoComplete text field with suggestions from a given list of
@@ -22,6 +34,7 @@ class SuggestionField extends Component {
             searchResult: [],
             searchOnlyUsers: this.props.searchOnlyUsers,
             lastSearch: '',
+            errorText: undefined,
         };
     }
 
@@ -31,7 +44,12 @@ class SuggestionField extends Component {
             const doSearch =
                 find(this.state.searchResult, { displayName: input }) === undefined &&
                 input !== '' &&
-                input.length > 2;
+                input.length >= minCharLength;
+
+            const searchWarning =
+                input !== '' && input.length < minCharLength
+                    ? i18n.t(`Please enter at least ${minCharLength} characters`)
+                    : undefined;
 
             if (doSearch) {
                 api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
@@ -54,7 +72,10 @@ class SuggestionField extends Component {
             this.setState({
                 lastSearch: input,
                 searchResult:
-                    this.state.lastSearch !== '' && input === '' ? [] : this.state.searchResult,
+                    (this.state.lastSearch !== '' && input === '') || input.length < minCharLength
+                        ? []
+                        : this.state.searchResult,
+                errorText: searchWarning,
             });
         });
     };
@@ -97,26 +118,25 @@ class SuggestionField extends Component {
 
     render() {
         return (
-            <ChipInput
-                style={{
-                    marginBottom: '16px',
-                    ...this.props.style,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                }}
-                disabled={this.props.disabled === undefined ? false : this.props.disabled}
-                errorText={this.props.errorText}
-                value={this.props.recipients}
-                fullWidth
-                openOnFocus
-                searchText={this.state.input}
-                floatingLabelText={this.props.label}
-                dataSource={this.state.searchResult}
-                dataSourceConfig={{ text: 'displayName', value: 'id' }}
-                onUpdateInput={this.updateInput}
-                onRequestAdd={chip => this.onSuggestionClick(chip)}
-                onRequestDelete={id => this.onRemoveChip(id)}
-            />
+            <div style={{ ...this.props.style, height: this.props.inputHeight }}>
+                <ChipInput
+                    style={{
+                        marginBottom: '16px',
+                    }}
+                    disabled={this.props.disabled === undefined ? false : this.props.disabled}
+                    errorText={this.props.errorText || this.state.errorText}
+                    value={this.props.recipients}
+                    fullWidth
+                    openOnFocus
+                    searchText={this.state.input}
+                    floatingLabelText={this.props.label}
+                    dataSource={this.state.searchResult}
+                    dataSourceConfig={{ text: 'displayName', value: 'id' }}
+                    onUpdateInput={this.updateInput}
+                    onRequestAdd={chip => this.onSuggestionClick(chip)}
+                    onRequestDelete={id => this.onRemoveChip(id)}
+                />
+            </div>
         );
     }
 }

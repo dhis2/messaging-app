@@ -31,8 +31,7 @@ class MessageConversationListItem extends Component {
     }
 
     render() {
-        const displayExtendedChoices =
-            this.props.displayExtendedChoices && this.props.isInFeedbackRecipientGroup;
+        const displayExtendedChoices = this.props.displayExtendedChoices;
 
         return (
             <Paper
@@ -127,18 +126,20 @@ class MessageConversationListItem extends Component {
                         {i18n.t('Priority')}
                     </Subheader>
                 )}
-                <Subheader
-                    style={{
-                        gridArea: '1 / 9',
-                        color: 'black',
-                        fontSize,
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                    }}
-                >
-                    {i18n.t('Assignee')}
-                </Subheader>
+                {this.props.notification && (
+                    <Subheader
+                        style={{
+                            gridArea: '1 / 9',
+                            color: 'black',
+                            fontSize,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                        }}
+                    >
+                        {i18n.t('Assignee')}
+                    </Subheader>
+                )}
                 <Subheader
                     style={{
                         gridArea: '1 / 10',

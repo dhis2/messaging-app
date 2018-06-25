@@ -35,6 +35,7 @@ class MessagingCenter extends Component {
             autoRefresh: false,
             timer: null,
             counter: autoRefreshTime,
+            setSelectedMessageConversation: false,
         };
     }
 
@@ -65,6 +66,30 @@ class MessagingCenter extends Component {
     componentDidUpdate(prevProps, prevState) {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+
+        if (
+            this.state.setSelectedMessageConversation &&
+            this.props.selectedMessageConversation &&
+            selectedId === this.props.selectedMessageConversation.id
+        ) {
+            this.setState({
+                setSelectedMessageConversation: false,
+            });
+        }
+
+        if (
+            !this.state.setSelectedMessageConversation &&
+            selectedMessageType !== selectedId &&
+            selectedId !== 'create' &&
+            (this.props.selectedMessageConversation === undefined ||
+                selectedId !== this.props.selectedMessageConversation.id)
+        ) {
+            const initialMessageConversation = { id: selectedId };
+            this.props.setSelectedMessageConversation(initialMessageConversation);
+            this.setState({
+                setSelectedMessageConversation: true,
+            });
+        }
 
         if (
             (selectedMessageType === selectedId || selectedId === 'create') &&
@@ -126,7 +151,6 @@ class MessagingCenter extends Component {
                 <SidebarList
                     {...this.props}
                     drawerOpen={this.state.drawerOpen}
-                    gridColumn={1}
                     messageTypes={this.props.messageTypes}
                     autoRefresh={this.state.autoRefresh}
                     counter={this.state.counter}

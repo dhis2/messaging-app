@@ -184,18 +184,21 @@ class MessageConversationListItem extends Component {
                         label={messageConversation.priority}
                     />
                 )}
-                <ExtendedChoiceLabel
-                    showTitle={false}
-                    gridArea={'1/9'}
-                    title={i18n.t('Assignee')}
-                    color={fontColor}
-                    fontWeight={fontWeight}
-                    label={
-                        messageConversation.assignee
-                            ? messageConversation.assignee.displayName
-                            : undefined
-                    }
-                />
+                {this.props.notification &&
+                    this.props.wideview && (
+                        <ExtendedChoiceLabel
+                            showTitle={false}
+                            gridArea={'1/9'}
+                            title={i18n.t('Assignee')}
+                            color={fontColor}
+                            fontWeight={fontWeight}
+                            label={
+                                messageConversation.assignee
+                                    ? messageConversation.assignee.displayName
+                                    : undefined
+                            }
+                        />
+                    )}
                 <Subheader
                     style={{
                         gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',

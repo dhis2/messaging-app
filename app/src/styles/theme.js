@@ -29,6 +29,7 @@ export default getMuiTheme({
         primary1Color: '#1D8BF1',
         primary2Color: blue100,
         primary3Color: blue300,
+        primary4Color: blue500,
         accent1Color: grey50,
         accent2Color: grey100,
         accent3Color: grey300,

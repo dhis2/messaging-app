@@ -106,6 +106,7 @@ class CreateMessage extends Component {
                                     : this.props.recipients
                             }
                             updateRecipients={this.updateRecipients}
+                            inputHeight={'100px'}
                         />
                         <div
                             style={{

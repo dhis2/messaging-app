@@ -16,7 +16,7 @@ import MessageConversationListItem from './MessageConversationListItem';
 const uniqWith = require('lodash/uniqWith');
 const isEqual = require('lodash/isEqual');
 
-const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
+const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET'];
 const bottomEmptyHeight = 50;
 
 class MessageConversationList extends Component {
@@ -68,7 +68,10 @@ class MessageConversationList extends Component {
                 }}
             >
                 {this.props.wideview && (
-                    <ListItemHeader displayExtendedChoices={this.props.displayExtendedChoices}>
+                    <ListItemHeader
+                        notification={notification}
+                        displayExtendedChoices={this.props.displayExtendedChoices}
+                    >
                         {children}
                     </ListItemHeader>
                 )}

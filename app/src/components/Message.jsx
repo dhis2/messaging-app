@@ -43,10 +43,9 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         fontFamily,
                     }}
                 >
-                    {(message.internal
-                        ? i18n.t('Internal message from ')
-                        : i18n.t('Message from ')
-                    ).concat(fromTitle)}
+                    {message.internal
+                        ? i18n.t(`Internal message from ${fromTitle}`)
+                        : i18n.t(`Message from ${fromTitle}`)}
                 </div>
 
                 <div
@@ -81,6 +80,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                         padding: '16px 0px 16px 0px',
                         fontFamily,
                         whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word',
                     }}
                 >
                     <Linkify>{message.text}</Linkify>

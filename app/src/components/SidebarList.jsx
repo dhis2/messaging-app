@@ -31,7 +31,7 @@ class SidebarList extends Component {
                     display: 'flex',
                     flexDirection: 'column',
                     height: 'calc(100vh - 95px)',
-                    gridArea: `2 / ${gridColumn} / span 1 / span 1`,
+                    gridArea: `2 / 1 / span 1 / span 1`,
                     borderLeftStyle: gridColumn === 2 && 'solid',
                     borderLeftWidth: '0.5px',
                     borderLeftColor: theme.palette.accent4Color,

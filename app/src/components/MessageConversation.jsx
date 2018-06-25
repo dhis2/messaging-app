@@ -26,7 +26,7 @@ import ExtendedChoiceLabel from './ExtendedChoiceLabel';
 import theme from '../styles/theme';
 import { fontFamily } from '../constants/development';
 
-const NOTIFICATIONS = ['SYSTEM', 'VALIDATION_RESULT'];
+const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT'];
 const maxParticipantsDisplay = 30;
 
 class MessageConversation extends Component {
@@ -188,8 +188,6 @@ class MessageConversation extends Component {
                                 : '3 / 1 / span 1 / span 5',
                             paddingLeft: '12px',
                             marginBottom: '0px',
-                            overflow: 'hidden',
-                            whiteSpace: 'nowrap',
                         }}
                         label={i18n.t('Add participants to conversation')}
                         messageConversation={messageConversation}
@@ -203,7 +201,7 @@ class MessageConversation extends Component {
                                 ? '3 / 4 / span 1 / span 2'
                                 : '3 / 6 / span 1 / span 2',
                             alignSelf: 'end',
-                            marginBottom: '8px',
+                            marginBottom: '28px',
                             paddingLeft: '12px',
                         }}
                     >
@@ -231,17 +229,19 @@ class MessageConversation extends Component {
                             label={messageConversation.priority}
                         />
                     )}
-                    <ExtendedChoiceLabel
-                        color={theme.palette.darkGray}
-                        showTitle
-                        gridArea={'1 / 10'}
-                        title={i18n.t('Assignee')}
-                        label={
-                            messageConversation.assignee
-                                ? messageConversation.assignee.displayName
-                                : undefined
-                        }
-                    />
+                    {notification && (
+                        <ExtendedChoiceLabel
+                            color={theme.palette.darkGray}
+                            showTitle
+                            gridArea={'1 / 10'}
+                            title={i18n.t('Assignee')}
+                            label={
+                                messageConversation.assignee
+                                    ? messageConversation.assignee.displayName
+                                    : undefined
+                            }
+                        />
+                    )}
                 </div>
                 <div
                     style={{

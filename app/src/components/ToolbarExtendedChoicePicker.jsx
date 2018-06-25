@@ -5,6 +5,8 @@ import { compose } from 'recompose';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import AssignMent from 'material-ui-icons/assignment';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
@@ -18,6 +20,8 @@ import extendedChoices from 'constants/extendedChoices';
 
 import CustomFontIcon from './CustomFontIcon';
 import AssignToDialog from './AssignToDialog';
+
+import SuggestionField from './SuggestionField';
 
 import history from 'utils/history';
 
@@ -35,7 +39,6 @@ class ToolbarExtendedChoicePicker extends Component {
             checkedItems: false,
             dialogOpen: false,
             assignToOpen: false,
-            iconMenuOpen: false,
         };
     }
 
@@ -99,7 +102,6 @@ class ToolbarExtendedChoicePicker extends Component {
                 ? `${multiSelectDisplayLimit}+`
                 : this.props.checkedIds.length;
 
-        console.log(this.getSelectedMessageConversations());
         return display ? (
             <div
                 style={{
@@ -156,6 +158,18 @@ class ToolbarExtendedChoicePicker extends Component {
                         icon={'done'}
                         tooltip={i18n.t('Mark selected as read')}
                     />
+                    {this.props.displayExtendedChoices && (
+                        <IconButton
+                            onClick={() =>
+                                this.setState({
+                                    assignToOpen: !this.state.assignToOpen,
+                                })
+                            }
+                            tooltip={i18n.t('Assign')}
+                        >
+                            <AssignMent />
+                        </IconButton>
+                    )}
                     {
                         <IconMenu
                             iconButtonElement={
@@ -163,8 +177,8 @@ class ToolbarExtendedChoicePicker extends Component {
                                     <MoreVertIcon />
                                 </IconButton>
                             }
-                            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                            targetOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                            anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+                            targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                         >
                             <Subheader style={{ padding: '0px 16px' }}>
                                 {i18n.t('Set follow up')}
@@ -181,13 +195,13 @@ class ToolbarExtendedChoicePicker extends Component {
                                 primaryText={i18n.t('Clear followup')}
                                 onClick={() => this.updateMessageConversation('FOLLOW_UP', false)}
                             />
+                            {this.props.displayExtendedChoices && <Divider />}
                             {this.props.displayExtendedChoices && (
-                                <div>
-                                    <Divider />
-                                    <Subheader style={{ padding: '0px 16px' }}>
-                                        {i18n.t('Set status')}
-                                    </Subheader>
-                                    {extendedChoices.STATUS.map(elem => (
+                                <MenuItem
+                                    primaryText={i18n.t('Set status')}
+                                    key={'setStatus'}
+                                    rightIcon={<ArrowDropRight />}
+                                    menuItems={extendedChoices.STATUS.map(elem => (
                                         <MenuItem
                                             key={`${elem.key}_status`}
                                             value={elem.value}
@@ -197,11 +211,14 @@ class ToolbarExtendedChoicePicker extends Component {
                                             }
                                         />
                                     ))}
-                                    <Divider />
-                                    <Subheader style={{ padding: '0px 16px' }}>
-                                        {i18n.t('Set priority')}
-                                    </Subheader>
-                                    {extendedChoices.PRIORITY.map(elem => (
+                                />
+                            )}
+                            {this.props.displayExtendedChoices && (
+                                <MenuItem
+                                    primaryText={i18n.t('Set priority')}
+                                    key={'setPriority'}
+                                    rightIcon={<ArrowDropRight />}
+                                    menuItems={extendedChoices.PRIORITY.map(elem => (
                                         <MenuItem
                                             key={`${elem.key}_priority`}
                                             value={elem.value}
@@ -211,18 +228,7 @@ class ToolbarExtendedChoicePicker extends Component {
                                             }
                                         />
                                     ))}
-                                    <Divider />
-                                    <MenuItem
-                                        key={'assignTo'}
-                                        value={'assignTo'}
-                                        primaryText={i18n.t('Assign to')}
-                                        onClick={() =>
-                                            this.setState({
-                                                assignToOpen: !this.state.assignToOpen,
-                                            })
-                                        }
-                                    />
-                                </div>
+                                />
                             )}
                         </IconMenu>
                     }
