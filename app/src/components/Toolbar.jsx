@@ -109,7 +109,7 @@ class Toolbar extends Component {
                     zIndex: 10,
                 }}
             >
-                <div style={{ gridArea: '1 / 1', alignSelf: 'center' }}>
+                <div style={{ width: '200px', gridArea: '1 / 1', alignSelf: 'center' }}>
                     {!checkedOptions && (
                         <FlatButton
                             style={{
@@ -227,94 +227,91 @@ class Toolbar extends Component {
                         </SelectField>
                     )}
 
-                {!checkedOptions &&
-                    displaySearch && (
-                        <TextField
-                            style={{
-                                gridArea: '1 / 9 / span 1 / span 2',
-                                height: headerHight,
-                                width: '',
-                                padding: '0px 0px',
-                                marginRight: '140px',
-                            }}
-                            hintText={i18n.t('Search')}
-                            value={this.props.messageFilter}
-                            onChange={(event, messageFilter) => {
-                                this.inputStream.next(messageFilter);
-                                this.props.setFilter(messageFilter, 'MESSAGE');
-                            }}
-                            type="search"
-                            margin="normal"
-                        />
-                    )}
-
-                {!checkedOptions &&
-                    displaySearch && (
-                        <IconMenu
-                            iconButtonElement={
-                                <IconButton>
-                                    <MoreVertIcon />
-                                </IconButton>
-                            }
-                            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            style={{
-                                gridArea: '1 / 10 / span 1 / span 1',
-                                display: 'flex',
-                                justifyContent: 'flex-end',
-                                paddingRight: '90px',
-                            }}
-                        >
-                            <Subheader style={{ padding: '0px 16px' }}>
-                                {i18n.t('Set filter')}
-                            </Subheader>
-                            <Checkbox
-                                style={{ padding: '0px 16px' }}
-                                key={'assignedToMeFilter'}
-                                label={i18n.t('Assigned to me')}
-                                checked={this.props.assignedToMeFilter}
-                                onClick={() => {
-                                    this.props.setFilter(
-                                        !this.props.assignedToMeFilter,
-                                        'ASSIGNED_TO_ME',
-                                    );
-                                }}
-                            />
-                            <Checkbox
-                                style={{ padding: '0px 16px' }}
-                                key={'markedForFollowUpFilter'}
-                                label={i18n.t('Marked for followup')}
-                                checked={this.props.markedForFollowUpFilter}
-                                onClick={() => {
-                                    this.props.setFilter(
-                                        !this.props.markedForFollowUpFilter,
-                                        'MARKED_FOR_FOLLOWUP',
-                                    );
-                                }}
-                            />
-                            <Checkbox
-                                style={{ padding: '0px 16px' }}
-                                key={'unreadFilter'}
-                                label={i18n.t('Unread messages')}
-                                checked={this.props.unreadFilter}
-                                onClick={() => {
-                                    this.props.setFilter(!this.props.unreadFilter, 'UNREAD');
-                                }}
-                            />
-                        </IconMenu>
-                    )}
                 <div
                     style={{
-                        gridArea: '1 / 10 / span 1 / span 1',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
+                        gridArea: '1 / 9 / span 1 / span 2',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(10, 1fr)',
                     }}
                 >
+                    {!checkedOptions &&
+                        displaySearch && (
+                            <TextField
+                                style={{
+                                    height: headerHight,
+                                    gridArea: '1 / 1 / span 1 / span 7',
+                                }}
+                                fullWidth
+                                hintText={i18n.t('Search')}
+                                value={this.props.messageFilter}
+                                onChange={(event, messageFilter) => {
+                                    this.inputStream.next(messageFilter);
+                                    this.props.setFilter(messageFilter, 'MESSAGE');
+                                }}
+                                type="search"
+                            />
+                        )}
+
+                    {!checkedOptions &&
+                        displaySearch && (
+                            <IconMenu
+                                iconButtonElement={
+                                    <IconButton>
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                }
+                                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                style={{
+                                    gridArea: '1 / 9 / span 1 / span 1',
+                                    width: '30px',
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                }}
+                            >
+                                <Subheader style={{ padding: '0px 16px' }}>
+                                    {i18n.t('Set filter')}
+                                </Subheader>
+                                <Checkbox
+                                    style={{ padding: '0px 16px' }}
+                                    key={'assignedToMeFilter'}
+                                    label={i18n.t('Assigned to me')}
+                                    checked={this.props.assignedToMeFilter}
+                                    onClick={() => {
+                                        this.props.setFilter(
+                                            !this.props.assignedToMeFilter,
+                                            'ASSIGNED_TO_ME',
+                                        );
+                                    }}
+                                />
+                                <Checkbox
+                                    style={{ padding: '0px 16px' }}
+                                    key={'markedForFollowUpFilter'}
+                                    label={i18n.t('Marked for followup')}
+                                    checked={this.props.markedForFollowUpFilter}
+                                    onClick={() => {
+                                        this.props.setFilter(
+                                            !this.props.markedForFollowUpFilter,
+                                            'MARKED_FOR_FOLLOWUP',
+                                        );
+                                    }}
+                                />
+                                <Checkbox
+                                    style={{ padding: '0px 16px' }}
+                                    key={'unreadFilter'}
+                                    label={i18n.t('Unread messages')}
+                                    checked={this.props.unreadFilter}
+                                    onClick={() => {
+                                        this.props.setFilter(!this.props.unreadFilter, 'UNREAD');
+                                    }}
+                                />
+                            </IconMenu>
+                        )}
                     <FlatButton
                         style={{
-                            display: 'flex',
+                            gridArea: '1 / 10 / span 1 / span 1',
+                            width: '50px',
                             alignSelf: 'center',
-                            justifyContent: 'center',
                         }}
                         icon={!this.state.wideview ? <ViewList /> : <ViewFancy />}
                         onClick={() => this.props.toogleWideview()}
