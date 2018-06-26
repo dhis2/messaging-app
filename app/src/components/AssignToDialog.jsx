@@ -5,7 +5,13 @@ import i18n from 'd2-i18n';
 
 import SuggestionField from './SuggestionField';
 
-const AssignToDialog = ({ open, onRequestClose, updateMessageConversations }) => (
+const AssignToDialog = ({
+    open,
+    onRequestClose,
+    updateMessageConversations,
+    messageType,
+    feedbackRecipientsId,
+}) => (
     <Dialog
         open={open}
         onRequestClose={() => {
@@ -18,6 +24,8 @@ const AssignToDialog = ({ open, onRequestClose, updateMessageConversations }) =>
                 onRequestClose();
             }}
             searchOnlyUsers
+            searchOnlyFeedbackRecipients={messageType.id === 'TICKET'}
+            feedbackRecipientsId={feedbackRecipientsId}
             recipients={[]}
             key={'suggestionField'}
             label={i18n.t('Assignee')}

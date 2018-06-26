@@ -5,21 +5,13 @@ import ChipInput from 'material-ui-chip-input';
 
 import i18n from 'd2-i18n';
 import * as api from 'api/api';
-import theme from '../styles/theme';
 
 const find = require('lodash/find');
 const remove = require('lodash/remove');
+
 const searchDelay = 300;
 
 const minCharLength = 2;
-
-const styles = {
-    error: {
-        info: {
-            color: theme.palette.primary4Color,
-        },
-    },
-};
 
 /*
  * An AutoComplete text field with suggestions from a given list of
@@ -33,6 +25,7 @@ class SuggestionField extends Component {
             input: '',
             searchResult: [],
             searchOnlyUsers: this.props.searchOnlyUsers,
+            searchOnlyFeedbackRecipients: this.props.searchOnlyFeedbackRecipients,
             lastSearch: '',
             errorText: undefined,
         };
@@ -46,37 +39,45 @@ class SuggestionField extends Component {
                 input !== '' &&
                 input.length >= minCharLength;
 
-            const searchWarning =
-                input !== '' && input.length < minCharLength
-                    ? i18n.t(`Please enter at least ${minCharLength} characters`)
-                    : undefined;
-
             if (doSearch) {
-                api.searchRecipients(input).then(({ users, userGroups, organisationUnits }) => {
+                api.searchRecipients(
+                    input,
+                    this.state.searchOnlyUsers,
+                    this.state.searchOnlyFeedbackRecipients,
+                    this.props.feedbackRecipientsId,
+                ).then(({ users, userGroups, organisationUnits }) => {
                     const addType = type => result => ({ ...result, type });
 
-                    let searchResult = users.map(addType('user'));
+                    let internalSearchResult = users.map(addType('user'));
 
                     if (!this.state.searchOnlyUsers) {
-                        searchResult = searchResult
+                        internalSearchResult = internalSearchResult
                             .concat(userGroups.map(addType('userGroup')))
                             .concat(organisationUnits.map(addType('organisationUnit')));
                     }
 
                     this.setState({
-                        searchResult,
+                        searchResult: internalSearchResult,
+                        errorText:
+                            internalSearchResult.length === 0
+                                ? i18n.t('No results found')
+                                : undefined,
                     });
                 });
+            } else {
+                this.setState({
+                    lastSearch: input,
+                    searchResult:
+                        (this.state.lastSearch !== '' && input === '') ||
+                        input.length < minCharLength
+                            ? []
+                            : this.state.searchResult,
+                    errorText:
+                        input !== '' && input.length < minCharLength
+                            ? i18n.t(`Please enter at least ${minCharLength} characters`)
+                            : this.state.searchWarning,
+                });
             }
-
-            this.setState({
-                lastSearch: input,
-                searchResult:
-                    (this.state.lastSearch !== '' && input === '') || input.length < minCharLength
-                        ? []
-                        : this.state.searchResult,
-                errorText: searchWarning,
-            });
         });
     };
 

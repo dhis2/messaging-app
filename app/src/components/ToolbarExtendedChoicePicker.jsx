@@ -22,15 +22,8 @@ import i18n from 'd2-i18n';
 import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
 
-import AssignToDialog from './AssignToDialog';
-
-import SuggestionField from './SuggestionField';
-
 import history from 'utils/history';
-
-const uniqWith = require('lodash/uniqWith');
-const pullAllWith = require('lodash/pullAllWith');
-const isEqual = require('lodash/isEqual');
+import AssignToDialog from './AssignToDialog';
 
 const multiSelectDisplayLimit = 99;
 
@@ -95,7 +88,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     );
                     this.toogleDialog();
                     this.props.clearCheckedIds();
-                    history.push(`/${this.props.selectedMessageType}`);
+                    history.push(`/${this.props.selectedMessageType.id}`);
                 }}
             />,
         ];
@@ -115,9 +108,11 @@ class ToolbarExtendedChoicePicker extends Component {
                 }}
             >
                 <Dialog
-                    title={i18n
-                        .t('Are you sure you want to delete selected message conversation')
-                        .concat(this.props.checkedIds.length > 1 ? '(s)?' : '?')}
+                    title={i18n.t(
+                        `Are you sure you want to delete selected message conversation${
+                            this.props.checkedIds.length > 1 ? 's?' : '?'
+                        }`,
+                    )}
                     actions={actionButtons}
                     modal={false}
                     open={this.state.dialogOpen}
@@ -129,8 +124,8 @@ class ToolbarExtendedChoicePicker extends Component {
                     updateMessageConversations={id =>
                         this.updateMessageConversation('ASSIGNEE', id)
                     }
-                    displaySnackMessage={this.props.displaySnackMessage}
-                    selectedMessageConversations={this.getSelectedMessageConversations()}
+                    messageType={this.props.selectedMessageType}
+                    feedbackRecipientsId={this.props.feedbackRecipientsId}
                 />
 
                 <div
@@ -142,7 +137,7 @@ class ToolbarExtendedChoicePicker extends Component {
                 >
                     <IconButton
                         tooltip={i18n.t('Delete selected')}
-                        onClick={event => {
+                        onClick={() => {
                             this.toogleDialog();
                         }}
                     >
@@ -151,7 +146,7 @@ class ToolbarExtendedChoicePicker extends Component {
 
                     <IconButton
                         tooltip={i18n.t('Mark selected as unread')}
-                        onClick={event => {
+                        onClick={() => {
                             this.markMessageConversations('unread');
                         }}
                     >
@@ -160,7 +155,7 @@ class ToolbarExtendedChoicePicker extends Component {
 
                     <IconButton
                         tooltip={i18n.t('Mark selected as read')}
-                        onClick={event => {
+                        onClick={() => {
                             this.markMessageConversations('read');
                         }}
                     >
@@ -173,7 +168,7 @@ class ToolbarExtendedChoicePicker extends Component {
                                     assignToOpen: !this.state.assignToOpen,
                                 })
                             }
-                            tooltip={i18n.t('Assign')}
+                            tooltip={i18n.t('Assign selected')}
                         >
                             <Assignment />
                         </IconButton>
@@ -188,9 +183,6 @@ class ToolbarExtendedChoicePicker extends Component {
                             anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
                             targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                         >
-                            <Subheader style={{ padding: '0px 16px' }}>
-                                {i18n.t('Set follow up')}
-                            </Subheader>
                             <MenuItem
                                 key={'markFollowUp'}
                                 value={'markFollowUp'}
@@ -204,6 +196,16 @@ class ToolbarExtendedChoicePicker extends Component {
                                 onClick={() => this.updateMessageConversation('FOLLOW_UP', false)}
                             />
                             {this.props.displayExtendedChoices && <Divider />}
+                            {this.props.displayExtendedChoices && (
+                                <MenuItem
+                                    key={'clearAssigned'}
+                                    value={'clearAssigned'}
+                                    primaryText={i18n.t('Clear assigned')}
+                                    onClick={() =>
+                                        this.updateMessageConversation('ASSIGNEE', undefined)
+                                    }
+                                />
+                            )}
                             {this.props.displayExtendedChoices && (
                                 <MenuItem
                                     primaryText={i18n.t('Set status')}
@@ -267,6 +269,7 @@ export default compose(
             selectedMessageType: state.messaging.selectedMessageType,
             selectedMessageConversation: state.messaging.selectedMessageConversation,
             checkedIds: state.messaging.checkedIds,
+            feedbackRecipientsId: state.messaging.feedbackRecipientsId,
         }),
         dispatch => ({
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),

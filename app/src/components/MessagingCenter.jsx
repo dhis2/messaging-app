@@ -63,7 +63,7 @@ class MessagingCenter extends Component {
         }, autoRefreshTime);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate() {
         const selectedMessageType = this.props.match.params.messageType;
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
@@ -92,6 +92,13 @@ class MessagingCenter extends Component {
         }
 
         if (
+            selectedMessageType === selectedId &&
+            selectedMessageType !== this.props.selectedMessageType.id
+        ) {
+            this.props.setSelectedMessageType(selectedMessageType);
+        }
+
+        if (
             (selectedMessageType === selectedId || selectedId === 'create') &&
             this.props.selectedMessageConversation !== undefined
         ) {
@@ -115,10 +122,15 @@ class MessagingCenter extends Component {
     }
 
     autoRefresh() {
-        this.state.autoRefresh &&
+        if (this.state.autoRefresh) {
             this.props.messageTypes.map(messageType =>
                 this.props.loadMessageConversations(messageType, this.props.selectedMessageType),
             );
+
+            if (this.props.selectedMessageConversation) {
+                this.props.setSelectedMessageConversation(this.props.selectedMessageConversation);
+            }
+        }
 
         this.setState({ counter: autoRefreshTime });
         setTimeout(() => {
@@ -258,6 +270,8 @@ export default compose(
                     type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
                     payload: { messageConversation },
                 }),
+            setSelectedMessageType: messageTypeId =>
+                dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
             clearSelectedMessageConversation: () =>
                 dispatch({
                     type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
