@@ -145,15 +145,14 @@ class MessageConversation extends Component {
                     <div
                         style={{
                             gridArea: '2 / 1 / span 1 / span 7',
-                            display: 'grid',
-                            gridTemplateRows: '10% 90%',
+                            display: 'flex',
+                            flexDirection: 'column',
                         }}
                     >
                         <Subheader
                             style={{
                                 paddingLeft: '12px',
                                 paddingTop: '10px',
-                                gridArea: '1 / 1',
                             }}
                         >
                             {i18n.t('Participants')}
@@ -162,7 +161,6 @@ class MessageConversation extends Component {
                             style={{
                                 paddingLeft: '12px',
                                 paddingTop: '10px',
-                                gridArea: '2 / 1',
                                 display: 'flex',
                                 flexWrap: 'wrap',
                             }}

@@ -40,9 +40,6 @@ class MessageConversationList extends Component {
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight;
 
     render() {
-        const displayMessageList =
-            !this.props.wideview || this.props.selectedMessageConversation === undefined;
-
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
             : '2 / 2 / span 1 / span 2';

@@ -17,8 +17,9 @@ import history from 'utils/history';
 import SuggestionField from './SuggestionField';
 import { subheader } from '../styles/style';
 
-const find = require('lodash/find');
 import { NEGATIVE } from '../constants/development';
+
+const find = require('lodash/find');
 
 class CreateMessage extends Component {
     constructor(props) {
@@ -49,14 +50,17 @@ class CreateMessage extends Component {
         const messageType = find(this.props.messageTypes, {
             id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
         });
-        const users = this.props.recipients.filter(r => r.type === 'user');
-        const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
-        const organisationUnits = this.props.recipients.filter(r => r.type === 'organisationUnit');
 
         if (this.state.isMessageFeedback) {
-            this.props.sendFeedbackMessage(this.props.subject, this.props.input, messageType);
+            this.props.sendFeedbackMessage(messageType);
             history.push('/TICKET');
         } else {
+            const users = this.props.recipients.filter(r => r.type === 'user');
+            const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
+            const organisationUnits = this.props.recipients.filter(
+                r => r.type === 'organisationUnit',
+            );
+
             this.props.sendMessage(
                 users,
                 userGroups,
@@ -118,7 +122,7 @@ class CreateMessage extends Component {
                                 <RadioButton
                                     label={i18n.t('Private message')}
                                     checked={!this.state.isMessageFeedback}
-                                    onCheck={(event, isInputChecked) => {
+                                    onCheck={() => {
                                         this.setState({
                                             isMessageFeedback: !this.state.isMessageFeedback,
                                         });
@@ -129,7 +133,7 @@ class CreateMessage extends Component {
                                 <RadioButton
                                     label={i18n.t('Feedback message')}
                                     checked={this.state.isMessageFeedback}
-                                    onCheck={(event, isInputChecked) => {
+                                    onCheck={() => {
                                         this.setState({
                                             isMessageFeedback: !this.state.isMessageFeedback,
                                         });

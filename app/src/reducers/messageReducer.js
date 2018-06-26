@@ -6,8 +6,8 @@ import messageTypes from '../constants/messageTypes';
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
-let find = require('lodash/find');
-let findIndex = require('lodash/findIndex');
+const find = require('lodash/find');
+const findIndex = require('lodash/findIndex');
 
 export const initialState = {
     // Message conversation
@@ -23,6 +23,7 @@ export const initialState = {
     markedForFollowUpFilter: false,
     unreadFilter: false,
     isInFeedbackRecipientGroup: false,
+    feedbackRecipientsId: undefined,
     displayTimeDiff: 0,
 
     // Input for create and reply
@@ -258,7 +259,9 @@ function messageReducer(state = initialState, action) {
         case actions.SET_IN_FEEDBACK_RECIPIENT_GROUP:
             return {
                 ...state,
-                isInFeedbackRecipientGroup: action.payload.isInFeedbackRecipientGroup,
+                isInFeedbackRecipientGroup: action.payload.isInFeedbackRecipientGroup.authorized,
+                feedbackRecipientsId:
+                    action.payload.isInFeedbackRecipientGroup.feedbackRecipientsId,
             };
 
         default:

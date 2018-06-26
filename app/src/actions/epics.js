@@ -94,14 +94,17 @@ const updateMessageConversations = action$ =>
                             messageConversationId,
                             action.payload.value,
                         );
-                        api.addRecipients(
-                            action.payload.value.map(value => ({
-                                id: value,
-                            })),
-                            [],
-                            [],
-                            messageConversationId,
-                        );
+                        if (action.payload.value !== undefined) {
+                            api.addRecipients(
+                                action.payload.value.map(value => ({
+                                    id: value,
+                                })),
+                                [],
+                                [],
+                                messageConversationId,
+                            );
+                        }
+
                         break;
                     default:
                         log.error('Unexpected identifier for updateMessageConversations');
@@ -214,9 +217,9 @@ const loadMessageConversations = (action$, store) =>
 
 const deleteMessageConversations = action$ =>
     action$.ofType(actions.DELETE_MESSAGE_CONVERSATIONS).concatMap(action => {
-        const promises = action.payload.messageConversationIds.map(messageConversationId => {
-            return api.deleteMessageConversation(messageConversationId);
-        });
+        const promises = action.payload.messageConversationIds.map(messageConversationId =>
+            api.deleteMessageConversation(messageConversationId),
+        );
 
         return Observable.from(
             Promise.all(promises)
