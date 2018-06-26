@@ -217,9 +217,9 @@ const loadMessageConversations = (action$, store) =>
 
 const deleteMessageConversations = action$ =>
     action$.ofType(actions.DELETE_MESSAGE_CONVERSATIONS).concatMap(action => {
-        const promises = action.payload.messageConversationIds.map(messageConversationId => {
-            return api.deleteMessageConversation(messageConversationId);
-        });
+        const promises = action.payload.messageConversationIds.map(messageConversationId =>
+            api.deleteMessageConversation(messageConversationId),
+        );
 
         return Observable.from(
             Promise.all(promises)
