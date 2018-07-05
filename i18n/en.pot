@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-06-25T08:32:36.938Z\n"
-"PO-Revision-Date: 2018-06-25T08:32:36.938Z\n"
+"POT-Creation-Date: 2018-07-05T09:36:41.348Z\n"
+"PO-Revision-Date: 2018-07-05T09:36:41.348Z\n"
 
 msgid "Assignee"
 msgstr ""
@@ -83,6 +83,9 @@ msgstr ""
 msgid "Auto refresh"
 msgstr ""
 
+msgid "No results found"
+msgstr ""
+
 msgid "Compose"
 msgstr ""
 
@@ -119,16 +122,16 @@ msgstr ""
 msgid "Mark selected as read"
 msgstr ""
 
-msgid "Assign"
-msgstr ""
-
-msgid "Set follow up"
+msgid "Assign selected"
 msgstr ""
 
 msgid "Mark for followup"
 msgstr ""
 
 msgid "Clear followup"
+msgstr ""
+
+msgid "Clear assigned"
 msgstr ""
 
 msgid "Set status"

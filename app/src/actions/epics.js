@@ -90,18 +90,29 @@ const updateMessageConversations = action$ =>
                         );
                         break;
                     case 'ASSIGNEE':
-                        promise = api.updateMessageConversationAssignee(
-                            messageConversationId,
-                            action.payload.value,
-                        );
-                        if (action.payload.value !== undefined) {
-                            api.addRecipients(
-                                action.payload.value.map(value => ({
-                                    id: value,
-                                })),
-                                [],
-                                [],
+                        if (
+                            action.payload.value !== undefined &&
+                            action.payload.messageType.id === 'VALIDATION_RESULT'
+                        ) {
+                            promise = api
+                                .addRecipients(
+                                    action.payload.value.map(value => ({
+                                        id: value,
+                                    })),
+                                    [],
+                                    [],
+                                    messageConversationId,
+                                )
+                                .then(() =>
+                                    api.updateMessageConversationAssignee(
+                                        messageConversationId,
+                                        action.payload.value,
+                                    ),
+                                );
+                        } else {
+                            promise = api.updateMessageConversationAssignee(
                                 messageConversationId,
+                                action.payload.value,
                             );
                         }
 

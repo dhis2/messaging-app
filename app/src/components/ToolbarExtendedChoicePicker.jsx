@@ -195,7 +195,7 @@ class ToolbarExtendedChoicePicker extends Component {
                                 <MenuItem
                                     key={'clearAssigned'}
                                     value={'clearAssigned'}
-                                    primaryText={i18n.t('Clear assigned')}
+                                    primaryText={i18n.t('Clear assignee')}
                                     onClick={() =>
                                         this.updateMessageConversation('ASSIGNEE', undefined)
                                     }
