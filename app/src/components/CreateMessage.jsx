@@ -90,6 +90,9 @@ class CreateMessage extends Component {
                 style={{
                     gridArea,
                     margin: '10px',
+                    overflowY: 'scroll',
+                    overflowX: 'hidden',
+                    height: 'calc(100vh - 110px)',
                 }}
             >
                 <Subheader style={subheader}> {i18n.t('Create')}</Subheader>

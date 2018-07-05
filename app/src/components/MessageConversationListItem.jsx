@@ -97,9 +97,19 @@ class MessageConversationListItem extends Component {
                 onClick={event => {
                     const onClick =
                         event.target.innerText !== undefined && event.target.innerText !== '';
-                    onClick && this.onClick(messageConversation);
-                    onClick && this.props.clearCheckedIds();
-                    onClick && this.props.wideview && this.props.setFilter(undefined, 'MESSAGE');
+
+                    if (onClick && !this.props.settingSelectedMessageConversation) {
+                        this.onClick(messageConversation);
+                        this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
+                        if (
+                            this.props.wideview &&
+                            (this.props.messageFilter !== undefined ||
+                                this.props.priorityFilter !== undefined ||
+                                this.props.statusFilter !== undefined)
+                        ) {
+                            this.props.setFilter(undefined, 'MESSAGE');
+                        }
+                    }
                 }}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
@@ -228,6 +238,7 @@ export default compose(
     connect(
         state => ({
             selectedMessageConversation: state.messaging.selectedMessageConversation,
+            settingSelectedMessageConversation: state.messaging.settingSelectedMessageConversation,
             selectedMessageType: state.messaging.selectedMessageType,
             checkedIds: state.messaging.checkedIds,
             displayTimeDiff: state.messaging.displayTimeDiff,

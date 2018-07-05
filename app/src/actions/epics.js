@@ -149,8 +149,8 @@ const updateMessageConversations = action$ =>
         });
 
         return action.payload.selectedMessageConversation
-            ? updateObservable.concat(updateObservable, setSelectedObservable)
-            : updateObservable.concat(updateObservable);
+            ? updateObservable.concat(setSelectedObservable)
+            : updateObservable;
     });
 
 const loadMoreMessageConversations = action$ =>
