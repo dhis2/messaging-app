@@ -30,6 +30,7 @@ class SidebarList extends Component {
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
+                    justifyContent: 'space-between',
                     height: 'calc(100vh - 95px)',
                     gridArea: '2 / 1 / span 1 / span 1',
                     borderLeftStyle: gridColumn === 2 && 'solid',
@@ -38,14 +39,14 @@ class SidebarList extends Component {
                     borderRightStyle: 'solid',
                     borderRightWidth: '1px',
                     borderRightColor: theme.palette.accent4Color,
-                    overflowY: 'hidden',
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
                     minWidth: '200px',
                 }}
             >
                 <List
                     style={{
                         padding: '0px',
-                        height: 'calc(100vh - 150px)',
                     }}
                 >
                     {messageTypes &&
@@ -65,7 +66,7 @@ class SidebarList extends Component {
                         ))}
                 </List>
                 <Toggle
-                    style={{ width: '', margin: '0px 20px 0px 20px' }}
+                    style={{ width: '', margin: '20px' }}
                     label={`${i18n.t('Auto refresh')} (${moment(this.props.counter).format(
                         'mm:ss',
                     )})`}
