@@ -15,6 +15,7 @@ export const initialState = {
     messageTypes,
     selectedMessageType: undefined,
     selectedMessageConversation: undefined,
+    settingSelectedMessageConversation: false,
     checkedIds: [],
     messageFilter: undefined,
     statusFilter: undefined,
@@ -182,6 +183,13 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 selectedMessageConversation: action.payload.messageConversation,
+                settingSelectedMessageConversation: false,
+            };
+
+        case actions.SET_SELECTED_MESSAGE_CONVERSATION:
+            return {
+                ...state,
+                settingSelectedMessageConversation: true,
             };
 
         case actions.CLEAR_SELECTED_MESSAGE_CONVERSATION:

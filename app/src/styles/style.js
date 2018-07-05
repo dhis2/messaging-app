@@ -9,7 +9,7 @@ export const messagePanelContainer = {
     overflowX: 'hidden',
     borderRightWidth: '1px',
     borderRightColor: theme.palette.accent4Color,
-    height: 'calc(100vh - 100px)',
+    height: 'calc(100vh - 95px)',
 };
 
 export const grid = {

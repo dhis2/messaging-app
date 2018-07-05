@@ -35,7 +35,6 @@ class MessagingCenter extends Component {
             autoRefresh: false,
             timer: null,
             counter: autoRefreshTime,
-            setSelectedMessageConversation: false,
         };
     }
 
@@ -68,17 +67,7 @@ class MessagingCenter extends Component {
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
 
         if (
-            this.state.setSelectedMessageConversation &&
-            this.props.selectedMessageConversation &&
-            selectedId === this.props.selectedMessageConversation.id
-        ) {
-            this.setState({
-                setSelectedMessageConversation: false,
-            });
-        }
-
-        if (
-            !this.state.setSelectedMessageConversation &&
+            !this.props.settingSelectedMessageConversation &&
             selectedMessageType !== selectedId &&
             selectedId !== 'create' &&
             (this.props.selectedMessageConversation === undefined ||
@@ -86,9 +75,6 @@ class MessagingCenter extends Component {
         ) {
             const initialMessageConversation = { id: selectedId };
             this.props.setSelectedMessageConversation(initialMessageConversation);
-            this.setState({
-                setSelectedMessageConversation: true,
-            });
         }
 
         if (
@@ -243,6 +229,8 @@ export default compose(
                 unreadFilter: state.messaging.unreadFilter,
                 selectedMessageType: state.messaging.selectedMessageType,
                 selectedMessageConversation: state.messaging.selectedMessageConversation,
+                settingSelectedMessageConversation:
+                    state.messaging.settingSelectedMessageConversation,
                 checkedIds: state.messaging.checkedIds,
                 checkedOptions: state.messaging.checkedIds.length > 0,
                 loaded: state.messaging.loaded,
