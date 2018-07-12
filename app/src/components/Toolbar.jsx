@@ -30,6 +30,51 @@ import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
 const headerHight = '48px';
 const searchDelay = 300;
 
+const styles = {
+    canvas(checkedOptions) {
+        return {
+            gridArea: '1 / 1 / span 1 / span 10',
+            display: 'grid',
+            gridTemplateColumns: grid.gridTemplateColumns,
+            backgroundColor: checkedOptions ? theme.palette.blue50 : theme.palette.accent2Color,
+            zIndex: 10,
+        };
+    },
+    checkedOptions: { width: '200px', gridArea: '1 / 1', alignSelf: 'center' },
+    checkedOption: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        minWidth: '200px',
+    },
+    statusFilter: {
+        height: headerHight,
+        gridArea: '1 / 7',
+        marginRight: '10px',
+        width: '95%',
+    },
+    priorityFilter: {
+        height: headerHight,
+        gridArea: '1 / 8',
+        marginRight: '10px',
+        width: '95%',
+    },
+    rightHandCanvas: {
+        gridArea: '1 / 9 / span 1 / span 2',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(10, 1fr)',
+    },
+    search: {
+        height: headerHight,
+        gridArea: '1 / 1 / span 1 / span 7',
+    },
+    iconMenu: {
+        gridArea: '1 / 9 / span 1 / span 1',
+        width: '30px',
+        display: 'flex',
+        justifyContent: 'flex-end',
+    },
+};
+
 class Toolbar extends Component {
     constructor(props) {
         super(props);
@@ -98,25 +143,11 @@ class Toolbar extends Component {
             (this.props.selectedMessageConversation === undefined && id !== 'create');
 
         return (
-            <Paper
-                style={{
-                    gridArea: '1 / 1 / span 1 / span 10',
-                    display: 'grid',
-                    gridTemplateColumns: grid.gridTemplateColumns,
-                    backgroundColor: checkedOptions
-                        ? theme.palette.blue50
-                        : theme.palette.accent2Color,
-                    zIndex: 10,
-                }}
-            >
-                <div style={{ width: '200px', gridArea: '1 / 1', alignSelf: 'center' }}>
+            <Paper style={styles.canvas(checkedOptions)}>
+                <div style={styles.checkedOptions}>
                     {!checkedOptions && (
                         <FlatButton
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                minWidth: '200px',
-                            }}
+                            style={styles.checkedOption}
                             icon={<CreateMessageIcon />}
                             onClick={() => history.push('/PRIVATE/create')}
                             label={i18n.t('Compose')}
@@ -125,11 +156,7 @@ class Toolbar extends Component {
 
                     {checkedOptions && (
                         <FlatButton
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'flex-start',
-                                minWidth: '200px',
-                            }}
+                            style={styles.checkedOption}
                             icon={<NavigationBack />}
                             onClick={() => this.props.clearCheckedIds()}
                             label={i18n.t('Deselect all')}
@@ -143,12 +170,7 @@ class Toolbar extends Component {
                     displaySearch &&
                     !checkedOptions && (
                         <SelectField
-                            style={{
-                                height: headerHight,
-                                gridArea: '1 / 7',
-                                marginRight: '10px',
-                                width: '95%',
-                            }}
+                            style={styles.statusFilter}
                             labelStyle={{
                                 color:
                                     this.props.statusFilter === undefined ? 'lightGray' : 'black',
@@ -187,12 +209,7 @@ class Toolbar extends Component {
                     displaySearch &&
                     !checkedOptions && (
                         <SelectField
-                            style={{
-                                height: headerHight,
-                                gridArea: '1 / 8',
-                                marginRight: '10px',
-                                width: '95%',
-                            }}
+                            style={styles.priorityFilter}
                             labelStyle={{
                                 color:
                                     this.props.priorityFilter === undefined ? 'lightGray' : 'black',
@@ -227,20 +244,11 @@ class Toolbar extends Component {
                         </SelectField>
                     )}
 
-                <div
-                    style={{
-                        gridArea: '1 / 9 / span 1 / span 2',
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(10, 1fr)',
-                    }}
-                >
+                <div style={styles.rightHandCanvas}>
                     {!checkedOptions &&
                         displaySearch && (
                             <TextField
-                                style={{
-                                    height: headerHight,
-                                    gridArea: '1 / 1 / span 1 / span 7',
-                                }}
+                                style={styles.search}
                                 fullWidth
                                 hintText={i18n.t('Search')}
                                 value={this.props.messageFilter}
@@ -262,12 +270,7 @@ class Toolbar extends Component {
                                 }
                                 anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                                 targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                style={{
-                                    gridArea: '1 / 9 / span 1 / span 1',
-                                    width: '30px',
-                                    display: 'flex',
-                                    justifyContent: 'flex-end',
-                                }}
+                                style={styles.iconMenu}
                             >
                                 <Subheader style={{ padding: '0px 16px' }}>
                                     {i18n.t('Set filter')}

@@ -12,6 +12,45 @@ import { fontFamily } from '../constants/development';
 
 const moment = require('moment');
 
+const styles = {
+    canvas(backgroundColor) {
+        return {
+            backgroundColor,
+            padding: '16px 16px 16px 16px',
+            gridArea: '1 / 1 / span 1 / span 2',
+        };
+    },
+    innerCanvas: {
+        margin: '',
+        paddingBottom: '0px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(10, 1fr)',
+    },
+    cardText: {
+        gridArea: '2 / 1 / span 1 / span 10',
+        padding: '16px 0px 16px 0px',
+        fontFamily,
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+    },
+    fromFormat: {
+        gridArea: '1 / 1 / span 1 / span 8',
+        fontFamily,
+    },
+    datePlacement: {
+        gridArea: '1 / 10',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginRight: '10px',
+    },
+    dateFormat: {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        fontFamily,
+    },
+};
+
 const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
     const fromTitle = message.sender
         ? currentUser && currentUser.id === message.sender.id
@@ -22,50 +61,16 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
     const messageDate = moment(message.created).add(displayTimeDiff);
 
     return (
-        <div
-            style={{
-                backgroundColor: theme.palette.canvasColor,
-                padding: '16px 16px 16px 16px',
-                gridArea: '1 / 1 / span 1 / span 2',
-            }}
-        >
-            <div
-                style={{
-                    margin: '',
-                    paddingBottom: '0px',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(10, 1fr)',
-                }}
-            >
-                <div
-                    style={{
-                        gridArea: '1 / 1 / span 1 / span 8',
-                        fontFamily,
-                    }}
-                >
+        <div style={styles.canvas(theme.palette.canvasColor)}>
+            <div style={styles.innerCanvas}>
+                <div style={styles.fromFormat}>
                     {message.internal
                         ? i18n.t(`Internal message from ${fromTitle}`)
                         : i18n.t(`Message from ${fromTitle}`)}
                 </div>
 
-                <div
-                    content={messageDate.format('YYYY-MM-DD hh:mm')}
-                    placement={'bottom'}
-                    style={{
-                        gridArea: '1 / 10',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        marginRight: '10px',
-                    }}
-                >
-                    <div
-                        style={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            fontFamily,
-                        }}
-                    >
+                <div placement={'bottom'} style={styles.datePlacement}>
+                    <div style={styles.dateFormat}>
                         {today.diff(messageDate, 'hours') < 72
                             ? `${messageDate.from(today)}, ${messageDate.format('HH:mm')}`
                             : today.year() === messageDate.year()
@@ -74,15 +79,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                     </div>
                 </div>
 
-                <CardText
-                    style={{
-                        gridArea: '2 / 1 / span 1 / span 10',
-                        padding: '16px 0px 16px 0px',
-                        fontFamily,
-                        whiteSpace: 'pre-wrap',
-                        wordBreak: 'break-word',
-                    }}
-                >
+                <CardText style={styles.cardText}>
                     <Linkify>{message.text}</Linkify>
                 </CardText>
             </div>

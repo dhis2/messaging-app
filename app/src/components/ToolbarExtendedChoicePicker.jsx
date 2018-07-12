@@ -27,6 +27,27 @@ import AssignToDialog from './AssignToDialog';
 
 const multiSelectDisplayLimit = 99;
 
+const styles = {
+    canvas: {
+        gridArea: '1 / 2 / span 1 / span 2',
+        width: '400px',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+    extendedChoices: {
+        gridArea: '1 / 1 / span 1 / span 1',
+        display: 'flex',
+        justifyContent: 'flex-start',
+    },
+    nrSelected: {
+        gridArea: '1 / 2 / span 1 / span 1',
+        padding: '0px 0px',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+    },
+};
+
 class ToolbarExtendedChoicePicker extends Component {
     constructor(props) {
         super(props);
@@ -94,14 +115,7 @@ class ToolbarExtendedChoicePicker extends Component {
                 : this.props.checkedIds.length;
 
         return display ? (
-            <div
-                style={{
-                    gridArea: '1 / 2 / span 1 / span 2',
-                    width: '400px',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(2, 1fr)',
-                }}
-            >
+            <div style={styles.canvas}>
                 <Dialog
                     title={i18n.t(
                         `Are you sure you want to delete selected message conversation${
@@ -123,13 +137,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     feedbackRecipientsId={this.props.feedbackRecipientsId}
                 />
 
-                <div
-                    style={{
-                        gridArea: '1 / 1 / span 1 / span 1',
-                        display: 'flex',
-                        justifyContent: 'flex-start',
-                    }}
-                >
+                <div style={styles.extendedChoices}>
                     <IconButton
                         tooltip={i18n.t('Delete selected')}
                         onClick={() => {
@@ -239,15 +247,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     }
                 </div>
                 {multiSelect && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 2 / span 1 / span 1',
-                            padding: '0px 0px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
+                    <Subheader style={styles.nrSelected}>
                         {`${displayNumberOfCheckedIds} ${i18n.t('selected')}`}
                     </Subheader>
                 )}

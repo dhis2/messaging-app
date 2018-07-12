@@ -14,6 +14,61 @@ import { fontFamily } from '../constants/development';
 
 const fontSize = '16px';
 
+const styles = {
+    canvas(backgroundColor, wideview) {
+        return {
+            backgroundColor,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
+            gridTemplateRows: wideview ? '' : '15% 85%',
+            transition: 'all 0.2s ease-in-out',
+            boxSizing: 'border-box',
+            position: 'relative',
+            whiteSpace: 'nowrap',
+            alignSelf: 'center',
+        };
+    },
+    checkBox: {
+        gridArea: '1 / 1',
+        display: 'flex',
+        alignSelf: 'center',
+        marginLeft: '12px',
+        width: '24px',
+    },
+    sender: {
+        fontFamily,
+        fontSize,
+        gridArea: '1 / 1 / span 1 / span 2',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        color: 'black',
+        marginLeft: '50px',
+        paddingLeft: '0px',
+        alignSelf: 'center',
+    },
+    subject: {
+        gridArea: '1 / 3 / span 1 / span 3',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        fontFamily,
+        fontSize,
+        color: 'black',
+        paddingLeft: '10px',
+    },
+    extendedLabel(gridArea) {
+        return {
+            gridArea,
+            color: 'black',
+            fontSize,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+        };
+    },
+};
+
 class MessageConversationListItem extends Component {
     constructor(props) {
         super(props);
@@ -34,28 +89,10 @@ class MessageConversationListItem extends Component {
         const displayExtendedChoices = this.props.displayExtendedChoices;
 
         return (
-            <Paper
-                style={{
-                    backgroundColor: theme.palette.canvasColor,
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
-                    gridTemplateRows: this.props.wideview ? '' : '15% 85%',
-                    transition: 'all 0.2s ease-in-out',
-                    boxSizing: 'border-box',
-                    position: 'relative',
-                    whiteSpace: 'nowrap',
-                    alignSelf: 'center',
-                }}
-            >
+            <Paper style={styles.canvas(theme.palette.canvasColor, this.props.wideview)}>
                 <Checkbox
                     checked={this.state.allChecked}
-                    style={{
-                        gridArea: '1 / 1',
-                        display: 'flex',
-                        alignSelf: 'center',
-                        marginLeft: '12px',
-                        width: '24px',
-                    }}
+                    style={styles.checkBox}
                     onCheck={(event, isInputChecked) => {
                         this.state.allChecked
                             ? this.props.clearCheckedIds()
@@ -68,91 +105,22 @@ class MessageConversationListItem extends Component {
                         this.setState({ allChecked: !this.state.allChecked });
                     }}
                 />
-                <div
-                    style={{
-                        fontFamily,
-                        fontSize,
-                        gridArea: '1 / 1 / span 1 / span 2',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        color: 'black',
-                        marginLeft: '50px',
-                        paddingLeft: '0px',
-                        alignSelf: 'center',
-                    }}
-                >
-                    {i18n.t('Sender')}
-                </div>
-                <Subheader
-                    style={{
-                        gridArea: '1 / 3 / span 1 / span 3',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        fontFamily,
-                        fontSize,
-                        color: 'black',
-                        paddingLeft: '10px',
-                    }}
-                >
-                    {i18n.t('Subject')}
-                </Subheader>
+                <div style={styles.sender}>{i18n.t('Sender')}</div>
+                <Subheader style={styles.subject}>{i18n.t('Subject')}</Subheader>
                 {displayExtendedChoices && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 7',
-                            color: 'black',
-                            fontSize,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {i18n.t('Status')}
-                    </Subheader>
+                    <Subheader style={styles.extendedLabel('1 / 7')}>{i18n.t('Status')}</Subheader>
                 )}
                 {displayExtendedChoices && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 8',
-                            color: 'black',
-                            fontSize,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
+                    <Subheader style={styles.extendedLabel('1 / 8')}>
                         {i18n.t('Priority')}
                     </Subheader>
                 )}
                 {this.props.notification && (
-                    <Subheader
-                        style={{
-                            gridArea: '1 / 9',
-                            color: 'black',
-                            fontSize,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
+                    <Subheader style={styles.extendedLabel('1 / 9')}>
                         {i18n.t('Assignee')}
                     </Subheader>
                 )}
-                <Subheader
-                    style={{
-                        gridArea: '1 / 10',
-                        fontFamily,
-                        fontSize,
-                        color: 'black',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                    }}
-                >
-                    {i18n.t('Date')}
-                </Subheader>
+                <Subheader style={styles.extendedLabel('1 / 10')}>{i18n.t('Date')}</Subheader>
             </Paper>
         );
     }

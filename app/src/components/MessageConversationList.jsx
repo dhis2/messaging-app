@@ -8,7 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
-import { messagePanelContainer } from '../styles/style';
+import { messagePanelContainer, grid } from '../styles/style';
 import theme from '../styles/theme';
 import ListItemHeader from './ListItemHeader';
 import MessageConversationListItem from './MessageConversationListItem';
@@ -18,6 +18,23 @@ const isEqual = require('lodash/isEqual');
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET'];
 const bottomEmptyHeight = 50;
+
+const styles = {
+    canvas(gridArea, wideview) {
+        return {
+            gridArea,
+            borderRightStyle: wideview ? '' : 'solid',
+            ...messagePanelContainer,
+        };
+    },
+    loading: {
+        backgroundColor: theme.palette.accent2Color,
+        height: `${bottomEmptyHeight}px`,
+        transition: 'all 0.2s ease-in-out',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+};
 
 class MessageConversationList extends Component {
     onScroll = messageType => {
@@ -58,11 +75,7 @@ class MessageConversationList extends Component {
             <div
                 id={'messagelist'}
                 onScroll={() => this.onScroll(this.props.selectedMessageType)}
-                style={{
-                    gridArea,
-                    borderRightStyle: this.props.wideview ? '' : 'solid',
-                    ...messagePanelContainer,
-                }}
+                style={styles.canvas(gridArea, this.props.wideview)}
             >
                 {this.props.wideview && (
                     <ListItemHeader
@@ -89,15 +102,7 @@ class MessageConversationList extends Component {
                           </Subheader>
                       )}
                 {this.props.selectedMessageType.loading && (
-                    <div
-                        style={{
-                            backgroundColor: theme.palette.accent2Color,
-                            height: `${bottomEmptyHeight}px`,
-                            transition: 'all 0.2s ease-in-out',
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
+                    <div style={styles.loading}>
                         <CircularProgress
                             style={{ marginTop: '10px' }}
                             color={theme.palette.primary1Color}

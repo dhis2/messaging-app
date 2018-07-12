@@ -2,6 +2,20 @@ import React from 'react';
 
 import Subheader from 'material-ui/Subheader/Subheader';
 
+const styles = {
+    subheaderTitle: { height: '32px', color: 'black' },
+    subheader(color, fontWeight) {
+        return {
+            height: '32px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color,
+            fontWeight,
+        };
+    },
+};
+
 const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color, fontWeight }) => {
     const displayLabel =
         label && label !== 'NONE'
@@ -12,21 +26,8 @@ const ExtendedChoiceLabel = ({ showTitle, gridArea, title, label, color, fontWei
 
     return (
         <div style={{ gridArea }}>
-            {showTitle && (
-                <Subheader style={{ height: '32px', color: 'black' }}> {title} </Subheader>
-            )}
-            <Subheader
-                style={{
-                    height: '32px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    color,
-                    fontWeight,
-                }}
-            >
-                {displayLabel}
-            </Subheader>
+            {showTitle && <Subheader style={styles.subheaderTitle}> {title} </Subheader>}
+            <Subheader style={styles.subheader(color, fontWeight)}>{displayLabel}</Subheader>
         </div>
     );
 };

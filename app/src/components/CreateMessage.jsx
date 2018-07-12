@@ -21,6 +21,23 @@ import { NEGATIVE } from '../constants/development';
 
 const find = require('lodash/find');
 
+const styles = {
+    canvas(gridArea) {
+        return {
+            gridArea,
+            margin: '10px',
+            overflowY: 'scroll',
+            overflowX: 'hidden',
+            height: 'calc(100vh - 110px)',
+        };
+    },
+    messageTypeField: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    messageType: { width: '300px', marginTop: '10px' },
+};
+
 class CreateMessage extends Component {
     constructor(props) {
         super(props);
@@ -86,15 +103,7 @@ class CreateMessage extends Component {
             (!this.state.isMessageFeedback && this.props.recipients.length === 0);
 
         return (
-            <div
-                style={{
-                    gridArea,
-                    margin: '10px',
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    height: 'calc(100vh - 110px)',
-                }}
-            >
+            <div style={styles.canvas(gridArea)}>
                 <Subheader style={subheader}> {i18n.t('Create')}</Subheader>
                 <Card>
                     <CardText>
@@ -115,13 +124,8 @@ class CreateMessage extends Component {
                             updateRecipients={this.updateRecipients}
                             inputHeight={'100px'}
                         />
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
-                        >
-                            <div style={{ width: '300px', marginTop: '10px' }}>
+                        <div style={styles.messageTypeField}>
+                            <div style={styles.messageType}>
                                 <RadioButton
                                     label={i18n.t('Private message')}
                                     checked={!this.state.isMessageFeedback}
@@ -132,7 +136,7 @@ class CreateMessage extends Component {
                                     }}
                                 />
                             </div>
-                            <div style={{ width: '300px', marginTop: '10px' }}>
+                            <div style={styles.messageType}>
                                 <RadioButton
                                     label={i18n.t('Feedback message')}
                                     checked={this.state.isMessageFeedback}

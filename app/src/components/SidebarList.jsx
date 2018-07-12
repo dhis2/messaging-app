@@ -16,34 +16,35 @@ import theme from '../styles/theme';
 
 const moment = require('moment');
 
+const styles = {
+    canvas: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        height: 'calc(100vh - 95px)',
+        gridArea: '2 / 1 / span 1 / span 1',
+        borderLeftStyle: 'solid',
+        borderLeftWidth: '0.5px',
+        borderLeftColor: theme.palette.accent4Color,
+        borderRightStyle: 'solid',
+        borderRightWidth: '1px',
+        borderRightColor: theme.palette.accent4Color,
+        overflowY: 'auto',
+        overflowX: 'hidden',
+        minWidth: '200px',
+    },
+};
+
 class SidebarList extends Component {
     componentWillMount() {
         this.props.setSelectedMessageType(this.props.match.params.messageType);
     }
 
     render() {
-        const gridColumn = this.props.gridColumn;
         const messageTypes = this.props.messageTypes;
 
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    height: 'calc(100vh - 95px)',
-                    gridArea: '2 / 1 / span 1 / span 1',
-                    borderLeftStyle: gridColumn === 2 && 'solid',
-                    borderLeftWidth: '0.5px',
-                    borderLeftColor: theme.palette.accent4Color,
-                    borderRightStyle: 'solid',
-                    borderRightWidth: '1px',
-                    borderRightColor: theme.palette.accent4Color,
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                    minWidth: '200px',
-                }}
-            >
+            <div style={styles.canvas}>
                 <List
                     style={{
                         padding: '0px',

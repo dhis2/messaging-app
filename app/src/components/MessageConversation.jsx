@@ -22,9 +22,9 @@ import Message from './Message';
 import ReplyCard from './ReplyCard';
 import SuggestionField from './SuggestionField';
 import ExtendedChoiceLabel from './ExtendedChoiceLabel';
+import { styles } from '../styles/messageConversationStyles';
 
 import theme from '../styles/theme';
-import { fontFamily } from '../constants/development';
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT'];
 const maxParticipantsDisplay = 30;
@@ -98,57 +98,20 @@ class MessageConversation extends Component {
         }
 
         return (
-            <div
-                id="messageconversation"
-                style={{
-                    gridArea,
-                    overflowY: 'scroll',
-                    overflowX: 'hidden',
-                    height: 'calc(100vh - 110px)',
-                    paddingTop: '10px',
-                }}
-            >
-                <div
-                    style={{
-                        display: 'grid',
-                        margin: '0px 10px 0px 10px',
-                        gridTemplateColumns: 'repeat(10, 1fr)',
-                        gridAutoFlow: 'column',
-                        gridTemplateRows: '50% 30% 20%',
-                    }}
-                >
+            <div id="messageconversation" style={styles.canvas(gridArea)}>
+                <div style={styles.innerCanvas}>
                     <IconButton
-                        style={{
-                            display: 'flex',
-                            alignSelf: 'center',
-                            gridArea: '1 / 1',
-                        }}
+                        style={styles.iconButton}
                         tooltipPosition="bottom-right"
                         onClick={() => history.push(`/${messageConversation.messageType}`)}
                         tooltip={i18n.t('Show all messages')}
                     >
                         <NavigationBack />
                     </IconButton>
-                    <Subheader
-                        style={{
-                            display: 'flex',
-                            alignSelf: 'center',
-                            gridArea: '1 / 1 / span 1 / span 7',
-                            width: 'calc(100% - 50px)',
-                            marginLeft: '50px',
-                            fontSize: '20px',
-                            fontFamily,
-                        }}
-                    >
+                    <Subheader style={styles.subjectSubheader}>
                         {messageConversation.subject}
                     </Subheader>
-                    <div
-                        style={{
-                            gridArea: '2 / 1 / span 1 / span 7',
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
+                    <div style={styles.participantsCanvas}>
                         <Subheader
                             style={{
                                 paddingLeft: '12px',
@@ -157,52 +120,23 @@ class MessageConversation extends Component {
                         >
                             {i18n.t('Participants')}
                         </Subheader>
-                        <div
-                            style={{
-                                paddingLeft: '12px',
-                                paddingTop: '10px',
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                            }}
-                        >
+                        <div style={styles.participants}>
                             {participants.map(participant => (
-                                <Chip
-                                    key={participant}
-                                    style={{
-                                        height: '32px',
-                                        marginRight: '3px',
-                                        marginBottom: '3px',
-                                    }}
-                                >
+                                <Chip key={participant} style={styles.chip}>
                                     {participant}
                                 </Chip>
                             ))}
                         </div>
                     </div>
                     <SuggestionField
-                        style={{
-                            gridArea: this.props.wideview
-                                ? '3 / 1 / span 1 / span 3'
-                                : '3 / 1 / span 1 / span 5',
-                            paddingLeft: '12px',
-                            marginBottom: '0px',
-                        }}
+                        style={styles.participantsSuggestionField(this.props.wideview)}
                         label={i18n.t('Add participants to conversation')}
                         messageConversation={messageConversation}
                         recipients={this.state.recipients}
                         updateRecipients={this.updateRecipients}
                         limitSearchArray={messageConversation.userMessages}
                     />
-                    <div
-                        style={{
-                            gridArea: this.props.wideview
-                                ? '3 / 4 / span 1 / span 2'
-                                : '3 / 6 / span 1 / span 2',
-                            alignSelf: 'end',
-                            marginBottom: '28px',
-                            paddingLeft: '12px',
-                        }}
-                    >
+                    <div style={styles.participantsAdd(this.props.wideview)}>
                         <FlatButton
                             icon={<AddIcon />}
                             onClick={() => this.addRecipients()}
@@ -241,22 +175,8 @@ class MessageConversation extends Component {
                         />
                     )}
                 </div>
-                <div
-                    style={{
-                        marginBottom: '50px',
-                        display: 'grid',
-                        backgroundColor: theme.palette.accent2Color,
-                        gridTemplateColumns: '90% 10%',
-                        gridTemplateRows: '90% 10%',
-                        margin: '0px 10px 10px 10px',
-                    }}
-                >
-                    <Paper
-                        style={{
-                            gridArea: '1 / 1 / span 1 / span 2',
-                            padding: '0px',
-                        }}
-                    >
+                <div style={styles.messagesCanvas}>
+                    <Paper style={styles.messagesInnerCanvas}>
                         {messages.map((message, i) => (
                             <Message
                                 key={message.id}

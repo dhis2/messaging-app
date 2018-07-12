@@ -18,6 +18,67 @@ import { fontFamily } from '../constants/development';
 const find = require('lodash/find');
 const moment = require('moment');
 
+const styles = {
+    checkBox: {
+        gridArea: '1 / 1',
+        display: 'flex',
+        alignSelf: 'center',
+        marginLeft: '12px',
+        width: '24px',
+    },
+    flag: {
+        gridArea: '1 / 1',
+        color: theme.palette.followUp,
+        alignSelf: 'center',
+        marginLeft: '40px',
+    },
+    title(messageConversation, wideview, fontWeight) {
+        return {
+            fontFamily,
+            fontSize: '14px',
+            gridArea: wideview ? '1 / 1 / span 1 / span 2' : '1 / 1 / span 1 / span 6',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            alignSelf: 'center',
+            color: 'black',
+            marginLeft: messageConversation.followUp ? '70px' : '50px',
+            fontWeight,
+        };
+    },
+    subject(wideview, displayExtendedChoices, fontColor, fontWeight) {
+        return {
+            gridArea: wideview
+                ? displayExtendedChoices
+                    ? '1 / 3 / span 1 / span 4'
+                    : '1 / 3 / span 1 / span 6'
+                : '2 / 1 / span 1 / span 10',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            paddingLeft: '10px',
+            marginTop: !wideview ? '-10px' : '',
+            fontFamily,
+            color: fontColor,
+            fontWeight,
+        };
+    },
+    dateFormat(wideview, fontColor, fontWeight) {
+        return {
+            gridArea: wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
+            fontFamily,
+            paddingRight: '10px',
+            paddingLeft: wideview ? '16px' : '0px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            textAlign: wideview ? '' : 'end',
+            color: fontColor,
+            fontWeight,
+        };
+    },
+};
+
 class MessageConversationListItem extends Component {
     constructor(props) {
         super(props);
@@ -116,61 +177,22 @@ class MessageConversationListItem extends Component {
             >
                 <Checkbox
                     checked={checked}
-                    style={{
-                        gridArea: '1 / 1',
-                        display: 'flex',
-                        alignSelf: 'center',
-                        marginLeft: '12px',
-                        width: '24px',
-                    }}
+                    style={styles.checkBox}
                     onCheck={(event, isInputChecked) => {
                         this.props.setChecked(messageConversation, !checked);
                     }}
                 />
-                {messageConversation.followUp && (
-                    <Flag
-                        style={{
-                            gridArea: '1 / 1',
-                            color: theme.palette.followUp,
-                            alignSelf: 'center',
-                            marginLeft: '40px',
-                        }}
-                    />
-                )}
-                <div
-                    style={{
-                        fontFamily,
-                        fontSize: '14px',
-                        gridArea: this.props.wideview
-                            ? '1 / 1 / span 1 / span 2'
-                            : '1 / 1 / span 1 / span 6',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        alignSelf: 'center',
-                        color: 'black',
-                        marginLeft: messageConversation.followUp ? '70px' : '50px',
-                        fontWeight,
-                    }}
-                >
+                {messageConversation.followUp && <Flag style={styles.flag} />}
+                <div style={styles.title(messageConversation, this.props.wideview, fontWeight)}>
                     {title}
                 </div>
                 <Subheader
-                    style={{
-                        gridArea: this.props.wideview
-                            ? displayExtendedChoices
-                                ? '1 / 3 / span 1 / span 4'
-                                : '1 / 3 / span 1 / span 6'
-                            : '2 / 1 / span 1 / span 10',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        paddingLeft: '10px',
-                        marginTop: !this.props.wideview ? '-10px' : '',
-                        fontFamily,
-                        color: fontColor,
+                    style={styles.subject(
+                        this.props.wideview,
+                        displayExtendedChoices,
+                        fontColor,
                         fontWeight,
-                    }}
+                    )}
                 >
                     {messageConversation.subject}
                 </Subheader>
@@ -209,20 +231,7 @@ class MessageConversationListItem extends Component {
                             }
                         />
                     )}
-                <Subheader
-                    style={{
-                        gridArea: this.props.wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
-                        fontFamily,
-                        color: fontColor,
-                        paddingRight: '10px',
-                        paddingLeft: this.props.wideview ? '16px' : '0px',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        textAlign: this.props.wideview ? '' : 'end',
-                        fontWeight,
-                    }}
-                >
+                <Subheader style={styles.dateFormat(this.props.wideview, fontColor, fontWeight)}>
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today)
                         : today.year() === messageDate.year()
