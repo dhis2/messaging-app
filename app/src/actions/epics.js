@@ -350,6 +350,23 @@ const addRecipients = action$ =>
             })),
     );
 
+const addAttachment = action$ =>
+    action$.ofType(actions.ADD_ATTACHMENT).concatMap(action =>
+        api
+            .addAttachment(action.payload.attachment)
+            .then(result => ({
+                type: actions.ADD_ATTACHMENT_SUCCESS,
+                attachment: {
+                    id: result.id,
+                    name: action.payload.attachment.name,
+                },
+            }))
+            .catch(error => ({
+                type: actions.ADD_ATTACHMENT_ERROR,
+                payload: { error },
+            })),
+    );
+
 export default combineEpics(
     setDisplayTimeDiff,
     setSelectedMessageConversation,
@@ -362,4 +379,5 @@ export default combineEpics(
     replyMessage,
     deleteMessageConversations,
     addRecipients,
+    addAttachment,
 );

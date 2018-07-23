@@ -15,9 +15,11 @@ import RadioButton from 'material-ui/RadioButton';
 import * as actions from 'constants/actions';
 import history from 'utils/history';
 import SuggestionField from './SuggestionField';
+import AttachmentField from './AttachmentField';
 import { subheader } from '../styles/style';
 
 import { NEGATIVE } from '../constants/development';
+import Attachments from './Attachments';
 
 const find = require('lodash/find');
 
@@ -165,6 +167,7 @@ class CreateMessage extends Component {
                             floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
+                        <Attachments attachments={this.props.attachments} />
                         <CardActions>
                             <RaisedButton
                                 primary
@@ -185,6 +188,11 @@ class CreateMessage extends Component {
                                     history.push('/PRIVATE');
                                 }}
                             />
+                            <AttachmentField
+                                addAttachment={attachment => {
+                                    this.props.addAttachment(attachment);
+                                }}
+                            />
                         </CardActions>
                     </CardText>
                 </Card>
@@ -200,6 +208,7 @@ export default compose(
             subject: state.messaging.subject,
             input: state.messaging.input,
             recipients: state.messaging.recipients,
+            attachments: state.messaging.attachments,
         }),
         dispatch => ({
             sendMessage: (
@@ -236,6 +245,8 @@ export default compose(
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
                 }),
+            addAttachment: attachment =>
+                dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
         }),
         null,
         { pure: false },

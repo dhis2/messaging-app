@@ -32,6 +32,9 @@ export const initialState = {
     input: '',
     recipients: [],
 
+    // Attachments
+    attachments: [],
+
     // Snackbar
     snackMessage: '',
     onSnackActionClick: undefined,
@@ -270,6 +273,32 @@ function messageReducer(state = initialState, action) {
                 isInFeedbackRecipientGroup: action.payload.isInFeedbackRecipientGroup.authorized,
                 feedbackRecipientsId:
                     action.payload.isInFeedbackRecipientGroup.feedbackRecipientsId,
+            };
+
+        case actions.ADD_ATTACHMENT_SUCCESS:
+            return {
+                ...state,
+                attachments: state.attachments.map(
+                    attachment =>
+                        attachment.name === action.attachment.name
+                            ? {
+                                  id: action.attachment.id,
+                                  name: attachment.name,
+                                  size: attachment.size,
+                                  loading: false,
+                              }
+                            : attachment,
+                ),
+            };
+
+        case actions.ADD_ATTACHMENT:
+            return {
+                ...state,
+                attachments: state.attachments.concat({
+                    name: action.payload.attachment.name,
+                    size: action.payload.attachment.size,
+                    loading: true,
+                }),
             };
 
         default:

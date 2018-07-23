@@ -335,3 +335,21 @@ export const addRecipients = (users, userGroups, organisationUnits, messageConve
         .catch(error => {
             throw error;
         });
+
+export function createAttachment(attachment) {
+    let form = new FormData();
+    form.append('file', attachment);
+    return form;
+}
+
+export const addAttachment = attachment =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().post(
+                `messageConversations/attachments`,
+                createAttachment(attachment),
+            ),
+        )
+        .catch(error => {
+            throw error;
+        });
