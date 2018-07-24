@@ -30,10 +30,6 @@ class CreateMessage extends Component {
         };
     }
 
-    componentWillUnmount() {
-        this.wipeInput();
-    }
-
     subjectUpdate = (event, newValue) => {
         this.props.updateInputFields(newValue, this.props.input, this.props.recipients);
     };
@@ -85,6 +81,10 @@ class CreateMessage extends Component {
             this.props.input === '' ||
             (!this.state.isMessageFeedback && this.props.recipients.length === 0);
 
+        const discardDisabled =
+            this.props.subject === '' &&
+            this.props.input === '' &&
+            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
         return (
             <div
                 style={{
@@ -170,7 +170,7 @@ class CreateMessage extends Component {
                             />
                             <FlatButton
                                 label={i18n.t('Discard')}
-                                disabled={disabled}
+                                disabled={discardDisabled}
                                 onClick={() => {
                                     this.props.displaySnackMessage(
                                         i18n.t('Message discarded'),
