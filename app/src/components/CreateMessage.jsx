@@ -15,9 +15,11 @@ import RadioButton from 'material-ui/RadioButton';
 import * as actions from 'constants/actions';
 import history from 'utils/history';
 import SuggestionField from './SuggestionField';
+import AttachmentField from './AttachmentField';
 import { subheader } from '../styles/style';
 
 import { NEGATIVE } from '../constants/development';
+import Attachments from './Attachments';
 
 const find = require('lodash/find');
 
@@ -45,10 +47,6 @@ class CreateMessage extends Component {
         this.state = {
             isMessageFeedback: false,
         };
-    }
-
-    componentWillUnmount() {
-        this.wipeInput();
     }
 
     subjectUpdate = (event, newValue) => {
@@ -91,6 +89,7 @@ class CreateMessage extends Component {
 
     wipeInput = () => {
         this.props.updateInputFields('', '', []);
+        this.props.attachments.length > 0 && this.props.clearAttachments();
     };
 
     render() {
@@ -100,6 +99,11 @@ class CreateMessage extends Component {
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
+            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
+
+        const discardDisabled =
+            this.props.subject === '' &&
+            this.props.input === '' &&
             (!this.state.isMessageFeedback && this.props.recipients.length === 0);
 
         return (
@@ -165,6 +169,13 @@ class CreateMessage extends Component {
                             floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
+                        <Attachments
+                            dataDirection={'upload'}
+                            attachments={this.props.attachments}
+                            removeAttachment={attachment =>
+                                this.props.removeAttachment(attachment.id)
+                            }
+                        />
                         <CardActions>
                             <RaisedButton
                                 primary
@@ -174,7 +185,7 @@ class CreateMessage extends Component {
                             />
                             <FlatButton
                                 label={i18n.t('Discard')}
-                                disabled={disabled}
+                                disabled={discardDisabled}
                                 onClick={() => {
                                     this.props.displaySnackMessage(
                                         i18n.t('Message discarded'),
@@ -183,6 +194,11 @@ class CreateMessage extends Component {
                                         NEGATIVE,
                                     );
                                     history.push('/PRIVATE');
+                                }}
+                            />
+                            <AttachmentField
+                                addAttachment={attachment => {
+                                    this.props.addAttachment(attachment);
                                 }}
                             />
                         </CardActions>
@@ -200,6 +216,7 @@ export default compose(
             subject: state.messaging.subject,
             input: state.messaging.input,
             recipients: state.messaging.recipients,
+            attachments: state.messaging.attachments,
         }),
         dispatch => ({
             sendMessage: (
@@ -235,6 +252,13 @@ export default compose(
                 dispatch({
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
+                }),
+            addAttachment: attachment =>
+                dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
+            removeAttachment: attachmentId =>
+                dispatch({
+                    type: actions.REMOVE_ATTACHMENT,
+                    payload: { attachmentId },
                 }),
         }),
         null,

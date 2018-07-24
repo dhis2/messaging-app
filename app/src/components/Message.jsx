@@ -1,7 +1,10 @@
 import React from 'react';
 
 import Divider from 'material-ui/Divider';
+import Card from 'material-ui/Card/Card';
 import CardText from 'material-ui/Card/CardText';
+
+import Attachments from './Attachments';
 
 import i18n from 'd2-i18n';
 import Linkify from 'react-linkify';
@@ -27,7 +30,7 @@ const styles = {
         gridTemplateColumns: 'repeat(10, 1fr)',
     },
     cardText: {
-        gridArea: '2 / 1 / span 1 / span 10',
+        gridArea: '3 / 1 / span 1 / span 10',
         padding: '16px 0px 16px 0px',
         fontFamily,
         whiteSpace: 'pre-wrap',
@@ -51,7 +54,7 @@ const styles = {
     },
 };
 
-const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
+const Message = ({ displayTimeDiff, message, currentUser, lastMessage, downloadAttachment }) => {
     const fromTitle = message.sender
         ? currentUser && currentUser.id === message.sender.id
             ? 'me'
@@ -78,6 +81,13 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage }) => {
                                 : messageDate.format('MMM DD, YYYY HH:mm')}
                     </div>
                 </div>
+
+                <Attachments
+                    dataDirection={'download'}
+                    style={{ paddingLeft: '0px', gridArea: '2 / 1 / span 1 / span 10' }}
+                    attachments={message.attachments}
+                    downloadAttachment={downloadAttachment}
+                />
 
                 <CardText style={styles.cardText}>
                     <Linkify>{message.text}</Linkify>

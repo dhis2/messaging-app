@@ -8,6 +8,7 @@ import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
 const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
+const remove = require('lodash/remove');
 
 export const initialState = {
     // Message conversation
@@ -31,6 +32,9 @@ export const initialState = {
     subject: '',
     input: '',
     recipients: [],
+
+    // Attachments
+    attachments: [],
 
     // Snackbar
     snackMessage: '',
@@ -270,6 +274,47 @@ function messageReducer(state = initialState, action) {
                 isInFeedbackRecipientGroup: action.payload.isInFeedbackRecipientGroup.authorized,
                 feedbackRecipientsId:
                     action.payload.isInFeedbackRecipientGroup.feedbackRecipientsId,
+            };
+
+        case actions.ADD_ATTACHMENT_SUCCESS:
+            return {
+                ...state,
+                attachments: state.attachments.map(
+                    attachment =>
+                        attachment.name === action.attachment.name
+                            ? {
+                                  id: action.attachment.id,
+                                  name: attachment.name,
+                                  size: attachment.size,
+                                  loading: false,
+                              }
+                            : attachment,
+                ),
+            };
+
+        case actions.ADD_ATTACHMENT:
+            return {
+                ...state,
+                attachments: state.attachments.concat({
+                    name: action.payload.attachment.name,
+                    size: action.payload.attachment.size,
+                    loading: true,
+                }),
+            };
+
+        case actions.REMOVE_ATTACHMENT:
+            let oldAttachments = state.attachments;
+            remove(oldAttachments, attachment => attachment.id === action.payload.attachmentId);
+
+            return {
+                ...state,
+                attachments: oldAttachments,
+            };
+
+        case actions.CLEAR_ATTACHMENTS:
+            return {
+                ...state,
+                attachments: [],
             };
 
         default:

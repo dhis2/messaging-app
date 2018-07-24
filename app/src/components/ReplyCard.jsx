@@ -7,6 +7,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
+import AttachmentField from './AttachmentField';
+import Attachments from './Attachments';
+
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
@@ -38,6 +41,7 @@ class ReplyCard extends Component {
 
     wipeInput = () => {
         this.props.updateInputFields('', '', []);
+        this.props.attachments.length > 0 && this.props.clearAttachments();
         this.setState({
             inputError: false,
         });
@@ -68,6 +72,15 @@ class ReplyCard extends Component {
                         floatingLabelText={i18n.t('Message')}
                         onChange={this.texFieldUpdate}
                     />
+                    {!this.state.discardState && (
+                        <Attachments
+                            dataDirection={'upload'}
+                            attachments={this.props.attachments}
+                            removeAttachment={attachment =>
+                                this.props.removeAttachment(attachment.id)
+                            }
+                        />
+                    )}
 
                     <CardActions>
                         <RaisedButton
@@ -104,6 +117,12 @@ class ReplyCard extends Component {
                                 });
                             }}
                         />
+                        <AttachmentField
+                            addAttachment={attachment => {
+                                this.props.addAttachment(attachment);
+                            }}
+                        />
+                        )
                     </CardActions>
                 </CardText>
             </Card>
@@ -119,6 +138,7 @@ export default compose(
             messageTypes: state.messaging.messageTypes,
             input: state.messaging.input,
             isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+            attachments: state.messaging.attachments,
         }),
         dispatch => ({
             replyMessage: (message, internalReply, messageConversation, messageType) =>
@@ -143,7 +163,15 @@ export default compose(
                     type: actions.DISPLAY_SNACK_MESSAGE,
                     payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
                 }),
+            addAttachment: attachment =>
+                dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
+            removeAttachment: attachmentId =>
+                dispatch({
+                    type: actions.REMOVE_ATTACHMENT,
+                    payload: { attachmentId },
+                }),
         }),
+        null,
+        { pure: false },
     ),
-    pure,
 )(ReplyCard);

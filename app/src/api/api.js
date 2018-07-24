@@ -7,7 +7,7 @@ const initialMessageConversationFields =
     'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp';
 
 const messageConversationFields =
-    '*,assignee[id, displayName],messages[*,sender[id,displayName]],userMessages[user[id, displayName]]';
+    '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, size]],userMessages[user[id, displayName]]';
 
 const order = 'lastMessage:desc';
 export const getMessageConversations = (
@@ -139,7 +139,7 @@ export const getNrOfUnread = messageType =>
             throw error;
         });
 
-export const sendMessage = (subject, users, userGroups, organisationUnits, text, id) =>
+export const sendMessage = (subject, users, userGroups, organisationUnits, text, attachments, id) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post('messageConversations', {
@@ -148,6 +148,7 @@ export const sendMessage = (subject, users, userGroups, organisationUnits, text,
                 users,
                 userGroups,
                 organisationUnits,
+                attachments,
                 text,
             }),
         )
@@ -168,11 +169,12 @@ export const sendFeedbackMessage = (subject, text) =>
             throw error;
         });
 
-export const replyMessage = (message, internalReply, messageConversationId) =>
+export const replyMessage = (message, internalReply, attachments, id) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}?internal=${internalReply}`,
+                `messageConversations/${id}?internal=${internalReply}${attachments.length > 0 &&
+                    `&attachments=${attachments}`}`,
                 message,
                 {
                     headers: { 'Content-Type': 'text/plain' },
@@ -332,6 +334,48 @@ export const addRecipients = (users, userGroups, organisationUnits, messageConve
                 organisationUnits,
             }),
         )
+        .catch(error => {
+            throw error;
+        });
+
+export function createAttachment(attachment) {
+    let form = new FormData();
+    form.append('file', attachment);
+    return form;
+}
+
+export const addAttachment = attachment =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().post(
+                `messageConversations/attachments`,
+                createAttachment(attachment),
+            ),
+        )
+        .catch(error => {
+            throw error;
+        });
+
+export function createBlob(contents, format, compression) {
+    return URL.createObjectURL(new Blob([contents], { type: blobType(format, compression) }));
+}
+
+export function downloadBlob(url, filename) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('target', '_blank');
+    document.body.appendChild(link);
+    link.click();
+}
+
+export const downloadAttachment = (messageConversationId, messageId, attachmentId) =>
+    getD2Instance()
+        .then(instance => {
+            const baseUrl = instance.Api.getApi().baseUrl;
+            return downloadBlob(
+                `${baseUrl}/messageConversations/${messageConversationId}/${messageId}/attachments/${attachmentId}`,
+            );
+        })
         .catch(error => {
             throw error;
         });

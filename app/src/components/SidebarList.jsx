@@ -57,6 +57,9 @@ class SidebarList extends Component {
                                     messageType={messageType}
                                     onClick={() => {
                                         this.props.setSelectedMessageType(messageType.id);
+                                        this.props.updateInputFields('', '', []);
+                                        this.props.attachments.length > 0 &&
+                                            this.props.clearAttachments();
                                         history.push(`/${messageType.id}`);
                                     }}
                                     selectedMessageType={this.props.selectedMessageType}
