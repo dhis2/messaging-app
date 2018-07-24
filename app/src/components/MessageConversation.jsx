@@ -186,10 +186,18 @@ class MessageConversation extends Component {
                                 notification={notification}
                                 currentUser={this.state.currentUser}
                                 lastMessage={i + 1 === messages.length}
+                                downloadAttachment={attachment =>
+                                    this.props.downloadAttachment(
+                                        messageConversation.id,
+                                        message.id,
+                                        attachment.id,
+                                    )
+                                }
                             />
                         ))}
                     </Paper>
                     <ReplyCard
+                        {...this.props}
                         messageConversation={messageConversation}
                         gridArea={'2 / 1 / span 1 / span 2'}
                     />
@@ -223,7 +231,13 @@ export default compose(
                         messageType,
                     },
                 }),
+            downloadAttachment: (messageConversationId, messageId, attachmentId) =>
+                dispatch({
+                    type: actions.DOWNLOAD_ATTACHMENT,
+                    payload: { messageConversationId, messageId, attachmentId },
+                }),
         }),
+        null,
+        { pure: false },
     ),
-    pure,
 )(MessageConversation);

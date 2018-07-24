@@ -49,10 +49,6 @@ class CreateMessage extends Component {
         };
     }
 
-    componentWillUnmount() {
-        this.wipeInput();
-    }
-
     subjectUpdate = (event, newValue) => {
         this.props.updateInputFields(newValue, this.props.input, this.props.recipients);
     };
@@ -93,6 +89,7 @@ class CreateMessage extends Component {
 
     wipeInput = () => {
         this.props.updateInputFields('', '', []);
+        this.props.attachments.length > 0 && this.props.clearAttachments();
     };
 
     render() {
@@ -102,6 +99,11 @@ class CreateMessage extends Component {
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
+            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
+
+        const discardDisabled =
+            this.props.subject === '' &&
+            this.props.input === '' &&
             (!this.state.isMessageFeedback && this.props.recipients.length === 0);
 
         return (
@@ -167,7 +169,13 @@ class CreateMessage extends Component {
                             floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
-                        <Attachments attachments={this.props.attachments} />
+                        <Attachments
+                            dataDirection={'upload'}
+                            attachments={this.props.attachments}
+                            removeAttachment={attachment =>
+                                this.props.removeAttachment(attachment.id)
+                            }
+                        />
                         <CardActions>
                             <RaisedButton
                                 primary
@@ -177,7 +185,7 @@ class CreateMessage extends Component {
                             />
                             <FlatButton
                                 label={i18n.t('Discard')}
-                                disabled={disabled}
+                                disabled={discardDisabled}
                                 onClick={() => {
                                     this.props.displaySnackMessage(
                                         i18n.t('Message discarded'),
@@ -247,6 +255,11 @@ export default compose(
                 }),
             addAttachment: attachment =>
                 dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
+            removeAttachment: attachmentId =>
+                dispatch({
+                    type: actions.REMOVE_ATTACHMENT,
+                    payload: { attachmentId },
+                }),
         }),
         null,
         { pure: false },

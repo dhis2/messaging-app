@@ -102,6 +102,7 @@ class MessageConversationListItem extends Component {
             );
         }
         this.props.updateInputFields('', '', []);
+        this.props.attachments.length > 0 && this.props.clearAttachments();
         history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
     };
 
@@ -254,6 +255,7 @@ export default compose(
             messageFilter: state.messaging.messageFilter,
             statusFilter: state.messaging.statusFilter,
             priorityFilter: state.messaging.priorityFilter,
+            attachments: state.messaging.attachments,
         }),
         dispatch => ({
             setChecked: (messageConversation, selectedValue) =>
@@ -293,6 +295,7 @@ export default compose(
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
                 }),
+            clearAttachments: () => dispatch({ type: actions.CLEAR_ATTACHMENTS }),
         }),
         null,
         { pure: false },

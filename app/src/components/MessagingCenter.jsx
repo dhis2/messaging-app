@@ -155,7 +155,9 @@ class MessagingCenter extends Component {
                     setAutoRefresh={this.setAutoRefresh}
                 />
 
-                {id === 'create' && <CreateMessage wideview={this.state.wideview} />}
+                {id === 'create' && (
+                    <CreateMessage {...this.props} wideview={this.state.wideview} />
+                )}
 
                 {this.props.selectedMessageConversation === undefined &&
                     !(this.state.wideview && id === 'create') && (
@@ -176,6 +178,7 @@ class MessagingCenter extends Component {
                 {this.props.selectedMessageConversation && id !== 'create'
                     ? this.props.selectedMessageConversation !== undefined && (
                           <MessageConversation
+                              {...this.props}
                               messageConversation={this.props.selectedMessageConversation}
                               wideview={this.state.wideview}
                               disableLink
@@ -211,12 +214,6 @@ class MessagingCenter extends Component {
 export default compose(
     connect(
         state => {
-            const doUpdateInputFields =
-                (state.messaging.subject !== '' ||
-                    state.messaging.input !== '' ||
-                    state.messaging.recipients.length !== 0) &&
-                !state.messaging.selectedMessageConversation;
-
             return {
                 snackMessage: state.messaging.snackMessage,
                 messageTypes: state.messaging.messageTypes,
@@ -235,7 +232,7 @@ export default compose(
                 checkedOptions: state.messaging.checkedIds.length > 0,
                 loaded: state.messaging.loaded,
                 isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
-                doUpdateInputFields,
+                attachments: state.messaging.attachments,
             };
         },
         dispatch => ({
@@ -272,6 +269,7 @@ export default compose(
             setFilter: (filter, filterType) =>
                 dispatch({ type: actions.SET_FILTER, payload: { filter, filterType } }),
             setDisplayTimeDiff: () => dispatch({ type: SET_DISPLAY_TIME_DIFF }),
+            clearAttachments: () => dispatch({ type: actions.CLEAR_ATTACHMENTS }),
         }),
         null,
         { pure: false },

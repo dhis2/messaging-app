@@ -254,6 +254,7 @@ const sendMessage = (action$, store) =>
                 action.payload.userGroups,
                 action.payload.organisationUnits,
                 state.messaging.input,
+                state.messaging.attachments.map(attachment => attachment.id),
                 action.payload.messageConversationId,
             )
             .then(() => ({
@@ -282,12 +283,15 @@ const sendFeedbackMessage = (action$, store) =>
             }));
     });
 
-const replyMessage = action$ =>
-    action$.ofType(actions.REPLY_MESSAGE).concatMap(action =>
-        api
+const replyMessage = (action$, store) =>
+    action$.ofType(actions.REPLY_MESSAGE).concatMap(action => {
+        const state = store.getState();
+
+        return api
             .replyMessage(
                 action.payload.message,
                 action.payload.internalReply,
+                state.messaging.attachments.map(attachment => attachment.id),
                 action.payload.messageConversation.id,
             )
             .then(() => ({
@@ -301,8 +305,8 @@ const replyMessage = action$ =>
             .catch(error => ({
                 type: actions.REPLY_MESSAGE_ERROR,
                 payload: { error },
-            })),
-    );
+            }));
+    });
 
 const markMessageConversations = action$ =>
     action$.ofType(actions.MARK_MESSAGE_CONVERSATIONS).concatMap(action => {
@@ -367,6 +371,23 @@ const addAttachment = action$ =>
             })),
     );
 
+const downloadAttachment = action$ =>
+    action$.ofType(actions.DOWNLOAD_ATTACHMENT).concatMap(action =>
+        api
+            .downloadAttachment(
+                action.payload.messageConversationId,
+                action.payload.messageId,
+                action.payload.attachmentId,
+            )
+            .then(result => ({
+                type: actions.DOWNLOAD_ATTACHMENT_SUCCESS,
+            }))
+            .catch(error => ({
+                type: actions.DOWNLOAD_ATTACHMENT_ERROR,
+                payload: { error },
+            })),
+    );
+
 export default combineEpics(
     setDisplayTimeDiff,
     setSelectedMessageConversation,
@@ -380,4 +401,5 @@ export default combineEpics(
     deleteMessageConversations,
     addRecipients,
     addAttachment,
+    downloadAttachment,
 );

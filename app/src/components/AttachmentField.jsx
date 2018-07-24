@@ -31,7 +31,7 @@ const AttachmentField = ({ addAttachment }) => (
     >
         <input
             type="file"
-            onChange={() => addAttachment(this.input.files[0])}
+            onChange={() => this.input.files[0] !== undefined && addAttachment(this.input.files[0])}
             ref={x => (this.input = x)}
             style={styles.uploadInput}
         />

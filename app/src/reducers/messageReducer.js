@@ -8,6 +8,7 @@ import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development';
 
 const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
+const remove = require('lodash/remove');
 
 export const initialState = {
     // Message conversation
@@ -299,6 +300,21 @@ function messageReducer(state = initialState, action) {
                     size: action.payload.attachment.size,
                     loading: true,
                 }),
+            };
+
+        case actions.REMOVE_ATTACHMENT:
+            let oldAttachments = state.attachments;
+            remove(oldAttachments, attachment => attachment.id === action.payload.attachmentId);
+
+            return {
+                ...state,
+                attachments: oldAttachments,
+            };
+
+        case actions.CLEAR_ATTACHMENTS:
+            return {
+                ...state,
+                attachments: [],
             };
 
         default:

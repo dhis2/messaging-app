@@ -1,64 +1,86 @@
 import React from 'react';
 
+import i18n from 'd2-i18n';
+
+import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader/Subheader';
 
-import CircularProgress from 'material-ui/CircularProgress';
+import LinearProgress from 'material-ui/LinearProgress';
+import IconButton from 'material-ui/IconButton';
+import Clear from 'material-ui-icons/Clear';
+import Download from 'material-ui-icons/CloudDownload';
+
+import theme from '../styles/theme';
 
 const styles = {
-    attachments: {
-        paddingLeft: '8px',
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
+    attachments(style) {
+        return {
+            paddingLeft: '8px',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            marginTop: '15px',
+            ...style,
+        };
     },
     attachment: {
         height: '40px',
-        width: '200px',
-        padding: '5px',
         marginRight: '5px',
-        borderStyle: 'solid',
-        borderWidth: '1px',
-        borderColor: '#c8c8c8',
         display: 'grid',
         gridTemplateColumns: 'repeat(10, 1fr)',
         gridTemplateRows: 'repeat(2, 1fr)',
     },
-    subheader_filename: {
-        gridArea: '1 / 1 / span 1 / span 8',
-        fontSize: '14px',
-        lineHeight: '20px',
-        padding: '0px',
-        color: 'black',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    },
     subheader_size: {
         gridArea: '2 / 1 / span 1 / span 8',
+        textAlign: 'left',
         fontSize: '12px',
         lineHeight: '16px',
         padding: '0px',
     },
-    rightIcon: {
-        gridArea: '1 / 9 / span 2 / span 2',
+    progress: {
+        gridArea: '2 / 1 / span 1 / span 10',
+        bottom: '-35px',
     },
 };
 
-const Attachments = ({ attachments }) => (
-    <div style={styles.attachments}>
-        {attachments.map(attachment => <Attachment attachment={attachment} />)}
+const Attachments = ({
+    dataDirection,
+    attachments,
+    style,
+    removeAttachment,
+    downloadAttachment,
+}) => (
+    <div style={styles.attachments(style)}>
+        {attachments.map(attachment => (
+            <Attachment
+                key={attachment.name}
+                dataDirection={dataDirection}
+                attachment={attachment}
+                removeAttachment={removeAttachment}
+                downloadAttachment={downloadAttachment}
+            />
+        ))}
     </div>
 );
 
-const Attachment = ({ attachment }) => {
+const Attachment = ({ dataDirection, attachment, removeAttachment, downloadAttachment }) => {
     return (
-        <div key={attachment.name} style={styles.attachment}>
-            <Subheader style={styles.subheader_filename}> {attachment.name} </Subheader>
-            <Subheader style={styles.subheader_size}>{`${parseFloat(
-                parseInt(attachment.size) / 1000000,
-            ).toFixed(2)} MB`}</Subheader>
-            {attachment.loading && <CircularProgress style={styles.rightIcon} />}
-        </div>
+        <FlatButton
+            style={styles.attachment}
+            backgroundColor={theme.palette.accent2Color}
+            label={`${attachment.name} (${parseFloat(parseInt(attachment.size) / 1000000).toFixed(
+                2,
+            )} MB)`}
+            labelPosition="after"
+            onClick={() => {
+                dataDirection === 'download'
+                    ? downloadAttachment(attachment)
+                    : removeAttachment(attachment);
+            }}
+            icon={dataDirection === 'download' ? <Download /> : <Clear />}
+        >
+            {attachment.loading && <LinearProgress style={styles.progress} mode="indeterminate" />}
+        </FlatButton>
     );
 };
 
