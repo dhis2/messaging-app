@@ -87,6 +87,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage, downloadA
                     style={{ paddingLeft: '0px', gridArea: '2 / 1 / span 1 / span 10' }}
                     attachments={message.attachments}
                     downloadAttachment={downloadAttachment}
+                    cancelAttachment={this.props.cancelAttachment}
                 />
 
                 <CardText style={styles.cardText}>

@@ -79,10 +79,11 @@ class ReplyCard extends Component {
                             removeAttachment={attachment =>
                                 this.props.removeAttachment(attachment.id)
                             }
+                            cancelAttachment={this.props.cancelAttachment}
                         />
                     )}
 
-                    <CardActions>
+                    <CardActions style={{ paddingLeft: '0px' }}>
                         <RaisedButton
                             primary
                             label={i18n.t('Reply')}
@@ -170,6 +171,8 @@ export default compose(
                     type: actions.REMOVE_ATTACHMENT,
                     payload: { attachmentId },
                 }),
+            cancelAttachment: attachmentName =>
+                dispatch({ type: actions.CANCEL_ATTACHMENT, payload: { attachmentName } }),
         }),
         null,
         { pure: false },
