@@ -5,10 +5,13 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-07-12T07:58:52.941Z\n"
-"PO-Revision-Date: 2018-07-12T07:58:52.941Z\n"
+"POT-Creation-Date: 2018-07-25T10:14:39.583Z\n"
+"PO-Revision-Date: 2018-07-25T10:14:39.583Z\n"
 
 msgid "Assignee"
+msgstr ""
+
+msgid "Upload attachment"
 msgstr ""
 
 msgid "Create"

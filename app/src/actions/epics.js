@@ -6,6 +6,7 @@ import log from 'loglevel';
 import * as api from 'api/api';
 
 import { Observable } from 'rxjs/Rx';
+import { filter } from '../../../node_modules/rxjs/operator/filter';
 
 const moment = require('moment');
 
@@ -355,20 +356,29 @@ const addRecipients = action$ =>
     );
 
 const addAttachment = action$ =>
-    action$.ofType(actions.ADD_ATTACHMENT).concatMap(action =>
-        api
-            .addAttachment(action.payload.attachment)
-            .then(result => ({
-                type: actions.ADD_ATTACHMENT_SUCCESS,
-                attachment: {
-                    id: result.id,
-                    name: action.payload.attachment.name,
-                },
-            }))
-            .catch(error => ({
-                type: actions.ADD_ATTACHMENT_ERROR,
-                payload: { error },
-            })),
+    action$.ofType(actions.ADD_ATTACHMENT).mergeMap(action =>
+        Observable.from(
+            api
+                .addAttachment(action.payload.attachment)
+                .then(result => ({
+                    type: actions.ADD_ATTACHMENT_SUCCESS,
+                    attachment: {
+                        id: result.id,
+                        name: action.payload.attachment.name,
+                    },
+                }))
+                .catch(error => ({
+                    type: actions.ADD_ATTACHMENT_ERROR,
+                    payload: { error },
+                })),
+        ).takeUntil(
+            action$
+                .ofType(actions.CANCEL_ATTACHMENT)
+                .filter(
+                    cancelAction =>
+                        cancelAction.payload.attachmentName === action.payload.attachment.name,
+                ),
+        ),
     );
 
 const downloadAttachment = action$ =>

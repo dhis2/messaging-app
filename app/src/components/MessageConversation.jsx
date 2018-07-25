@@ -193,6 +193,7 @@ class MessageConversation extends Component {
                                         attachment.id,
                                     )
                                 }
+                                cancelAttachment={this.props.cancelAttachment}
                             />
                         ))}
                     </Paper>
@@ -236,6 +237,8 @@ export default compose(
                     type: actions.DOWNLOAD_ATTACHMENT,
                     payload: { messageConversationId, messageId, attachmentId },
                 }),
+            cancelAttachment: attachmentName =>
+                dispatch({ type: actions.CANCEL_ATTACHMENT, payload: { attachmentName } }),
         }),
         null,
         { pure: false },

@@ -1,12 +1,8 @@
 import React from 'react';
 
-import i18n from 'd2-i18n';
-
 import FlatButton from 'material-ui/FlatButton';
-import Subheader from 'material-ui/Subheader/Subheader';
 
 import LinearProgress from 'material-ui/LinearProgress';
-import IconButton from 'material-ui/IconButton';
 import Clear from 'material-ui-icons/Clear';
 import Download from 'material-ui-icons/CloudDownload';
 
@@ -15,7 +11,6 @@ import theme from '../styles/theme';
 const styles = {
     attachments(style) {
         return {
-            paddingLeft: '8px',
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -26,6 +21,7 @@ const styles = {
     attachment: {
         height: '40px',
         marginRight: '5px',
+        marginBottom: '5px',
         display: 'grid',
         gridTemplateColumns: 'repeat(10, 1fr)',
         gridTemplateRows: 'repeat(2, 1fr)',
@@ -49,6 +45,7 @@ const Attachments = ({
     style,
     removeAttachment,
     downloadAttachment,
+    cancelAttachment,
 }) => (
     <div style={styles.attachments(style)}>
         {attachments.map(attachment => (
@@ -58,12 +55,19 @@ const Attachments = ({
                 attachment={attachment}
                 removeAttachment={removeAttachment}
                 downloadAttachment={downloadAttachment}
+                cancelAttachment={cancelAttachment}
             />
         ))}
     </div>
 );
 
-const Attachment = ({ dataDirection, attachment, removeAttachment, downloadAttachment }) => {
+const Attachment = ({
+    dataDirection,
+    attachment,
+    removeAttachment,
+    downloadAttachment,
+    cancelAttachment,
+}) => {
     return (
         <FlatButton
             style={styles.attachment}
@@ -75,7 +79,9 @@ const Attachment = ({ dataDirection, attachment, removeAttachment, downloadAttac
             onClick={() => {
                 dataDirection === 'download'
                     ? downloadAttachment(attachment)
-                    : removeAttachment(attachment);
+                    : attachment.loading
+                        ? cancelAttachment(attachment.name)
+                        : removeAttachment(attachment);
             }}
             icon={dataDirection === 'download' ? <Download /> : <Clear />}
         >

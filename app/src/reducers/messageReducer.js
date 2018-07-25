@@ -45,6 +45,7 @@ export const initialState = {
 
 function messageReducer(state = initialState, action) {
     const stateMessageTypes = state.messageTypes;
+    let oldAttachments = state.attachments;
 
     switch (action.type) {
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
@@ -303,8 +304,15 @@ function messageReducer(state = initialState, action) {
             };
 
         case actions.REMOVE_ATTACHMENT:
-            let oldAttachments = state.attachments;
             remove(oldAttachments, attachment => attachment.id === action.payload.attachmentId);
+
+            return {
+                ...state,
+                attachments: oldAttachments,
+            };
+
+        case actions.CANCEL_ATTACHMENT:
+            remove(oldAttachments, attachment => attachment.name === action.payload.attachmentName);
 
             return {
                 ...state,
