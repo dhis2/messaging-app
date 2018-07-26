@@ -305,5 +305,4 @@ export default compose(
                 }),
         }),
     ),
-    pure,
 )(MessageConversation);
