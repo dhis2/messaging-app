@@ -54,7 +54,14 @@ const styles = {
     },
 };
 
-const Message = ({ displayTimeDiff, message, currentUser, lastMessage, downloadAttachment }) => {
+const Message = ({
+    displayTimeDiff,
+    message,
+    currentUser,
+    lastMessage,
+    downloadAttachment,
+    cancelAttachment,
+}) => {
     const fromTitle = message.sender
         ? currentUser && currentUser.id === message.sender.id
             ? 'me'
@@ -87,7 +94,7 @@ const Message = ({ displayTimeDiff, message, currentUser, lastMessage, downloadA
                     style={{ paddingLeft: '0px', gridArea: '2 / 1 / span 1 / span 10' }}
                     attachments={message.attachments}
                     downloadAttachment={downloadAttachment}
-                    cancelAttachment={this.props.cancelAttachment}
+                    cancelAttachment={cancelAttachment}
                 />
 
                 <CardText style={styles.cardText}>
