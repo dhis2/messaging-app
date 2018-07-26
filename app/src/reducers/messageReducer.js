@@ -293,6 +293,16 @@ function messageReducer(state = initialState, action) {
                 ),
             };
 
+        case actions.ADD_ATTACHMENT_ERROR:
+            remove(oldAttachments, attachment => attachment.id === action.payload.attachmentId);
+
+            return {
+                ...state,
+                attachments: oldAttachments,
+                snackMessage: action.payload.error.message,
+                snackType: NEGATIVE,
+            };
+
         case actions.ADD_ATTACHMENT:
             return {
                 ...state,
