@@ -1,6 +1,6 @@
 {
   "name": "messaging-app",
-  "version": "30.0.0",
+  "version": "30.0.1",
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
