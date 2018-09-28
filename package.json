@@ -9,14 +9,12 @@
     "test": "jest",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
-    "deploy": "deploy-build",
     "extract-pot": "d2-i18n-extract -p app/src/ -o i18n/",
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./app/src/locales/",
     "prestart": "npm run localize && d2-manifest package.json ./public/manifest.webapp",
     "lint": "eslint src"
   },
   "devDependencies": {
-    "@dhis2/deploy-build": "^1.0.4",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^23.0.1",
