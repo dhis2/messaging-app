@@ -9,7 +9,6 @@
     "test": "jest",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
-    "deploy": "mvn clean deploy",
     "extract-pot": "d2-i18n-extract -p app/src/ -o i18n/",
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./app/src/locales/",
     "prestart": "npm run localize && d2-manifest package.json ./public/manifest.webapp",
