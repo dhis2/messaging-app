@@ -18,15 +18,15 @@ module.exports = {
         }),
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 loaders: 'babel-loader',
                 exclude: /node_modules/,
             },
             {
-                test: /\.css$/,
-                loaders: ['style-loader', 'css-loader'],
+                test: /\.less$/,
+                loaders: ['style-loader', 'css-loader', 'less-loader'],
             },
         ],
     },

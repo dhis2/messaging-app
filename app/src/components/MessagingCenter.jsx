@@ -137,7 +137,7 @@ class MessagingCenter extends Component {
                 : false) && this.props.isInFeedbackRecipientGroup;
 
         return (
-            <div style={grid}>
+            <div style={grid} className={'test'}>
                 <Toolbar
                     {...this.props}
                     id={id}

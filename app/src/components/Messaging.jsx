@@ -15,6 +15,8 @@ import history from 'utils/history';
 import theme from '../styles/theme';
 import store from '../store';
 
+import './index.less';
+
 const ContentLoader = () => (
     <Router history={history}>
         <div>

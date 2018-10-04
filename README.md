@@ -5,7 +5,7 @@ Messaging app for DHIS2.
 
 
 In the project directory, you can run:
-### `yarn install`
+### `yarn`
 
 Installs the app and all necessary dependencies.
 
