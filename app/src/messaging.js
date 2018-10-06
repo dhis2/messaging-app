@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import Messaging from 'components/Messaging';
+import Messaging from 'components/Messaging/Messaging';
 import { BASE_URL } from 'constants/development';
 
 import { init, getManifest, getUserSettings } from 'd2/lib/d2';

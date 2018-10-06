@@ -10,16 +10,16 @@ import i18n from 'd2-i18n';
 import * as api from 'api/api';
 import * as actions from 'constants/actions';
 
-import theme from '../styles/theme';
-import { grid, subheader } from '../styles/style';
+import theme from 'styles/theme';
+import { grid, subheader } from 'styles/style';
 
-import SidebarList from './SidebarList';
-import MessageConversation from './MessageConversation';
-import MessageConversationList from './MessageConversationList';
-import CreateMessage from './CreateMessage';
-import Toolbar from './Toolbar';
+import MessageConversation from 'components/MessageConversation/MessageConversation';
+import SidebarList from 'components/List/SidebarList';
+import MessageConversationList from 'components/List/MessageConversationList';
+import CreateMessage from 'components/MessageConversation/CreateMessage';
+import Toolbar from 'components/Common/Toolbar';
 
-import { SET_DISPLAY_TIME_DIFF } from '../constants/actions';
+import { SET_DISPLAY_TIME_DIFF } from 'constants/actions';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
 const autoRefreshTime = 300000;
@@ -137,7 +137,7 @@ class MessagingCenter extends Component {
                 : false) && this.props.isInFeedbackRecipientGroup;
 
         return (
-            <div style={grid}>
+            <div style={grid} className={'test'}>
                 <Toolbar
                     {...this.props}
                     id={id}

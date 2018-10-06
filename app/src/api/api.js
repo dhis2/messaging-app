@@ -7,7 +7,7 @@ const initialMessageConversationFields =
     'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp';
 
 const messageConversationFields =
-    '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, size]],userMessages[user[id, displayName]]';
+    '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, contentLength]],userMessages[user[id, displayName]]';
 
 const order = 'lastMessage:desc';
 export const getMessageConversations = (
@@ -348,7 +348,7 @@ export const addAttachment = attachment =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post(
-                `messageConversations/attachments`,
+                '/fileResources?domain=MESSAGE_ATTACHMENT',
                 createAttachment(attachment),
             ),
         )

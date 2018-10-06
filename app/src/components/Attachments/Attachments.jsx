@@ -6,7 +6,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import Clear from 'material-ui-icons/Clear';
 import Download from 'material-ui-icons/CloudDownload';
 
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
 const styles = {
     attachments(style) {
@@ -72,9 +72,9 @@ const Attachment = ({
         <FlatButton
             style={styles.attachment}
             backgroundColor={theme.palette.accent2Color}
-            label={`${attachment.name} (${parseFloat(parseInt(attachment.size) / 1000000).toFixed(
-                2,
-            )} MB)`}
+            label={`${attachment.name} (${parseFloat(
+                parseInt(attachment.contentLength) / 1000000,
+            ).toFixed(2)} MB)`}
             labelPosition="after"
             onClick={() => {
                 dataDirection === 'download'

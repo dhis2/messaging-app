@@ -11,8 +11,8 @@ import i18n from 'd2-i18n';
 import * as actions from 'constants/actions';
 import history from 'utils/history';
 
-import MessageTypeItem from './MessageTypeItem';
-import theme from '../styles/theme';
+import MessageTypeItem from 'components/List/MessageTypeItem';
+import theme from 'styles/theme';
 
 const moment = require('moment');
 

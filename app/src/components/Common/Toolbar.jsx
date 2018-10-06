@@ -21,11 +21,11 @@ import i18n from 'd2-i18n';
 
 import history from 'utils/history';
 
-import { grid } from '../styles/style';
-import theme from '../styles/theme';
+import { grid } from 'styles/style';
+import theme from 'styles/theme';
 
-import extendedChoices from '../constants/extendedChoices';
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker';
+import extendedChoices from 'constants/extendedChoices';
+import ToolbarExtendedChoicePicker from 'components/Common/ToolbarExtendedChoicePicker';
 
 const headerHight = '48px';
 const searchDelay = 300;

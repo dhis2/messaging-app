@@ -4,14 +4,14 @@ import Divider from 'material-ui/Divider';
 import Card from 'material-ui/Card/Card';
 import CardText from 'material-ui/Card/CardText';
 
-import Attachments from './Attachments';
+import Attachments from 'components/Attachments/Attachments';
 
 import i18n from 'd2-i18n';
 import Linkify from 'react-linkify';
 
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
-import { fontFamily } from '../constants/development';
+import { fontFamily } from 'constants/development';
 
 const moment = require('moment');
 

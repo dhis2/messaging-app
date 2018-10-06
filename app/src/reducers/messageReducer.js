@@ -286,7 +286,7 @@ function messageReducer(state = initialState, action) {
                             ? {
                                   id: action.attachment.id,
                                   name: attachment.name,
-                                  size: attachment.size,
+                                  contentLength: attachment.contentLength,
                                   loading: false,
                               }
                             : attachment,
@@ -308,7 +308,7 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 attachments: state.attachments.concat({
                     name: action.payload.attachment.name,
-                    size: action.payload.attachment.size,
+                    contentLength: action.payload.attachment.size,
                     loading: true,
                 }),
             };

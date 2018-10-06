@@ -8,10 +8,10 @@ import CircularProgress from 'material-ui/CircularProgress';
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
-import { messagePanelContainer, grid } from '../styles/style';
-import theme from '../styles/theme';
-import ListItemHeader from './ListItemHeader';
-import MessageConversationListItem from './MessageConversationListItem';
+import { messagePanelContainer, grid } from 'styles/style';
+import theme from 'styles/theme';
+import ListItemHeader from 'components/List/ListItemHeader';
+import MessageConversationListItem from 'components/List/MessageConversationListItem';
 
 const uniqWith = require('lodash/uniqWith');
 const isEqual = require('lodash/isEqual');

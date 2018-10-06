@@ -14,12 +14,12 @@ import RadioButton from 'material-ui/RadioButton';
 
 import * as actions from 'constants/actions';
 import history from 'utils/history';
-import SuggestionField from './SuggestionField';
-import AttachmentField from './AttachmentField';
-import { subheader } from '../styles/style';
+import SuggestionField from 'components/Common/SuggestionField';
+import AttachmentField from 'components/Attachments/AttachmentField';
+import { subheader } from 'styles/style';
 
-import { NEGATIVE } from '../constants/development';
-import Attachments from './Attachments';
+import { NEGATIVE } from 'constants/development';
+import Attachments from 'components/Attachments/Attachments';
 
 const find = require('lodash/find');
 

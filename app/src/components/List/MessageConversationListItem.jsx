@@ -11,9 +11,9 @@ import i18n from 'd2-i18n';
 
 import history from 'utils/history';
 import * as actions from 'constants/actions';
-import ExtendedChoiceLabel from './ExtendedChoiceLabel';
-import theme from '../styles/theme';
-import { fontFamily } from '../constants/development';
+import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel';
+import theme from 'styles/theme';
+import { fontFamily } from 'constants/development';
 
 const find = require('lodash/find');
 const moment = require('moment');
