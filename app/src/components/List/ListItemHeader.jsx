@@ -9,8 +9,8 @@ import Paper from 'material-ui/Paper';
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
-import theme from '../styles/theme';
-import { fontFamily } from '../constants/development';
+import theme from 'styles/theme';
+import { fontFamily } from 'constants/development';
 
 const fontSize = '16px';
 

@@ -7,14 +7,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 
-import AttachmentField from './AttachmentField';
-import Attachments from './Attachments';
+import AttachmentField from 'components/Attachments/AttachmentField';
+import Attachments from 'components/Attachments/Attachments';
 
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
 
-import { NEGATIVE } from '../constants/development';
+import { NEGATIVE } from 'constants/development';
 
 class ReplyCard extends Component {
     constructor(props) {

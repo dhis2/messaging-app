@@ -6,7 +6,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import Clear from 'material-ui-icons/Clear';
 import Download from 'material-ui-icons/CloudDownload';
 
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
 const styles = {
     attachments(style) {

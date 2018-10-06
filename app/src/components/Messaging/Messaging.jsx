@@ -8,12 +8,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
-import MessagingCenter from 'components/MessagingCenter';
-import CustomSnackBar from 'components/CustomSnackBar';
+import MessagingCenter from 'components/MessagingCenter/MessagingCenter';
+import CustomSnackBar from 'components/Common/CustomSnackBar';
 import history from 'utils/history';
 
-import theme from '../styles/theme';
-import store from '../store';
+import theme from 'styles/theme';
+import store from '../../store';
 
 import './index.less';
 

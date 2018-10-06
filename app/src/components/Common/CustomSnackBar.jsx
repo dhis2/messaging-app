@@ -5,7 +5,7 @@ import Snackbar from 'material-ui/Snackbar';
 import * as actions from 'constants/actions';
 import { compose, pure } from 'recompose';
 
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
 const DEFAULT_MESSAGE_DURATION = 4000;
 const contentColorStyle = {

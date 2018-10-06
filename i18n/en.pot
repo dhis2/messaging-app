@@ -5,13 +5,28 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-07-25T10:14:39.583Z\n"
-"PO-Revision-Date: 2018-07-25T10:14:39.583Z\n"
+"POT-Creation-Date: 2018-10-06T10:10:15.367Z\n"
+"PO-Revision-Date: 2018-10-06T10:10:15.367Z\n"
 
 msgid "Assignee"
 msgstr ""
 
 msgid "Upload attachment"
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Date"
 msgstr ""
 
 msgid "Create"
@@ -29,9 +44,6 @@ msgstr ""
 msgid "Feedback message"
 msgstr ""
 
-msgid "Subject"
-msgstr ""
-
 msgid "Message"
 msgstr ""
 
@@ -42,18 +54,6 @@ msgid "Discard"
 msgstr ""
 
 msgid "Message discarded"
-msgstr ""
-
-msgid "Sender"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Priority"
-msgstr ""
-
-msgid "Date"
 msgstr ""
 
 msgid "me"
@@ -71,9 +71,6 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-msgid "Select a message"
-msgstr ""
-
 msgid "Reply"
 msgstr ""
 
@@ -81,6 +78,9 @@ msgid "Internal reply"
 msgstr ""
 
 msgid "Reply discarded"
+msgstr ""
+
+msgid "Select a message"
 msgstr ""
 
 msgid "Auto refresh"

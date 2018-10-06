@@ -18,13 +18,13 @@ import Paper from 'material-ui/Paper';
 
 import i18n from 'd2-i18n';
 
-import Message from './Message';
-import ReplyCard from './ReplyCard';
-import SuggestionField from './SuggestionField';
-import ExtendedChoiceLabel from './ExtendedChoiceLabel';
-import { styles } from '../styles/messageConversationStyles';
+import Message from 'components/MessageConversation/Message';
+import ReplyCard from 'components/MessageConversation/ReplyCard';
+import SuggestionField from 'components/Common/SuggestionField';
+import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel';
+import { styles } from 'styles/messageConversationStyles';
 
-import theme from '../styles/theme';
+import theme from 'styles/theme';
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT'];
 const maxParticipantsDisplay = 30;
