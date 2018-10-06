@@ -72,9 +72,9 @@ const Attachment = ({
         <FlatButton
             style={styles.attachment}
             backgroundColor={theme.palette.accent2Color}
-            label={`${attachment.name} (${parseFloat(parseInt(attachment.size) / 1000000).toFixed(
-                2,
-            )} MB)`}
+            label={`${attachment.name} (${parseFloat(
+                parseInt(attachment.contentLength) / 1000000,
+            ).toFixed(2)} MB)`}
             labelPosition="after"
             onClick={() => {
                 dataDirection === 'download'

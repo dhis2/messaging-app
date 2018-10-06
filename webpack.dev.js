@@ -3,7 +3,6 @@ const webpack = require('webpack');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
-    mode: 'development',
     output: {
         publicPath: '/',
     },

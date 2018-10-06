@@ -41,7 +41,7 @@ class CustomSnackBar extends Component {
         return (
             <Snackbar
                 open={this.props.message !== '' && this.state.show}
-                message={this.props.message}
+                message={this.props.message || 'Missing snackbar message'}
                 autoHideDuration={DEFAULT_MESSAGE_DURATION}
                 onRequestClose={this.closeMessage}
                 action={this.props.onSnackActionClick && 'undo'}
@@ -61,12 +61,14 @@ class CustomSnackBar extends Component {
 
 export default compose(
     connect(
-        state => ({
-            message: state.messaging.snackMessage,
-            type: state.messaging.snackType,
-            onSnackActionClick: state.messaging.onSnackActionClick,
-            onSnackRequestClose: state.messaging.onSnackRequestClose,
-        }),
+        state => {
+            return {
+                message: state.messaging.snackMessage,
+                type: state.messaging.snackType,
+                onSnackActionClick: state.messaging.onSnackActionClick,
+                onSnackRequestClose: state.messaging.onSnackRequestClose,
+            };
+        },
         dispatch => ({
             clearSnackMessage: () => dispatch({ type: actions.CLEAR_SNACK_MESSAGE }),
         }),

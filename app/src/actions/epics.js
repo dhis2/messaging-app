@@ -254,7 +254,7 @@ const sendMessage = (action$, store) =>
                 action.payload.userGroups,
                 action.payload.organisationUnits,
                 state.messaging.input,
-                state.messaging.attachments.map(attachment => attachment.id),
+                state.messaging.attachments,
                 action.payload.messageConversationId,
             )
             .then(() => ({
@@ -362,8 +362,9 @@ const addAttachment = action$ =>
                 .then(result => ({
                     type: actions.ADD_ATTACHMENT_SUCCESS,
                     attachment: {
-                        id: result.id,
+                        id: result.response.fileResource.id,
                         name: action.payload.attachment.name,
+                        contentLength: result.response.fileResource.contentLength,
                     },
                 }))
                 .catch(error => ({
