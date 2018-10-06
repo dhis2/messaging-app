@@ -10,6 +10,10 @@ module.exports = merge(common, {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
         }),
+        new webpack.optimize.UglifyJsPlugin({
+            minimize: true,
+            comments: false,
+        }),
         new CleanWebpackPlugin(['build']),
 
         // Only bundle english locales for moment
@@ -21,15 +25,4 @@ module.exports = merge(common, {
             },
         ]),
     ],
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                commons: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendor',
-                    chunks: 'all',
-                },
-            },
-        },
-    },
 });
