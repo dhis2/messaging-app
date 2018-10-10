@@ -173,8 +173,9 @@ export const replyMessage = (message, internalReply, attachments, id) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post(
-                `messageConversations/${id}?internal=${internalReply}${attachments.length > 0 &&
-                    `&attachments=${attachments}`}`,
+                `messageConversations/${id}?internal=${internalReply}${
+                    attachments.length > 0 ? `&attachments=${attachments}` : ''
+                }`,
                 message,
                 {
                     headers: { 'Content-Type': 'text/plain' },

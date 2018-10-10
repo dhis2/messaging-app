@@ -16,10 +16,11 @@ import * as actions from 'constants/actions';
 import history from 'utils/history';
 import SuggestionField from 'components/Common/SuggestionField';
 import AttachmentField from 'components/Attachments/AttachmentField';
-import { subheader } from 'styles/style';
 
 import { NEGATIVE } from 'constants/development';
 import Attachments from 'components/Attachments/Attachments';
+
+import { subheader } from 'styles/style';
 
 const find = require('lodash/find');
 

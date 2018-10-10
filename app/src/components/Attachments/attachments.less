@@ -1,0 +1,35 @@
+.attachment {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+
+    &__button {
+        height: 40px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    &__progress {
+        grid-area: 2 e("/") 1 e("/") span 1 e("/") span 10;
+        bottom: -35px;
+    }
+
+    &__upload-button {
+        vertical-align: middle;
+
+        &--input {
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+        }
+    }
+}

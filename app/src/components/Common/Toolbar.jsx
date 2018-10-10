@@ -21,7 +21,6 @@ import i18n from 'd2-i18n';
 
 import history from 'utils/history';
 
-import { grid } from 'styles/style';
 import theme from 'styles/theme';
 
 import extendedChoices from 'constants/extendedChoices';
@@ -35,7 +34,7 @@ const styles = {
         return {
             gridArea: '1 / 1 / span 1 / span 10',
             display: 'grid',
-            gridTemplateColumns: grid.gridTemplateColumns,
+            gridTemplateColumns: 'repeat(10, 1fr)',
             backgroundColor: checkedOptions ? theme.palette.blue50 : theme.palette.accent2Color,
             zIndex: 10,
         };
