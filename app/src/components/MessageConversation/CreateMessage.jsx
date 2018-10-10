@@ -20,6 +20,8 @@ import AttachmentField from 'components/Attachments/AttachmentField';
 import { NEGATIVE } from 'constants/development';
 import Attachments from 'components/Attachments/Attachments';
 
+import { subheader } from 'styles/style';
+
 const find = require('lodash/find');
 
 const styles = {
@@ -107,7 +109,7 @@ class CreateMessage extends Component {
 
         return (
             <div style={styles.canvas(gridArea)}>
-                <Subheader className={'messaging__subheader'}> {i18n.t('Create')}</Subheader>
+                <Subheader style={subheader}> {i18n.t('Create')}</Subheader>
                 <Card>
                     <CardText>
                         <SuggestionField

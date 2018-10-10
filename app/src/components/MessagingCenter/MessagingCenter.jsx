@@ -19,6 +19,7 @@ import CreateMessage from 'components/MessageConversation/CreateMessage';
 import Toolbar from 'components/Common/Toolbar';
 
 import { SET_DISPLAY_TIME_DIFF } from 'constants/actions';
+import { subheader } from 'styles/style';
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
 const autoRefreshTime = 300000;
@@ -187,9 +188,7 @@ class MessagingCenter extends Component {
                     : !this.state.wideview &&
                       id !== 'create' && (
                           <div className={'messaging-center__no-message-selected'}>
-                              <Subheader className={'messaging__subheader'}>
-                                  {i18n.t('Select a message')}
-                              </Subheader>
+                              <Subheader style={subheader}>{i18n.t('Select a message')}</Subheader>
                               <MailIcon
                                   style={{
                                       color: theme.palette.primary1Color,

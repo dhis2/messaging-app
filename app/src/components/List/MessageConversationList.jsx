@@ -8,7 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import i18n from 'd2-i18n';
 
 import * as actions from 'constants/actions';
-import { messagePanelContainer, grid } from 'styles/style';
+import { messagePanelContainer } from 'styles/style';
 import theme from 'styles/theme';
 import ListItemHeader from 'components/List/ListItemHeader';
 import MessageConversationListItem from 'components/List/MessageConversationListItem';
