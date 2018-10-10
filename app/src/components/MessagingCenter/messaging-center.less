@@ -1,0 +1,22 @@
+.messaging {
+    &-center {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: 48px calc(100vh - 48px);
+        margin-top: 48px;
+        width: 100%;
+        height: calc(100vh - 55px);
+        position: fixed;
+    
+        &__no-message-selected {
+            grid-area: 2 / 4 / span 1 / span 7;
+            text-align: center;
+            padding-top: 100px;
+        }
+    }
+
+    &__subheader {
+        padding-left: 0px; 
+        font-size: 20px;
+    }
+}

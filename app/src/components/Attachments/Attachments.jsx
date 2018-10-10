@@ -9,33 +9,13 @@ import Download from 'material-ui-icons/CloudDownload';
 import theme from 'styles/theme';
 
 const styles = {
-    attachments(style) {
-        return {
-            display: 'flex',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            marginTop: '15px',
-            ...style,
-        };
-    },
-    attachment: {
+    attachment__button: {
         height: '40px',
         marginRight: '5px',
         marginBottom: '5px',
         display: 'grid',
         gridTemplateColumns: 'repeat(10, 1fr)',
         gridTemplateRows: 'repeat(2, 1fr)',
-    },
-    subheader_size: {
-        gridArea: '2 / 1 / span 1 / span 8',
-        textAlign: 'left',
-        fontSize: '12px',
-        lineHeight: '16px',
-        padding: '0px',
-    },
-    progress: {
-        gridArea: '2 / 1 / span 1 / span 10',
-        bottom: '-35px',
     },
 };
 
@@ -47,7 +27,7 @@ const Attachments = ({
     downloadAttachment,
     cancelAttachment,
 }) => (
-    <div style={styles.attachments(style)}>
+    <div className={'attachment'} style={{ ...style }}>
         {attachments.map(attachment => (
             <Attachment
                 key={attachment.name}
@@ -70,7 +50,7 @@ const Attachment = ({
 }) => {
     return (
         <FlatButton
-            style={styles.attachment}
+            style={styles.attachment__button}
             backgroundColor={theme.palette.accent2Color}
             label={`${attachment.name} (${parseFloat(
                 parseInt(attachment.contentLength) / 1000000,
@@ -85,7 +65,9 @@ const Attachment = ({
             }}
             icon={dataDirection === 'download' ? <Download /> : <Clear />}
         >
-            {attachment.loading && <LinearProgress style={styles.progress} mode="indeterminate" />}
+            {attachment.loading && (
+                <LinearProgress className={'attachment__progress'} mode="indeterminate" />
+            )}
         </FlatButton>
     );
 };

@@ -11,7 +11,6 @@ import * as api from 'api/api';
 import * as actions from 'constants/actions';
 
 import theme from 'styles/theme';
-import { grid, subheader } from 'styles/style';
 
 import MessageConversation from 'components/MessageConversation/MessageConversation';
 import SidebarList from 'components/List/SidebarList';
@@ -137,7 +136,7 @@ class MessagingCenter extends Component {
                 : false) && this.props.isInFeedbackRecipientGroup;
 
         return (
-            <div style={grid} className={'test'}>
+            <div className={'messaging-center'}>
                 <Toolbar
                     {...this.props}
                     id={id}
@@ -187,14 +186,8 @@ class MessagingCenter extends Component {
                       )
                     : !this.state.wideview &&
                       id !== 'create' && (
-                          <div
-                              style={{
-                                  gridArea: '2 / 4 / span 1 / span 7',
-                                  textAlign: 'center',
-                                  paddingTop: '100px',
-                              }}
-                          >
-                              <Subheader style={{ paddingLeft: '0px', subheader }}>
+                          <div className={'messaging-center__no-message-selected'}>
+                              <Subheader className={'messaging__subheader'}>
                                   {i18n.t('Select a message')}
                               </Subheader>
                               <MailIcon

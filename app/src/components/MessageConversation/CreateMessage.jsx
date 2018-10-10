@@ -16,7 +16,6 @@ import * as actions from 'constants/actions';
 import history from 'utils/history';
 import SuggestionField from 'components/Common/SuggestionField';
 import AttachmentField from 'components/Attachments/AttachmentField';
-import { subheader } from 'styles/style';
 
 import { NEGATIVE } from 'constants/development';
 import Attachments from 'components/Attachments/Attachments';
@@ -108,7 +107,7 @@ class CreateMessage extends Component {
 
         return (
             <div style={styles.canvas(gridArea)}>
-                <Subheader style={subheader}> {i18n.t('Create')}</Subheader>
+                <Subheader className={'messaging__subheader'}> {i18n.t('Create')}</Subheader>
                 <Card>
                     <CardText>
                         <SuggestionField
