@@ -36,7 +36,6 @@ module.exports = merge(common, {
         contentBase: './app',
         historyApiFallback: true,
         disableHostCheck: true,
-        host: '0.0.0.0',
     },
     devtool: 'eval-source-map',
 });
