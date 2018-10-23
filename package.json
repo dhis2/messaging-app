@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
     "build": "npm run localize && webpack -p --config webpack.prod.js",
-    "postbuild": "npm run manifest && cp ./package.json ./build/package.json",
+    "postbuild": "npm run manifest",
     "test": "jest",
     "manifest": "d2-manifest package.json build/manifest.webapp",
     "format": "prettier --write \"app/**/*.j{s,sx}\"",
