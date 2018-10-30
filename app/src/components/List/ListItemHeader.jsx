@@ -79,8 +79,8 @@ class MessageConversationListItem extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.checkedIds.length < nextProps.children.length) {
+    componentDidUpdate() {
+        if (this.state.allChecked && this.props.checkedIds.length < this.props.children.length) {
             this.setState({ allChecked: false })
         }
     }
