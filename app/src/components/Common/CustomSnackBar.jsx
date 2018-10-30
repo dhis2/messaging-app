@@ -23,10 +23,12 @@ class CustomSnackBar extends Component {
         }
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            show: true,
-        })
+    componentDidUpdate(_prevProps, prevState) {
+        if (!prevState.show && this.props.message) {
+            this.setState({
+                show: true,
+            })
+        }
     }
 
     closeMessage = () => {
