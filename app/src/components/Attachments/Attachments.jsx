@@ -53,7 +53,7 @@ const Attachment = ({
             style={styles.attachment__button}
             backgroundColor={theme.palette.accent2Color}
             label={`${attachment.name} (${parseFloat(
-                parseInt(attachment.contentLength) / 1000000
+                parseInt(attachment.contentLength, 10) / 1000000
             ).toFixed(2)} MB)`}
             labelPosition="after"
             onClick={() => {

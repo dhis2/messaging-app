@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 
 import Messaging from 'components/Messaging/Messaging'
 
-import { init, getManifest, getUserSettings } from 'd2/lib/d2'
+import { init, getUserSettings } from 'd2/lib/d2'
 import 'whatwg-fetch'
 
 import configI18n from './utils/configI18n'

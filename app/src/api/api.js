@@ -21,8 +21,8 @@ export const getMessageConversations = (
     unreadFilter
 ) => {
     const filters = [`messageType:eq:${messageType}`]
-    status != undefined && filters.push(`status:eq:${status}`)
-    priority != undefined && filters.push(`priority:eq:${priority}`)
+    typeof status !== 'undefined' && filters.push(`status:eq:${status}`)
+    typeof priority !== 'undefined' && filters.push(`priority:eq:${priority}`)
     markedForFollowUpFilter && filters.push('followUp:eq:true')
     unreadFilter && filters.push('read:eq:false')
 
@@ -341,7 +341,7 @@ export const searchRecipients = (
         .then(
             ({ users }) =>
                 searchOnlyUsers
-                    ? { users, undefined, undefined }
+                    ? { users, undefined }
                     : searchUserGroups(searchValue).then(({ userGroups }) =>
                           searchOrganisationUnits(searchValue).then(
                               ({ organisationUnits }) => ({
@@ -410,12 +410,6 @@ export const addAttachment = attachment =>
         .catch(error => {
             throw error
         })
-
-export function createBlob(contents, format, compression) {
-    return URL.createObjectURL(
-        new Blob([contents], { type: blobType(format, compression) })
-    )
-}
 
 export function downloadBlob(url, filename) {
     const link = document.createElement('a')

@@ -17,7 +17,7 @@ module.exports = merge(common, {
         new CleanWebpackPlugin(['build']),
 
         // Only bundle english locales for moment
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
         new CopyWebpackPlugin([
             {
                 from: './assets/icon.png',

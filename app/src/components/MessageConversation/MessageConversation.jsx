@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { compose, pure } from 'recompose'
+import { compose } from 'recompose'
 
 import history from 'utils/history'
 import * as actions from 'constants/actions'
@@ -90,9 +90,9 @@ class MessageConversation extends Component {
             .slice(0, maxParticipantsDisplay)
             .map(
                 userMessage =>
-                    this.state.currentUser == undefined ||
+                    typeof this.state.currentUser === 'undefined' ||
                     this.state.recipientsExpanded ||
-                    this.state.currentUser.id != userMessage.user.id
+                    this.state.currentUser.id !== userMessage.user.id
                         ? userMessage.user.displayName
                         : i18n.t('me')
             )

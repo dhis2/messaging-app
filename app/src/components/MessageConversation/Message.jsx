@@ -1,7 +1,6 @@
 import React from 'react'
 
 import Divider from 'material-ui/Divider'
-import Card from 'material-ui/Card/Card'
 import CardText from 'material-ui/Card/CardText'
 
 import Attachments from 'components/Attachments/Attachments'
