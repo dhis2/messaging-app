@@ -39,7 +39,6 @@ class MessageConversationListItem extends Component {
                     backgroundColor: theme.palette.canvasColor,
                     display: 'grid',
                     gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
-                    gridTemplateRows: this.props.wideview ? '' : '15% 85%',
                     transition: 'all 0.2s ease-in-out',
                     boxSizing: 'border-box',
                     position: 'relative',
