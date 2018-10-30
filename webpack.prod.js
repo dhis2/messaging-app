@@ -1,9 +1,9 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const common = require('./webpack.common.js');
+const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
     plugins: [
@@ -25,4 +25,4 @@ module.exports = merge(common, {
             },
         ]),
     ],
-});
+})

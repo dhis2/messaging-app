@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import Subheader from 'material-ui/Subheader/Subheader';
-import MailIcon from 'material-ui-icons/MailOutline';
+import Subheader from 'material-ui/Subheader/Subheader'
+import MailIcon from 'material-ui-icons/MailOutline'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import * as api from 'api/api';
-import * as actions from 'constants/actions';
+import * as api from 'api/api'
+import * as actions from 'constants/actions'
 
-import theme from 'styles/theme';
+import theme from 'styles/theme'
 
-import MessageConversation from 'components/MessageConversation/MessageConversation';
-import SidebarList from 'components/List/SidebarList';
-import MessageConversationList from 'components/List/MessageConversationList';
-import CreateMessage from 'components/MessageConversation/CreateMessage';
-import Toolbar from 'components/Common/Toolbar';
+import MessageConversation from 'components/MessageConversation/MessageConversation'
+import SidebarList from 'components/List/SidebarList'
+import MessageConversationList from 'components/List/MessageConversationList'
+import CreateMessage from 'components/MessageConversation/CreateMessage'
+import Toolbar from 'components/Common/Toolbar'
 
-import { SET_DISPLAY_TIME_DIFF } from 'constants/actions';
-import { subheader } from 'styles/style';
+import { SET_DISPLAY_TIME_DIFF } from 'constants/actions'
+import { subheader } from 'styles/style'
 
-const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT'];
-const autoRefreshTime = 300000;
-const subtractInterval = 10000;
+const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
+const autoRefreshTime = 300000
+const subtractInterval = 10000
 
 class MessagingCenter extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             checkedItems: false,
@@ -35,36 +35,44 @@ class MessagingCenter extends Component {
             autoRefresh: false,
             timer: null,
             counter: autoRefreshTime,
-        };
+        }
     }
 
     componentWillMount() {
-        const selectedMessageType = this.props.match.params.messageType;
-        const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+        const selectedMessageType = this.props.match.params.messageType
+        const selectedId = this.props.location.pathname.split('/').slice(-1)[0]
 
         if (selectedId !== selectedMessageType && selectedId !== 'create') {
-            const initialMessageConversation = { id: selectedId };
-            this.props.setSelectedMessageConversation(initialMessageConversation);
+            const initialMessageConversation = { id: selectedId }
+            this.props.setSelectedMessageConversation(
+                initialMessageConversation
+            )
         }
 
         api.isInFeedbackRecipientGroup().then(result =>
-            this.props.setIsInFeedbackRecipientGroup(result),
-        );
+            this.props.setIsInFeedbackRecipientGroup(result)
+        )
 
         this.props.messageTypes.map(messageType =>
-            this.props.loadMessageConversations(messageType, selectedMessageType, null, null, null),
-        );
+            this.props.loadMessageConversations(
+                messageType,
+                selectedMessageType,
+                null,
+                null,
+                null
+            )
+        )
 
-        this.props.setDisplayTimeDiff();
+        this.props.setDisplayTimeDiff()
 
         setTimeout(() => {
-            this.autoRefresh();
-        }, autoRefreshTime);
+            this.autoRefresh()
+        }, autoRefreshTime)
     }
 
     componentDidUpdate() {
-        const selectedMessageType = this.props.match.params.messageType;
-        const selectedId = this.props.location.pathname.split('/').slice(-1)[0];
+        const selectedMessageType = this.props.match.params.messageType
+        const selectedId = this.props.location.pathname.split('/').slice(-1)[0]
 
         if (
             !this.props.settingSelectedMessageConversation &&
@@ -73,68 +81,81 @@ class MessagingCenter extends Component {
             (this.props.selectedMessageConversation === undefined ||
                 selectedId !== this.props.selectedMessageConversation.id)
         ) {
-            const initialMessageConversation = { id: selectedId };
-            this.props.setSelectedMessageConversation(initialMessageConversation);
+            const initialMessageConversation = { id: selectedId }
+            this.props.setSelectedMessageConversation(
+                initialMessageConversation
+            )
         }
 
         if (
             selectedMessageType === selectedId &&
             selectedMessageType !== this.props.selectedMessageType.id
         ) {
-            this.props.setSelectedMessageType(selectedMessageType);
+            this.props.setSelectedMessageType(selectedMessageType)
         }
 
         if (
             (selectedMessageType === selectedId || selectedId === 'create') &&
             this.props.selectedMessageConversation !== undefined
         ) {
-            this.props.clearSelectedMessageConversation();
+            this.props.clearSelectedMessageConversation()
         }
     }
 
     setAutoRefresh = autoRefresh => {
-        !autoRefresh && clearInterval(this.state.timer);
+        !autoRefresh && clearInterval(this.state.timer)
         this.setState({
             autoRefresh,
             counter: !autoRefresh ? autoRefreshTime : this.state.counter,
-            timer: !autoRefresh ? null : setInterval(this.tick.bind(this), subtractInterval),
-        });
-    };
+            timer: !autoRefresh
+                ? null
+                : setInterval(this.tick.bind(this), subtractInterval),
+        })
+    }
 
     tick() {
         this.setState({
             counter: this.state.counter - subtractInterval,
-        });
+        })
     }
 
     autoRefresh() {
         if (this.state.autoRefresh) {
             this.props.messageTypes.map(messageType =>
-                this.props.loadMessageConversations(messageType, this.props.selectedMessageType),
-            );
+                this.props.loadMessageConversations(
+                    messageType,
+                    this.props.selectedMessageType
+                )
+            )
 
             if (this.props.selectedMessageConversation) {
-                this.props.setSelectedMessageConversation(this.props.selectedMessageConversation);
+                this.props.setSelectedMessageConversation(
+                    this.props.selectedMessageConversation
+                )
             }
         }
 
-        this.setState({ counter: autoRefreshTime });
+        this.setState({ counter: autoRefreshTime })
         setTimeout(() => {
-            this.autoRefresh();
-        }, autoRefreshTime);
+            this.autoRefresh()
+        }, autoRefreshTime)
     }
 
     toogleWideview = () => {
-        this.setState({ wideview: !this.state.wideview });
-    };
+        this.setState({ wideview: !this.state.wideview })
+    }
 
     render() {
-        const id = this.props.location.pathname.split('/').slice(-1)[0];
+        const id = this.props.location.pathname.split('/').slice(-1)[0]
 
         const displayExtendedChoices =
             (this.props.selectedMessageType
-                ? !!(EXTENDED_CHOICES.indexOf(this.props.selectedMessageType.id) + 1)
-                : false) && this.props.isInFeedbackRecipientGroup;
+                ? !!(
+                      EXTENDED_CHOICES.indexOf(
+                          this.props.selectedMessageType.id
+                      ) + 1
+                  )
+                : false) && this.props.isInFeedbackRecipientGroup
 
         return (
             <div className={'messaging-center'}>
@@ -156,14 +177,19 @@ class MessagingCenter extends Component {
                 />
 
                 {id === 'create' && (
-                    <CreateMessage {...this.props} wideview={this.state.wideview} />
+                    <CreateMessage
+                        {...this.props}
+                        wideview={this.state.wideview}
+                    />
                 )}
 
                 {this.props.selectedMessageConversation === undefined &&
                     !(this.state.wideview && id === 'create') && (
                         <MessageConversationList
                             wideview={this.state.wideview}
-                            displayExtendedChoices={displayExtendedChoices && this.state.wideview}
+                            displayExtendedChoices={
+                                displayExtendedChoices && this.state.wideview
+                            }
                         />
                     )}
 
@@ -171,7 +197,9 @@ class MessagingCenter extends Component {
                     !this.state.wideview && (
                         <MessageConversationList
                             wideview={this.state.wideview}
-                            displayExtendedChoices={displayExtendedChoices && this.state.wideview}
+                            displayExtendedChoices={
+                                displayExtendedChoices && this.state.wideview
+                            }
                         />
                     )}
 
@@ -179,7 +207,9 @@ class MessagingCenter extends Component {
                     ? this.props.selectedMessageConversation !== undefined && (
                           <MessageConversation
                               {...this.props}
-                              messageConversation={this.props.selectedMessageConversation}
+                              messageConversation={
+                                  this.props.selectedMessageConversation
+                              }
                               wideview={this.state.wideview}
                               disableLink
                               displayExtendedChoices={displayExtendedChoices}
@@ -187,8 +217,14 @@ class MessagingCenter extends Component {
                       )
                     : !this.state.wideview &&
                       id !== 'create' && (
-                          <div className={'messaging-center__no-message-selected'}>
-                              <Subheader style={subheader}>{i18n.t('Select a message')}</Subheader>
+                          <div
+                              className={
+                                  'messaging-center__no-message-selected'
+                              }
+                          >
+                              <Subheader style={subheader}>
+                                  {i18n.t('Select a message')}
+                              </Subheader>
                               <MailIcon
                                   style={{
                                       color: theme.palette.primary1Color,
@@ -199,7 +235,7 @@ class MessagingCenter extends Component {
                           </div>
                       )}
             </div>
-        );
+        )
     }
 }
 
@@ -214,18 +250,21 @@ export default compose(
                 statusFilter: state.messaging.statusFilter,
                 priorityFilter: state.messaging.priorityFilter,
                 assignedToMeFilter: state.messaging.assignedToMeFilter,
-                markedForFollowUpFilter: state.messaging.markedForFollowUpFilter,
+                markedForFollowUpFilter:
+                    state.messaging.markedForFollowUpFilter,
                 unreadFilter: state.messaging.unreadFilter,
                 selectedMessageType: state.messaging.selectedMessageType,
-                selectedMessageConversation: state.messaging.selectedMessageConversation,
+                selectedMessageConversation:
+                    state.messaging.selectedMessageConversation,
                 settingSelectedMessageConversation:
                     state.messaging.settingSelectedMessageConversation,
                 checkedIds: state.messaging.checkedIds,
                 checkedOptions: state.messaging.checkedIds.length > 0,
                 loaded: state.messaging.loaded,
-                isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+                isInFeedbackRecipientGroup:
+                    state.messaging.isInFeedbackRecipientGroup,
                 attachments: state.messaging.attachments,
-            };
+            }
         },
         dispatch => ({
             loadMessageConversations: (messageType, selectedMessageType) =>
@@ -248,7 +287,10 @@ export default compose(
                     payload: { messageConversation },
                 }),
             setSelectedMessageType: messageTypeId =>
-                dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_TYPE,
+                    payload: { messageTypeId },
+                }),
             clearSelectedMessageConversation: () =>
                 dispatch({
                     type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
@@ -259,11 +301,15 @@ export default compose(
                     payload: { subject, input, recipients },
                 }),
             setFilter: (filter, filterType) =>
-                dispatch({ type: actions.SET_FILTER, payload: { filter, filterType } }),
+                dispatch({
+                    type: actions.SET_FILTER,
+                    payload: { filter, filterType },
+                }),
             setDisplayTimeDiff: () => dispatch({ type: SET_DISPLAY_TIME_DIFF }),
-            clearAttachments: () => dispatch({ type: actions.CLEAR_ATTACHMENTS }),
+            clearAttachments: () =>
+                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
         }),
         null,
-        { pure: false },
-    ),
-)(MessagingCenter);
+        { pure: false }
+    )
+)(MessagingCenter)

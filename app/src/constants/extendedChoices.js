@@ -1,4 +1,4 @@
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
 const extendedChoices = {
     STATUS: [
@@ -14,6 +14,6 @@ const extendedChoices = {
         { key: 'MEDIUM', value: 'MEDIUM', primaryText: i18n.t('Medium') },
         { key: 'LOW', value: 'LOW', primaryText: i18n.t('Low') },
     ],
-};
+}
 
-export default extendedChoices;
+export default extendedChoices

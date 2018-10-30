@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import Subheader from 'material-ui/Subheader/Subheader';
-import CircularProgress from 'material-ui/CircularProgress';
+import Subheader from 'material-ui/Subheader/Subheader'
+import CircularProgress from 'material-ui/CircularProgress'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions';
-import { messagePanelContainer } from 'styles/style';
-import theme from 'styles/theme';
-import ListItemHeader from 'components/List/ListItemHeader';
-import MessageConversationListItem from 'components/List/MessageConversationListItem';
+import * as actions from 'constants/actions'
+import { messagePanelContainer } from 'styles/style'
+import theme from 'styles/theme'
+import ListItemHeader from 'components/List/ListItemHeader'
+import MessageConversationListItem from 'components/List/MessageConversationListItem'
 
-const uniqWith = require('lodash/uniqWith');
-const isEqual = require('lodash/isEqual');
+const uniqWith = require('lodash/uniqWith')
+const isEqual = require('lodash/isEqual')
 
-const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET'];
-const bottomEmptyHeight = 50;
+const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
+const bottomEmptyHeight = 50
 
 const styles = {
     canvas(gridArea, wideview) {
@@ -25,7 +25,7 @@ const styles = {
             gridArea,
             borderRightStyle: wideview ? '' : 'solid',
             ...messagePanelContainer,
-        };
+        }
     },
     loading: {
         backgroundColor: theme.palette.accent2Color,
@@ -34,43 +34,45 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
     },
-};
+}
 
 class MessageConversationList extends Component {
     onScroll = messageType => {
-        const messageList = document.getElementById('messagelist');
+        const messageList = document.getElementById('messagelist')
         if (
             !this.props.selectedMessageType.loading &&
             this.isBottom(messageList) &&
             messageType.loaded < messageType.total
         ) {
-            messageType.page++;
+            messageType.page++
             this.props.loadMoreMessageConversations(
                 messageType,
                 this.props.messageFilter,
                 this.props.statusFilter,
-                this.props.priorityFilter,
-            );
+                this.props.priorityFilter
+            )
         }
-    };
+    }
 
-    isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight;
+    isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
-            : '2 / 2 / span 1 / span 2';
+            : '2 / 2 / span 1 / span 2'
         const children = uniqWith(
             this.props.messageConversations[this.props.selectedMessageType.id],
-            isEqual,
-        );
+            isEqual
+        )
 
-        const messageType = this.props.selectedMessageType ? this.props.selectedMessageType : '';
+        const messageType = this.props.selectedMessageType
+            ? this.props.selectedMessageType
+            : ''
         const selectedValue = this.props.selectedMessageConversation
             ? this.props.selectedMessageConversation.id
-            : '';
+            : ''
 
-        const notification = !!(NOTIFICATIONS.indexOf(messageType.id) + 1);
+        const notification = !!(NOTIFICATIONS.indexOf(messageType.id) + 1)
         return (
             <div
                 id={'messagelist'}
@@ -80,7 +82,9 @@ class MessageConversationList extends Component {
                 {this.props.wideview && (
                     <ListItemHeader
                         notification={notification}
-                        displayExtendedChoices={this.props.displayExtendedChoices}
+                        displayExtendedChoices={
+                            this.props.displayExtendedChoices
+                        }
                     >
                         {children}
                     </ListItemHeader>
@@ -93,12 +97,16 @@ class MessageConversationList extends Component {
                               wideview={this.props.wideview}
                               selectedValue={selectedValue}
                               notification={notification}
-                              displayExtendedChoices={this.props.displayExtendedChoices}
+                              displayExtendedChoices={
+                                  this.props.displayExtendedChoices
+                              }
                           />
                       ))
                     : !this.props.selectedMessageType.loading && (
                           <Subheader>
-                              {i18n.t(`No ${messageType.displayName.toLowerCase()} messages`)}
+                              {i18n.t(
+                                  `No ${messageType.displayName.toLowerCase()} messages`
+                              )}
                           </Subheader>
                       )}
                 {this.props.selectedMessageType.loading && (
@@ -110,7 +118,7 @@ class MessageConversationList extends Component {
                     </div>
                 )}
             </div>
-        );
+        )
     }
 }
 
@@ -122,7 +130,8 @@ export default compose(
             statusFilter: state.messaging.statusFilter,
             priorityFilter: state.messaging.priorityFilter,
             messageConversations: state.messaging.messageConversations,
-            selectedMessageConversation: state.messaging.selectedMessageConversation,
+            selectedMessageConversation:
+                state.messaging.selectedMessageConversation,
             selectedMessageType: state.messaging.selectedMessageType,
         }),
         dispatch => ({
@@ -130,14 +139,19 @@ export default compose(
                 messageType,
                 messageFilter,
                 statusFilter,
-                priorityFilter,
+                priorityFilter
             ) =>
                 dispatch({
                     type: actions.LOAD_MORE_MESSAGE_CONVERSATIONS,
-                    payload: { messageType, messageFilter, statusFilter, priorityFilter },
+                    payload: {
+                        messageType,
+                        messageFilter,
+                        statusFilter,
+                        priorityFilter,
+                    },
                 }),
         }),
         null,
-        { pure: false },
-    ),
-)(MessageConversationList);
+        { pure: false }
+    )
+)(MessageConversationList)

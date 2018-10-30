@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import Subheader from 'material-ui/Subheader/Subheader';
-import Checkbox from 'material-ui/Checkbox';
-import Paper from 'material-ui/Paper';
-import Flag from 'material-ui-icons/Flag';
+import Subheader from 'material-ui/Subheader/Subheader'
+import Checkbox from 'material-ui/Checkbox'
+import Paper from 'material-ui/Paper'
+import Flag from 'material-ui-icons/Flag'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import history from 'utils/history';
-import * as actions from 'constants/actions';
-import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel';
-import theme from 'styles/theme';
-import { fontFamily } from 'constants/development';
+import history from 'utils/history'
+import * as actions from 'constants/actions'
+import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel'
+import theme from 'styles/theme'
+import { fontFamily } from 'constants/development'
 
-const find = require('lodash/find');
-const moment = require('moment');
+const find = require('lodash/find')
+const moment = require('moment')
 
 const styles = {
     checkBox: {
@@ -36,7 +36,9 @@ const styles = {
         return {
             fontFamily,
             fontSize: '14px',
-            gridArea: wideview ? '1 / 1 / span 1 / span 2' : '1 / 1 / span 1 / span 6',
+            gridArea: wideview
+                ? '1 / 1 / span 1 / span 2'
+                : '1 / 1 / span 1 / span 6',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -44,7 +46,7 @@ const styles = {
             color: 'black',
             marginLeft: messageConversation.followUp ? '70px' : '50px',
             fontWeight,
-        };
+        }
     },
     subject(wideview, displayExtendedChoices, fontColor, fontWeight) {
         return {
@@ -61,7 +63,7 @@ const styles = {
             fontFamily,
             color: fontColor,
             fontWeight,
-        };
+        }
     },
     dateFormat(wideview, fontColor, fontWeight) {
         return {
@@ -75,22 +77,22 @@ const styles = {
             textAlign: wideview ? '' : 'end',
             color: fontColor,
             fontWeight,
-        };
+        }
     },
-};
+}
 
 class MessageConversationListItem extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             backgroundColor: theme.palette.canvasColor,
             cursor: 'auto',
-        };
+        }
     }
 
     onClick = messageConversation => {
-        this.props.setSelectedMessageConversation(messageConversation);
+        this.props.setSelectedMessageConversation(messageConversation)
         if (messageConversation && !messageConversation.read) {
             this.props.markMessageConversations(
                 'read',
@@ -98,55 +100,69 @@ class MessageConversationListItem extends Component {
                 this.props.selectedMessageType,
                 this.props.messageFilter,
                 this.props.statusFilter,
-                this.props.priorityFilter,
-            );
+                this.props.priorityFilter
+            )
         }
-        this.props.updateInputFields('', '', []);
-        this.props.attachments.length > 0 && this.props.clearAttachments();
-        history.push(`/${messageConversation.messageType}/${messageConversation.id}`);
-    };
+        this.props.updateInputFields('', '', [])
+        this.props.attachments.length > 0 && this.props.clearAttachments()
+        history.push(
+            `/${messageConversation.messageType}/${messageConversation.id}`
+        )
+    }
 
     onMouseEnter = () =>
-        this.setState({ cursor: 'pointer', backgroundColor: theme.palette.accent2Color });
+        this.setState({
+            cursor: 'pointer',
+            backgroundColor: theme.palette.accent2Color,
+        })
     onMouseLeave = () =>
         this.setState({
             cursor: 'auto',
             backgroundColor: theme.palette.canvasColor,
-        });
+        })
 
     getBackgroundColor = (messageConversation, checked) => {
         const selectedMessageConversation =
             this.props.selectedMessageConversation &&
-            messageConversation.id === this.props.selectedMessageConversation.id;
+            messageConversation.id === this.props.selectedMessageConversation.id
 
         if (checked && !selectedMessageConversation) {
-            return theme.palette.blue50;
+            return theme.palette.blue50
         } else if (selectedMessageConversation) {
-            return theme.palette.accent3Color;
+            return theme.palette.accent3Color
         }
-        return this.state.backgroundColor;
-    };
+        return this.state.backgroundColor
+    }
 
     render() {
-        const messageConversation = this.props.messageConversation;
+        const messageConversation = this.props.messageConversation
         const title = messageConversation.lastSender
             ? messageConversation.lastSender.displayName
-            : this.props.selectedMessageType.displayName;
-        const checked = find(this.props.checkedIds, { id: messageConversation.id }) !== undefined;
+            : this.props.selectedMessageType.displayName
+        const checked =
+            find(this.props.checkedIds, { id: messageConversation.id }) !==
+            undefined
 
-        const displayExtendedChoices = this.props.displayExtendedChoices;
+        const displayExtendedChoices = this.props.displayExtendedChoices
 
-        const displayTimeDiff = this.props.displayTimeDiff;
+        const displayTimeDiff = this.props.displayTimeDiff
 
-        const today = moment();
-        const messageDate = moment(messageConversation.lastMessage).add(displayTimeDiff);
-        const fontWeight = !messageConversation.read ? 'bold' : '';
-        const fontColor = this.props.messageConversation.read ? 'black' : theme.palette.darkGray;
+        const today = moment()
+        const messageDate = moment(messageConversation.lastMessage).add(
+            displayTimeDiff
+        )
+        const fontWeight = !messageConversation.read ? 'bold' : ''
+        const fontColor = this.props.messageConversation.read
+            ? 'black'
+            : theme.palette.darkGray
 
         return (
             <Paper
                 style={{
-                    backgroundColor: this.getBackgroundColor(messageConversation, checked),
+                    backgroundColor: this.getBackgroundColor(
+                        messageConversation,
+                        checked
+                    ),
                     display: 'grid',
                     gridTemplateColumns: 'repeat(10, minmax(10px, 1fr)',
                     gridTemplateRows: this.props.wideview ? '' : '15% 85%',
@@ -158,18 +174,23 @@ class MessageConversationListItem extends Component {
                 }}
                 onClick={event => {
                     const onClick =
-                        event.target.innerText !== undefined && event.target.innerText !== '';
+                        event.target.innerText !== undefined &&
+                        event.target.innerText !== ''
 
-                    if (onClick && !this.props.settingSelectedMessageConversation) {
-                        this.onClick(messageConversation);
-                        this.props.checkedIds.length > 0 && this.props.clearCheckedIds();
+                    if (
+                        onClick &&
+                        !this.props.settingSelectedMessageConversation
+                    ) {
+                        this.onClick(messageConversation)
+                        this.props.checkedIds.length > 0 &&
+                            this.props.clearCheckedIds()
                         if (
                             this.props.wideview &&
                             (this.props.messageFilter !== undefined ||
                                 this.props.priorityFilter !== undefined ||
                                 this.props.statusFilter !== undefined)
                         ) {
-                            this.props.setFilter(undefined, 'MESSAGE');
+                            this.props.setFilter(undefined, 'MESSAGE')
                         }
                     }
                 }}
@@ -180,11 +201,17 @@ class MessageConversationListItem extends Component {
                     checked={checked}
                     style={styles.checkBox}
                     onCheck={(event, isInputChecked) => {
-                        this.props.setChecked(messageConversation, !checked);
+                        this.props.setChecked(messageConversation, !checked)
                     }}
                 />
                 {messageConversation.followUp && <Flag style={styles.flag} />}
-                <div style={styles.title(messageConversation, this.props.wideview, fontWeight)}>
+                <div
+                    style={styles.title(
+                        messageConversation,
+                        this.props.wideview,
+                        fontWeight
+                    )}
+                >
                     {title}
                 </div>
                 <Subheader
@@ -192,7 +219,7 @@ class MessageConversationListItem extends Component {
                         this.props.wideview,
                         displayExtendedChoices,
                         fontColor,
-                        fontWeight,
+                        fontWeight
                     )}
                 >
                     {messageConversation.subject}
@@ -232,7 +259,13 @@ class MessageConversationListItem extends Component {
                             }
                         />
                     )}
-                <Subheader style={styles.dateFormat(this.props.wideview, fontColor, fontWeight)}>
+                <Subheader
+                    style={styles.dateFormat(
+                        this.props.wideview,
+                        fontColor,
+                        fontWeight
+                    )}
+                >
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today)
                         : today.year() === messageDate.year()
@@ -240,15 +273,17 @@ class MessageConversationListItem extends Component {
                             : messageDate.format('ll')}
                 </Subheader>
             </Paper>
-        );
+        )
     }
 }
 
 export default compose(
     connect(
         state => ({
-            selectedMessageConversation: state.messaging.selectedMessageConversation,
-            settingSelectedMessageConversation: state.messaging.settingSelectedMessageConversation,
+            selectedMessageConversation:
+                state.messaging.selectedMessageConversation,
+            settingSelectedMessageConversation:
+                state.messaging.settingSelectedMessageConversation,
             selectedMessageType: state.messaging.selectedMessageType,
             checkedIds: state.messaging.checkedIds,
             displayTimeDiff: state.messaging.displayTimeDiff,
@@ -274,7 +309,7 @@ export default compose(
                 messageType,
                 messageFilter,
                 statusFilter,
-                priorityFilter,
+                priorityFilter
             ) =>
                 dispatch({
                     type: actions.MARK_MESSAGE_CONVERSATIONS,
@@ -289,15 +324,19 @@ export default compose(
                 }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
             setFilter: (filter, filterType) =>
-                dispatch({ type: actions.SET_FILTER, payload: { filter, filterType } }),
+                dispatch({
+                    type: actions.SET_FILTER,
+                    payload: { filter, filterType },
+                }),
             updateInputFields: (subject, input, recipients) =>
                 dispatch({
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
                 }),
-            clearAttachments: () => dispatch({ type: actions.CLEAR_ATTACHMENTS }),
+            clearAttachments: () =>
+                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
         }),
         null,
-        { pure: false },
-    ),
-)(MessageConversationListItem);
+        { pure: false }
+    )
+)(MessageConversationListItem)

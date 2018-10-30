@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
-import { Subject, Observable } from 'rxjs/Rx';
+import React, { Component } from 'react'
+import { Subject, Observable } from 'rxjs/Rx'
 
-import ViewFancy from 'material-ui-icons/ViewList';
-import ViewList from 'material-ui-icons/ViewHeadline';
-import FlatButton from 'material-ui/FlatButton';
-import Paper from 'material-ui/Paper';
-import CreateMessageIcon from 'material-ui-icons/Add';
-import NavigationBack from 'material-ui-icons/ArrowBack';
-import TextField from 'material-ui/TextField';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Subheader from 'material-ui/Subheader';
+import ViewFancy from 'material-ui-icons/ViewList'
+import ViewList from 'material-ui-icons/ViewHeadline'
+import FlatButton from 'material-ui/FlatButton'
+import Paper from 'material-ui/Paper'
+import CreateMessageIcon from 'material-ui-icons/Add'
+import NavigationBack from 'material-ui-icons/ArrowBack'
+import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
+import MenuItem from 'material-ui/MenuItem'
+import Subheader from 'material-ui/Subheader'
 
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import Checkbox from 'material-ui/Checkbox/Checkbox';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu'
+import IconButton from 'material-ui/IconButton'
+import Checkbox from 'material-ui/Checkbox/Checkbox'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import history from 'utils/history';
+import history from 'utils/history'
 
-import theme from 'styles/theme';
+import theme from 'styles/theme'
 
-import extendedChoices from 'constants/extendedChoices';
-import ToolbarExtendedChoicePicker from 'components/Common/ToolbarExtendedChoicePicker';
+import extendedChoices from 'constants/extendedChoices'
+import ToolbarExtendedChoicePicker from 'components/Common/ToolbarExtendedChoicePicker'
 
-const headerHight = '48px';
-const searchDelay = 300;
+const headerHight = '48px'
+const searchDelay = 300
 
 const styles = {
     canvas(checkedOptions) {
@@ -35,9 +35,11 @@ const styles = {
             gridArea: '1 / 1 / span 1 / span 10',
             display: 'grid',
             gridTemplateColumns: 'repeat(10, 1fr)',
-            backgroundColor: checkedOptions ? theme.palette.blue50 : theme.palette.accent2Color,
+            backgroundColor: checkedOptions
+                ? theme.palette.blue50
+                : theme.palette.accent2Color,
             zIndex: 10,
-        };
+        }
     },
     checkedOptions: { width: '200px', gridArea: '1 / 1', alignSelf: 'center' },
     checkedOption: {
@@ -72,46 +74,56 @@ const styles = {
         display: 'flex',
         justifyContent: 'flex-end',
     },
-};
+}
 
 class Toolbar extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             lastMessageFilter: '',
-        };
+        }
     }
 
-    inputStream = new Subject();
+    inputStream = new Subject()
     componentWillMount() {
-        this.inputStream.debounce(() => Observable.timer(searchDelay)).subscribe(messageFilter => {
-            if (this.props.selectedMessageType && this.state.lastMessageFilter !== messageFilter) {
-                this.props.loadMessageConversations(
-                    this.props.selectedMessageType,
-                    this.props.selectedMessageType.id,
-                    messageFilter,
-                    this.props.statusFilter,
-                    this.props.priorityFilter,
-                );
-                this.setState({ lastMessageFilter: messageFilter });
-            }
-        });
+        this.inputStream
+            .debounce(() => Observable.timer(searchDelay))
+            .subscribe(messageFilter => {
+                if (
+                    this.props.selectedMessageType &&
+                    this.state.lastMessageFilter !== messageFilter
+                ) {
+                    this.props.loadMessageConversations(
+                        this.props.selectedMessageType,
+                        this.props.selectedMessageType.id,
+                        messageFilter,
+                        this.props.statusFilter,
+                        this.props.priorityFilter
+                    )
+                    this.setState({ lastMessageFilter: messageFilter })
+                }
+            })
     }
 
     componentDidUpdate(prevProps) {
         if (
             prevProps.selectedMessageType &&
-            this.props.selectedMessageType.id !== prevProps.selectedMessageType.id
+            this.props.selectedMessageType.id !==
+                prevProps.selectedMessageType.id
         ) {
-            this.inputStream.next('');
-            this.props.messageFilter !== undefined && this.props.setFilter(undefined, 'MESSAGE');
-            this.props.statusFilter !== undefined && this.props.setFilter(undefined, 'STATUS');
-            this.props.priorityFilter !== undefined && this.props.setFilter(undefined, 'PRIORITY');
-            this.props.assignedToMeFilter && this.props.setFilter(false, 'ASSIGNED_TO_ME');
+            this.inputStream.next('')
+            this.props.messageFilter !== undefined &&
+                this.props.setFilter(undefined, 'MESSAGE')
+            this.props.statusFilter !== undefined &&
+                this.props.setFilter(undefined, 'STATUS')
+            this.props.priorityFilter !== undefined &&
+                this.props.setFilter(undefined, 'PRIORITY')
+            this.props.assignedToMeFilter &&
+                this.props.setFilter(false, 'ASSIGNED_TO_ME')
             this.props.markedForFollowUpFilter &&
-                this.props.setFilter(false, 'MARKED_FOR_FOLLOWUP');
-            this.props.unreadFilter && this.props.setFilter(false, 'UNREAD');
+                this.props.setFilter(false, 'MARKED_FOR_FOLLOWUP')
+            this.props.unreadFilter && this.props.setFilter(false, 'UNREAD')
         }
 
         if (
@@ -119,27 +131,31 @@ class Toolbar extends Component {
             !this.props.selectedMessageType.loading &&
             (prevProps.statusFilter !== this.props.statusFilter ||
                 prevProps.priorityFilter !== this.props.priorityFilter ||
-                prevProps.assignedToMeFilter !== this.props.assignedToMeFilter ||
-                prevProps.markedForFollowUpFilter !== this.props.markedForFollowUpFilter ||
+                prevProps.assignedToMeFilter !==
+                    this.props.assignedToMeFilter ||
+                prevProps.markedForFollowUpFilter !==
+                    this.props.markedForFollowUpFilter ||
                 prevProps.unreadFilter !== this.props.unreadFilter ||
                 prevProps.selectedMessageType === undefined ||
-                prevProps.selectedMessageType.id !== this.props.selectedMessageType.id)
+                prevProps.selectedMessageType.id !==
+                    this.props.selectedMessageType.id)
         ) {
             this.props.loadMessageConversations(
                 this.props.selectedMessageType,
-                this.props.selectedMessageType.id,
-            );
+                this.props.selectedMessageType.id
+            )
         }
     }
 
     render() {
-        const id = this.props.id;
-        const displayExtendedChoices = this.props.displayExtendedChoices;
-        const checkedOptions = this.props.checkedOptions;
+        const id = this.props.id
+        const displayExtendedChoices = this.props.displayExtendedChoices
+        const checkedOptions = this.props.checkedOptions
 
         const displaySearch =
             !this.props.wideview ||
-            (this.props.selectedMessageConversation === undefined && id !== 'create');
+            (this.props.selectedMessageConversation === undefined &&
+                id !== 'create')
 
         return (
             <Paper style={styles.canvas(checkedOptions)}>
@@ -163,7 +179,9 @@ class Toolbar extends Component {
                     )}
                 </div>
 
-                <ToolbarExtendedChoicePicker displayExtendedChoices={displayExtendedChoices} />
+                <ToolbarExtendedChoicePicker
+                    displayExtendedChoices={displayExtendedChoices}
+                />
 
                 {displayExtendedChoices &&
                     displaySearch &&
@@ -172,28 +190,44 @@ class Toolbar extends Component {
                             style={styles.statusFilter}
                             labelStyle={{
                                 color:
-                                    this.props.statusFilter === undefined ? 'lightGray' : 'black',
-                                top: this.props.statusFilter === undefined ? '-15px' : '-2px',
+                                    this.props.statusFilter === undefined
+                                        ? 'lightGray'
+                                        : 'black',
+                                top:
+                                    this.props.statusFilter === undefined
+                                        ? '-15px'
+                                        : '-2px',
                             }}
-                            selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
+                            selectedMenuItemStyle={{
+                                color: theme.palette.primary1Color,
+                            }}
                             floatingLabelText={
-                                this.props.statusFilter === undefined ? i18n.t('Status') : ''
+                                this.props.statusFilter === undefined
+                                    ? i18n.t('Status')
+                                    : ''
                             }
                             floatingLabelStyle={{
                                 top: '15px',
                             }}
                             iconStyle={{
-                                top: this.props.statusFilter === undefined ? '-15px' : '0px',
+                                top:
+                                    this.props.statusFilter === undefined
+                                        ? '-15px'
+                                        : '0px',
                             }}
                             value={this.props.statusFilter}
                             onChange={(event, key, payload) => {
                                 this.props.setFilter(
                                     payload === null ? undefined : payload,
-                                    'STATUS',
-                                );
+                                    'STATUS'
+                                )
                             }}
                         >
-                            <MenuItem key={null} value={null} primaryText={''} />
+                            <MenuItem
+                                key={null}
+                                value={null}
+                                primaryText={''}
+                            />
                             {extendedChoices.STATUS.map(elem => (
                                 <MenuItem
                                     key={elem.key}
@@ -211,28 +245,44 @@ class Toolbar extends Component {
                             style={styles.priorityFilter}
                             labelStyle={{
                                 color:
-                                    this.props.priorityFilter === undefined ? 'lightGray' : 'black',
-                                top: this.props.priorityFilter === undefined ? '-15px' : '-2px',
+                                    this.props.priorityFilter === undefined
+                                        ? 'lightGray'
+                                        : 'black',
+                                top:
+                                    this.props.priorityFilter === undefined
+                                        ? '-15px'
+                                        : '-2px',
                             }}
-                            selectedMenuItemStyle={{ color: theme.palette.primary1Color }}
+                            selectedMenuItemStyle={{
+                                color: theme.palette.primary1Color,
+                            }}
                             floatingLabelText={
-                                this.props.priorityFilter === undefined ? i18n.t('Priority') : ''
+                                this.props.priorityFilter === undefined
+                                    ? i18n.t('Priority')
+                                    : ''
                             }
                             floatingLabelStyle={{
                                 top: '15px',
                             }}
                             iconStyle={{
-                                top: this.props.priorityFilter === undefined ? '-15px' : '0px',
+                                top:
+                                    this.props.priorityFilter === undefined
+                                        ? '-15px'
+                                        : '0px',
                             }}
                             value={this.props.priorityFilter}
                             onChange={(event, key, payload) => {
                                 this.props.setFilter(
                                     payload === null ? undefined : payload,
-                                    'PRIORITY',
-                                );
+                                    'PRIORITY'
+                                )
                             }}
                         >
-                            <MenuItem key={null} value={null} primaryText={''} />
+                            <MenuItem
+                                key={null}
+                                value={null}
+                                primaryText={''}
+                            />
                             {extendedChoices.PRIORITY.map(elem => (
                                 <MenuItem
                                     key={elem.key}
@@ -252,8 +302,11 @@ class Toolbar extends Component {
                                 hintText={i18n.t('Search')}
                                 value={this.props.messageFilter}
                                 onChange={(event, messageFilter) => {
-                                    this.inputStream.next(messageFilter);
-                                    this.props.setFilter(messageFilter, 'MESSAGE');
+                                    this.inputStream.next(messageFilter)
+                                    this.props.setFilter(
+                                        messageFilter,
+                                        'MESSAGE'
+                                    )
                                 }}
                                 type="search"
                             />
@@ -267,8 +320,14 @@ class Toolbar extends Component {
                                         <MoreVertIcon />
                                     </IconButton>
                                 }
-                                anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-                                targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+                                anchorOrigin={{
+                                    horizontal: 'right',
+                                    vertical: 'top',
+                                }}
+                                targetOrigin={{
+                                    horizontal: 'right',
+                                    vertical: 'top',
+                                }}
                                 style={styles.iconMenu}
                             >
                                 <Subheader style={{ padding: '0px 16px' }}>
@@ -283,8 +342,8 @@ class Toolbar extends Component {
                                         onClick={() => {
                                             this.props.setFilter(
                                                 !this.props.assignedToMeFilter,
-                                                'ASSIGNED_TO_ME',
-                                            );
+                                                'ASSIGNED_TO_ME'
+                                            )
                                         }}
                                     />
                                 )}
@@ -296,8 +355,8 @@ class Toolbar extends Component {
                                     onClick={() => {
                                         this.props.setFilter(
                                             !this.props.markedForFollowUpFilter,
-                                            'MARKED_FOR_FOLLOWUP',
-                                        );
+                                            'MARKED_FOR_FOLLOWUP'
+                                        )
                                     }}
                                 />
                                 <Checkbox
@@ -306,7 +365,10 @@ class Toolbar extends Component {
                                     label={i18n.t('Unread messages')}
                                     checked={this.props.unreadFilter}
                                     onClick={() => {
-                                        this.props.setFilter(!this.props.unreadFilter, 'UNREAD');
+                                        this.props.setFilter(
+                                            !this.props.unreadFilter,
+                                            'UNREAD'
+                                        )
                                     }}
                                 />
                             </IconMenu>
@@ -317,13 +379,15 @@ class Toolbar extends Component {
                             width: '50px',
                             alignSelf: 'center',
                         }}
-                        icon={!this.state.wideview ? <ViewList /> : <ViewFancy />}
+                        icon={
+                            !this.state.wideview ? <ViewList /> : <ViewFancy />
+                        }
                         onClick={() => this.props.toogleWideview()}
                     />
                 </div>
             </Paper>
-        );
+        )
     }
 }
 
-export default Toolbar;
+export default Toolbar

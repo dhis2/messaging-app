@@ -35,6 +35,6 @@ const messageTypes = [
         total: 0,
         page: 1,
     },
-];
+]
 
-export default messageTypes;
+export default messageTypes

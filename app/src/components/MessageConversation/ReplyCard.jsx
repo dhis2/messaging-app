@@ -1,32 +1,32 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose, pure } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose, pure } from 'recompose'
 
-import { Card, CardActions, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
 
-import AttachmentField from 'components/Attachments/AttachmentField';
-import Attachments from 'components/Attachments/Attachments';
+import AttachmentField from 'components/Attachments/AttachmentField'
+import Attachments from 'components/Attachments/Attachments'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions';
+import * as actions from 'constants/actions'
 
-import { NEGATIVE } from 'constants/development';
+import { NEGATIVE } from 'constants/development'
 
 class ReplyCard extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             discardState: false,
-        };
+        }
     }
 
     componentWillUnmount() {
-        this.wipeInput();
+        this.wipeInput()
     }
 
     replyMessage = internalReply => {
@@ -34,22 +34,22 @@ class ReplyCard extends Component {
             this.props.input,
             internalReply,
             this.props.selectedMessageConversation,
-            this.props.selectedMessageType,
-        );
-        this.wipeInput();
-    };
+            this.props.selectedMessageType
+        )
+        this.wipeInput()
+    }
 
     wipeInput = () => {
-        this.props.updateInputFields('', '', []);
-        this.props.attachments.length > 0 && this.props.clearAttachments();
+        this.props.updateInputFields('', '', [])
+        this.props.attachments.length > 0 && this.props.clearAttachments()
         this.setState({
             inputError: false,
-        });
-    };
+        })
+    }
 
     texFieldUpdate = (event, newValue) => {
-        this.props.updateInputFields('', newValue, []);
-    };
+        this.props.updateInputFields('', newValue, [])
+    }
 
     render() {
         return (
@@ -87,7 +87,10 @@ class ReplyCard extends Component {
                         <RaisedButton
                             primary
                             label={i18n.t('Reply')}
-                            disabled={this.props.input === '' || this.state.discardState}
+                            disabled={
+                                this.props.input === '' ||
+                                this.state.discardState
+                            }
                             onClick={() => this.replyMessage(false)}
                         />
                         {this.props.isInFeedbackRecipientGroup &&
@@ -95,54 +98,68 @@ class ReplyCard extends Component {
                                 <FlatButton
                                     primary
                                     label={i18n.t('Internal reply')}
-                                    disabled={this.props.input === '' || this.state.discardState}
+                                    disabled={
+                                        this.props.input === '' ||
+                                        this.state.discardState
+                                    }
                                     onClick={() => this.replyMessage(true)}
                                 />
                             )}
                         <FlatButton
                             label={i18n.t('Discard')}
-                            disabled={this.props.input === '' || this.state.discardState}
+                            disabled={
+                                this.props.input === '' ||
+                                this.state.discardState
+                            }
                             onClick={() => {
-                                this.setState({ discardState: true });
+                                this.setState({ discardState: true })
                                 this.props.displaySnackMessage(
                                     i18n.t('Reply discarded'),
-                                    () => this.setState({ discardState: false }),
+                                    () =>
+                                        this.setState({ discardState: false }),
                                     () => {
-                                        this.setState({ discardState: false });
-                                        this.wipeInput();
+                                        this.setState({ discardState: false })
+                                        this.wipeInput()
                                     },
-                                    NEGATIVE,
-                                );
+                                    NEGATIVE
+                                )
                                 this.setState({
                                     expanded: false,
-                                });
+                                })
                             }}
                         />
                         <AttachmentField
                             addAttachment={attachment => {
-                                this.props.addAttachment(attachment);
+                                this.props.addAttachment(attachment)
                             }}
                         />
                         )
                     </CardActions>
                 </CardText>
             </Card>
-        );
+        )
     }
 }
 
 export default compose(
     connect(
         state => ({
-            selectedMessageConversation: state.messaging.selectedMessageConversation,
+            selectedMessageConversation:
+                state.messaging.selectedMessageConversation,
             selectedMessageType: state.messaging.selectedMessageType,
             messageTypes: state.messaging.messageTypes,
             input: state.messaging.input,
-            isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+            isInFeedbackRecipientGroup:
+                state.messaging.isInFeedbackRecipientGroup,
             attachments: state.messaging.attachments,
         }),
         dispatch => ({
-            replyMessage: (message, internalReply, messageConversation, messageType) =>
+            replyMessage: (
+                message,
+                internalReply,
+                messageConversation,
+                messageType
+            ) =>
                 dispatch({
                     type: actions.REPLY_MESSAGE,
                     payload: {
@@ -153,28 +170,47 @@ export default compose(
                     },
                 }),
             setSelectedMessageType: messageTypeId =>
-                dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_TYPE,
+                    payload: { messageTypeId },
+                }),
             updateInputFields: (subject, input, recipients) =>
                 dispatch({
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
                 }),
-            displaySnackMessage: (message, onSnackActionClick, onSnackRequestClose, snackType) =>
+            displaySnackMessage: (
+                message,
+                onSnackActionClick,
+                onSnackRequestClose,
+                snackType
+            ) =>
                 dispatch({
                     type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
+                    payload: {
+                        message,
+                        onSnackActionClick,
+                        onSnackRequestClose,
+                        snackType,
+                    },
                 }),
             addAttachment: attachment =>
-                dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
+                dispatch({
+                    type: actions.ADD_ATTACHMENT,
+                    payload: { attachment },
+                }),
             removeAttachment: attachmentId =>
                 dispatch({
                     type: actions.REMOVE_ATTACHMENT,
                     payload: { attachmentId },
                 }),
             cancelAttachment: attachmentName =>
-                dispatch({ type: actions.CANCEL_ATTACHMENT, payload: { attachmentName } }),
+                dispatch({
+                    type: actions.CANCEL_ATTACHMENT,
+                    payload: { attachmentName },
+                }),
         }),
         null,
-        { pure: false },
-    ),
-)(ReplyCard);
+        { pure: false }
+    )
+)(ReplyCard)

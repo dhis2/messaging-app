@@ -1,24 +1,25 @@
-const merge = require('webpack-merge');
-const webpack = require('webpack');
-const common = require('./webpack.common.js');
+const merge = require('webpack-merge')
+const webpack = require('webpack')
+const common = require('./webpack.common.js')
 
-const dhisConfigPath = process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`;
+const dhisConfigPath =
+    process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`
 
-let dhisConfig;
+let dhisConfig
 try {
-    dhisConfig = require(dhisConfigPath);
+    dhisConfig = require(dhisConfigPath)
 } catch (e) {
     // Failed to load config file - use default config
-    console.warn(`\nWARNING! Failed to load DHIS config:`, e.message);
+    console.warn(`\nWARNING! Failed to load DHIS config:`, e.message)
     dhisConfig = {
         baseUrl: 'http://localhost:8080',
         authorization: 'Basic c3lzdGVtOlN5c3RlbTEyMw==',
-    };
+    }
 }
 
 const globals = {
     DHIS_CONFIG: JSON.stringify(dhisConfig),
-};
+}
 
 module.exports = merge(common, {
     output: {
@@ -38,4 +39,4 @@ module.exports = merge(common, {
         disableHostCheck: true,
     },
     devtool: 'eval-source-map',
-});
+})

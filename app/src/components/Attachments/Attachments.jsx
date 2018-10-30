@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton'
 
-import LinearProgress from 'material-ui/LinearProgress';
-import Clear from 'material-ui-icons/Clear';
-import Download from 'material-ui-icons/CloudDownload';
+import LinearProgress from 'material-ui/LinearProgress'
+import Clear from 'material-ui-icons/Clear'
+import Download from 'material-ui-icons/CloudDownload'
 
-import theme from 'styles/theme';
+import theme from 'styles/theme'
 
 const styles = {
     attachment__button: {
@@ -17,7 +17,7 @@ const styles = {
         gridTemplateColumns: 'repeat(10, 1fr)',
         gridTemplateRows: 'repeat(2, 1fr)',
     },
-};
+}
 
 const Attachments = ({
     dataDirection,
@@ -39,7 +39,7 @@ const Attachments = ({
             />
         ))}
     </div>
-);
+)
 
 const Attachment = ({
     dataDirection,
@@ -53,7 +53,7 @@ const Attachment = ({
             style={styles.attachment__button}
             backgroundColor={theme.palette.accent2Color}
             label={`${attachment.name} (${parseFloat(
-                parseInt(attachment.contentLength) / 1000000,
+                parseInt(attachment.contentLength) / 1000000
             ).toFixed(2)} MB)`}
             labelPosition="after"
             onClick={() => {
@@ -61,15 +61,18 @@ const Attachment = ({
                     ? downloadAttachment(attachment)
                     : attachment.loading
                         ? cancelAttachment(attachment.name)
-                        : removeAttachment(attachment);
+                        : removeAttachment(attachment)
             }}
             icon={dataDirection === 'download' ? <Download /> : <Clear />}
         >
             {attachment.loading && (
-                <LinearProgress className={'attachment__progress'} mode="indeterminate" />
+                <LinearProgress
+                    className={'attachment__progress'}
+                    mode="indeterminate"
+                />
             )}
         </FlatButton>
-    );
-};
+    )
+}
 
-export default Attachments;
+export default Attachments
