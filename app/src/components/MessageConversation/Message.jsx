@@ -1,19 +1,18 @@
-import React from 'react';
+import React from 'react'
 
-import Divider from 'material-ui/Divider';
-import Card from 'material-ui/Card/Card';
-import CardText from 'material-ui/Card/CardText';
+import Divider from 'material-ui/Divider'
+import CardText from 'material-ui/Card/CardText'
 
-import Attachments from 'components/Attachments/Attachments';
+import Attachments from 'components/Attachments/Attachments'
 
-import i18n from 'd2-i18n';
-import Linkify from 'react-linkify';
+import i18n from 'd2-i18n'
+import Linkify from 'react-linkify'
 
-import theme from 'styles/theme';
+import theme from 'styles/theme'
 
-import { fontFamily } from 'constants/development';
+import { fontFamily } from 'constants/development'
 
-const moment = require('moment');
+const moment = require('moment')
 
 const styles = {
     canvas(backgroundColor) {
@@ -21,7 +20,7 @@ const styles = {
             backgroundColor,
             padding: '16px 16px 16px 16px',
             gridArea: '1 / 1 / span 1 / span 2',
-        };
+        }
     },
     innerCanvas: {
         margin: '',
@@ -52,7 +51,7 @@ const styles = {
         whiteSpace: 'nowrap',
         fontFamily,
     },
-};
+}
 
 const Message = ({
     displayTimeDiff,
@@ -66,9 +65,9 @@ const Message = ({
         ? currentUser && currentUser.id === message.sender.id
             ? 'me'
             : message.sender.displayName
-        : 'system';
-    const today = moment();
-    const messageDate = moment(message.created).add(displayTimeDiff);
+        : 'system'
+    const today = moment()
+    const messageDate = moment(message.created).add(displayTimeDiff)
 
     return (
         <div style={styles.canvas(theme.palette.canvasColor)}>
@@ -82,7 +81,9 @@ const Message = ({
                 <div placement={'bottom'} style={styles.datePlacement}>
                     <div style={styles.dateFormat}>
                         {today.diff(messageDate, 'hours') < 72
-                            ? `${messageDate.from(today)}, ${messageDate.format('HH:mm')}`
+                            ? `${messageDate.from(today)}, ${messageDate.format(
+                                  'HH:mm'
+                              )}`
                             : today.year() === messageDate.year()
                                 ? messageDate.format('MMM DD, HH:mm')
                                 : messageDate.format('MMM DD, YYYY HH:mm')}
@@ -91,7 +92,10 @@ const Message = ({
 
                 <Attachments
                     dataDirection={'download'}
-                    style={{ paddingLeft: '0px', gridArea: '2 / 1 / span 1 / span 10' }}
+                    style={{
+                        paddingLeft: '0px',
+                        gridArea: '2 / 1 / span 1 / span 10',
+                    }}
                     attachments={message.attachments}
                     downloadAttachment={downloadAttachment}
                     cancelAttachment={cancelAttachment}
@@ -103,7 +107,7 @@ const Message = ({
             </div>
             {!lastMessage && <Divider />}
         </div>
-    );
-};
+    )
+}
 
-export default Message;
+export default Message

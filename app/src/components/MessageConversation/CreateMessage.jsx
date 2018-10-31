@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import { generateUid } from 'd2/lib/uid';
-import i18n from 'd2-i18n';
+import { generateUid } from 'd2/lib/uid'
+import i18n from 'd2-i18n'
 
-import { Card, CardActions, CardText } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-import Subheader from 'material-ui/Subheader/Subheader';
-import RadioButton from 'material-ui/RadioButton';
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import FlatButton from 'material-ui/FlatButton'
+import TextField from 'material-ui/TextField'
+import Subheader from 'material-ui/Subheader/Subheader'
+import RadioButton from 'material-ui/RadioButton'
 
-import * as actions from 'constants/actions';
-import history from 'utils/history';
-import SuggestionField from 'components/Common/SuggestionField';
-import AttachmentField from 'components/Attachments/AttachmentField';
+import * as actions from 'constants/actions'
+import history from 'utils/history'
+import SuggestionField from 'components/Common/SuggestionField'
+import AttachmentField from 'components/Attachments/AttachmentField'
 
-import { NEGATIVE } from 'constants/development';
-import Attachments from 'components/Attachments/Attachments';
+import { NEGATIVE } from 'constants/development'
+import Attachments from 'components/Attachments/Attachments'
 
-import { subheader } from 'styles/style';
+import { subheader } from 'styles/style'
 
-const find = require('lodash/find');
+const find = require('lodash/find')
 
 const styles = {
     canvas(gridArea) {
@@ -32,80 +32,96 @@ const styles = {
             overflowY: 'scroll',
             overflowX: 'hidden',
             height: 'calc(100vh - 110px)',
-        };
+        }
     },
     messageTypeField: {
         display: 'flex',
         flexDirection: 'row',
     },
     messageType: { width: '300px', marginTop: '10px' },
-};
+}
 
 class CreateMessage extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             isMessageFeedback: false,
-        };
+        }
     }
 
     subjectUpdate = (event, newValue) => {
-        this.props.updateInputFields(newValue, this.props.input, this.props.recipients);
-    };
+        this.props.updateInputFields(
+            newValue,
+            this.props.input,
+            this.props.recipients
+        )
+    }
 
     inputUpdate = (event, newValue) => {
-        this.props.updateInputFields(this.props.subject, newValue, this.props.recipients);
-    };
+        this.props.updateInputFields(
+            this.props.subject,
+            newValue,
+            this.props.recipients
+        )
+    }
 
     updateRecipients = recipients => {
-        this.props.updateInputFields(this.props.subject, this.props.input, recipients);
-    };
+        this.props.updateInputFields(
+            this.props.subject,
+            this.props.input,
+            recipients
+        )
+    }
 
     sendMessage = () => {
         const messageType = find(this.props.messageTypes, {
             id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
-        });
+        })
 
         if (this.state.isMessageFeedback) {
-            this.props.sendFeedbackMessage(messageType);
-            history.push('/TICKET');
+            this.props.sendFeedbackMessage(messageType)
+            history.push('/TICKET')
         } else {
-            const users = this.props.recipients.filter(r => r.type === 'user');
-            const userGroups = this.props.recipients.filter(r => r.type === 'userGroup');
+            const users = this.props.recipients.filter(r => r.type === 'user')
+            const userGroups = this.props.recipients.filter(
+                r => r.type === 'userGroup'
+            )
             const organisationUnits = this.props.recipients.filter(
-                r => r.type === 'organisationUnit',
-            );
+                r => r.type === 'organisationUnit'
+            )
 
             this.props.sendMessage(
                 users,
                 userGroups,
                 organisationUnits,
                 generateUid(),
-                messageType,
-            );
-            history.push('/PRIVATE');
+                messageType
+            )
+            history.push('/PRIVATE')
         }
-    };
+    }
 
     wipeInput = () => {
-        this.props.updateInputFields('', '', []);
-        this.props.attachments.length > 0 && this.props.clearAttachments();
-    };
+        this.props.updateInputFields('', '', [])
+        this.props.attachments.length > 0 && this.props.clearAttachments()
+    }
 
     render() {
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
-            : '2 / 4 / span 1 / span 7';
+            : '2 / 4 / span 1 / span 7'
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
-            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
+            (!this.state.isMessageFeedback &&
+                this.props.recipients.length === 0)
 
         const discardDisabled =
             this.props.subject === '' &&
             this.props.input === '' &&
-            (!this.state.isMessageFeedback && this.props.recipients.length === 0);
+            (!this.state.isMessageFeedback &&
+                this.props.recipients.length === 0)
 
         return (
             <div style={styles.canvas(gridArea)}>
@@ -121,7 +137,9 @@ class CreateMessage extends Component {
                                     ? [
                                           {
                                               id: 'id',
-                                              displayName: i18n.t('Feedback recipient group'),
+                                              displayName: i18n.t(
+                                                  'Feedback recipient group'
+                                              ),
                                           },
                                       ]
                                     : this.props.recipients
@@ -136,8 +154,9 @@ class CreateMessage extends Component {
                                     checked={!this.state.isMessageFeedback}
                                     onCheck={() => {
                                         this.setState({
-                                            isMessageFeedback: !this.state.isMessageFeedback,
-                                        });
+                                            isMessageFeedback: !this.state
+                                                .isMessageFeedback,
+                                        })
                                     }}
                                 />
                             </div>
@@ -147,8 +166,9 @@ class CreateMessage extends Component {
                                     checked={this.state.isMessageFeedback}
                                     onCheck={() => {
                                         this.setState({
-                                            isMessageFeedback: !this.state.isMessageFeedback,
-                                        });
+                                            isMessageFeedback: !this.state
+                                                .isMessageFeedback,
+                                        })
                                     }}
                                 />
                             </div>
@@ -193,21 +213,21 @@ class CreateMessage extends Component {
                                         i18n.t('Message discarded'),
                                         () => history.push('/PRIVATE/create'),
                                         () => this.wipeInput(),
-                                        NEGATIVE,
-                                    );
-                                    history.push('/PRIVATE');
+                                        NEGATIVE
+                                    )
+                                    history.push('/PRIVATE')
                                 }}
                             />
                             <AttachmentField
                                 addAttachment={attachment => {
-                                    this.props.addAttachment(attachment);
+                                    this.props.addAttachment(attachment)
                                 }}
                             />
                         </CardActions>
                     </CardText>
                 </Card>
             </div>
-        );
+        )
     }
 }
 
@@ -226,7 +246,7 @@ export default compose(
                 userGroups,
                 organisationUnits,
                 messageConversationId,
-                messageType,
+                messageType
             ) =>
                 dispatch({
                     type: actions.SEND_MESSAGE,
@@ -245,10 +265,20 @@ export default compose(
                         messageType,
                     },
                 }),
-            displaySnackMessage: (message, onSnackActionClick, onSnackRequestClose, snackType) =>
+            displaySnackMessage: (
+                message,
+                onSnackActionClick,
+                onSnackRequestClose,
+                snackType
+            ) =>
                 dispatch({
                     type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: { message, onSnackActionClick, onSnackRequestClose, snackType },
+                    payload: {
+                        message,
+                        onSnackActionClick,
+                        onSnackRequestClose,
+                        snackType,
+                    },
                 }),
             updateInputFields: (subject, input, recipients) =>
                 dispatch({
@@ -256,16 +286,22 @@ export default compose(
                     payload: { subject, input, recipients },
                 }),
             addAttachment: attachment =>
-                dispatch({ type: actions.ADD_ATTACHMENT, payload: { attachment } }),
+                dispatch({
+                    type: actions.ADD_ATTACHMENT,
+                    payload: { attachment },
+                }),
             removeAttachment: attachmentId =>
                 dispatch({
                     type: actions.REMOVE_ATTACHMENT,
                     payload: { attachmentId },
                 }),
             cancelAttachment: attachmentName =>
-                dispatch({ type: actions.CANCEL_ATTACHMENT, payload: { attachmentName } }),
+                dispatch({
+                    type: actions.CANCEL_ATTACHMENT,
+                    payload: { attachmentName },
+                }),
         }),
         null,
-        { pure: false },
-    ),
-)(CreateMessage);
+        { pure: false }
+    )
+)(CreateMessage)

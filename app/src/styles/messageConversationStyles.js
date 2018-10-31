@@ -1,5 +1,5 @@
-import theme from '../styles/theme';
-import { fontFamily } from '../constants/development';
+import theme from '../styles/theme'
+import { fontFamily } from '../constants/development'
 
 export const styles = {
     canvas(gridArea) {
@@ -9,7 +9,7 @@ export const styles = {
             overflowX: 'hidden',
             height: 'calc(100vh - 110px)',
             paddingTop: '10px',
-        };
+        }
     },
     innerCanvas: {
         display: 'grid',
@@ -50,18 +50,22 @@ export const styles = {
     },
     participantsSuggestionField(wideview) {
         return {
-            gridArea: wideview ? '3 / 1 / span 1 / span 3' : '3 / 1 / span 1 / span 5',
+            gridArea: wideview
+                ? '3 / 1 / span 1 / span 3'
+                : '3 / 1 / span 1 / span 5',
             paddingLeft: '12px',
             marginBottom: '0px',
-        };
+        }
     },
     participantsAdd(wideview) {
         return {
-            gridArea: wideview ? '3 / 4 / span 1 / span 2' : '3 / 6 / span 1 / span 2',
+            gridArea: wideview
+                ? '3 / 4 / span 1 / span 2'
+                : '3 / 6 / span 1 / span 2',
             alignSelf: 'end',
             marginBottom: '28px',
             paddingLeft: '12px',
-        };
+        }
     },
     messagesCanvas: {
         marginBottom: '50px',
@@ -75,6 +79,6 @@ export const styles = {
         gridArea: '1 / 1 / span 1 / span 2',
         padding: '0px',
     },
-};
+}
 
-export default styles;
+export default styles

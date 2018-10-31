@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import Dialog from 'material-ui/Dialog';
-import i18n from 'd2-i18n';
+import Dialog from 'material-ui/Dialog'
+import i18n from 'd2-i18n'
 
-import SuggestionField from './SuggestionField';
+import SuggestionField from './SuggestionField'
 
 const AssignToDialog = ({
     open,
@@ -15,13 +15,13 @@ const AssignToDialog = ({
     <Dialog
         open={open}
         onRequestClose={() => {
-            onRequestClose();
+            onRequestClose()
         }}
     >
         <SuggestionField
             onSuggestionClick={chip => {
-                updateMessageConversations([chip.id]);
-                onRequestClose();
+                updateMessageConversations([chip.id])
+                onRequestClose()
             }}
             searchOnlyUsers
             searchOnlyFeedbackRecipients={messageType.id === 'TICKET'}
@@ -31,6 +31,6 @@ const AssignToDialog = ({
             label={i18n.t('Assignee')}
         />
     </Dialog>
-);
+)
 
-export default AssignToDialog;
+export default AssignToDialog

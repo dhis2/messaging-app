@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import { List } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import Toggle from 'material-ui/Toggle';
+import { List } from 'material-ui/List'
+import Divider from 'material-ui/Divider'
+import Toggle from 'material-ui/Toggle'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions';
-import history from 'utils/history';
+import * as actions from 'constants/actions'
+import history from 'utils/history'
 
-import MessageTypeItem from 'components/List/MessageTypeItem';
-import theme from 'styles/theme';
+import MessageTypeItem from 'components/List/MessageTypeItem'
+import theme from 'styles/theme'
 
-const moment = require('moment');
+const moment = require('moment')
 
 const styles = {
     canvas: {
@@ -33,15 +33,16 @@ const styles = {
         overflowX: 'hidden',
         minWidth: '200px',
     },
-};
+}
 
 class SidebarList extends Component {
-    componentWillMount() {
-        this.props.setSelectedMessageType(this.props.match.params.messageType);
+    constructor(props) {
+        super(props)
+        this.props.setSelectedMessageType(this.props.match.params.messageType)
     }
 
     render() {
-        const messageTypes = this.props.messageTypes;
+        const messageTypes = this.props.messageTypes
 
         return (
             <div style={styles.canvas}>
@@ -56,13 +57,17 @@ class SidebarList extends Component {
                                 <MessageTypeItem
                                     messageType={messageType}
                                     onClick={() => {
-                                        this.props.setSelectedMessageType(messageType.id);
-                                        this.props.updateInputFields('', '', []);
+                                        this.props.setSelectedMessageType(
+                                            messageType.id
+                                        )
+                                        this.props.updateInputFields('', '', [])
                                         this.props.attachments.length > 0 &&
-                                            this.props.clearAttachments();
-                                        history.push(`/${messageType.id}`);
+                                            this.props.clearAttachments()
+                                        history.push(`/${messageType.id}`)
                                     }}
-                                    selectedMessageType={this.props.selectedMessageType}
+                                    selectedMessageType={
+                                        this.props.selectedMessageType
+                                    }
                                     loading={messageType.loading}
                                 />
                                 <Divider />
@@ -71,14 +76,16 @@ class SidebarList extends Component {
                 </List>
                 <Toggle
                     style={{ width: '', margin: '20px' }}
-                    label={`${i18n.t('Auto refresh')} (${moment(this.props.counter).format(
-                        'mm:ss',
-                    )})`}
+                    label={`${i18n.t('Auto refresh')} (${moment(
+                        this.props.counter
+                    ).format('mm:ss')})`}
                     toggled={this.props.autoRefresh}
-                    onToggle={() => this.props.setAutoRefresh(!this.props.autoRefresh)}
+                    onToggle={() =>
+                        this.props.setAutoRefresh(!this.props.autoRefresh)
+                    }
                 />
             </div>
-        );
+        )
     }
 }
 
@@ -90,10 +97,13 @@ export default compose(
         }),
         dispatch => ({
             setSelectedMessageType: messageTypeId =>
-                dispatch({ type: actions.SET_SELECTED_MESSAGE_TYPE, payload: { messageTypeId } }),
+                dispatch({
+                    type: actions.SET_SELECTED_MESSAGE_TYPE,
+                    payload: { messageTypeId },
+                }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
         }),
         null,
-        { pure: false },
-    ),
-)(SidebarList);
+        { pure: false }
+    )
+)(SidebarList)

@@ -1,5 +1,5 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { fade } from 'material-ui/utils/colorManipulator';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { fade } from 'material-ui/utils/colorManipulator'
 import {
     blue50,
     blue100,
@@ -16,7 +16,7 @@ import {
     white,
     darkBlack,
     fullBlack,
-} from 'material-ui/styles/colors';
+} from 'material-ui/styles/colors'
 
 export default getMuiTheme({
     palette: {
@@ -40,4 +40,4 @@ export default getMuiTheme({
         clockCircleColor: fade(darkBlack, 0.07),
         shadowColor: fullBlack,
     },
-});
+})

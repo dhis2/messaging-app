@@ -1,6 +1,6 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const packageJSON = require('./package.json');
-const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const packageJSON = require('./package.json')
+const path = require('path')
 
 module.exports = {
     entry: {
@@ -46,4 +46,4 @@ module.exports = {
         },
         extensions: ['.js', '.jsx'],
     },
-};
+}
