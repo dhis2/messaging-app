@@ -40,7 +40,7 @@ class MessageConversation extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         getD2Instance().then(instance => {
             this.setState({
                 currentUser: instance.currentUser,

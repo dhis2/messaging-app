@@ -38,7 +38,7 @@ class MessagingCenter extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const selectedMessageType = this.props.match.params.messageType
         const selectedId = this.props.location.pathname.split('/').slice(-1)[0]
 

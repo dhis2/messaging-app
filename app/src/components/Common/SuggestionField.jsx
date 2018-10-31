@@ -33,7 +33,7 @@ class SuggestionField extends Component {
     }
 
     inputStream = new Subject()
-    componentWillMount = () => {
+    componentDidMount = () => {
         this.inputStream
             .debounce(() => Observable.timer(searchDelay))
             .subscribe(input => {
