@@ -20,7 +20,6 @@ const styles = {
             backgroundColor,
             display: 'grid',
             gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
-            gridTemplateRows: wideview ? '' : '15% 85%',
             transition: 'all 0.2s ease-in-out',
             boxSizing: 'border-box',
             position: 'relative',
