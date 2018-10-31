@@ -11,11 +11,11 @@ import configI18n from './utils/configI18n'
 
 const dhisVersion = 30
 const schemas = ['messageConversation']
-
 ;(async () => {
     const PRODUCTION = process.env.NODE_ENV === 'production'
+    const baseUrl = PRODUCTION ? '..' : DHIS_CONFIG.baseUrl
     const dhisConfig = {
-        baseUrl: `${DHIS_CONFIG.baseUrl}/api/${dhisVersion}`,
+        baseUrl: `${baseUrl}/api/${dhisVersion}`,
         headers: PRODUCTION ? null : null,
         schemas,
     }
