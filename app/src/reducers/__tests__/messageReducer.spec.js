@@ -1,20 +1,20 @@
-import messageReducer, { initialState } from '../messageReducer';
-import * as actions from '../../constants/actions';
+import messageReducer, { initialState } from '../messageReducer'
+import * as actions from '../../constants/actions'
 
-let findIndex = require('lodash/findIndex');
+let findIndex = require('lodash/findIndex')
 
 describe('message conversation reducer', () => {
     it('should return the default state', () => {
-        const actualState = messageReducer(undefined, {});
+        const actualState = messageReducer(undefined, {})
 
-        expect(actualState).toEqual(initialState);
-    });
+        expect(actualState).toEqual(initialState)
+    })
 
     it('should handle MESSAGE_CONVERSATIONS_LOAD_SUCCESS', () => {
         const messageConversations = [
             { id: 'id1', displayName: 'id1', messageType: 'VALIDATION_RESULT' },
             { id: 'id2', displayName: 'id2', messageType: 'VALIDATION_RESULT' },
-        ];
+        ]
 
         const action = {
             type: actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
@@ -35,18 +35,18 @@ describe('message conversation reducer', () => {
                 ...initialState.messageTypes['VALIDATION_RESULT'],
             },
             nrOfUnread: 2,
-        };
+        }
 
         const expectedState = {
             ...initialState,
             messageConversations: {
                 VALIDATION_RESULT: messageConversations,
             },
-        };
+        }
 
-        const actualState = messageReducer(initialState, action);
-        expect(actualState).toEqual(expectedState);
-    });
+        const actualState = messageReducer(initialState, action)
+        expect(actualState).toEqual(expectedState)
+    })
 
     it('should handle SEND_MESSAGE_ERROR', () => {
         const action = {
@@ -56,46 +56,46 @@ describe('message conversation reducer', () => {
                     message: 'error message',
                 },
             },
-        };
+        }
 
         const expectedState = {
             ...initialState,
             snackMessage: 'error message',
             snackType: 'NEGATIVE',
-        };
+        }
 
-        const actualState = messageReducer(initialState, action);
-        expect(actualState).toEqual(expectedState);
-    });
+        const actualState = messageReducer(initialState, action)
+        expect(actualState).toEqual(expectedState)
+    })
 
     it('should handle LOAD_MESSAGE_CONVERSATIONS', () => {
         const messageType = {
             id: 'VALIDATION_RESULT',
             loading: false,
-        };
+        }
 
         const action = {
             type: actions.LOAD_MESSAGE_CONVERSATIONS,
             payload: {
                 messageType,
             },
-        };
+        }
 
-        let stateMessageTypes = initialState.messageTypes;
+        let stateMessageTypes = initialState.messageTypes
 
-        const loadingMessageType = messageType;
-        loadingMessageType.loading = true;
+        const loadingMessageType = messageType
+        loadingMessageType.loading = true
 
         stateMessageTypes[
             findIndex(stateMessageTypes, { id: loadingMessageType.id })
-        ] = loadingMessageType;
+        ] = loadingMessageType
 
         const expectedState = {
             ...initialState,
             messageTypes: stateMessageTypes,
-        };
+        }
 
-        const actualState = messageReducer(initialState, action);
-        expect(actualState).toEqual(expectedState);
-    });
-});
+        const actualState = messageReducer(initialState, action)
+        expect(actualState).toEqual(expectedState)
+    })
+})

@@ -1,49 +1,49 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import CircularProgress from 'material-ui/CircularProgress';
-import Badge from 'material-ui/Badge';
-import Subheader from 'material-ui/Subheader/Subheader';
+import CircularProgress from 'material-ui/CircularProgress'
+import Badge from 'material-ui/Badge'
+import Subheader from 'material-ui/Subheader/Subheader'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import theme from 'styles/theme';
+import theme from 'styles/theme'
 
 class MessageTypeItem extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             backgroundColor: theme.palette.accent2Color,
             textColor: theme.palette.darkGray,
-        };
+        }
     }
 
     onClick = () => {
-        this.props.onClick();
-    };
+        this.props.onClick()
+    }
 
     onMouseEnter = () => {
-        this.setHoverText();
-        this.setState({ cursor: 'pointer' });
-    };
+        this.setHoverText()
+        this.setState({ cursor: 'pointer' })
+    }
     onMouseLeave = () => {
-        this.setNeutralText();
-        this.setState({ cursor: 'auto' });
-    };
+        this.setNeutralText()
+        this.setState({ cursor: 'auto' })
+    }
 
-    setNeutralText = () => this.setTextColor(theme.palette.accent2Color);
-    setHoverText = () => this.setTextColor(theme.palette.accent3Color);
+    setNeutralText = () => this.setTextColor(theme.palette.accent2Color)
+    setHoverText = () => this.setTextColor(theme.palette.accent3Color)
 
     setTextColor = color => {
         this.setState({
             backgroundColor: color,
-        });
-    };
+        })
+    }
 
     getBackgroundColor = (selectedValue, id) =>
         selectedValue && id === selectedValue.id
             ? theme.palette.accent3Color
-            : this.state.backgroundColor;
+            : this.state.backgroundColor
 
     render() {
         return (
@@ -53,7 +53,7 @@ class MessageTypeItem extends Component {
                     ...this.state,
                     backgroundColor: this.getBackgroundColor(
                         this.props.selectedMessageType,
-                        this.props.messageType.id,
+                        this.props.messageType.id
                     ),
                     cursor: this.state.cursor,
                     alignItems: 'center',
@@ -71,7 +71,8 @@ class MessageTypeItem extends Component {
                         marginLeft: '5px',
                         fontSize:
                             this.props.selectedMessageType &&
-                            this.props.messageType.id === this.props.selectedMessageType.id
+                            this.props.messageType.id ===
+                                this.props.selectedMessageType.id
                                 ? '18px'
                                 : '16px',
                         overflow: 'hidden',
@@ -79,7 +80,8 @@ class MessageTypeItem extends Component {
                         whiteSpace: 'nowrap',
                         color:
                             this.props.selectedMessageType &&
-                            this.props.messageType.id === this.props.selectedMessageType.id
+                            this.props.messageType.id ===
+                                this.props.selectedMessageType.id
                                 ? theme.palette.primary1Color
                                 : this.state.textColor,
                     }}
@@ -106,8 +108,8 @@ class MessageTypeItem extends Component {
                     )
                 )}
             </div>
-        );
+        )
     }
 }
 
-export default MessageTypeItem;
+export default MessageTypeItem

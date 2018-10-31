@@ -1,9 +1,9 @@
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const common = require('./webpack.common.js');
+const common = require('./webpack.common.js')
 
 module.exports = merge(common, {
     plugins: [
@@ -17,7 +17,7 @@ module.exports = merge(common, {
         new CleanWebpackPlugin(['build']),
 
         // Only bundle english locales for moment
-        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
         new CopyWebpackPlugin([
             {
                 from: './assets/icon.png',
@@ -25,4 +25,4 @@ module.exports = merge(common, {
             },
         ]),
     ],
-});
+})

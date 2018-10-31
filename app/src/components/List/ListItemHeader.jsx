@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 
-import Subheader from 'material-ui/Subheader/Subheader';
-import Checkbox from 'material-ui/Checkbox';
-import Paper from 'material-ui/Paper';
+import Subheader from 'material-ui/Subheader/Subheader'
+import Checkbox from 'material-ui/Checkbox'
+import Paper from 'material-ui/Paper'
 
-import i18n from 'd2-i18n';
+import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions';
-import theme from 'styles/theme';
-import { fontFamily } from 'constants/development';
+import * as actions from 'constants/actions'
+import theme from 'styles/theme'
+import { fontFamily } from 'constants/development'
 
-const fontSize = '16px';
+const fontSize = '16px'
 
 const styles = {
     canvas(backgroundColor, wideview) {
@@ -26,7 +26,7 @@ const styles = {
             position: 'relative',
             whiteSpace: 'nowrap',
             alignSelf: 'center',
-        };
+        }
     },
     checkBox: {
         gridArea: '1 / 1',
@@ -65,31 +65,36 @@ const styles = {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-        };
+        }
     },
-};
+}
 
 class MessageConversationListItem extends Component {
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
             cursor: 'auto',
             allChecked: false,
-        };
+        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.checkedIds.length < nextProps.children.length) {
-            this.setState({ allChecked: false });
+    componentDidUpdate() {
+        if (this.state.allChecked && this.props.checkedIds.length < this.props.children.length) {
+            this.setState({ allChecked: false })
         }
     }
 
     render() {
-        const displayExtendedChoices = this.props.displayExtendedChoices;
+        const displayExtendedChoices = this.props.displayExtendedChoices
 
         return (
-            <Paper style={styles.canvas(theme.palette.canvasColor, this.props.wideview)}>
+            <Paper
+                style={styles.canvas(
+                    theme.palette.canvasColor,
+                    this.props.wideview
+                )}
+            >
                 <Checkbox
                     checked={this.state.allChecked}
                     style={styles.checkBox}
@@ -99,16 +104,20 @@ class MessageConversationListItem extends Component {
                             : this.props.setAllChecked(
                                   this.props.children.map(child => ({
                                       id: child.id,
-                                  })),
-                              );
+                                  }))
+                              )
 
-                        this.setState({ allChecked: !this.state.allChecked });
+                        this.setState({ allChecked: !this.state.allChecked })
                     }}
                 />
                 <div style={styles.sender}>{i18n.t('Sender')}</div>
-                <Subheader style={styles.subject}>{i18n.t('Subject')}</Subheader>
+                <Subheader style={styles.subject}>
+                    {i18n.t('Subject')}
+                </Subheader>
                 {displayExtendedChoices && (
-                    <Subheader style={styles.extendedLabel('1 / 7')}>{i18n.t('Status')}</Subheader>
+                    <Subheader style={styles.extendedLabel('1 / 7')}>
+                        {i18n.t('Status')}
+                    </Subheader>
                 )}
                 {displayExtendedChoices && (
                     <Subheader style={styles.extendedLabel('1 / 8')}>
@@ -120,9 +129,11 @@ class MessageConversationListItem extends Component {
                         {i18n.t('Assignee')}
                     </Subheader>
                 )}
-                <Subheader style={styles.extendedLabel('1 / 10')}>{i18n.t('Date')}</Subheader>
+                <Subheader style={styles.extendedLabel('1 / 10')}>
+                    {i18n.t('Date')}
+                </Subheader>
             </Paper>
-        );
+        )
     }
 }
 
@@ -130,7 +141,8 @@ export default compose(
     connect(
         state => ({
             checkedIds: state.messaging.checkedIds,
-            isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+            isInFeedbackRecipientGroup:
+                state.messaging.isInFeedbackRecipientGroup,
         }),
         dispatch => ({
             setAllChecked: messageConversationIds =>
@@ -139,6 +151,6 @@ export default compose(
                     payload: { messageConversationIds },
                 }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-        }),
-    ),
-)(MessageConversationListItem);
+        })
+    )
+)(MessageConversationListItem)
