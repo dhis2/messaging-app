@@ -36,7 +36,8 @@ const styles = {
 }
 
 class SidebarList extends Component {
-    componentWillMount() {
+    constructor(props) {
+        super(props)
         this.props.setSelectedMessageType(this.props.match.params.messageType)
     }
 
