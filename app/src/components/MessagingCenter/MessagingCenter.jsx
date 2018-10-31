@@ -166,74 +166,80 @@ class MessagingCenter extends Component {
                     displayExtendedChoices={displayExtendedChoices}
                     toogleWideview={this.toogleWideview}
                 />
-
-                <SidebarList
-                    {...this.props}
-                    drawerOpen={this.state.drawerOpen}
-                    messageTypes={this.props.messageTypes}
-                    autoRefresh={this.state.autoRefresh}
-                    counter={this.state.counter}
-                    setAutoRefresh={this.setAutoRefresh}
-                />
-
-                {id === 'create' && (
-                    <CreateMessage
+                <div className="messaging-center__main-content">
+                    <SidebarList
                         {...this.props}
-                        wideview={this.state.wideview}
+                        drawerOpen={this.state.drawerOpen}
+                        messageTypes={this.props.messageTypes}
+                        autoRefresh={this.state.autoRefresh}
+                        counter={this.state.counter}
+                        setAutoRefresh={this.setAutoRefresh}
                     />
-                )}
 
-                {this.props.selectedMessageConversation === undefined &&
-                    !(this.state.wideview && id === 'create') && (
-                        <MessageConversationList
+                    {id === 'create' && (
+                        <CreateMessage
+                            {...this.props}
                             wideview={this.state.wideview}
-                            displayExtendedChoices={
-                                displayExtendedChoices && this.state.wideview
-                            }
                         />
                     )}
 
-                {this.props.selectedMessageConversation !== undefined &&
-                    !this.state.wideview && (
-                        <MessageConversationList
-                            wideview={this.state.wideview}
-                            displayExtendedChoices={
-                                displayExtendedChoices && this.state.wideview
-                            }
-                        />
-                    )}
+                    {this.props.selectedMessageConversation === undefined &&
+                        !(this.state.wideview && id === 'create') && (
+                            <MessageConversationList
+                                wideview={this.state.wideview}
+                                displayExtendedChoices={
+                                    displayExtendedChoices &&
+                                    this.state.wideview
+                                }
+                            />
+                        )}
 
-                {this.props.selectedMessageConversation && id !== 'create'
-                    ? this.props.selectedMessageConversation !== undefined && (
-                          <MessageConversation
-                              {...this.props}
-                              messageConversation={
-                                  this.props.selectedMessageConversation
-                              }
-                              wideview={this.state.wideview}
-                              disableLink
-                              displayExtendedChoices={displayExtendedChoices}
-                          />
-                      )
-                    : !this.state.wideview &&
-                      id !== 'create' && (
-                          <div
-                              className={
-                                  'messaging-center__no-message-selected'
-                              }
-                          >
-                              <Subheader style={subheader}>
-                                  {i18n.t('Select a message')}
-                              </Subheader>
-                              <MailIcon
-                                  style={{
-                                      color: theme.palette.primary1Color,
-                                      width: 120,
-                                      height: 120,
-                                  }}
+                    {this.props.selectedMessageConversation !== undefined &&
+                        !this.state.wideview && (
+                            <MessageConversationList
+                                wideview={this.state.wideview}
+                                displayExtendedChoices={
+                                    displayExtendedChoices &&
+                                    this.state.wideview
+                                }
+                            />
+                        )}
+
+                    {this.props.selectedMessageConversation && id !== 'create'
+                        ? this.props.selectedMessageConversation !==
+                              undefined && (
+                              <MessageConversation
+                                  {...this.props}
+                                  messageConversation={
+                                      this.props.selectedMessageConversation
+                                  }
+                                  wideview={this.state.wideview}
+                                  disableLink
+                                  displayExtendedChoices={
+                                      displayExtendedChoices
+                                  }
                               />
-                          </div>
-                      )}
+                          )
+                        : !this.state.wideview &&
+                          id !== 'create' && (
+                              <div
+                                  className={
+                                      'messaging-center__no-message-selected'
+                                  }
+                              >
+                                  <Subheader style={subheader}>
+                                      {i18n.t('Select a message')}
+                                  </Subheader>
+                                  <MailIcon
+                                      style={{
+                                          color: theme.palette.primary1Color,
+                                          width: 120,
+                                          height: 120,
+                                      }}
+                                  />
+                              </div>
+                          )}
+                </div>
             </div>
         )
     }
