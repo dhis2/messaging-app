@@ -45,7 +45,7 @@ const styles = {
         color: theme.palette.followUp,
         marginRight: 4,
     },
-    sender(messageConversation, wideview, fontWeight) {
+    sender(wideview, fontWeight) {
         return {
             fontFamily,
             fontSize: '14px',
@@ -216,13 +216,7 @@ class MessageConversationListItem extends Component {
                         this.props.setChecked(messageConversation, !checked)
                     }}
                 />
-                <div
-                    style={styles.sender(
-                        messageConversation,
-                        this.props.wideview,
-                        fontWeight
-                    )}
-                >
+                <div style={styles.sender(this.props.wideview, fontWeight)}>
                     {messageConversation.followUp && (
                         <Flag style={styles.flag} />
                     )}
