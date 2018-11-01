@@ -3,7 +3,12 @@ import React from 'react'
 import Subheader from 'material-ui/Subheader/Subheader'
 
 const styles = {
-    subheaderTitle: { height: '32px', color: 'black' },
+    subheaderTitle: {
+        height: '32px',
+        color: 'black',
+        paddingLeft: 0,
+        paddingRight: 16,
+    },
     subheader(color, fontWeight) {
         return {
             height: '32px',
@@ -34,7 +39,7 @@ const ExtendedChoiceLabel = ({
             : '-'
 
     return (
-        <div style={{ flex: 2, paddingLeft: 10 }}>
+        <div style={{ flex: 2, paddingLeft: 10, maxWidth: 200 }}>
             {showTitle && (
                 <Subheader style={styles.subheaderTitle}> {title} </Subheader>
             )}

@@ -134,9 +134,7 @@ class SuggestionField extends Component {
                 style={{ ...this.props.style, height: this.props.inputHeight }}
             >
                 <ChipInput
-                    style={{
-                        marginBottom: '16px',
-                    }}
+                    style={{ marginBottom: 16 }}
                     disabled={
                         this.props.disabled === undefined
                             ? false

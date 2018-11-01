@@ -45,6 +45,7 @@ const styles = {
         display: 'flex',
         justifyContent: 'flex-start',
         minWidth: '200px',
+        margin: '6px 0',
     },
     filterControl: {
         flex: 2,
@@ -323,6 +324,7 @@ class Toolbar extends Component {
                                     vertical: 'top',
                                 }}
                                 style={styles.iconMenu}
+                                menuStyle={{ overflowX: 'hidden' }}
                             >
                                 <Subheader style={{ padding: '0px 16px' }}>
                                     {i18n.t('Set filter')}

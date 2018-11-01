@@ -29,7 +29,7 @@ const styles = {
         }
     },
     checkBox: {
-        flex: '0 0 24px',
+        flex: '0 0 32px',
         display: 'flex',
         alignSelf: 'center',
         paddingLeft: '12px',

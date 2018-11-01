@@ -35,7 +35,7 @@ const styles = {
     },
     checkBox(wideview) {
         return {
-            flex: '0 0 24px',
+            flex: '0 0 32px',
             display: 'flex',
             alignSelf: 'center',
             paddingLeft: wideview ? 12 : 6,
@@ -86,6 +86,7 @@ const styles = {
             flex: 2,
             fontFamily,
             paddingLeft: wideview ? 10 : 0,
+            paddingRight: wideview ? 0 : 10,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',

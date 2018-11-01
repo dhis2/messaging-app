@@ -92,6 +92,7 @@ class MessageTypeItem extends Component {
                     <CircularProgress
                         style={{ marginRight: '10px' }}
                         color={theme.palette.primary1Color}
+                        size={24}
                     />
                 ) : (
                     this.props.messageType.unread > 0 && (
