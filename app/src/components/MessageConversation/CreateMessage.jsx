@@ -25,14 +25,12 @@ import { subheader } from 'styles/style'
 const find = require('lodash/find')
 
 const styles = {
-    canvas(gridArea) {
-        return {
-            gridArea,
-            margin: '10px',
-            overflowY: 'scroll',
-            overflowX: 'hidden',
-            height: 'calc(100vh - 110px)',
-        }
+    canvas: {
+        flex: '3 0',
+        margin: '10px',
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+        height: 'calc(100vh - 110px)',
     },
     messageTypeField: {
         display: 'flex',
@@ -108,9 +106,6 @@ class CreateMessage extends Component {
     }
 
     render() {
-        const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 9'
-            : '2 / 4 / span 1 / span 7'
         const disabled =
             this.props.subject === '' ||
             this.props.input === '' ||
@@ -124,7 +119,7 @@ class CreateMessage extends Component {
                 this.props.recipients.length === 0)
 
         return (
-            <div style={styles.canvas(gridArea)}>
+            <div style={styles.canvas}>
                 <Subheader style={subheader}> {i18n.t('Create')}</Subheader>
                 <Card>
                     <CardText>

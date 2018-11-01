@@ -10,6 +10,7 @@ const styles = {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
+            padding: 0,
             color,
             fontWeight,
         }
@@ -18,7 +19,6 @@ const styles = {
 
 const ExtendedChoiceLabel = ({
     showTitle,
-    gridArea,
     title,
     label,
     color,
@@ -34,7 +34,7 @@ const ExtendedChoiceLabel = ({
             : '-'
 
     return (
-        <div style={{ gridArea }}>
+        <div style={{ flex: 2, paddingLeft: 10 }}>
             {showTitle && (
                 <Subheader style={styles.subheaderTitle}> {title} </Subheader>
             )}

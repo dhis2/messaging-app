@@ -82,9 +82,6 @@ class MessageConversation extends Component {
         const notification = !!(
             NOTIFICATIONS.indexOf(messageConversation.messageType) + 1
         )
-        const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 9'
-            : '2 / 4 / span 1 / span 7'
 
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
@@ -106,7 +103,7 @@ class MessageConversation extends Component {
         }
 
         return (
-            <div id="messageconversation" style={styles.canvas(gridArea)}>
+            <div id="messageconversation" style={styles.canvas}>
                 <div style={styles.innerCanvas}>
                     <IconButton
                         style={styles.iconButton}

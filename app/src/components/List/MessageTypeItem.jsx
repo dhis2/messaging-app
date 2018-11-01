@@ -57,7 +57,7 @@ class MessageTypeItem extends Component {
                     ),
                     cursor: this.state.cursor,
                     alignItems: 'center',
-                    height: '48px',
+                    height: '49px',
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',

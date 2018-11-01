@@ -176,13 +176,6 @@ class MessagingCenter extends Component {
                         setAutoRefresh={this.setAutoRefresh}
                     />
 
-                    {id === 'create' && (
-                        <CreateMessage
-                            {...this.props}
-                            wideview={this.state.wideview}
-                        />
-                    )}
-
                     {this.props.selectedMessageConversation === undefined &&
                         !(this.state.wideview && id === 'create') && (
                             <MessageConversationList
@@ -193,6 +186,13 @@ class MessagingCenter extends Component {
                                 }
                             />
                         )}
+
+                    {id === 'create' && (
+                        <CreateMessage
+                            {...this.props}
+                            wideview={this.state.wideview}
+                        />
+                    )}
 
                     {this.props.selectedMessageConversation !== undefined &&
                         !this.state.wideview && (

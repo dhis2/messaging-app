@@ -19,58 +19,73 @@ const find = require('lodash/find')
 const moment = require('moment')
 
 const styles = {
-    checkBox: {
-        gridArea: '1 / 1',
-        display: 'flex',
-        alignSelf: 'center',
-        marginLeft: '12px',
-        width: '24px',
+    container(backgroundColor, wideview, cursor) {
+        return {
+            backgroundColor,
+            display: 'flex',
+            transition: 'all 0.2s ease-in-out',
+            cursor: cursor,
+            boxSizing: 'border-box',
+            position: 'relative',
+            whiteSpace: 'nowrap',
+            boxShadow: 'none',
+            borderBottom: '1px solid #dfdfdf',
+            flexWrap: wideview ? 'nowrap' : 'wrap',
+        }
+    },
+    checkBox(wideview) {
+        return {
+            flex: '0 0 24px',
+            display: 'flex',
+            alignSelf: 'center',
+            paddingLeft: wideview ? 12 : 6,
+        }
     },
     flag: {
-        gridArea: '1 / 1',
         color: theme.palette.followUp,
-        alignSelf: 'center',
-        marginLeft: '40px',
+        marginRight: 4,
     },
-    title(messageConversation, wideview, fontWeight) {
+    sender(messageConversation, wideview, fontWeight) {
         return {
             fontFamily,
             fontSize: '14px',
-            gridArea: wideview
-                ? '1 / 1 / span 1 / span 2'
-                : '1 / 1 / span 1 / span 6',
+            flex: 3,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            alignSelf: 'center',
+            display: 'flex',
+            alignItems: 'center',
             color: 'black',
-            marginLeft: messageConversation.followUp ? '70px' : '50px',
+            paddingLeft: wideview ? 10 : 0,
             fontWeight,
         }
     },
-    subject(wideview, displayExtendedChoices, fontColor, fontWeight) {
+    subject(wideview, fontColor, fontWeight) {
+        const compactStyle = wideview
+            ? null
+            : {
+                  order: 10,
+                  flexBasis: '100%',
+                  marginTop: -10,
+              }
         return {
-            gridArea: wideview
-                ? displayExtendedChoices
-                    ? '1 / 3 / span 1 / span 4'
-                    : '1 / 3 / span 1 / span 6'
-                : '2 / 1 / span 1 / span 10',
+            flex: 8,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            paddingLeft: '10px',
-            marginTop: !wideview ? '-10px' : '',
+            paddingLeft: 10,
+            // marginTop: !wideview ? '-10px' : '',
             fontFamily,
             color: fontColor,
             fontWeight,
+            ...compactStyle,
         }
     },
     dateFormat(wideview, fontColor, fontWeight) {
         return {
-            gridArea: wideview ? '1 / 10' : '1 / 7 / span 1 / span 4',
+            flex: 2,
             fontFamily,
-            paddingRight: '10px',
-            paddingLeft: wideview ? '16px' : '0px',
+            paddingLeft: wideview ? 10 : 0,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -156,22 +171,18 @@ class MessageConversationListItem extends Component {
             ? 'black'
             : theme.palette.darkGray
 
+        const containerBackgroundColor = this.getBackgroundColor(
+            messageConversation,
+            checked
+        )
+
         return (
             <Paper
-                style={{
-                    backgroundColor: this.getBackgroundColor(
-                        messageConversation,
-                        checked
-                    ),
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(10, minmax(10px, 1fr)',
-                    gridTemplateRows: this.props.wideview ? '' : '15% 85%',
-                    transition: 'all 0.2s ease-in-out',
-                    cursor: this.state.cursor,
-                    boxSizing: 'border-box',
-                    position: 'relative',
-                    whiteSpace: 'nowrap',
-                }}
+                style={styles.container(
+                    containerBackgroundColor,
+                    this.props.wideview,
+                    this.state.cursor
+                )}
                 onClick={event => {
                     const onClick =
                         event.target.innerText !== undefined &&
@@ -199,25 +210,26 @@ class MessageConversationListItem extends Component {
             >
                 <Checkbox
                     checked={checked}
-                    style={styles.checkBox}
+                    style={styles.checkBox(this.props.wideview)}
                     onCheck={(event, isInputChecked) => {
                         this.props.setChecked(messageConversation, !checked)
                     }}
                 />
-                {messageConversation.followUp && <Flag style={styles.flag} />}
                 <div
-                    style={styles.title(
+                    style={styles.sender(
                         messageConversation,
                         this.props.wideview,
                         fontWeight
                     )}
                 >
-                    {title}
+                    {messageConversation.followUp && (
+                        <Flag style={styles.flag} />
+                    )}
+                    <span>{title}</span>
                 </div>
                 <Subheader
                     style={styles.subject(
                         this.props.wideview,
-                        displayExtendedChoices,
                         fontColor,
                         fontWeight
                     )}
@@ -227,7 +239,6 @@ class MessageConversationListItem extends Component {
                 {displayExtendedChoices && (
                     <ExtendedChoiceLabel
                         showTitle={false}
-                        gridArea={'1/7'}
                         title={i18n.t('Status')}
                         color={fontColor}
                         fontWeight={fontWeight}
@@ -237,7 +248,6 @@ class MessageConversationListItem extends Component {
                 {displayExtendedChoices && (
                     <ExtendedChoiceLabel
                         showTitle={false}
-                        gridArea={'1/8'}
                         title={i18n.t('Priority')}
                         color={fontColor}
                         fontWeight={fontWeight}
@@ -248,7 +258,6 @@ class MessageConversationListItem extends Component {
                     this.props.wideview && (
                         <ExtendedChoiceLabel
                             showTitle={false}
-                            gridArea={'1/9'}
                             title={i18n.t('Assignee')}
                             color={fontColor}
                             fontWeight={fontWeight}

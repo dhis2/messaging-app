@@ -2,14 +2,12 @@ import theme from '../styles/theme'
 import { fontFamily } from '../constants/development'
 
 export const styles = {
-    canvas(gridArea) {
-        return {
-            gridArea,
-            overflowY: 'scroll',
-            overflowX: 'hidden',
-            height: 'calc(100vh - 110px)',
-            paddingTop: '10px',
-        }
+    canvas: {
+        flex: '3 0',
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+        height: 'calc(100vh - 110px)',
+        paddingTop: '10px',
     },
     innerCanvas: {
         display: 'grid',

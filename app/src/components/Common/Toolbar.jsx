@@ -26,53 +26,46 @@ import theme from 'styles/theme'
 import extendedChoices from 'constants/extendedChoices'
 import ToolbarExtendedChoicePicker from 'components/Common/ToolbarExtendedChoicePicker'
 
-const headerHight = '48px'
+const headerHeight = '48px'
 const searchDelay = 300
 
 const styles = {
     canvas(checkedOptions) {
         return {
-            gridArea: '1 / 1 / span 1 / span 10',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(10, 1fr)',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
             backgroundColor: checkedOptions
                 ? theme.palette.blue50
                 : theme.palette.accent2Color,
             zIndex: 10,
         }
     },
-    checkedOptions: { width: '200px', gridArea: '1 / 1', alignSelf: 'center' },
     checkedOption: {
         display: 'flex',
         justifyContent: 'flex-start',
         minWidth: '200px',
     },
-    statusFilter: {
-        height: headerHight,
-        gridArea: '1 / 7',
-        marginRight: '10px',
-        width: '95%',
-    },
-    priorityFilter: {
-        height: headerHight,
-        gridArea: '1 / 8',
-        marginRight: '10px',
-        width: '95%',
+    filterControl: {
+        flex: 2,
+        height: headerHeight,
+        marginRight: 16,
+        minWidth: 180,
+        maxWidth: 256,
     },
     rightHandCanvas: {
-        gridArea: '1 / 9 / span 1 / span 2',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 1fr)',
+        flex: '2 0',
+        display: 'flex',
+        paddingLeft: 16,
     },
-    search: {
-        height: headerHight,
-        gridArea: '1 / 1 / span 1 / span 7',
+    // IE11 has buggy support for `justifyContent: flex-end;`
+    // to achieve the same result we use a spacer div
+    ie11Spacer: {
+        flexGrow: 1,
     },
     iconMenu: {
-        gridArea: '1 / 9 / span 1 / span 1',
         width: '30px',
         display: 'flex',
-        justifyContent: 'flex-end',
     },
 }
 
@@ -159,7 +152,7 @@ class Toolbar extends Component {
 
         return (
             <Paper style={styles.canvas(checkedOptions)}>
-                <div style={styles.checkedOptions}>
+                <div>
                     {!checkedOptions && (
                         <FlatButton
                             style={styles.checkedOption}
@@ -183,121 +176,122 @@ class Toolbar extends Component {
                     displayExtendedChoices={displayExtendedChoices}
                 />
 
-                {displayExtendedChoices &&
-                    displaySearch &&
-                    !checkedOptions && (
-                        <SelectField
-                            style={styles.statusFilter}
-                            labelStyle={{
-                                color:
-                                    this.props.statusFilter === undefined
-                                        ? 'lightGray'
-                                        : 'black',
-                                top:
-                                    this.props.statusFilter === undefined
-                                        ? '-15px'
-                                        : '-2px',
-                            }}
-                            selectedMenuItemStyle={{
-                                color: theme.palette.primary1Color,
-                            }}
-                            floatingLabelText={
-                                this.props.statusFilter === undefined
-                                    ? i18n.t('Status')
-                                    : ''
-                            }
-                            floatingLabelStyle={{
-                                top: '15px',
-                            }}
-                            iconStyle={{
-                                top:
-                                    this.props.statusFilter === undefined
-                                        ? '-15px'
-                                        : '0px',
-                            }}
-                            value={this.props.statusFilter}
-                            onChange={(event, key, payload) => {
-                                this.props.setFilter(
-                                    payload === null ? undefined : payload,
-                                    'STATUS'
-                                )
-                            }}
-                        >
-                            <MenuItem
-                                key={null}
-                                value={null}
-                                primaryText={''}
-                            />
-                            {extendedChoices.STATUS.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                />
-                            ))}
-                        </SelectField>
-                    )}
-
-                {displayExtendedChoices &&
-                    displaySearch &&
-                    !checkedOptions && (
-                        <SelectField
-                            style={styles.priorityFilter}
-                            labelStyle={{
-                                color:
-                                    this.props.priorityFilter === undefined
-                                        ? 'lightGray'
-                                        : 'black',
-                                top:
-                                    this.props.priorityFilter === undefined
-                                        ? '-15px'
-                                        : '-2px',
-                            }}
-                            selectedMenuItemStyle={{
-                                color: theme.palette.primary1Color,
-                            }}
-                            floatingLabelText={
-                                this.props.priorityFilter === undefined
-                                    ? i18n.t('Priority')
-                                    : ''
-                            }
-                            floatingLabelStyle={{
-                                top: '15px',
-                            }}
-                            iconStyle={{
-                                top:
-                                    this.props.priorityFilter === undefined
-                                        ? '-15px'
-                                        : '0px',
-                            }}
-                            value={this.props.priorityFilter}
-                            onChange={(event, key, payload) => {
-                                this.props.setFilter(
-                                    payload === null ? undefined : payload,
-                                    'PRIORITY'
-                                )
-                            }}
-                        >
-                            <MenuItem
-                                key={null}
-                                value={null}
-                                primaryText={''}
-                            />
-                            {extendedChoices.PRIORITY.map(elem => (
-                                <MenuItem
-                                    key={elem.key}
-                                    value={elem.value}
-                                    primaryText={elem.primaryText}
-                                />
-                            ))}
-                        </SelectField>
-                    )}
-
                 <div style={styles.rightHandCanvas}>
+                    <div style={styles.ie11Spacer} />
+                    {displayExtendedChoices &&
+                        displaySearch &&
+                        !checkedOptions && (
+                            <SelectField
+                                style={styles.filterControl}
+                                labelStyle={{
+                                    color:
+                                        this.props.statusFilter === undefined
+                                            ? 'lightGray'
+                                            : 'black',
+                                    top:
+                                        this.props.statusFilter === undefined
+                                            ? '-15px'
+                                            : '-2px',
+                                }}
+                                selectedMenuItemStyle={{
+                                    color: theme.palette.primary1Color,
+                                }}
+                                floatingLabelText={
+                                    this.props.statusFilter === undefined
+                                        ? i18n.t('Status')
+                                        : ''
+                                }
+                                floatingLabelStyle={{
+                                    top: '15px',
+                                }}
+                                iconStyle={{
+                                    top:
+                                        this.props.statusFilter === undefined
+                                            ? '-15px'
+                                            : '0px',
+                                }}
+                                value={this.props.statusFilter}
+                                onChange={(event, key, payload) => {
+                                    this.props.setFilter(
+                                        payload === null ? undefined : payload,
+                                        'STATUS'
+                                    )
+                                }}
+                            >
+                                <MenuItem
+                                    key={null}
+                                    value={null}
+                                    primaryText={''}
+                                />
+                                {extendedChoices.STATUS.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                    />
+                                ))}
+                            </SelectField>
+                        )}
+
+                    {displayExtendedChoices &&
+                        displaySearch &&
+                        !checkedOptions && (
+                            <SelectField
+                                style={styles.filterControl}
+                                labelStyle={{
+                                    color:
+                                        this.props.priorityFilter === undefined
+                                            ? 'lightGray'
+                                            : 'black',
+                                    top:
+                                        this.props.priorityFilter === undefined
+                                            ? '-15px'
+                                            : '-2px',
+                                }}
+                                selectedMenuItemStyle={{
+                                    color: theme.palette.primary1Color,
+                                }}
+                                floatingLabelText={
+                                    this.props.priorityFilter === undefined
+                                        ? i18n.t('Priority')
+                                        : ''
+                                }
+                                floatingLabelStyle={{
+                                    top: '15px',
+                                }}
+                                iconStyle={{
+                                    top:
+                                        this.props.priorityFilter === undefined
+                                            ? '-15px'
+                                            : '0px',
+                                }}
+                                value={this.props.priorityFilter}
+                                onChange={(event, key, payload) => {
+                                    this.props.setFilter(
+                                        payload === null ? undefined : payload,
+                                        'PRIORITY'
+                                    )
+                                }}
+                            >
+                                <MenuItem
+                                    key={null}
+                                    value={null}
+                                    primaryText={''}
+                                />
+                                {extendedChoices.PRIORITY.map(elem => (
+                                    <MenuItem
+                                        key={elem.key}
+                                        value={elem.value}
+                                        primaryText={elem.primaryText}
+                                    />
+                                ))}
+                            </SelectField>
+                        )}
+
                     {!checkedOptions &&
                         displaySearch && (
                             <TextField
-                                style={styles.search}
+                                style={styles.filterControl}
                                 fullWidth
                                 hintText={i18n.t('Search')}
                                 value={this.props.messageFilter}
@@ -375,7 +369,6 @@ class Toolbar extends Component {
                         )}
                     <FlatButton
                         style={{
-                            gridArea: '1 / 10 / span 1 / span 1',
                             width: '50px',
                             alignSelf: 'center',
                         }}

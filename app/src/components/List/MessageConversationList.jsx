@@ -22,8 +22,9 @@ const bottomEmptyHeight = 50
 const styles = {
     canvas(wideview) {
         return {
-            flex: 2,
-            maxWidth: wideview ? '100%' : '20%',
+            flex: '1 0',
+            maxWidth: wideview ? 'auto' : '450px',
+            minWidth: wideview ? 'auto' : '250px',
             borderRightStyle: wideview ? '' : 'solid',
             ...messagePanelContainer,
         }

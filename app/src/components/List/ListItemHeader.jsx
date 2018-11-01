@@ -15,56 +15,54 @@ import { fontFamily } from 'constants/development'
 const fontSize = '16px'
 
 const styles = {
-    canvas(backgroundColor, wideview) {
+    canvas(backgroundColor) {
         return {
             backgroundColor,
-            display: 'grid',
-            gridTemplateColumns: 'repeat(10, minmax(10px, 1fr))',
+            display: 'flex',
             transition: 'all 0.2s ease-in-out',
             boxSizing: 'border-box',
             position: 'relative',
             whiteSpace: 'nowrap',
             alignSelf: 'center',
+            boxShadow: 'none',
+            borderBottom: '1px solid #dfdfdf',
         }
     },
     checkBox: {
-        gridArea: '1 / 1',
+        flex: '0 0 24px',
         display: 'flex',
         alignSelf: 'center',
-        marginLeft: '12px',
-        width: '24px',
+        paddingLeft: '12px',
     },
     sender: {
         fontFamily,
         fontSize,
-        gridArea: '1 / 1 / span 1 / span 2',
+        flex: 3,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         color: 'black',
-        marginLeft: '50px',
-        paddingLeft: '0px',
+        paddingLeft: 10,
         alignSelf: 'center',
     },
     subject: {
-        gridArea: '1 / 3 / span 1 / span 3',
+        flex: 8,
         overflow: 'hidden',
         textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         fontFamily,
         fontSize,
         color: 'black',
-        paddingLeft: '10px',
+        paddingLeft: 10,
     },
-    extendedLabel(gridArea) {
-        return {
-            gridArea,
-            color: 'black',
-            fontSize,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-        }
+    extendedLabel: {
+        flex: 2,
+        color: 'black',
+        fontSize,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
+        padding: '0 0 0 10px',
     },
 }
 
@@ -79,7 +77,10 @@ class MessageConversationListItem extends Component {
     }
 
     componentDidUpdate() {
-        if (this.state.allChecked && this.props.checkedIds.length < this.props.children.length) {
+        if (
+            this.state.allChecked &&
+            this.props.checkedIds.length < this.props.children.length
+        ) {
             this.setState({ allChecked: false })
         }
     }
@@ -88,12 +89,7 @@ class MessageConversationListItem extends Component {
         const displayExtendedChoices = this.props.displayExtendedChoices
 
         return (
-            <Paper
-                style={styles.canvas(
-                    theme.palette.canvasColor,
-                    this.props.wideview
-                )}
-            >
+            <Paper style={styles.canvas(theme.palette.canvasColor)}>
                 <Checkbox
                     checked={this.state.allChecked}
                     style={styles.checkBox}
@@ -114,21 +110,21 @@ class MessageConversationListItem extends Component {
                     {i18n.t('Subject')}
                 </Subheader>
                 {displayExtendedChoices && (
-                    <Subheader style={styles.extendedLabel('1 / 7')}>
+                    <Subheader style={styles.extendedLabel}>
                         {i18n.t('Status')}
                     </Subheader>
                 )}
                 {displayExtendedChoices && (
-                    <Subheader style={styles.extendedLabel('1 / 8')}>
+                    <Subheader style={styles.extendedLabel}>
                         {i18n.t('Priority')}
                     </Subheader>
                 )}
                 {this.props.notification && (
-                    <Subheader style={styles.extendedLabel('1 / 9')}>
+                    <Subheader style={styles.extendedLabel}>
                         {i18n.t('Assignee')}
                     </Subheader>
                 )}
-                <Subheader style={styles.extendedLabel('1 / 10')}>
+                <Subheader style={styles.extendedLabel}>
                     {i18n.t('Date')}
                 </Subheader>
             </Paper>
