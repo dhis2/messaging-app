@@ -2,7 +2,7 @@ const merge = require('webpack-merge')
 const webpack = require('webpack')
 const common = require('./webpack.common.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const parse = require('url-parse');
+const parse = require('url-parse')
 
 const dhisConfigPath =
     process.env.DHIS2_HOME && `${process.env.DHIS2_HOME}/config`
@@ -23,7 +23,7 @@ const globals = {
     DHIS_CONFIG: JSON.stringify(dhisConfig),
 }
 
-const pathnamePrefix = parse(dhisConfig.baseUrl).pathname;
+const pathnamePrefix = parse(dhisConfig.baseUrl).pathname
 
 module.exports = merge(common, {
     output: {
@@ -40,7 +40,7 @@ module.exports = merge(common, {
                 .map(asset => {
                     return /\.js$/.test(asset)
                         ? `<script src="${asset}"></script>`
-                        : `<link type="text/css" rel="stylesheet" href="${asset}">`;
+                        : `<link type="text/css" rel="stylesheet" href="${asset}">`
                 })
                 .join('\n'),
         }),
