@@ -51,7 +51,6 @@ const styles = {
         flex: 2,
         height: headerHeight,
         marginRight: 16,
-        minWidth: 180,
         maxWidth: 256,
     },
     rightHandCanvas: {
