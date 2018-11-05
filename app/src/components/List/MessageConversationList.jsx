@@ -65,6 +65,17 @@ class MessageConversationList extends Component {
             isEqual
         )
 
+        console.log(
+            'all vs dedubed: ',
+            this.props.messageConversations[
+                this.props.selectedMessageType.id
+            ] &&
+                this.props.messageConversations[
+                    this.props.selectedMessageType.id
+                ].length,
+            children.length
+        )
+
         const messageType = this.props.selectedMessageType
             ? this.props.selectedMessageType
             : ''
