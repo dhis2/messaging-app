@@ -61,24 +61,18 @@ const styles = {
         }
     },
     subject(wideview, fontColor, fontWeight) {
-        const compactStyle = wideview
-            ? null
-            : {
-                  order: 10,
-                  flexBasis: '100%',
-                  marginTop: -10,
-              }
         return {
             flex: 8,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
             paddingLeft: 10,
-            // marginTop: !wideview ? '-10px' : '',
             fontFamily,
             color: fontColor,
             fontWeight,
-            ...compactStyle,
+            order: wideview ? 'inherit' : 10,
+            marginTop: wideview ? 0 : -10,
+            flexBasis: wideview ? '0%' : '100%',
         }
     },
     dateFormat(wideview, fontColor, fontWeight) {

@@ -23,8 +23,8 @@ const styles = {
     canvas(wideview) {
         return {
             flex: '1 0',
-            maxWidth: wideview ? 'auto' : '350px',
-            minWidth: wideview ? 'auto' : '250px',
+            maxWidth: wideview ? 'none' : '350px',
+            minWidth: wideview ? 'none' : '250px',
             borderRightStyle: wideview ? '' : 'solid',
             ...messagePanelContainer,
         }
