@@ -19,9 +19,11 @@ const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
 
 const styles = {
-    canvas(gridArea, wideview) {
+    canvas(wideview) {
         return {
-            gridArea,
+            flex: '1 0',
+            maxWidth: wideview ? 'none' : '350px',
+            minWidth: wideview ? 'none' : '250px',
             borderRightStyle: wideview ? '' : 'solid',
             ...messagePanelContainer,
         }
@@ -56,9 +58,6 @@ class MessageConversationList extends Component {
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
-        const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 9'
-            : '2 / 2 / span 1 / span 2'
         const children = dedupeById(
             this.props.messageConversations[this.props.selectedMessageType.id]
         )
@@ -75,7 +74,7 @@ class MessageConversationList extends Component {
             <div
                 id={'messagelist'}
                 onScroll={() => this.onScroll(this.props.selectedMessageType)}
-                style={styles.canvas(gridArea, this.props.wideview)}
+                style={styles.canvas(this.props.wideview)}
             >
                 {this.props.wideview && (
                     <ListItemHeader

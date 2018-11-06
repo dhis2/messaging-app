@@ -1,15 +1,20 @@
 .messaging {
     &-center {
-        display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        grid-template-rows: 48px calc(100vh - 48px);
+        display: flex;
+        flex-direction: column;
         margin-top: 48px;
         width: 100%;
         height: calc(100vh - 55px);
         position: fixed;
-    
+
+        &__main-content {
+            flex: 2 0;
+            display: flex;
+            flex-direction: row;
+        }
+
         &__no-message-selected {
-            grid-area: 2 e("/") 4 e("/") span 1 e("/") span 7;
+            flex: 3 0;
             text-align: center;
             padding-top: 100px;
         }

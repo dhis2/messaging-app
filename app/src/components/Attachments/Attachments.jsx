@@ -13,9 +13,7 @@ const styles = {
         height: '40px',
         marginRight: '5px',
         marginBottom: '5px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 1fr)',
-        gridTemplateRows: 'repeat(2, 1fr)',
+        display: 'flex',
     },
 }
 
@@ -28,9 +26,10 @@ const Attachments = ({
     cancelAttachment,
 }) => (
     <div className={'attachment'} style={{ ...style }}>
-        {attachments.map(attachment => (
+        {attachments.map((attachment, index) => (
             <Attachment
-                key={attachment.name}
+                // combining name with index prevents errors when user uploads files with duplicate names
+                key={`${attachment.name}-${index}`}
                 dataDirection={dataDirection}
                 attachment={attachment}
                 removeAttachment={removeAttachment}
