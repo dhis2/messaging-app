@@ -29,18 +29,14 @@ const multiSelectDisplayLimit = 99
 
 const styles = {
     canvas: {
-        gridArea: '1 / 2 / span 1 / span 2',
         width: '400px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
+        display: 'flex',
     },
     extendedChoices: {
-        gridArea: '1 / 1 / span 1 / span 1',
         display: 'flex',
         justifyContent: 'flex-start',
     },
     nrSelected: {
-        gridArea: '1 / 2 / span 1 / span 1',
         padding: '0px 0px',
         overflow: 'hidden',
         textOverflow: 'ellipsis',

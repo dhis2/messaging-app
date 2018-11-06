@@ -19,28 +19,22 @@ const styles = {
         return {
             backgroundColor,
             padding: '16px 16px 16px 16px',
-            gridArea: '1 / 1 / span 1 / span 2',
         }
     },
     innerCanvas: {
         margin: '',
         paddingBottom: '0px',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(10, 1fr)',
     },
     cardText: {
-        gridArea: '3 / 1 / span 1 / span 10',
         padding: '16px 0px 16px 0px',
         fontFamily,
         whiteSpace: 'pre-wrap',
         wordBreak: 'break-word',
     },
     fromFormat: {
-        gridArea: '1 / 1 / span 1 / span 8',
         fontFamily,
     },
     datePlacement: {
-        gridArea: '1 / 10',
         display: 'flex',
         justifyContent: 'flex-end',
         marginRight: '10px',
@@ -92,10 +86,7 @@ const Message = ({
 
                 <Attachments
                     dataDirection={'download'}
-                    style={{
-                        paddingLeft: '0px',
-                        gridArea: '2 / 1 / span 1 / span 10',
-                    }}
+                    style={{ paddingLeft: 0 }}
                     attachments={message.attachments}
                     downloadAttachment={downloadAttachment}
                     cancelAttachment={cancelAttachment}

@@ -53,13 +53,7 @@ class ReplyCard extends Component {
 
     render() {
         return (
-            <Card
-                style={{
-                    marginTop: '5px',
-                    gridArea: this.props.gridArea,
-                }}
-                expanded
-            >
+            <Card style={{ marginTop: '5px' }} expanded>
                 <CardText style={{ padding: '0px 0px 0px 16px' }}>
                     <TextField
                         key={this.props.messageConversation.id}

@@ -82,9 +82,6 @@ class MessageConversation extends Component {
         const notification = !!(
             NOTIFICATIONS.indexOf(messageConversation.messageType) + 1
         )
-        const gridArea = this.props.wideview
-            ? '2 / 2 / span 1 / span 9'
-            : '2 / 4 / span 1 / span 7'
 
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
@@ -106,21 +103,54 @@ class MessageConversation extends Component {
         }
 
         return (
-            <div id="messageconversation" style={styles.canvas(gridArea)}>
+            <div id="messageconversation" style={styles.canvas}>
                 <div style={styles.innerCanvas}>
-                    <IconButton
-                        style={styles.iconButton}
-                        tooltipPosition="bottom-right"
-                        onClick={() =>
-                            history.push(`/${messageConversation.messageType}`)
-                        }
-                        tooltip={i18n.t('Show all messages')}
-                    >
-                        <NavigationBack />
-                    </IconButton>
-                    <Subheader style={styles.subjectSubheader}>
-                        {messageConversation.subject}
-                    </Subheader>
+                    <div style={styles.header}>
+                        <IconButton
+                            style={styles.iconButton}
+                            tooltipPosition="bottom-right"
+                            onClick={() =>
+                                history.push(
+                                    `/${messageConversation.messageType}`
+                                )
+                            }
+                            tooltip={i18n.t('Show all messages')}
+                        >
+                            <NavigationBack />
+                        </IconButton>
+                        <Subheader style={styles.subjectSubheader}>
+                            {messageConversation.subject}
+                        </Subheader>
+                        {this.props.displayExtendedChoices && (
+                            <ExtendedChoiceLabel
+                                color={theme.palette.darkGray}
+                                showTitle
+                                title={i18n.t('Status')}
+                                label={messageConversation.status}
+                            />
+                        )}
+                        {this.props.displayExtendedChoices && (
+                            <ExtendedChoiceLabel
+                                color={theme.palette.darkGray}
+                                showTitle
+                                title={i18n.t('Priority')}
+                                label={messageConversation.priority}
+                            />
+                        )}
+                        {notification && (
+                            <ExtendedChoiceLabel
+                                color={theme.palette.darkGray}
+                                showTitle
+                                title={i18n.t('Assignee')}
+                                label={
+                                    messageConversation.assignee
+                                        ? messageConversation.assignee
+                                              .displayName
+                                        : undefined
+                                }
+                            />
+                        )}
+                    </div>
                     <div style={styles.participantsCanvas}>
                         <Subheader
                             style={{
@@ -138,54 +168,23 @@ class MessageConversation extends Component {
                             ))}
                         </div>
                     </div>
-                    <SuggestionField
-                        style={styles.participantsSuggestionField(
-                            this.props.wideview
-                        )}
-                        label={i18n.t('Add participants to conversation')}
-                        messageConversation={messageConversation}
-                        recipients={this.state.recipients}
-                        updateRecipients={this.updateRecipients}
-                        limitSearchArray={messageConversation.userMessages}
-                    />
-                    <div style={styles.participantsAdd(this.props.wideview)}>
-                        <FlatButton
-                            icon={<AddIcon />}
-                            onClick={() => this.addRecipients()}
-                            label={i18n.t('Add')}
+                    <div style={styles.participantAddRow}>
+                        <SuggestionField
+                            style={styles.participantsSuggestionField}
+                            label={i18n.t('Add participants to conversation')}
+                            messageConversation={messageConversation}
+                            recipients={this.state.recipients}
+                            updateRecipients={this.updateRecipients}
+                            limitSearchArray={messageConversation.userMessages}
                         />
+                        <div style={styles.participantsAdd}>
+                            <FlatButton
+                                icon={<AddIcon />}
+                                onClick={() => this.addRecipients()}
+                                label={i18n.t('Add')}
+                            />
+                        </div>
                     </div>
-                    {this.props.displayExtendedChoices && (
-                        <ExtendedChoiceLabel
-                            color={theme.palette.darkGray}
-                            showTitle
-                            gridArea={'1 / 8'}
-                            title={i18n.t('Status')}
-                            label={messageConversation.status}
-                        />
-                    )}
-                    {this.props.displayExtendedChoices && (
-                        <ExtendedChoiceLabel
-                            color={theme.palette.darkGray}
-                            showTitle
-                            gridArea={'1 / 9'}
-                            title={i18n.t('Priority')}
-                            label={messageConversation.priority}
-                        />
-                    )}
-                    {notification && (
-                        <ExtendedChoiceLabel
-                            color={theme.palette.darkGray}
-                            showTitle
-                            gridArea={'1 / 10'}
-                            title={i18n.t('Assignee')}
-                            label={
-                                messageConversation.assignee
-                                    ? messageConversation.assignee.displayName
-                                    : undefined
-                            }
-                        />
-                    )}
                 </div>
                 <div style={styles.messagesCanvas}>
                     <Paper style={styles.messagesInnerCanvas}>
@@ -212,7 +211,6 @@ class MessageConversation extends Component {
                     <ReplyCard
                         {...this.props}
                         messageConversation={messageConversation}
-                        gridArea={'2 / 1 / span 1 / span 2'}
                     />
                 </div>
             </div>

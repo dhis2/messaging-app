@@ -22,7 +22,6 @@ const styles = {
         flexDirection: 'column',
         justifyContent: 'space-between',
         height: 'calc(100vh - 95px)',
-        gridArea: '2 / 1 / span 1 / span 1',
         borderLeftStyle: 'solid',
         borderLeftWidth: '0.5px',
         borderLeftColor: theme.palette.accent4Color,
