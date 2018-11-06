@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import { Subject, Observable } from 'rxjs/Rx'
 import ChipInput from 'material-ui-chip-input'
+import { debounce } from '../../utils/helpers'
 
 import i18n from 'd2-i18n'
 import * as api from 'api/api'
@@ -15,79 +15,68 @@ const minCharLength = 2
  * identifiable objects. Selected objects are shown as chips in the text field.
  */
 class SuggestionField extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            input: '',
-            searchResult: [],
-            searchOnlyUsers: this.props.searchOnlyUsers,
-            searchOnlyFeedbackRecipients: this.props
-                .searchOnlyFeedbackRecipients,
-            lastSearch: '',
-            errorText: undefined,
-        }
+    state = {
+        input: '',
+        searchResult: [],
+        searchOnlyUsers: this.props.searchOnlyUsers,
+        searchOnlyFeedbackRecipients: this.props.searchOnlyFeedbackRecipients,
+        lastSearch: '',
+        errorText: undefined,
     }
 
-    inputStream = new Subject()
-    componentDidMount = () => {
-        this.inputStream
-            .debounce(() => Observable.timer(searchDelay))
-            .subscribe(input => {
-                console.log('do search ', input)
-                const doSearch =
-                    !this.state.searchResult.find(
-                        result => result.displayName === input
-                    ) &&
-                    input !== '' &&
-                    input.length >= minCharLength
+    debouncedSearch = debounce(this.search.bind(this), searchDelay)
 
-                if (doSearch) {
-                    api.searchRecipients(
-                        input,
-                        this.state.searchOnlyUsers,
-                        this.state.searchOnlyFeedbackRecipients,
-                        this.props.feedbackRecipientsId
-                    ).then(({ users, userGroups, organisationUnits }) => {
-                        const addType = type => result => ({ ...result, type })
+    search(input) {
+        const doSearch =
+            !this.state.searchResult.find(
+                result => result.displayName === input
+            ) &&
+            input !== '' &&
+            input.length >= minCharLength
 
-                        let internalSearchResult = users.map(addType('user'))
+        if (doSearch) {
+            api.searchRecipients(
+                input,
+                this.state.searchOnlyUsers,
+                this.state.searchOnlyFeedbackRecipients,
+                this.props.feedbackRecipientsId
+            ).then(({ users, userGroups, organisationUnits }) => {
+                const addType = type => result => ({ ...result, type })
 
-                        if (!this.state.searchOnlyUsers) {
-                            internalSearchResult = internalSearchResult
-                                .concat(userGroups.map(addType('userGroup')))
-                                .concat(
-                                    organisationUnits.map(
-                                        addType('organisationUnit')
-                                    )
-                                )
-                        }
+                let internalSearchResult = users.map(addType('user'))
 
-                        this.setState({
-                            searchResult: internalSearchResult,
-                            errorText:
-                                internalSearchResult.length === 0
-                                    ? i18n.t('No results found')
-                                    : undefined,
-                        })
-                    })
-                } else {
-                    this.setState({
-                        lastSearch: input,
-                        searchResult:
-                            (this.state.lastSearch !== '' && input === '') ||
-                            input.length < minCharLength
-                                ? []
-                                : this.state.searchResult,
-                        errorText:
-                            input !== '' && input.length < minCharLength
-                                ? i18n.t(
-                                      `Please enter at least ${minCharLength} characters`
-                                  )
-                                : this.state.searchWarning,
-                    })
+                if (!this.state.searchOnlyUsers) {
+                    internalSearchResult = internalSearchResult
+                        .concat(userGroups.map(addType('userGroup')))
+                        .concat(
+                            organisationUnits.map(addType('organisationUnit'))
+                        )
                 }
+
+                this.setState({
+                    searchResult: internalSearchResult,
+                    errorText:
+                        internalSearchResult.length === 0
+                            ? i18n.t('No results found')
+                            : undefined,
+                })
             })
+        } else {
+            this.setState({
+                lastSearch: input,
+                searchResult:
+                    (this.state.lastSearch !== '' && input === '') ||
+                    input.length < minCharLength
+                        ? []
+                        : this.state.searchResult,
+                errorText:
+                    input !== '' && input.length < minCharLength
+                        ? i18n.t(
+                              `Please enter at least ${minCharLength} characters`
+                          )
+                        : this.state.searchWarning,
+            })
+        }
     }
 
     onSuggestionClick = chip => {
@@ -95,7 +84,7 @@ class SuggestionField extends Component {
             this.props.onSuggestionClick(chip)
         } else {
             this.wipeInput()
-            this.inputStream.next('')
+            this.debouncedSearch('')
 
             const doInsert = !this.props.recipients.find(
                 recipient => recipient.id === chip.id
@@ -125,7 +114,7 @@ class SuggestionField extends Component {
     }
 
     updateInput = input => {
-        this.inputStream.next(input)
+        this.debouncedSearch(input)
         this.setState({
             input,
         })
