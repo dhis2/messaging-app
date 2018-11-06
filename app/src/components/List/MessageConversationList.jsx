@@ -13,8 +13,7 @@ import theme from 'styles/theme'
 import ListItemHeader from 'components/List/ListItemHeader'
 import MessageConversationListItem from 'components/List/MessageConversationListItem'
 
-const uniqWith = require('lodash/uniqWith')
-const isEqual = require('lodash/isEqual')
+import { dedupeById } from 'utils/helpers'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
@@ -60,20 +59,8 @@ class MessageConversationList extends Component {
         const gridArea = this.props.wideview
             ? '2 / 2 / span 1 / span 9'
             : '2 / 2 / span 1 / span 2'
-        const children = uniqWith(
-            this.props.messageConversations[this.props.selectedMessageType.id],
-            isEqual
-        )
-
-        console.log(
-            'all vs dedubed: ',
-            this.props.messageConversations[
-                this.props.selectedMessageType.id
-            ] &&
-                this.props.messageConversations[
-                    this.props.selectedMessageType.id
-                ].length,
-            children.length
+        const children = dedupeById(
+            this.props.messageConversations[this.props.selectedMessageType.id]
         )
 
         const messageType = this.props.selectedMessageType

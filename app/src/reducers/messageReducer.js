@@ -5,10 +5,7 @@ import * as actions from 'constants/actions'
 import messageTypes from '../constants/messageTypes'
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development'
-
-const find = require('lodash/find')
-const findIndex = require('lodash/findIndex')
-const remove = require('lodash/remove')
+import { findIndexOfId } from '../utils/helpers'
 
 export const initialState = {
     // Message conversation
@@ -55,9 +52,9 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
-            const replaceMessageType = find(stateMessageTypes, {
-                id: action.messageType.id,
-            })
+            const replaceMessageType = stateMessageTypes.find(
+                type => type.id === action.messageType.id
+            )
             replaceMessageType.loaded =
                 action.payload.messageConversations.length
             replaceMessageType.total = action.payload.pager.total
@@ -65,7 +62,7 @@ function messageReducer(state = initialState, action) {
             replaceMessageType.page = action.payload.pager.page
             replaceMessageType.loading = false
             messageTypes.splice(
-                [findIndex(stateMessageTypes, { id: replaceMessageType.id })],
+                [findIndexOfId(stateMessageTypes, replaceMessageType.id)],
                 1,
                 replaceMessageType
             )
@@ -217,9 +214,9 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: [],
-                selectedMessageType: find(stateMessageTypes, {
-                    id: action.payload.messageTypeId,
-                }),
+                selectedMessageType: stateMessageTypes.find(
+                    type => type.id === action.payload.messageTypeId
+                ),
                 selectedMessageConversations:
                     state.messageConversations[action.payload.messageTypeId],
                 selectedMessageConversation: undefined,
@@ -267,7 +264,7 @@ function messageReducer(state = initialState, action) {
             loadingMessageType.loading = true
 
             messageTypes[
-                findIndex(messageTypes, { id: loadingMessageType.id })
+                findIndexOfId(messageTypes, loadingMessageType.id)
             ] = loadingMessageType
 
             const selectedMessageType = state.selectedMessageType
@@ -306,14 +303,11 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.ADD_ATTACHMENT_ERROR:
-            remove(
-                oldAttachments,
-                attachment => attachment.id === action.payload.attachmentId
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment => attachment.id !== action.payload.attachmentId
+                ),
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
             }
@@ -329,25 +323,20 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.REMOVE_ATTACHMENT:
-            remove(
-                oldAttachments,
-                attachment => attachment.id === action.payload.attachmentId
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment => attachment.id !== action.payload.attachmentId
+                ),
             }
 
         case actions.CANCEL_ATTACHMENT:
-            remove(
-                oldAttachments,
-                attachment => attachment.name === action.payload.attachmentName
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment =>
+                        attachment.name !== action.payload.attachmentName
+                ),
             }
 
         case actions.CLEAR_ATTACHMENTS:

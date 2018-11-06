@@ -22,8 +22,6 @@ import Attachments from 'components/Attachments/Attachments'
 
 import { subheader } from 'styles/style'
 
-const find = require('lodash/find')
-
 const styles = {
     canvas(gridArea) {
         return {
@@ -75,9 +73,12 @@ class CreateMessage extends Component {
     }
 
     sendMessage = () => {
-        const messageType = find(this.props.messageTypes, {
-            id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
-        })
+        const messageTypeId = this.state.isMessageFeedback
+            ? 'TICKET'
+            : 'PRIVATE'
+        const messageType = this.props.messageTypes.find(
+            messageType => messageType.id === messageTypeId
+        )
 
         if (this.state.isMessageFeedback) {
             this.props.sendFeedbackMessage(messageType)

@@ -1,23 +1,22 @@
 {
-  "presets": [["es2015", { "modules": false }], "react", "stage-2"],
-  "env": {
-    "production": {
-      "presets": ["react-optimize"]
+    "presets": [["es2015", { "modules": false }], "react", "stage-2"],
+    "env": {
+        "production": {
+            "presets": ["react-optimize"]
+        },
+        "test": {
+            "presets": [["es2015"], "react"]
+        }
     },
-    "test": {
-      "presets": [["es2015"], "react"]
-    }
-  },
-  "plugins": [
-    ["transform-imports", {
-      "lodash": {
-        "transform": "lodash/${member}",
-        "preventFullImport": true
-      },
-      "rxjs": {
-        "transform": "rxjs/operator/${member}",
-        "preventFullImport": true
-      }
-    }]
-  ]
+    "plugins": [
+        [
+            "transform-imports",
+            {
+                "rxjs": {
+                    "transform": "rxjs/operator/${member}",
+                    "preventFullImport": true
+                }
+            }
+        ]
+    ]
 }
