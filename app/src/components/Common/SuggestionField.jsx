@@ -6,9 +6,6 @@ import ChipInput from 'material-ui-chip-input'
 import i18n from 'd2-i18n'
 import * as api from 'api/api'
 
-const find = require('lodash/find')
-const remove = require('lodash/remove')
-
 const searchDelay = 300
 
 const minCharLength = 2
@@ -37,9 +34,11 @@ class SuggestionField extends Component {
         this.inputStream
             .debounce(() => Observable.timer(searchDelay))
             .subscribe(input => {
+                console.log('do search ', input)
                 const doSearch =
-                    find(this.state.searchResult, { displayName: input }) ===
-                        undefined &&
+                    !this.state.searchResult.find(
+                        result => result.displayName === input
+                    ) &&
                     input !== '' &&
                     input.length >= minCharLength
 
@@ -98,20 +97,24 @@ class SuggestionField extends Component {
             this.wipeInput()
             this.inputStream.next('')
 
-            const doInsert =
-                find(this.props.recipients, { id: chip.id }) === undefined
+            const doInsert = !this.props.recipients.find(
+                recipient => recipient.id === chip.id
+            )
 
             doInsert &&
                 this.props.updateRecipients([
                     ...this.props.recipients,
-                    find(this.state.searchResult, { id: chip.id }),
+                    this.state.searchResult.find(
+                        result => result.id === chip.id
+                    ),
                 ])
         }
     }
 
     onRemoveChip = id => {
-        remove(this.props.recipients, { id })
-        this.props.updateRecipients(this.props.recipients)
+        this.props.updateRecipients(
+            this.props.recipients.filter(recipient => recipient.id !== id)
+        )
     }
 
     wipeInput = () => {
