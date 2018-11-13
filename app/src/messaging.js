@@ -9,7 +9,7 @@ import 'whatwg-fetch'
 
 import configI18n from './utils/configI18n'
 
-const dhisVersion = 30
+const dhisVersion = 31
 const schemas = ['messageConversation']
 ;(async () => {
     const PRODUCTION = process.env.NODE_ENV === 'production'
