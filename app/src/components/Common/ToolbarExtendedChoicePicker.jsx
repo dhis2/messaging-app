@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -20,6 +21,7 @@ import Done from 'material-ui-icons/Done'
 import i18n from 'd2-i18n'
 
 import * as actions from 'constants/actions'
+import { deleteMessageConversations } from '../../actions/epics'
 import extendedChoices from 'constants/extendedChoices'
 
 import history from 'utils/history'
@@ -311,11 +313,10 @@ export default compose(
                 dispatch({
                     type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
                 }),
-            deleteMessageConversations: (messageConversationIds, messageType) =>
-                dispatch({
-                    type: actions.DELETE_MESSAGE_CONVERSATIONS,
-                    payload: { messageConversationIds, messageType },
-                }),
+            deleteMessageConversations: bindActionCreators(
+                deleteMessageConversations,
+                dispatch
+            ),
             updateMessageConversations: (
                 messageConversationIds,
                 identifier,
@@ -366,3 +367,17 @@ export default compose(
         { pure: false }
     )
 )(ToolbarExtendedChoicePicker)
+
+// const mapStateToProps = state => ({
+//     selectedMessageType: state.messaging.selectedMessageType,
+//     selectedMessageConversation: state.messaging.selectedMessageConversation,
+//     checkedIds: state.messaging.checkedIds,
+//     feedbackRecipientsId: state.messaging.feedbackRecipientsId,
+// })
+
+// export default connect(
+//     mapStateToProps,
+//     {
+//         deleteMessageConversations,
+//     }
+// )(ToolbarExtendedChoicePicker)

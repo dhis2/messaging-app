@@ -12,6 +12,8 @@ const moment = require('moment')
 // Simple hack to solve negative time difference
 const FUTURE_HACK = 5000
 
+const createAction = (type, payload) => ({ type, payload })
+
 const setDisplayTimeDiff = action$ =>
     action$.ofType(actions.SET_DISPLAY_TIME_DIFF).switchMap(() =>
         api
@@ -238,28 +240,27 @@ const loadMessageConversations = (action$, store) =>
             )
         })
 
-const deleteMessageConversations = action$ =>
-    action$.ofType(actions.DELETE_MESSAGE_CONVERSATIONS).concatMap(action => {
-        const promises = action.payload.messageConversationIds.map(
-            messageConversationId =>
-                api.deleteMessageConversation(messageConversationId)
+export const deleteMessageConversations = (
+    messageConversationIds,
+    messageType
+) => async dispatch => {
+    try {
+        const promises = messageConversationIds.map(messageConversationId =>
+            api.deleteMessageConversation(messageConversationId)
         )
-
-        return Observable.from(
-            Promise.all(promises)
-                .then(() => ({
-                    type: actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
-                    payload: {
-                        messageType: action.payload.messageType,
-                        page: 1,
-                    },
-                }))
-                .catch(error => ({
-                    type: actions.MESSAGE_CONVERSATIONS_DELETE_ERROR,
-                    payload: { error },
-                }))
+        await Promise.all(promises)
+        dispatch(
+            createAction(actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS, {
+                messageType: messageType,
+                page: 1,
+            })
         )
-    })
+    } catch (error) {
+        dispatch(
+            createAction(actions.MESSAGE_CONVERSATIONS_DELETE_ERROR, { error })
+        )
+    }
+}
 
 const sendMessage = (action$, store) =>
     action$.ofType(actions.SEND_MESSAGE).concatMap(action => {
@@ -427,7 +428,7 @@ export default combineEpics(
     sendMessage,
     sendFeedbackMessage,
     replyMessage,
-    deleteMessageConversations,
+    // deleteMessageConversations,
     addRecipients,
     addAttachment,
     downloadAttachment
