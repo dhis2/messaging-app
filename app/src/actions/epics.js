@@ -288,44 +288,26 @@ export const sendMessage = (
     }
 }
 
-// const sendMessage = (action$, store) =>
-//     action$.ofType(actions.SEND_MESSAGE).concatMap(action => {
-//         const state = store.getState()
-//         return api
-//             .sendMessage(
-//                 state.messaging.subject,
-//                 action.payload.users,
-//                 action.payload.userGroups,
-//                 action.payload.organisationUnits,
-//                 state.messaging.input,
-//                 state.messaging.attachments,
-//                 action.payload.messageConversationId
-//             )
-//             .then(() => ({
-//                 type: actions.SEND_MESSAGE_SUCCESS,
-//                 payload: { messageType: action.payload.messageType, page: 1 },
-//             }))
-//             .catch(error => ({
-//                 type: actions.SEND_MESSAGE_ERROR,
-//                 payload: { error },
-//             }))
-//     })
-
-const sendFeedbackMessage = (action$, store) =>
-    action$.ofType(actions.SEND_FEEDBACK_MESSAGE).concatMap(action => {
-        const state = store.getState()
-
-        return api
-            .sendFeedbackMessage(state.messaging.subject, state.messaging.input)
-            .then(() => ({
-                type: actions.SEND_MESSAGE_SUCCESS,
-                payload: { messageType: action.payload.messageType, page: 1 },
-            }))
-            .catch(error => ({
-                type: actions.SEND_MESSAGE_ERROR,
-                payload: { error },
-            }))
-    })
+export const sendFeedbackMessage = messageType => async (
+    dispatch,
+    getState
+) => {
+    const state = getState()
+    try {
+        await api.sendFeedbackMessage(
+            state.messaging.subject,
+            state.messaging.input
+        )
+        dispatch(
+            createAction(actions.SEND_MESSAGE_SUCCESS, {
+                messageType: messageType,
+                page: 1,
+            })
+        )
+    } catch (error) {
+        dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+    }
+}
 
 const replyMessage = (action$, store) =>
     action$.ofType(actions.REPLY_MESSAGE).concatMap(action => {
@@ -452,7 +434,7 @@ export default combineEpics(
     loadMoreMessageConversations,
     loadMessageConversations,
     // sendMessage,
-    sendFeedbackMessage,
+    // sendFeedbackMessage,
     replyMessage,
     // deleteMessageConversations,
     addRecipients,

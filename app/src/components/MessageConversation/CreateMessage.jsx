@@ -14,7 +14,7 @@ import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
 
 import * as actions from 'constants/actions'
-import { sendMessage } from '../../actions/epics'
+import { sendMessage, sendFeedbackMessage } from '../../actions/epics'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'
@@ -240,13 +240,10 @@ export default compose(
         }),
         dispatch => ({
             sendMessage: bindActionCreators(sendMessage, dispatch),
-            sendFeedbackMessage: messageType =>
-                dispatch({
-                    type: actions.SEND_FEEDBACK_MESSAGE,
-                    payload: {
-                        messageType,
-                    },
-                }),
+            sendFeedbackMessage: bindActionCreators(
+                sendFeedbackMessage,
+                dispatch
+            ),
             displaySnackMessage: (
                 message,
                 onSnackActionClick,
