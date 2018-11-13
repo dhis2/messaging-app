@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -13,6 +14,7 @@ import Attachments from 'components/Attachments/Attachments'
 import i18n from 'd2-i18n'
 
 import * as actions from 'constants/actions'
+import { replyMessage } from '../../actions/epics'
 
 import { NEGATIVE } from 'constants/development'
 
@@ -148,21 +150,22 @@ export default compose(
             attachments: state.messaging.attachments,
         }),
         dispatch => ({
-            replyMessage: (
-                message,
-                internalReply,
-                messageConversation,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.REPLY_MESSAGE,
-                    payload: {
-                        message,
-                        internalReply,
-                        messageConversation,
-                        messageType,
-                    },
-                }),
+            replyMessage: bindActionCreators(replyMessage, dispatch),
+            // replyMessage: (
+            //     message,
+            //     internalReply,
+            //     messageConversation,
+            //     messageType
+            // ) =>
+            //     dispatch({
+            //         type: actions.REPLY_MESSAGE,
+            //         payload: {
+            //             message,
+            //             internalReply,
+            //             messageConversation,
+            //             messageType,
+            //         },
+            //     }),
             setSelectedMessageType: messageTypeId =>
                 dispatch({
                     type: actions.SET_SELECTED_MESSAGE_TYPE,

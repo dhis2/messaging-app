@@ -309,30 +309,56 @@ export const sendFeedbackMessage = messageType => async (
     }
 }
 
-const replyMessage = (action$, store) =>
-    action$.ofType(actions.REPLY_MESSAGE).concatMap(action => {
-        const state = store.getState()
+export const replyMessage = (
+    message,
+    internalReply,
+    messageConversation,
+    messageType
+) => async (dispatch, getState) => {
+    const state = getState()
+    try {
+        await api.replyMessage(
+            message,
+            internalReply,
+            state.messaging.attachments.map(attachment => attachment.id),
+            messageConversation.id
+        )
+        dispatch(
+            createAction(actions.REPLY_MESSAGE_SUCCESS, {
+                messageConversation: messageConversation,
+                messageType: messageType,
+                page: 1,
+            })
+        )
+    } catch (error) {
+        dispatch(createAction(actions.REPLY_MESSAGE_ERROR, { error }))
+    }
+}
 
-        return api
-            .replyMessage(
-                action.payload.message,
-                action.payload.internalReply,
-                state.messaging.attachments.map(attachment => attachment.id),
-                action.payload.messageConversation.id
-            )
-            .then(() => ({
-                type: actions.REPLY_MESSAGE_SUCCESS,
-                payload: {
-                    messageConversation: action.payload.messageConversation,
-                    messageType: action.payload.messageType,
-                    page: 1,
-                },
-            }))
-            .catch(error => ({
-                type: actions.REPLY_MESSAGE_ERROR,
-                payload: { error },
-            }))
-    })
+// const replyMessage = (action$, store) =>
+//     action$.ofType(actions.REPLY_MESSAGE).concatMap(action => {
+//         const state = store.getState()
+
+//         return api
+//             .replyMessage(
+//                 action.payload.message,
+//                 action.payload.internalReply,
+//                 state.messaging.attachments.map(attachment => attachment.id),
+//                 action.payload.messageConversation.id
+//             )
+//             .then(() => ({
+//                 type: actions.REPLY_MESSAGE_SUCCESS,
+//                 payload: {
+//                     messageConversation: action.payload.messageConversation,
+//                     messageType: action.payload.messageType,
+//                     page: 1,
+//                 },
+//             }))
+//             .catch(error => ({
+//                 type: actions.REPLY_MESSAGE_ERROR,
+//                 payload: { error },
+//             }))
+//     })
 
 const markMessageConversations = action$ =>
     action$.ofType(actions.MARK_MESSAGE_CONVERSATIONS).concatMap(action => {
@@ -435,7 +461,7 @@ export default combineEpics(
     loadMessageConversations,
     // sendMessage,
     // sendFeedbackMessage,
-    replyMessage,
+    // replyMessage,
     // deleteMessageConversations,
     addRecipients,
     addAttachment,
