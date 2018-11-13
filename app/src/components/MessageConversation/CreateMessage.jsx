@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -13,6 +14,7 @@ import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
 
 import * as actions from 'constants/actions'
+import { sendMessage } from '../../actions/epics'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'
@@ -237,23 +239,7 @@ export default compose(
             attachments: state.messaging.attachments,
         }),
         dispatch => ({
-            sendMessage: (
-                users,
-                userGroups,
-                organisationUnits,
-                messageConversationId,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.SEND_MESSAGE,
-                    payload: {
-                        users,
-                        userGroups,
-                        organisationUnits,
-                        messageConversationId,
-                        messageType,
-                    },
-                }),
+            sendMessage: bindActionCreators(sendMessage, dispatch),
             sendFeedbackMessage: messageType =>
                 dispatch({
                     type: actions.SEND_FEEDBACK_MESSAGE,

@@ -262,28 +262,54 @@ export const deleteMessageConversations = (
     }
 }
 
-const sendMessage = (action$, store) =>
-    action$.ofType(actions.SEND_MESSAGE).concatMap(action => {
-        const state = store.getState()
-        return api
-            .sendMessage(
-                state.messaging.subject,
-                action.payload.users,
-                action.payload.userGroups,
-                action.payload.organisationUnits,
-                state.messaging.input,
-                state.messaging.attachments,
-                action.payload.messageConversationId
-            )
-            .then(() => ({
-                type: actions.SEND_MESSAGE_SUCCESS,
-                payload: { messageType: action.payload.messageType, page: 1 },
-            }))
-            .catch(error => ({
-                type: actions.SEND_MESSAGE_ERROR,
-                payload: { error },
-            }))
-    })
+export const sendMessage = (
+    users,
+    userGroups,
+    organisationUnits,
+    messageConversationId,
+    messageType
+) => async (dispatch, getState) => {
+    try {
+        const state = getState()
+        await api.sendMessage(
+            state.messaging.subject,
+            users,
+            userGroups,
+            organisationUnits,
+            state.messaging.input,
+            state.messaging.attachments,
+            messageConversationId
+        )
+        dispatch(
+            createAction(actions.SEND_MESSAGE_SUCCESS, { messageType, page: 1 })
+        )
+    } catch (error) {
+        dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+    }
+}
+
+// const sendMessage = (action$, store) =>
+//     action$.ofType(actions.SEND_MESSAGE).concatMap(action => {
+//         const state = store.getState()
+//         return api
+//             .sendMessage(
+//                 state.messaging.subject,
+//                 action.payload.users,
+//                 action.payload.userGroups,
+//                 action.payload.organisationUnits,
+//                 state.messaging.input,
+//                 state.messaging.attachments,
+//                 action.payload.messageConversationId
+//             )
+//             .then(() => ({
+//                 type: actions.SEND_MESSAGE_SUCCESS,
+//                 payload: { messageType: action.payload.messageType, page: 1 },
+//             }))
+//             .catch(error => ({
+//                 type: actions.SEND_MESSAGE_ERROR,
+//                 payload: { error },
+//             }))
+//     })
 
 const sendFeedbackMessage = (action$, store) =>
     action$.ofType(actions.SEND_FEEDBACK_MESSAGE).concatMap(action => {
@@ -425,7 +451,7 @@ export default combineEpics(
     markMessageConversations,
     loadMoreMessageConversations,
     loadMessageConversations,
-    sendMessage,
+    // sendMessage,
     sendFeedbackMessage,
     replyMessage,
     // deleteMessageConversations,
