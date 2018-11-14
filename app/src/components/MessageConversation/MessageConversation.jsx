@@ -5,7 +5,11 @@ import { compose } from 'recompose'
 
 import history from 'utils/history'
 import * as actions from 'constants/actions'
-import { addRecipients, cancelAttachment } from '../../actions/epics'
+import {
+    addRecipients,
+    cancelAttachment,
+    downloadAttachment,
+} from '../../actions/epics'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 
@@ -227,15 +231,10 @@ export default compose(
         }),
         dispatch => ({
             addRecipients: bindActionCreators(addRecipients, dispatch),
-            downloadAttachment: (
-                messageConversationId,
-                messageId,
-                attachmentId
-            ) =>
-                dispatch({
-                    type: actions.DOWNLOAD_ATTACHMENT,
-                    payload: { messageConversationId, messageId, attachmentId },
-                }),
+            downloadAttachment: bindActionCreators(
+                downloadAttachment,
+                dispatch
+            ),
             cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
         }),
         null,
