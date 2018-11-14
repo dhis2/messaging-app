@@ -403,22 +403,22 @@ export const addAttachment = attachment => async dispatch => {
 export const cancelAttachment = attachmentName =>
     createAction(actions.CANCEL_ATTACHMENT, { attachmentName })
 
-const downloadAttachment = action$ =>
-    action$.ofType(actions.DOWNLOAD_ATTACHMENT).concatMap(action =>
-        api
-            .downloadAttachment(
-                action.payload.messageConversationId,
-                action.payload.messageId,
-                action.payload.attachmentId
-            )
-            .then(result => ({
-                type: actions.DOWNLOAD_ATTACHMENT_SUCCESS,
-            }))
-            .catch(error => ({
-                type: actions.DOWNLOAD_ATTACHMENT_ERROR,
-                payload: { error },
-            }))
-    )
+export const downloadAttachment = (
+    messageConversationId,
+    messageId,
+    attachmentId
+) => async dispatch => {
+    try {
+        await api.downloadAttachment(
+            messageConversationId,
+            messageId,
+            attachmentId
+        )
+        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
+    } catch (error) {
+        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
+    }
+}
 
 export default combineEpics(
     setDisplayTimeDiff,
@@ -426,12 +426,12 @@ export default combineEpics(
     updateMessageConversations,
     // markMessageConversations,
     loadMoreMessageConversations,
-    loadMessageConversations,
+    loadMessageConversations
     // sendMessage,
     // sendFeedbackMessage,
     // replyMessage,
     // deleteMessageConversations,
     // addRecipients,
     // addAttachment,
-    downloadAttachment
+    // downloadAttachment
 )
