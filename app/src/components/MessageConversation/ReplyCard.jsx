@@ -14,7 +14,11 @@ import Attachments from 'components/Attachments/Attachments'
 import i18n from 'd2-i18n'
 
 import * as actions from 'constants/actions'
-import { replyMessage } from '../../actions/epics'
+import {
+    replyMessage,
+    addAttachment,
+    cancelAttachment,
+} from '../../actions/epics'
 
 import { NEGATIVE } from 'constants/development'
 
@@ -151,21 +155,6 @@ export default compose(
         }),
         dispatch => ({
             replyMessage: bindActionCreators(replyMessage, dispatch),
-            // replyMessage: (
-            //     message,
-            //     internalReply,
-            //     messageConversation,
-            //     messageType
-            // ) =>
-            //     dispatch({
-            //         type: actions.REPLY_MESSAGE,
-            //         payload: {
-            //             message,
-            //             internalReply,
-            //             messageConversation,
-            //             messageType,
-            //         },
-            //     }),
             setSelectedMessageType: messageTypeId =>
                 dispatch({
                     type: actions.SET_SELECTED_MESSAGE_TYPE,
@@ -191,21 +180,13 @@ export default compose(
                         snackType,
                     },
                 }),
-            addAttachment: attachment =>
-                dispatch({
-                    type: actions.ADD_ATTACHMENT,
-                    payload: { attachment },
-                }),
+            addAttachment: bindActionCreators(addAttachment, dispatch),
             removeAttachment: attachmentId =>
                 dispatch({
                     type: actions.REMOVE_ATTACHMENT,
                     payload: { attachmentId },
                 }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
+            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
         }),
         null,
         { pure: false }

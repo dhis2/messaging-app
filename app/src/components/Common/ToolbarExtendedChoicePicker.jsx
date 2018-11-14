@@ -341,19 +341,6 @@ export default compose(
                 markMessageConversations,
                 dispatch
             ),
-            // markMessageConversations: (
-            //     mode,
-            //     markedConversations,
-            //     messageType
-            // ) =>
-            //     dispatch({
-            //         type: actions.MARK_MESSAGE_CONVERSATIONS,
-            //         payload: {
-            //             mode,
-            //             markedConversations,
-            //             messageType,
-            //         },
-            //     }),
             displaySnackMessage: (
                 message,
                 onSnackActionClick,

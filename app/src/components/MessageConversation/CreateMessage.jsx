@@ -14,7 +14,12 @@ import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
 
 import * as actions from 'constants/actions'
-import { sendMessage, sendFeedbackMessage } from '../../actions/epics'
+import {
+    sendMessage,
+    sendFeedbackMessage,
+    addAttachment,
+    cancelAttachment,
+} from '../../actions/epics'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'
@@ -264,21 +269,13 @@ export default compose(
                     type: actions.UPDATE_INPUT_FIELDS,
                     payload: { subject, input, recipients },
                 }),
-            addAttachment: attachment =>
-                dispatch({
-                    type: actions.ADD_ATTACHMENT,
-                    payload: { attachment },
-                }),
+            addAttachment: bindActionCreators(addAttachment, dispatch),
             removeAttachment: attachmentId =>
                 dispatch({
                     type: actions.REMOVE_ATTACHMENT,
                     payload: { attachmentId },
                 }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
+            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
         }),
         null,
         { pure: false }

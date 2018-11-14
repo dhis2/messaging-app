@@ -108,10 +108,7 @@ class MessageConversationListItem extends Component {
             this.props.markMessageConversations(
                 'read',
                 [messageConversation.id],
-                this.props.selectedMessageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter
+                this.props.selectedMessageType
             )
         }
         this.props.updateInputFields('', '', [])
@@ -305,25 +302,6 @@ export default compose(
                 markMessageConversations,
                 dispatch
             ),
-            // markMessageConversations: (
-            //     mode,
-            //     markedConversations,
-            //     messageType,
-            //     messageFilter,
-            //     statusFilter,
-            //     priorityFilter
-            // ) =>
-            //     dispatch({
-            //         type: actions.MARK_MESSAGE_CONVERSATIONS,
-            //         payload: {
-            //             mode,
-            //             markedConversations,
-            //             messageType,
-            //             messageFilter,
-            //             statusFilter,
-            //             priorityFilter,
-            //         },
-            //     }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
             setFilter: (filter, filterType) =>
                 dispatch({

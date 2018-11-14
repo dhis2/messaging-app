@@ -289,16 +289,15 @@ function messageReducer(state = initialState, action) {
         case actions.ADD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
-                attachments: state.attachments.map(
-                    attachment =>
-                        attachment.name === action.attachment.name
-                            ? {
-                                  id: action.attachment.id,
-                                  name: attachment.name,
-                                  contentLength: attachment.contentLength,
-                                  loading: false,
-                              }
-                            : attachment
+                attachments: state.attachments.map(attachment =>
+                    attachment.name === action.payload.name
+                        ? {
+                              id: action.payload.id,
+                              name: attachment.name,
+                              contentLength: attachment.contentLength,
+                              loading: false,
+                          }
+                        : attachment
                 ),
             }
 
@@ -316,8 +315,8 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 attachments: state.attachments.concat({
-                    name: action.payload.attachment.name,
-                    contentLength: action.payload.attachment.size,
+                    name: action.payload.name,
+                    contentLength: action.payload.size,
                     loading: true,
                 }),
             }

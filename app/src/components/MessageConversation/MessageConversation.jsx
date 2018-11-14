@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
 import history from 'utils/history'
 import * as actions from 'constants/actions'
+import { addRecipients, cancelAttachment } from '../../actions/epics'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 
@@ -85,13 +87,12 @@ class MessageConversation extends Component {
 
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
-            .map(
-                userMessage =>
-                    typeof this.state.currentUser === 'undefined' ||
-                    this.state.recipientsExpanded ||
-                    this.state.currentUser.id !== userMessage.user.id
-                        ? userMessage.user.displayName
-                        : i18n.t('me')
+            .map(userMessage =>
+                typeof this.state.currentUser === 'undefined' ||
+                this.state.recipientsExpanded ||
+                this.state.currentUser.id !== userMessage.user.id
+                    ? userMessage.user.displayName
+                    : i18n.t('me')
             )
 
         const userMessagesLength = messageConversation.userMessages.length
@@ -225,23 +226,7 @@ export default compose(
             displayTimeDiff: state.messaging.displayTimeDiff,
         }),
         dispatch => ({
-            addRecipients: (
-                users,
-                userGroups,
-                organisationUnits,
-                messageConversation,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.ADD_RECIPIENTS,
-                    payload: {
-                        users,
-                        userGroups,
-                        organisationUnits,
-                        messageConversation,
-                        messageType,
-                    },
-                }),
+            addRecipients: bindActionCreators(addRecipients, dispatch),
             downloadAttachment: (
                 messageConversationId,
                 messageId,
@@ -251,11 +236,7 @@ export default compose(
                     type: actions.DOWNLOAD_ATTACHMENT,
                     payload: { messageConversationId, messageId, attachmentId },
                 }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
+            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
         }),
         null,
         { pure: false }

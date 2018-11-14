@@ -357,57 +357,51 @@ export const markMessageConversations = (
     }
 }
 
-const addRecipients = action$ =>
-    action$.ofType(actions.ADD_RECIPIENTS).concatMap(action =>
-        api
-            .addRecipients(
-                action.payload.users,
-                action.payload.userGroups,
-                action.payload.organisationUnits,
-                action.payload.messageConversation.id
-            )
-            .then(() => ({
-                type: actions.ADD_RECIPIENTS_SUCCESS,
-                payload: {
-                    messageConversation: action.payload.messageConversation,
-                    messageType: action.payload.messageType,
-                    page: 1,
-                },
-            }))
-            .catch(error => ({
-                type: actions.ADD_RECIPIENTS_ERROR,
-                payload: { error },
-            }))
-    )
-
-const addAttachment = action$ =>
-    action$.ofType(actions.ADD_ATTACHMENT).mergeMap(action =>
-        Observable.from(
-            api
-                .addAttachment(action.payload.attachment)
-                .then(result => ({
-                    type: actions.ADD_ATTACHMENT_SUCCESS,
-                    attachment: {
-                        id: result.response.fileResource.id,
-                        name: action.payload.attachment.name,
-                        contentLength:
-                            result.response.fileResource.contentLength,
-                    },
-                }))
-                .catch(error => ({
-                    type: actions.ADD_ATTACHMENT_ERROR,
-                    payload: { error },
-                }))
-        ).takeUntil(
-            action$
-                .ofType(actions.CANCEL_ATTACHMENT)
-                .filter(
-                    cancelAction =>
-                        cancelAction.payload.attachmentName ===
-                        action.payload.attachment.name
-                )
+export const addRecipients = (
+    users,
+    userGroups,
+    organisationUnits,
+    messageConversation,
+    messageType
+) => async dispatch => {
+    try {
+        await api.addRecipients(
+            users,
+            userGroups,
+            organisationUnits,
+            messageConversation.id
         )
-    )
+        dispatch(
+            createAction(actions.ADD_RECIPIENTS_SUCCESS, {
+                messageConversation: messageConversation,
+                messageType: messageType,
+                page: 1,
+            })
+        )
+    } catch (error) {
+        dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
+    }
+}
+
+export const addAttachment = attachment => async dispatch => {
+    dispatch(createAction(actions.ADD_ATTACHMENT, attachment))
+
+    try {
+        const result = await api.addAttachment(attachment)
+        dispatch(
+            createAction(actions.ADD_ATTACHMENT_SUCCESS, {
+                id: result.response.fileResource.id,
+                name: attachment.name,
+                contentLength: result.response.fileResource.contentLength,
+            })
+        )
+    } catch (error) {
+        dispatch(createAction(actions.ADD_ATTACHMENT_ERROR, { error }))
+    }
+}
+
+export const cancelAttachment = attachmentName =>
+    createAction(actions.CANCEL_ATTACHMENT, { attachmentName })
 
 const downloadAttachment = action$ =>
     action$.ofType(actions.DOWNLOAD_ATTACHMENT).concatMap(action =>
@@ -437,7 +431,7 @@ export default combineEpics(
     // sendFeedbackMessage,
     // replyMessage,
     // deleteMessageConversations,
-    addRecipients,
-    addAttachment,
+    // addRecipients,
+    // addAttachment,
     downloadAttachment
 )
