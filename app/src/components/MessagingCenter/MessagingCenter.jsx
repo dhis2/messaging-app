@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -9,6 +10,7 @@ import i18n from 'd2-i18n'
 
 import * as api from 'api/api'
 import * as actions from 'constants/actions'
+import { setDisplayTimeDiff } from '../../actions/epics'
 
 import theme from 'styles/theme'
 
@@ -311,7 +313,10 @@ export default compose(
                     type: actions.SET_FILTER,
                     payload: { filter, filterType },
                 }),
-            setDisplayTimeDiff: () => dispatch({ type: SET_DISPLAY_TIME_DIFF }),
+            setDisplayTimeDiff: bindActionCreators(
+                setDisplayTimeDiff,
+                dispatch
+            ),
             clearAttachments: () =>
                 dispatch({ type: actions.CLEAR_ATTACHMENTS }),
         }),

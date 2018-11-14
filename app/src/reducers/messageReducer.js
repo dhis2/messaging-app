@@ -48,7 +48,7 @@ function messageReducer(state = initialState, action) {
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
             return {
                 ...state,
-                displayTimeDiff: action.displayTimeDiff,
+                displayTimeDiff: action.payload,
             }
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {

@@ -14,20 +14,17 @@ const FUTURE_HACK = 5000
 
 const createAction = (type, payload) => ({ type, payload })
 
-const setDisplayTimeDiff = action$ =>
-    action$.ofType(actions.SET_DISPLAY_TIME_DIFF).switchMap(() =>
-        api
-            .getServerDate()
-            .then(serverDate => ({
-                type: actions.SET_DISPLAY_TIME_DIFF_SUCCESS,
-                displayTimeDiff:
-                    moment().diff(moment(serverDate)) - FUTURE_HACK,
-            }))
-            .catch(error => ({
-                type: actions.SET_DISPLAY_TIME_DIFF_ERROR,
-                payload: { error },
-            }))
-    )
+export const setDisplayTimeDiff = () => async dispatch => {
+    try {
+        const serverDate = await api.getServerDate()
+        const displayTimeDiff = moment().diff(moment(serverDate)) - FUTURE_HACK
+        dispatch(
+            createAction(actions.SET_DISPLAY_TIME_DIFF_SUCCESS, displayTimeDiff)
+        )
+    } catch (error) {
+        dispatch(createAction(actions.SET_DISPLAY_TIME_DIFF_ERROR, { error }))
+    }
+}
 
 const setSelectedMessageConversation = action$ =>
     action$
@@ -421,7 +418,7 @@ export const downloadAttachment = (
 }
 
 export default combineEpics(
-    setDisplayTimeDiff,
+    // setDisplayTimeDiff,
     setSelectedMessageConversation,
     updateMessageConversations,
     // markMessageConversations,
