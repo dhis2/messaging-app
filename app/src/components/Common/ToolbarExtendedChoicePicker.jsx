@@ -21,7 +21,10 @@ import Done from 'material-ui-icons/Done'
 import i18n from 'd2-i18n'
 
 import * as actions from 'constants/actions'
-import { deleteMessageConversations } from '../../actions/epics'
+import {
+    deleteMessageConversations,
+    markMessageConversations,
+} from '../../actions/epics'
 import extendedChoices from 'constants/extendedChoices'
 
 import history from 'utils/history'
@@ -334,19 +337,23 @@ export default compose(
                         selectedMessageConversation,
                     },
                 }),
-            markMessageConversations: (
-                mode,
-                markedConversations,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        mode,
-                        markedConversations,
-                        messageType,
-                    },
-                }),
+            markMessageConversations: bindActionCreators(
+                markMessageConversations,
+                dispatch
+            ),
+            // markMessageConversations: (
+            //     mode,
+            //     markedConversations,
+            //     messageType
+            // ) =>
+            //     dispatch({
+            //         type: actions.MARK_MESSAGE_CONVERSATIONS,
+            //         payload: {
+            //             mode,
+            //             markedConversations,
+            //             messageType,
+            //         },
+            //     }),
             displaySnackMessage: (
                 message,
                 onSnackActionClick,
@@ -367,17 +374,3 @@ export default compose(
         { pure: false }
     )
 )(ToolbarExtendedChoicePicker)
-
-// const mapStateToProps = state => ({
-//     selectedMessageType: state.messaging.selectedMessageType,
-//     selectedMessageConversation: state.messaging.selectedMessageConversation,
-//     checkedIds: state.messaging.checkedIds,
-//     feedbackRecipientsId: state.messaging.feedbackRecipientsId,
-// })
-
-// export default connect(
-//     mapStateToProps,
-//     {
-//         deleteMessageConversations,
-//     }
-// )(ToolbarExtendedChoicePicker)

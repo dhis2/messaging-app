@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -11,6 +12,7 @@ import i18n from 'd2-i18n'
 
 import history from 'utils/history'
 import * as actions from 'constants/actions'
+import { markMessageConversations } from '../../actions/epics'
 import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel'
 import theme from 'styles/theme'
 import { fontFamily } from 'constants/development'
@@ -242,20 +244,19 @@ class MessageConversationListItem extends Component {
                         label={messageConversation.priority}
                     />
                 )}
-                {this.props.notification &&
-                    this.props.wideview && (
-                        <ExtendedChoiceLabel
-                            showTitle={false}
-                            title={i18n.t('Assignee')}
-                            color={fontColor}
-                            fontWeight={fontWeight}
-                            label={
-                                messageConversation.assignee
-                                    ? messageConversation.assignee.displayName
-                                    : undefined
-                            }
-                        />
-                    )}
+                {this.props.notification && this.props.wideview && (
+                    <ExtendedChoiceLabel
+                        showTitle={false}
+                        title={i18n.t('Assignee')}
+                        color={fontColor}
+                        fontWeight={fontWeight}
+                        label={
+                            messageConversation.assignee
+                                ? messageConversation.assignee.displayName
+                                : undefined
+                        }
+                    />
+                )}
                 <Subheader
                     style={styles.dateFormat(
                         this.props.wideview,
@@ -266,8 +267,8 @@ class MessageConversationListItem extends Component {
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today)
                         : today.year() === messageDate.year()
-                            ? messageDate.format('MMM DD')
-                            : messageDate.format('ll')}
+                        ? messageDate.format('MMM DD')
+                        : messageDate.format('ll')}
                 </Subheader>
             </Paper>
         )
@@ -300,25 +301,29 @@ export default compose(
                     type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
                     payload: { messageConversation },
                 }),
-            markMessageConversations: (
-                mode,
-                markedConversations,
-                messageType,
-                messageFilter,
-                statusFilter,
-                priorityFilter
-            ) =>
-                dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        mode,
-                        markedConversations,
-                        messageType,
-                        messageFilter,
-                        statusFilter,
-                        priorityFilter,
-                    },
-                }),
+            markMessageConversations: bindActionCreators(
+                markMessageConversations,
+                dispatch
+            ),
+            // markMessageConversations: (
+            //     mode,
+            //     markedConversations,
+            //     messageType,
+            //     messageFilter,
+            //     statusFilter,
+            //     priorityFilter
+            // ) =>
+            //     dispatch({
+            //         type: actions.MARK_MESSAGE_CONVERSATIONS,
+            //         payload: {
+            //             mode,
+            //             markedConversations,
+            //             messageType,
+            //             messageFilter,
+            //             statusFilter,
+            //             priorityFilter,
+            //         },
+            //     }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
             setFilter: (filter, filterType) =>
                 dispatch({
