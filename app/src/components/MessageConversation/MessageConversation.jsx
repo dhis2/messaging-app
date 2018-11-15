@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
 import history from 'utils/history'
 import {
     addRecipients,
-    cancelAttachment,
     downloadAttachment,
+    cancelAttachment,
 } from '../../actions'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
@@ -90,12 +89,13 @@ class MessageConversation extends Component {
 
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
-            .map(userMessage =>
-                typeof this.state.currentUser === 'undefined' ||
-                this.state.recipientsExpanded ||
-                this.state.currentUser.id !== userMessage.user.id
-                    ? userMessage.user.displayName
-                    : i18n.t('me')
+            .map(
+                userMessage =>
+                    typeof this.state.currentUser === 'undefined' ||
+                    this.state.recipientsExpanded ||
+                    this.state.currentUser.id !== userMessage.user.id
+                        ? userMessage.user.displayName
+                        : i18n.t('me')
             )
 
         const userMessagesLength = messageConversation.userMessages.length
@@ -222,20 +222,19 @@ class MessageConversation extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageType: state.messaging.selectedMessageType,
+    displayTimeDiff: state.messaging.displayTimeDiff,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageType: state.messaging.selectedMessageType,
-            displayTimeDiff: state.messaging.displayTimeDiff,
-        }),
-        dispatch => ({
-            addRecipients: bindActionCreators(addRecipients, dispatch),
-            downloadAttachment: bindActionCreators(
-                downloadAttachment,
-                dispatch
-            ),
-            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
-        }),
+        mapStateToProps,
+        {
+            addRecipients,
+            downloadAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )

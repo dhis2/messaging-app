@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -11,10 +10,14 @@ import Flag from 'material-ui-icons/Flag'
 import i18n from 'd2-i18n'
 
 import history from 'utils/history'
-import * as actions from 'constants/actions'
 import {
-    markMessageConversations,
+    setChecked,
     setSelectedMessageConversation,
+    markMessageConversations,
+    clearCheckedIds,
+    setFilter,
+    updateInputFields,
+    clearAttachments,
 } from '../../actions'
 import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel'
 import theme from 'styles/theme'
@@ -244,19 +247,20 @@ class MessageConversationListItem extends Component {
                         label={messageConversation.priority}
                     />
                 )}
-                {this.props.notification && this.props.wideview && (
-                    <ExtendedChoiceLabel
-                        showTitle={false}
-                        title={i18n.t('Assignee')}
-                        color={fontColor}
-                        fontWeight={fontWeight}
-                        label={
-                            messageConversation.assignee
-                                ? messageConversation.assignee.displayName
-                                : undefined
-                        }
-                    />
-                )}
+                {this.props.notification &&
+                    this.props.wideview && (
+                        <ExtendedChoiceLabel
+                            showTitle={false}
+                            title={i18n.t('Assignee')}
+                            color={fontColor}
+                            fontWeight={fontWeight}
+                            label={
+                                messageConversation.assignee
+                                    ? messageConversation.assignee.displayName
+                                    : undefined
+                            }
+                        />
+                    )}
                 <Subheader
                     style={styles.dateFormat(
                         this.props.wideview,
@@ -267,57 +271,39 @@ class MessageConversationListItem extends Component {
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today)
                         : today.year() === messageDate.year()
-                        ? messageDate.format('MMM DD')
-                        : messageDate.format('ll')}
+                            ? messageDate.format('MMM DD')
+                            : messageDate.format('ll')}
                 </Subheader>
             </Paper>
         )
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    settingSelectedMessageConversation:
+        state.messaging.settingSelectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+    checkedIds: state.messaging.checkedIds,
+    displayTimeDiff: state.messaging.displayTimeDiff,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            settingSelectedMessageConversation:
-                state.messaging.settingSelectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-            checkedIds: state.messaging.checkedIds,
-            displayTimeDiff: state.messaging.displayTimeDiff,
-            messageFilter: state.messaging.messageFilter,
-            statusFilter: state.messaging.statusFilter,
-            priorityFilter: state.messaging.priorityFilter,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            setChecked: (messageConversation, selectedValue) =>
-                dispatch({
-                    type: actions.SET_CHECKED,
-                    payload: { messageConversation, selectedValue },
-                }),
-            setSelectedMessageConversation: bindActionCreators(
-                setSelectedMessageConversation,
-                dispatch
-            ),
-            markMessageConversations: bindActionCreators(
-                markMessageConversations,
-                dispatch
-            ),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setFilter: (filter, filterType) =>
-                dispatch({
-                    type: actions.SET_FILTER,
-                    payload: { filter, filterType },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            clearAttachments: () =>
-                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
-        }),
+        mapStateToProps,
+        {
+            setChecked,
+            setSelectedMessageConversation,
+            markMessageConversations,
+            clearCheckedIds,
+            setFilter,
+            updateInputFields,
+            clearAttachments,
+        },
         null,
         { pure: false }
     )

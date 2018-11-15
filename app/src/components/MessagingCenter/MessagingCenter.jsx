@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -9,11 +8,17 @@ import MailIcon from 'material-ui-icons/MailOutline'
 import i18n from 'd2-i18n'
 
 import * as api from 'api/api'
-import * as actions from 'constants/actions'
 import {
-    setDisplayTimeDiff,
     loadMessageConversations,
+    setIsInFeedbackRecipientGroup,
+    clearCheckedIds,
     setSelectedMessageConversation,
+    setSelectedMessageType,
+    clearSelectedMessageConversation,
+    updateInputFields,
+    setFilter,
+    setDisplayTimeDiff,
+    clearAttachments,
 } from '../../actions'
 
 import theme from 'styles/theme'
@@ -247,74 +252,42 @@ class MessagingCenter extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    snackMessage: state.messaging.snackMessage,
+    messageTypes: state.messaging.messageTypes,
+    messageConversations: state.messaging.messageConversations,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    assignedToMeFilter: state.messaging.assignedToMeFilter,
+    markedForFollowUpFilter: state.messaging.markedForFollowUpFilter,
+    unreadFilter: state.messaging.unreadFilter,
+    selectedMessageType: state.messaging.selectedMessageType,
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    settingSelectedMessageConversation:
+        state.messaging.settingSelectedMessageConversation,
+    checkedIds: state.messaging.checkedIds,
+    checkedOptions: state.messaging.checkedIds.length > 0,
+    loaded: state.messaging.loaded,
+    isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => {
-            return {
-                snackMessage: state.messaging.snackMessage,
-                messageTypes: state.messaging.messageTypes,
-                messageConversations: state.messaging.messageConversations,
-                messageFilter: state.messaging.messageFilter,
-                statusFilter: state.messaging.statusFilter,
-                priorityFilter: state.messaging.priorityFilter,
-                assignedToMeFilter: state.messaging.assignedToMeFilter,
-                markedForFollowUpFilter:
-                    state.messaging.markedForFollowUpFilter,
-                unreadFilter: state.messaging.unreadFilter,
-                selectedMessageType: state.messaging.selectedMessageType,
-                selectedMessageConversation:
-                    state.messaging.selectedMessageConversation,
-                settingSelectedMessageConversation:
-                    state.messaging.settingSelectedMessageConversation,
-                checkedIds: state.messaging.checkedIds,
-                checkedOptions: state.messaging.checkedIds.length > 0,
-                loaded: state.messaging.loaded,
-                isInFeedbackRecipientGroup:
-                    state.messaging.isInFeedbackRecipientGroup,
-                attachments: state.messaging.attachments,
-            }
+        mapStateToProps,
+        {
+            loadMessageConversations,
+            setIsInFeedbackRecipientGroup,
+            clearCheckedIds,
+            setSelectedMessageConversation,
+            setSelectedMessageType,
+            clearSelectedMessageConversation,
+            updateInputFields,
+            setFilter,
+            setDisplayTimeDiff,
+            clearAttachments,
         },
-        dispatch => ({
-            loadMessageConversations: bindActionCreators(
-                loadMessageConversations,
-                dispatch
-            ),
-            setIsInFeedbackRecipientGroup: isInFeedbackRecipientGroup =>
-                dispatch({
-                    type: actions.SET_IN_FEEDBACK_RECIPIENT_GROUP,
-                    payload: { isInFeedbackRecipientGroup },
-                }),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setSelectedMessageConversation: bindActionCreators(
-                setSelectedMessageConversation,
-                dispatch
-            ),
-            setSelectedMessageType: messageTypeId =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_TYPE,
-                    payload: { messageTypeId },
-                }),
-            clearSelectedMessageConversation: () =>
-                dispatch({
-                    type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            setFilter: (filter, filterType) =>
-                dispatch({
-                    type: actions.SET_FILTER,
-                    payload: { filter, filterType },
-                }),
-            setDisplayTimeDiff: bindActionCreators(
-                setDisplayTimeDiff,
-                dispatch
-            ),
-            clearAttachments: () =>
-                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
-        }),
         null,
         { pure: false }
     )

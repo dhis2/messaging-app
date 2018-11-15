@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -13,8 +12,15 @@ import Attachments from 'components/Attachments/Attachments'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
-import { replyMessage, addAttachment, cancelAttachment } from '../../actions'
+import {
+    replyMessage,
+    setSelectedMessageType,
+    updateInputFields,
+    displaySnackMessage,
+    addAttachment,
+    removeAttachment,
+    cancelAttachment,
+} from '../../actions'
 
 import { NEGATIVE } from 'constants/development'
 
@@ -137,53 +143,27 @@ class ReplyCard extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+    messageTypes: state.messaging.messageTypes,
+    input: state.messaging.input,
+    isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-            messageTypes: state.messaging.messageTypes,
-            input: state.messaging.input,
-            isInFeedbackRecipientGroup:
-                state.messaging.isInFeedbackRecipientGroup,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            replyMessage: bindActionCreators(replyMessage, dispatch),
-            setSelectedMessageType: messageTypeId =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_TYPE,
-                    payload: { messageTypeId },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            displaySnackMessage: (
-                message,
-                onSnackActionClick,
-                onSnackRequestClose,
-                snackType
-            ) =>
-                dispatch({
-                    type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: {
-                        message,
-                        onSnackActionClick,
-                        onSnackRequestClose,
-                        snackType,
-                    },
-                }),
-            addAttachment: bindActionCreators(addAttachment, dispatch),
-            removeAttachment: attachmentId =>
-                dispatch({
-                    type: actions.REMOVE_ATTACHMENT,
-                    payload: { attachmentId },
-                }),
-            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
-        }),
+        mapStateToProps,
+        {
+            replyMessage,
+            setSelectedMessageType,
+            updateInputFields,
+            displaySnackMessage,
+            addAttachment,
+            removeAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -13,11 +12,13 @@ import TextField from 'material-ui/TextField'
 import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
 
-import * as actions from 'constants/actions'
 import {
     sendMessage,
     sendFeedbackMessage,
+    displaySnackMessage,
+    updateInputFields,
     addAttachment,
+    removeAttachment,
     cancelAttachment,
 } from '../../actions'
 import history from 'utils/history'
@@ -234,49 +235,26 @@ class CreateMessage extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    messageTypes: state.messaging.messageTypes,
+    subject: state.messaging.subject,
+    input: state.messaging.input,
+    recipients: state.messaging.recipients,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            messageTypes: state.messaging.messageTypes,
-            subject: state.messaging.subject,
-            input: state.messaging.input,
-            recipients: state.messaging.recipients,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            sendMessage: bindActionCreators(sendMessage, dispatch),
-            sendFeedbackMessage: bindActionCreators(
-                sendFeedbackMessage,
-                dispatch
-            ),
-            displaySnackMessage: (
-                message,
-                onSnackActionClick,
-                onSnackRequestClose,
-                snackType
-            ) =>
-                dispatch({
-                    type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: {
-                        message,
-                        onSnackActionClick,
-                        onSnackRequestClose,
-                        snackType,
-                    },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            addAttachment: bindActionCreators(addAttachment, dispatch),
-            removeAttachment: attachmentId =>
-                dispatch({
-                    type: actions.REMOVE_ATTACHMENT,
-                    payload: { attachmentId },
-                }),
-            cancelAttachment: bindActionCreators(cancelAttachment, dispatch),
-        }),
+        mapStateToProps,
+        {
+            sendMessage,
+            sendFeedbackMessage,
+            displaySnackMessage,
+            updateInputFields,
+            addAttachment,
+            removeAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )

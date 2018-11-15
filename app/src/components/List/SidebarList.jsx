@@ -8,8 +8,8 @@ import Toggle from 'material-ui/Toggle'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
 import history from 'utils/history'
+import { setSelectedMessageType, clearCheckedIds } from '../../actions'
 
 import MessageTypeItem from 'components/List/MessageTypeItem'
 import theme from 'styles/theme'
@@ -88,20 +88,18 @@ class SidebarList extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageType: state.messaging.selectedMessageType,
+    messageTypes: state.messaging.messageTypes,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageType: state.messaging.selectedMessageType,
-            messageTypes: state.messaging.messageTypes,
-        }),
-        dispatch => ({
-            setSelectedMessageType: messageTypeId =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_TYPE,
-                    payload: { messageTypeId },
-                }),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-        }),
+        mapStateToProps,
+        {
+            setSelectedMessageType,
+            clearCheckedIds,
+        },
         null,
         { pure: false }
     )

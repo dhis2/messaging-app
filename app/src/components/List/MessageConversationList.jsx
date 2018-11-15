@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -121,24 +120,22 @@ class MessageConversationList extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    messageTypes: state.messaging.messageTypes,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    messageConversations: state.messaging.messageConversations,
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+})
+
 export default compose(
     connect(
-        state => ({
-            messageTypes: state.messaging.messageTypes,
-            messageFilter: state.messaging.messageFilter,
-            statusFilter: state.messaging.statusFilter,
-            priorityFilter: state.messaging.priorityFilter,
-            messageConversations: state.messaging.messageConversations,
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-        }),
-        dispatch => ({
-            loadMessageConversations: bindActionCreators(
-                loadMessageConversations,
-                dispatch
-            ),
-        }),
+        mapStateToProps,
+        {
+            loadMessageConversations,
+        },
         null,
         { pure: false }
     )
