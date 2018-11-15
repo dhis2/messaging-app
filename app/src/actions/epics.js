@@ -24,12 +24,9 @@ export const setDisplayTimeDiff = () => async dispatch => {
 }
 
 export const setSelectedMessageConversation = messageConversation => async dispatch => {
-    console.log('dit dan?')
     dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION, null))
     try {
-        console.log('JOEHOE')
         const result = await api.getMessageConversation(messageConversation)
-        console.log('HOEBOE', result)
         dispatch(
             createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS, {
                 messageConversation: result,
