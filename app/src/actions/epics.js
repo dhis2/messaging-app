@@ -62,7 +62,6 @@ export const updateMessageConversations = (
                 })
             )
             dispatch(loadMessageConversations())
-            dispatch(setSelectedMessageConversation())
         } catch (error) {
             dispatch(
                 createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
@@ -133,7 +132,6 @@ export const updateMessageConversations = (
                 })
             )
             dispatch(loadMessageConversations())
-            dispatch(setSelectedMessageConversation())
         } catch (error) {
             dispatch(
                 createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
@@ -144,11 +142,7 @@ export const updateMessageConversations = (
     }
 
     if (selectedMessageConversation) {
-        dispatch(
-            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION, {
-                messageConversation: selectedMessageConversation,
-            })
-        )
+        dispatch(setSelectedMessageConversation(selectedMessageConversation))
     }
 }
 
@@ -157,13 +151,6 @@ export const loadMessageConversations = (
     selectedMessageType,
     loadMore = false
 ) => async (dispatch, getState) => {
-    dispatch(
-        createAction(actions.LOAD_MESSAGE_CONVERSATIONS, {
-            messageType,
-            loadMore,
-        })
-    )
-
     const promises = []
     const state = getState()
 
@@ -171,6 +158,13 @@ export const loadMessageConversations = (
     messageType = messageType || state.messaging.selectedMessageType
     selectedMessageType =
         selectedMessageType || state.messaging.selectedMessageType.id
+
+    dispatch(
+        createAction(actions.LOAD_MESSAGE_CONVERSATIONS, {
+            messageType,
+            loadMore,
+        })
+    )
 
     try {
         for (let i = 1; i <= messageType.page; i++) {
@@ -311,7 +305,7 @@ export const replyMessage = (
             })
         )
         dispatch(loadMessageConversations())
-        dispatch(setSelectedMessageConversation())
+        dispatch(setSelectedMessageConversation(messageConversation))
     } catch (error) {
         dispatch(createAction(actions.REPLY_MESSAGE_ERROR, { error }))
     }
