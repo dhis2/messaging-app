@@ -12,7 +12,7 @@ const middlewares = [createEpicMiddleware(Epics), ReduxThunk]
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 if (process.env.NODE_ENV === 'development') {
-    // middlewares.push(createLogger())
+    middlewares.push(createLogger())
 }
 
 const reducer = combineReducers({

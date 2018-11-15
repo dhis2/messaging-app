@@ -91,12 +91,13 @@ class MessageConversation extends Component {
 
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
-            .map(userMessage =>
-                typeof this.state.currentUser === 'undefined' ||
-                this.state.recipientsExpanded ||
-                this.state.currentUser.id !== userMessage.user.id
-                    ? userMessage.user.displayName
-                    : i18n.t('me')
+            .map(
+                userMessage =>
+                    typeof this.state.currentUser === 'undefined' ||
+                    this.state.recipientsExpanded ||
+                    this.state.currentUser.id !== userMessage.user.id
+                        ? userMessage.user.displayName
+                        : i18n.t('me')
             )
 
         const userMessagesLength = messageConversation.userMessages.length

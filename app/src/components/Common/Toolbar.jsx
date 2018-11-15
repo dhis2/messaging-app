@@ -367,7 +367,7 @@ class Toolbar extends Component {
                             alignSelf: 'center',
                         }}
                         icon={
-                            !this.state.wideview ? <ViewList /> : <ViewFancy />
+                            !this.props.wideview ? <ViewList /> : <ViewFancy />
                         }
                         onClick={() => this.props.toogleWideview()}
                     />
