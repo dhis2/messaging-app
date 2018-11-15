@@ -11,6 +11,10 @@ const FUTURE_HACK = 5000
 
 const createAction = (type, payload) => ({ type, payload })
 
+/******************
+ * THUNKS SECTION *
+ ******************/
+
 export const setDisplayTimeDiff = () => async dispatch => {
     try {
         const serverDate = await api.getServerDate()
@@ -24,7 +28,7 @@ export const setDisplayTimeDiff = () => async dispatch => {
 }
 
 export const setSelectedMessageConversation = messageConversation => async dispatch => {
-    dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION, null))
+    dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION))
     try {
         const result = await api.getMessageConversation(messageConversation)
         dispatch(
@@ -378,9 +382,6 @@ export const addAttachment = attachment => async dispatch => {
     }
 }
 
-export const cancelAttachment = attachmentName =>
-    createAction(actions.CANCEL_ATTACHMENT, { attachmentName })
-
 export const downloadAttachment = (
     messageConversationId,
     messageId,
@@ -397,3 +398,55 @@ export const downloadAttachment = (
         dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
     }
 }
+
+/************************
+ * PLAIN ACTION SECTION *
+ ************************/
+
+export const clearSnackMessage = () => createAction(actions.CLEAR_SNACK_MESSAGE)
+
+export const clearCheckedIds = () => createAction(actions.CLEAR_CHECKED)
+
+export const clearSelectedMessageConversation = () =>
+    createAction(actions.CLEAR_SELECTED_MESSAGE_CONVERSATION)
+
+export const displaySnackMessage = (
+    message,
+    onSnackActionClick,
+    onSnackRequestClose,
+    snackType
+) =>
+    createAction(actions.CLEAR_CHECKED, {
+        message,
+        onSnackActionClick,
+        onSnackRequestClose,
+        snackType,
+    })
+
+export const setAllChecked = messageConversationIds =>
+    createAction(actions.SET_ALL_CHECKED, { messageConversationIds })
+
+export const setChecked = (messageConversation, selectedValue) =>
+    createAction(actions.SET_CHECKED, { messageConversation, selectedValue })
+
+export const setFilter = (filter, filterType) =>
+    createAction(actions.SET_FILTER, { filter, filterType })
+
+export const updateInputFields = (subject, input, recipients) =>
+    createAction(actions.UPDATE_INPUT_FIELDS, { subject, input, recipients })
+
+export const clearAttachments = () => createAction(actions.CLEAR_ATTACHMENTS)
+
+export const setSelectedMessageType = messageTypeId =>
+    createAction(actions.SET_SELECTED_MESSAGE_TYPE, { messageTypeId })
+
+export const removeAttachment = attachmentId =>
+    createAction(actions.REMOVE_ATTACHMENT, { attachmentId })
+
+export const cancelAttachment = attachmentName =>
+    createAction(actions.CANCEL_ATTACHMENT, { attachmentName })
+
+export const setIsInFeedbackRecipientGroup = isInFeedbackRecipientGroup =>
+    createAction(actions.SET_IN_FEEDBACK_RECIPIENT_GROUP, {
+        isInFeedbackRecipientGroup,
+    })
