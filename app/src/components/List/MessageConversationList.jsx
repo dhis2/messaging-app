@@ -8,7 +8,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import i18n from 'd2-i18n'
 
-import { loadMessageConversations } from '../../actions/epics'
+import { loadMessageConversations } from '../../actions'
 import { messagePanelContainer } from 'styles/style'
 import theme from 'styles/theme'
 import ListItemHeader from 'components/List/ListItemHeader'

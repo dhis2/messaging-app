@@ -14,7 +14,7 @@ import {
     setDisplayTimeDiff,
     loadMessageConversations,
     setSelectedMessageConversation,
-} from '../../actions/epics'
+} from '../../actions'
 
 import theme from 'styles/theme'
 
@@ -289,11 +289,6 @@ export default compose(
                 setSelectedMessageConversation,
                 dispatch
             ),
-            // setSelectedMessageConversation: messageConversation =>
-            //     dispatch({
-            //         type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-            //         payload: { messageConversation },
-            //     }),
             setSelectedMessageType: messageTypeId =>
                 dispatch({
                     type: actions.SET_SELECTED_MESSAGE_TYPE,

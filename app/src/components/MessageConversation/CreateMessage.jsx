@@ -19,7 +19,7 @@ import {
     sendFeedbackMessage,
     addAttachment,
     cancelAttachment,
-} from '../../actions/epics'
+} from '../../actions'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'

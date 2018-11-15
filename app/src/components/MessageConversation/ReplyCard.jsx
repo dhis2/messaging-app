@@ -14,11 +14,7 @@ import Attachments from 'components/Attachments/Attachments'
 import i18n from 'd2-i18n'
 
 import * as actions from 'constants/actions'
-import {
-    replyMessage,
-    addAttachment,
-    cancelAttachment,
-} from '../../actions/epics'
+import { replyMessage, addAttachment, cancelAttachment } from '../../actions'
 
 import { NEGATIVE } from 'constants/development'
 

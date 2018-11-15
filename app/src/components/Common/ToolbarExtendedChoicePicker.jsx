@@ -25,7 +25,7 @@ import {
     deleteMessageConversations,
     markMessageConversations,
     updateMessageConversations,
-} from '../../actions/epics'
+} from '../../actions'
 import extendedChoices from 'constants/extendedChoices'
 
 import history from 'utils/history'
