@@ -83,10 +83,7 @@ class Toolbar extends Component {
         ) {
             this.props.loadMessageConversations(
                 this.props.selectedMessageType,
-                this.props.selectedMessageType.id,
-                messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter
+                this.props.selectedMessageType.id
             )
             this.setState({ lastMessageFilter: messageFilter })
         }

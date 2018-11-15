@@ -53,12 +53,12 @@ function messageReducer(state = initialState, action) {
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
             const replaceMessageType = stateMessageTypes.find(
-                type => type.id === action.messageType.id
+                type => type.id === action.payload.messageType.id
             )
             replaceMessageType.loaded =
                 action.payload.messageConversations.length
             replaceMessageType.total = action.payload.pager.total
-            replaceMessageType.unread = action.nrOfUnread
+            replaceMessageType.unread = action.payload.nrOfUnread
             replaceMessageType.page = action.payload.pager.page
             replaceMessageType.loading = false
             messageTypes.splice(
@@ -68,8 +68,9 @@ function messageReducer(state = initialState, action) {
             )
 
             const setSelectedMessageType =
-                action.selectedMessageType === replaceMessageType.id &&
-                (action.selectedMessageType === state.selectedMessageType ||
+                action.payload.selectedMessageType === replaceMessageType.id &&
+                (action.payload.selectedMessageType ===
+                    state.selectedMessageType ||
                     state.selectedMessageType === undefined)
 
             return {
@@ -263,12 +264,23 @@ function messageReducer(state = initialState, action) {
             const loadingMessageType = action.payload.messageType
             loadingMessageType.loading = true
 
+            if (action.payload.loadMore) {
+                loadingMessageType.page++
+            }
+
             messageTypes[
                 findIndexOfId(messageTypes, loadingMessageType.id)
             ] = loadingMessageType
 
+            // TODO: This can probably be removed because action.payload.messageType === state.selectedMessageType
             const selectedMessageType = state.selectedMessageType
-            if (selectedMessageType) selectedMessageType.loading = true
+            if (selectedMessageType) {
+                selectedMessageType.loading = true
+                if (action.payload.loadMore) {
+                    selectedMessageType.page++
+                }
+            }
+
             return {
                 ...state,
                 messageTypes,

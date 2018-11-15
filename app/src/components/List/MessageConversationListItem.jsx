@@ -12,7 +12,10 @@ import i18n from 'd2-i18n'
 
 import history from 'utils/history'
 import * as actions from 'constants/actions'
-import { markMessageConversations } from '../../actions/epics'
+import {
+    markMessageConversations,
+    setSelectedMessageConversation,
+} from '../../actions/epics'
 import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel'
 import theme from 'styles/theme'
 import { fontFamily } from 'constants/development'
@@ -294,11 +297,10 @@ export default compose(
                     type: actions.SET_CHECKED,
                     payload: { messageConversation, selectedValue },
                 }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
+            setSelectedMessageConversation: bindActionCreators(
+                setSelectedMessageConversation,
+                dispatch
+            ),
             markMessageConversations: bindActionCreators(
                 markMessageConversations,
                 dispatch

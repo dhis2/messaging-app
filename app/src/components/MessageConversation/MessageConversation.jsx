@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
 import history from 'utils/history'
-import * as actions from 'constants/actions'
 import {
     addRecipients,
     cancelAttachment,

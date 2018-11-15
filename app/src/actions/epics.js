@@ -1,11 +1,8 @@
 import * as actions from 'constants/actions'
-import { combineEpics } from 'redux-observable'
 
 import log from 'loglevel'
 
 import * as api from 'api/api'
-
-import { Observable } from 'rxjs/Rx'
 
 const moment = require('moment')
 
@@ -26,216 +23,202 @@ export const setDisplayTimeDiff = () => async dispatch => {
     }
 }
 
-const setSelectedMessageConversation = action$ =>
-    action$
-        .ofType(
-            actions.SET_SELECTED_MESSAGE_CONVERSATION,
-            actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-            actions.ADD_RECIPIENTS_SUCCESS,
-            actions.REPLY_MESSAGE_SUCCESS
-        )
-        .switchMap(action =>
-            api
-                .getMessageConversation(action.payload.messageConversation)
-                .then(result => ({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS,
-                    payload: {
-                        messageConversation: result,
-                    },
-                }))
-                .catch(error => ({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION_ERROR,
-                    payload: { error },
-                }))
-        )
-
-const updateMessageConversations = action$ =>
-    action$.ofType(actions.UPDATE_MESSAGE_CONVERSATIONS).concatMap(action => {
-        let updateObservable
-        if (action.payload.identifier === 'FOLLOW_UP') {
-            updateObservable = Observable.from(
-                api
-                    .updateMessageConversationFollowup(
-                        action.payload.messageConversationIds,
-                        action.payload.value
-                    )
-                    .then(() => ({
-                        type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-                        payload: {
-                            messageType: action.payload.messageType,
-                            page: 1,
-                            identifier: action.payload.identifier,
-                        },
-                    }))
-                    .catch(error => ({
-                        type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
-                        payload: { error },
-                    }))
-            )
-        } else {
-            const promises = action.payload.messageConversationIds.map(
-                messageConversationId => {
-                    let promise
-                    switch (action.payload.identifier) {
-                        case 'STATUS':
-                            promise = api.updateMessageConversationStatus(
-                                messageConversationId,
-                                action.payload.value
-                            )
-                            break
-                        case 'PRIORITY':
-                            promise = api.updateMessageConversationPriority(
-                                messageConversationId,
-                                action.payload.value
-                            )
-                            break
-                        case 'ASSIGNEE':
-                            if (
-                                action.payload.value !== undefined &&
-                                action.payload.messageType.id ===
-                                    'VALIDATION_RESULT'
-                            ) {
-                                promise = api
-                                    .addRecipients(
-                                        action.payload.value.map(value => ({
-                                            id: value,
-                                        })),
-                                        [],
-                                        [],
-                                        messageConversationId
-                                    )
-                                    .then(() =>
-                                        api.updateMessageConversationAssignee(
-                                            messageConversationId,
-                                            action.payload.value
-                                        )
-                                    )
-                            } else {
-                                promise = api.updateMessageConversationAssignee(
-                                    messageConversationId,
-                                    action.payload.value
-                                )
-                            }
-
-                            break
-                        default:
-                            log.error(
-                                'Unexpected identifier for updateMessageConversations'
-                            )
-                            break
-                    }
-                    return promise
-                }
-            )
-
-            updateObservable = Observable.from(
-                Promise.all(promises)
-                    .then(() => ({
-                        type: actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-                        payload: {
-                            messageType: action.payload.messageType,
-                            page: 1,
-                            identifier: action.payload.identifier,
-                        },
-                    }))
-                    .catch(error => ({
-                        type: actions.MESSAGE_CONVERSATION_UPDATE_ERROR,
-                        payload: { error },
-                    }))
-            )
-        }
-
-        const setSelectedObservable = Observable.of({
-            type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-            payload: {
-                messageConversation: action.payload.selectedMessageConversation,
-            },
-        })
-
-        return action.payload.selectedMessageConversation
-            ? updateObservable.concat(setSelectedObservable)
-            : updateObservable
-    })
-
-const loadMoreMessageConversations = action$ =>
-    action$
-        .ofType(actions.LOAD_MORE_MESSAGE_CONVERSATIONS)
-        .debounceTime(100)
-        .concatMap(action =>
-            Observable.of({
-                type: actions.LOAD_MESSAGE_CONVERSATIONS,
-                payload: action.payload,
+export const setSelectedMessageConversation = messageConversation => async dispatch => {
+    console.log('dit dan?')
+    dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION, null))
+    try {
+        console.log('JOEHOE')
+        const result = await api.getMessageConversation(messageConversation)
+        console.log('HOEBOE', result)
+        dispatch(
+            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS, {
+                messageConversation: result,
             })
         )
-
-const loadMessageConversations = (action$, store) =>
-    action$
-        .ofType(
-            actions.LOAD_MESSAGE_CONVERSATIONS,
-            actions.MARK_MESSAGE_CONVERSATIONS_SUCCESS,
-            actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS,
-            actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS,
-            actions.SEND_MESSAGE_SUCCESS,
-            actions.REPLY_MESSAGE_SUCCESS
+    } catch (error) {
+        dispatch(
+            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_ERROR, {
+                error,
+            })
         )
-        .mergeMap(action => {
-            const promises = []
+    }
+}
 
-            const state = store.getState()
-            for (let i = 1; i <= action.payload.messageType.page; i++) {
-                const promise = api
-                    .getMessageConversations(
-                        action.payload.messageType.id,
-                        i,
-                        state.messaging.messageFilter,
-                        state.messaging.statusFilter,
-                        state.messaging.priorityFilter,
-                        state.messaging.assignedToMeFilter,
-                        state.messaging.markedForFollowUpFilter,
-                        state.messaging.unreadFilter
-                    )
-                    .then(result => ({
-                        messageConversations: result.messageConversations,
-                        pager: result.pager,
-                    }))
-
-                promises.push(promise)
-            }
-
-            return Observable.from(
-                Promise.all(promises)
-                    .then(result =>
-                        api
-                            .getNrOfUnread(action.payload.messageType.id)
-                            .then(nrOfUnread => {
-                                const messageConversations = result.reduce(
-                                    (accumulated, r) =>
-                                        accumulated.concat(
-                                            r.messageConversations
-                                        ),
-                                    []
-                                )
-
-                                return {
-                                    type:
-                                        actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS,
-                                    payload: {
-                                        messageConversations,
-                                        pager: result[result.length - 1].pager,
-                                    },
-                                    messageType: action.payload.messageType,
-                                    selectedMessageType:
-                                        action.payload.selectedMessageType,
-                                    nrOfUnread,
-                                }
-                            })
-                    )
-                    .catch(error => ({
-                        type: actions.MESSAGE_CONVERSATIONS_LOAD_ERROR,
-                        payload: { error },
-                    }))
+export const updateMessageConversations = (
+    messageConversationIds,
+    identifier,
+    value,
+    messageType,
+    selectedMessageConversation
+) => async dispatch => {
+    if (identifier === 'FOLLOW_UP') {
+        try {
+            await api.updateMessageConversationFollowup(
+                messageConversationIds,
+                value
             )
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
+                    messageType: messageType,
+                    page: 1,
+                    identifier: identifier,
+                })
+            )
+            dispatch(loadMessageConversations())
+            dispatch(setSelectedMessageConversation())
+        } catch (error) {
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                    error,
+                })
+            )
+        }
+    } else {
+        const promises = messageConversationIds.map(messageConversationId => {
+            let promise
+            switch (identifier) {
+                case 'STATUS':
+                    promise = api.updateMessageConversationStatus(
+                        messageConversationId,
+                        value
+                    )
+                    break
+                case 'PRIORITY':
+                    promise = api.updateMessageConversationPriority(
+                        messageConversationId,
+                        value
+                    )
+                    break
+                case 'ASSIGNEE':
+                    if (
+                        value !== undefined &&
+                        messageType.id === 'VALIDATION_RESULT'
+                    ) {
+                        promise = api
+                            .addRecipients(
+                                value.map(value => ({
+                                    id: value,
+                                })),
+                                [],
+                                [],
+                                messageConversationId
+                            )
+                            .then(() =>
+                                api.updateMessageConversationAssignee(
+                                    messageConversationId,
+                                    value
+                                )
+                            )
+                    } else {
+                        promise = api.updateMessageConversationAssignee(
+                            messageConversationId,
+                            value
+                        )
+                    }
+
+                    break
+                default:
+                    log.error(
+                        'Unexpected identifier for updateMessageConversations'
+                    )
+                    break
+            }
+            return promise
         })
+
+        try {
+            await Promise.all(promises)
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
+                    messageType: messageType,
+                    page: 1,
+                    identifier: identifier,
+                })
+            )
+            dispatch(loadMessageConversations())
+            dispatch(setSelectedMessageConversation())
+        } catch (error) {
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                    error,
+                })
+            )
+        }
+    }
+
+    if (selectedMessageConversation) {
+        dispatch(
+            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION, {
+                messageConversation: selectedMessageConversation,
+            })
+        )
+    }
+}
+
+export const loadMessageConversations = (
+    messageType,
+    selectedMessageType,
+    loadMore = false
+) => async (dispatch, getState) => {
+    dispatch(
+        createAction(actions.LOAD_MESSAGE_CONVERSATIONS, {
+            messageType,
+            loadMore,
+        })
+    )
+
+    const promises = []
+    const state = getState()
+
+    // Default fallback values so this action can be called without arguments
+    messageType = messageType || state.messaging.selectedMessageType
+    selectedMessageType =
+        selectedMessageType || state.messaging.selectedMessageType.id
+
+    try {
+        for (let i = 1; i <= messageType.page; i++) {
+            const promise = api
+                .getMessageConversations(
+                    messageType.id,
+                    i,
+                    state.messaging.messageFilter,
+                    state.messaging.statusFilter,
+                    state.messaging.priorityFilter,
+                    state.messaging.assignedToMeFilter,
+                    state.messaging.markedForFollowUpFilter,
+                    state.messaging.unreadFilter
+                )
+                .then(result => ({
+                    messageConversations: result.messageConversations,
+                    pager: result.pager,
+                }))
+
+            promises.push(promise)
+        }
+
+        const result = await Promise.all(promises)
+        const nrOfUnread = await api.getNrOfUnread(messageType.id)
+
+        const messageConversations = result.reduce(
+            (accumulated, r) => accumulated.concat(r.messageConversations),
+            []
+        )
+
+        dispatch(
+            createAction(actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS, {
+                messageConversations,
+                pager: result[result.length - 1].pager,
+                messageType: messageType,
+                selectedMessageType: selectedMessageType,
+                nrOfUnread,
+            })
+        )
+    } catch (error) {
+        dispatch(
+            createAction(actions.MESSAGE_CONVERSATIONS_LOAD_ERROR, { error })
+        )
+    }
+}
 
 export const deleteMessageConversations = (
     messageConversationIds,
@@ -252,6 +235,7 @@ export const deleteMessageConversations = (
                 page: 1,
             })
         )
+        dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(
             createAction(actions.MESSAGE_CONVERSATIONS_DELETE_ERROR, { error })
@@ -280,6 +264,7 @@ export const sendMessage = (
         dispatch(
             createAction(actions.SEND_MESSAGE_SUCCESS, { messageType, page: 1 })
         )
+        dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
     }
@@ -301,6 +286,7 @@ export const sendFeedbackMessage = messageType => async (
                 page: 1,
             })
         )
+        dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
     }
@@ -327,6 +313,8 @@ export const replyMessage = (
                 page: 1,
             })
         )
+        dispatch(loadMessageConversations())
+        dispatch(setSelectedMessageConversation())
     } catch (error) {
         dispatch(createAction(actions.REPLY_MESSAGE_ERROR, { error }))
     }
@@ -347,6 +335,7 @@ export const markMessageConversations = (
                 page: 1,
             })
         )
+        dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(
             createAction(actions.MARK_MESSAGE_CONVERSATIONS_ERROR, { error })
@@ -375,6 +364,7 @@ export const addRecipients = (
                 page: 1,
             })
         )
+        dispatch(setSelectedMessageConversation())
     } catch (error) {
         dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
     }
@@ -416,19 +406,3 @@ export const downloadAttachment = (
         dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
     }
 }
-
-export default combineEpics(
-    // setDisplayTimeDiff,
-    setSelectedMessageConversation,
-    updateMessageConversations,
-    // markMessageConversations,
-    loadMoreMessageConversations,
-    loadMessageConversations
-    // sendMessage,
-    // sendFeedbackMessage,
-    // replyMessage,
-    // deleteMessageConversations,
-    // addRecipients,
-    // addAttachment,
-    // downloadAttachment
-)

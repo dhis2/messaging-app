@@ -24,6 +24,7 @@ import * as actions from 'constants/actions'
 import {
     deleteMessageConversations,
     markMessageConversations,
+    updateMessageConversations,
 } from '../../actions/epics'
 import extendedChoices from 'constants/extendedChoices'
 
@@ -320,23 +321,10 @@ export default compose(
                 deleteMessageConversations,
                 dispatch
             ),
-            updateMessageConversations: (
-                messageConversationIds,
-                identifier,
-                value,
-                messageType,
-                selectedMessageConversation
-            ) =>
-                dispatch({
-                    type: actions.UPDATE_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageConversationIds,
-                        identifier,
-                        value,
-                        messageType,
-                        selectedMessageConversation,
-                    },
-                }),
+            updateMessageConversations: bindActionCreators(
+                updateMessageConversations,
+                dispatch
+            ),
             markMessageConversations: bindActionCreators(
                 markMessageConversations,
                 dispatch

@@ -10,7 +10,11 @@ import i18n from 'd2-i18n'
 
 import * as api from 'api/api'
 import * as actions from 'constants/actions'
-import { setDisplayTimeDiff } from '../../actions/epics'
+import {
+    setDisplayTimeDiff,
+    loadMessageConversations,
+    setSelectedMessageConversation,
+} from '../../actions/epics'
 
 import theme from 'styles/theme'
 
@@ -20,7 +24,6 @@ import MessageConversationList from 'components/List/MessageConversationList'
 import CreateMessage from 'components/MessageConversation/CreateMessage'
 import Toolbar from 'components/Common/Toolbar'
 
-import { SET_DISPLAY_TIME_DIFF } from 'constants/actions'
 import { subheader } from 'styles/style'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
@@ -58,10 +61,7 @@ class MessagingCenter extends Component {
         this.props.messageTypes.map(messageType =>
             this.props.loadMessageConversations(
                 messageType,
-                selectedMessageType,
-                null,
-                null,
-                null
+                selectedMessageType
             )
         )
 
@@ -275,25 +275,25 @@ export default compose(
             }
         },
         dispatch => ({
-            loadMessageConversations: (messageType, selectedMessageType) =>
-                dispatch({
-                    type: actions.LOAD_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageType,
-                        selectedMessageType,
-                    },
-                }),
+            loadMessageConversations: bindActionCreators(
+                loadMessageConversations,
+                dispatch
+            ),
             setIsInFeedbackRecipientGroup: isInFeedbackRecipientGroup =>
                 dispatch({
                     type: actions.SET_IN_FEEDBACK_RECIPIENT_GROUP,
                     payload: { isInFeedbackRecipientGroup },
                 }),
             clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
+            setSelectedMessageConversation: bindActionCreators(
+                setSelectedMessageConversation,
+                dispatch
+            ),
+            // setSelectedMessageConversation: messageConversation =>
+            //     dispatch({
+            //         type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
+            //         payload: { messageConversation },
+            //     }),
             setSelectedMessageType: messageTypeId =>
                 dispatch({
                     type: actions.SET_SELECTED_MESSAGE_TYPE,

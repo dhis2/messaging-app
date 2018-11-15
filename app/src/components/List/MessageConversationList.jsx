@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -7,13 +8,13 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
+import { loadMessageConversations } from '../../actions/epics'
 import { messagePanelContainer } from 'styles/style'
 import theme from 'styles/theme'
 import ListItemHeader from 'components/List/ListItemHeader'
 import MessageConversationListItem from 'components/List/MessageConversationListItem'
 
-import { dedupeById } from 'utils/helpers'
+import { dedupeById, debounce } from 'utils/helpers'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
@@ -45,16 +46,15 @@ class MessageConversationList extends Component {
             this.isBottom(messageList) &&
             messageType.loaded < messageType.total
         ) {
-            messageType.page++
-            this.props.loadMoreMessageConversations(
+            this.props.loadMessageConversations(
                 messageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter
+                messageType.id,
+                true
             )
         }
     }
 
+    debouncedOnScroll = debounce(this.onScroll, 150)
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
@@ -73,7 +73,9 @@ class MessageConversationList extends Component {
         return (
             <div
                 id={'messagelist'}
-                onScroll={() => this.onScroll(this.props.selectedMessageType)}
+                onScroll={() =>
+                    this.debouncedOnScroll(this.props.selectedMessageType)
+                }
                 style={styles.canvas(this.props.wideview)}
             >
                 {this.props.wideview && (
@@ -132,21 +134,10 @@ export default compose(
             selectedMessageType: state.messaging.selectedMessageType,
         }),
         dispatch => ({
-            loadMoreMessageConversations: (
-                messageType,
-                messageFilter,
-                statusFilter,
-                priorityFilter
-            ) =>
-                dispatch({
-                    type: actions.LOAD_MORE_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageType,
-                        messageFilter,
-                        statusFilter,
-                        priorityFilter,
-                    },
-                }),
+            loadMessageConversations: bindActionCreators(
+                loadMessageConversations,
+                dispatch
+            ),
         }),
         null,
         { pure: false }
