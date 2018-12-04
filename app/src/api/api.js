@@ -394,6 +394,22 @@ export const addRecipients = (
             throw error
         })
 
+export const getUserById = id =>
+    getD2Instance()
+        .then(instance =>
+            instance.Api.getApi().get(`users/${id}`, {
+                fields: 'id,displayName',
+            })
+        )
+        .then(({ id, displayName }) => ({
+            id,
+            displayName,
+            type: 'user',
+        }))
+        .catch(error => {
+            throw error
+        })
+
 export function createAttachment(attachment) {
     let form = new FormData()
     form.append('file', attachment)
