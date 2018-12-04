@@ -52,7 +52,11 @@ class MessagingCenter extends Component {
         const selectedMessageType = this.props.match.params.messageType
         const selectedId = this.props.match.params.messageId
 
-        if (selectedId !== selectedMessageType && selectedId !== 'create') {
+        if (
+            selectedId &&
+            selectedId !== selectedMessageType &&
+            selectedId !== 'create'
+        ) {
             const initialMessageConversation = { id: selectedId }
             this.props.setSelectedMessageConversation(
                 initialMessageConversation
@@ -83,6 +87,7 @@ class MessagingCenter extends Component {
 
         if (
             !this.props.settingSelectedMessageConversation &&
+            selectedId &&
             selectedMessageType !== selectedId &&
             selectedId !== 'create' &&
             (this.props.selectedMessageConversation === undefined ||
