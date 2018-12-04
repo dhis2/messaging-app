@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
+import { setAllChecked, clearCheckedIds } from '../../actions'
 import theme from 'styles/theme'
 import { fontFamily } from 'constants/development'
 
@@ -132,20 +132,17 @@ class MessageConversationListItem extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    checkedIds: state.messaging.checkedIds,
+    isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+})
+
 export default compose(
     connect(
-        state => ({
-            checkedIds: state.messaging.checkedIds,
-            isInFeedbackRecipientGroup:
-                state.messaging.isInFeedbackRecipientGroup,
-        }),
-        dispatch => ({
-            setAllChecked: messageConversationIds =>
-                dispatch({
-                    type: actions.SET_ALL_CHECKED,
-                    payload: { messageConversationIds },
-                }),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-        })
+        mapStateToProps,
+        {
+            setAllChecked,
+            clearCheckedIds,
+        }
     )
 )(MessageConversationListItem)

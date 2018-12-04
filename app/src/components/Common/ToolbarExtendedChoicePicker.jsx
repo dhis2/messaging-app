@@ -19,7 +19,14 @@ import Done from 'material-ui-icons/Done'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
+import {
+    clearCheckedIds,
+    clearSelectedMessageConversation,
+    deleteMessageConversations,
+    updateMessageConversations,
+    markMessageConversations,
+    displaySnackMessage,
+} from '../../actions'
 import extendedChoices from 'constants/extendedChoices'
 
 import history from 'utils/history'
@@ -296,72 +303,24 @@ class ToolbarExtendedChoicePicker extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageType: state.messaging.selectedMessageType,
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    checkedIds: state.messaging.checkedIds,
+    feedbackRecipientsId: state.messaging.feedbackRecipientsId,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageType: state.messaging.selectedMessageType,
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            checkedIds: state.messaging.checkedIds,
-            feedbackRecipientsId: state.messaging.feedbackRecipientsId,
-        }),
-        dispatch => ({
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            clearSelectedMessageConversation: () =>
-                dispatch({
-                    type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
-                }),
-            deleteMessageConversations: (messageConversationIds, messageType) =>
-                dispatch({
-                    type: actions.DELETE_MESSAGE_CONVERSATIONS,
-                    payload: { messageConversationIds, messageType },
-                }),
-            updateMessageConversations: (
-                messageConversationIds,
-                identifier,
-                value,
-                messageType,
-                selectedMessageConversation
-            ) =>
-                dispatch({
-                    type: actions.UPDATE_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageConversationIds,
-                        identifier,
-                        value,
-                        messageType,
-                        selectedMessageConversation,
-                    },
-                }),
-            markMessageConversations: (
-                mode,
-                markedConversations,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        mode,
-                        markedConversations,
-                        messageType,
-                    },
-                }),
-            displaySnackMessage: (
-                message,
-                onSnackActionClick,
-                onSnackRequestClose,
-                snackType
-            ) =>
-                dispatch({
-                    type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: {
-                        message,
-                        onSnackActionClick,
-                        onSnackRequestClose,
-                        snackType,
-                    },
-                }),
-        }),
+        mapStateToProps,
+        {
+            clearCheckedIds,
+            clearSelectedMessageConversation,
+            deleteMessageConversations,
+            updateMessageConversations,
+            markMessageConversations,
+            displaySnackMessage,
+        },
         null,
         { pure: false }
     )

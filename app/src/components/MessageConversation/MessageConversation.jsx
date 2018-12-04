@@ -3,7 +3,11 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
 import history from 'utils/history'
-import * as actions from 'constants/actions'
+import {
+    addRecipients,
+    downloadAttachment,
+    cancelAttachment,
+} from '../../actions'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 
@@ -218,45 +222,19 @@ class MessageConversation extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageType: state.messaging.selectedMessageType,
+    displayTimeDiff: state.messaging.displayTimeDiff,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageType: state.messaging.selectedMessageType,
-            displayTimeDiff: state.messaging.displayTimeDiff,
-        }),
-        dispatch => ({
-            addRecipients: (
-                users,
-                userGroups,
-                organisationUnits,
-                messageConversation,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.ADD_RECIPIENTS,
-                    payload: {
-                        users,
-                        userGroups,
-                        organisationUnits,
-                        messageConversation,
-                        messageType,
-                    },
-                }),
-            downloadAttachment: (
-                messageConversationId,
-                messageId,
-                attachmentId
-            ) =>
-                dispatch({
-                    type: actions.DOWNLOAD_ATTACHMENT,
-                    payload: { messageConversationId, messageId, attachmentId },
-                }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
-        }),
+        mapStateToProps,
+        {
+            addRecipients,
+            downloadAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )

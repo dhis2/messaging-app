@@ -10,12 +10,19 @@ import Flag from 'material-ui-icons/Flag'
 import i18n from 'd2-i18n'
 
 import history from 'utils/history'
-import * as actions from 'constants/actions'
+import {
+    setChecked,
+    setSelectedMessageConversation,
+    markMessageConversations,
+    clearCheckedIds,
+    setFilter,
+    updateInputFields,
+    clearAttachments,
+} from '../../actions'
 import ExtendedChoiceLabel from 'components/Common/ExtendedChoiceLabel'
 import theme from 'styles/theme'
 import { fontFamily } from 'constants/development'
 
-const find = require('lodash/find')
 const moment = require('moment')
 
 const styles = {
@@ -107,10 +114,7 @@ class MessageConversationListItem extends Component {
             this.props.markMessageConversations(
                 'read',
                 [messageConversation.id],
-                this.props.selectedMessageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter
+                this.props.selectedMessageType
             )
         }
         this.props.updateInputFields('', '', [])
@@ -149,9 +153,9 @@ class MessageConversationListItem extends Component {
         const title = messageConversation.lastSender
             ? messageConversation.lastSender.displayName
             : this.props.selectedMessageType.displayName
-        const checked =
-            find(this.props.checkedIds, { id: messageConversation.id }) !==
-            undefined
+        const checked = !!this.props.checkedIds.find(
+            x => x.id === messageConversation.id
+        )
 
         const displayExtendedChoices = this.props.displayExtendedChoices
 
@@ -275,65 +279,31 @@ class MessageConversationListItem extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    settingSelectedMessageConversation:
+        state.messaging.settingSelectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+    checkedIds: state.messaging.checkedIds,
+    displayTimeDiff: state.messaging.displayTimeDiff,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            settingSelectedMessageConversation:
-                state.messaging.settingSelectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-            checkedIds: state.messaging.checkedIds,
-            displayTimeDiff: state.messaging.displayTimeDiff,
-            messageFilter: state.messaging.messageFilter,
-            statusFilter: state.messaging.statusFilter,
-            priorityFilter: state.messaging.priorityFilter,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            setChecked: (messageConversation, selectedValue) =>
-                dispatch({
-                    type: actions.SET_CHECKED,
-                    payload: { messageConversation, selectedValue },
-                }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
-            markMessageConversations: (
-                mode,
-                markedConversations,
-                messageType,
-                messageFilter,
-                statusFilter,
-                priorityFilter
-            ) =>
-                dispatch({
-                    type: actions.MARK_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        mode,
-                        markedConversations,
-                        messageType,
-                        messageFilter,
-                        statusFilter,
-                        priorityFilter,
-                    },
-                }),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setFilter: (filter, filterType) =>
-                dispatch({
-                    type: actions.SET_FILTER,
-                    payload: { filter, filterType },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            clearAttachments: () =>
-                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
-        }),
+        mapStateToProps,
+        {
+            setChecked,
+            setSelectedMessageConversation,
+            markMessageConversations,
+            clearCheckedIds,
+            setFilter,
+            updateInputFields,
+            clearAttachments,
+        },
         null,
         { pure: false }
     )

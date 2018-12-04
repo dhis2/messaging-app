@@ -5,10 +5,7 @@ import * as actions from 'constants/actions'
 import messageTypes from '../constants/messageTypes'
 
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development'
-
-const find = require('lodash/find')
-const findIndex = require('lodash/findIndex')
-const remove = require('lodash/remove')
+import { findIndexOfId } from '../utils/helpers'
 
 export const initialState = {
     // Message conversation
@@ -51,28 +48,29 @@ function messageReducer(state = initialState, action) {
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
             return {
                 ...state,
-                displayTimeDiff: action.displayTimeDiff,
+                displayTimeDiff: action.payload,
             }
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
-            const replaceMessageType = find(stateMessageTypes, {
-                id: action.messageType.id,
-            })
+            const replaceMessageType = stateMessageTypes.find(
+                type => type.id === action.payload.messageType.id
+            )
             replaceMessageType.loaded =
                 action.payload.messageConversations.length
             replaceMessageType.total = action.payload.pager.total
-            replaceMessageType.unread = action.nrOfUnread
+            replaceMessageType.unread = action.payload.nrOfUnread
             replaceMessageType.page = action.payload.pager.page
             replaceMessageType.loading = false
             messageTypes.splice(
-                [findIndex(stateMessageTypes, { id: replaceMessageType.id })],
+                [findIndexOfId(stateMessageTypes, replaceMessageType.id)],
                 1,
                 replaceMessageType
             )
 
             const setSelectedMessageType =
-                action.selectedMessageType === replaceMessageType.id &&
-                (action.selectedMessageType === state.selectedMessageType ||
+                action.payload.selectedMessageType === replaceMessageType.id &&
+                (action.payload.selectedMessageType ===
+                    state.selectedMessageType ||
                     state.selectedMessageType === undefined)
 
             return {
@@ -217,9 +215,9 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 checkedIds: [],
-                selectedMessageType: find(stateMessageTypes, {
-                    id: action.payload.messageTypeId,
-                }),
+                selectedMessageType: stateMessageTypes.find(
+                    type => type.id === action.payload.messageTypeId
+                ),
                 selectedMessageConversations:
                     state.messageConversations[action.payload.messageTypeId],
                 selectedMessageConversation: undefined,
@@ -266,12 +264,23 @@ function messageReducer(state = initialState, action) {
             const loadingMessageType = action.payload.messageType
             loadingMessageType.loading = true
 
+            if (action.payload.loadMore) {
+                loadingMessageType.page++
+            }
+
             messageTypes[
-                findIndex(messageTypes, { id: loadingMessageType.id })
+                findIndexOfId(messageTypes, loadingMessageType.id)
             ] = loadingMessageType
 
+            // TODO: This can probably be removed because action.payload.messageType === state.selectedMessageType
             const selectedMessageType = state.selectedMessageType
-            if (selectedMessageType) selectedMessageType.loading = true
+            if (selectedMessageType) {
+                selectedMessageType.loading = true
+                if (action.payload.loadMore) {
+                    selectedMessageType.page++
+                }
+            }
+
             return {
                 ...state,
                 messageTypes,
@@ -294,9 +303,9 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 attachments: state.attachments.map(
                     attachment =>
-                        attachment.name === action.attachment.name
+                        attachment.name === action.payload.name
                             ? {
-                                  id: action.attachment.id,
+                                  id: action.payload.id,
                                   name: attachment.name,
                                   contentLength: attachment.contentLength,
                                   loading: false,
@@ -306,14 +315,11 @@ function messageReducer(state = initialState, action) {
             }
 
         case actions.ADD_ATTACHMENT_ERROR:
-            remove(
-                oldAttachments,
-                attachment => attachment.id === action.payload.attachmentId
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment => attachment.id !== action.payload.attachmentId
+                ),
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
             }
@@ -322,32 +328,27 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 attachments: state.attachments.concat({
-                    name: action.payload.attachment.name,
-                    contentLength: action.payload.attachment.size,
+                    name: action.payload.name,
+                    contentLength: action.payload.size,
                     loading: true,
                 }),
             }
 
         case actions.REMOVE_ATTACHMENT:
-            remove(
-                oldAttachments,
-                attachment => attachment.id === action.payload.attachmentId
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment => attachment.id !== action.payload.attachmentId
+                ),
             }
 
         case actions.CANCEL_ATTACHMENT:
-            remove(
-                oldAttachments,
-                attachment => attachment.name === action.payload.attachmentName
-            )
-
             return {
                 ...state,
-                attachments: oldAttachments,
+                attachments: oldAttachments.filter(
+                    attachment =>
+                        attachment.name !== action.payload.attachmentName
+                ),
             }
 
         case actions.CLEAR_ATTACHMENTS:

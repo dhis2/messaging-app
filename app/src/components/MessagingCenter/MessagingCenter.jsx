@@ -8,7 +8,18 @@ import MailIcon from 'material-ui-icons/MailOutline'
 import i18n from 'd2-i18n'
 
 import * as api from 'api/api'
-import * as actions from 'constants/actions'
+import {
+    loadMessageConversations,
+    setIsInFeedbackRecipientGroup,
+    clearCheckedIds,
+    setSelectedMessageConversation,
+    setSelectedMessageType,
+    clearSelectedMessageConversation,
+    updateInputFields,
+    setFilter,
+    setDisplayTimeDiff,
+    clearAttachments,
+} from '../../actions'
 
 import theme from 'styles/theme'
 
@@ -18,7 +29,6 @@ import MessageConversationList from 'components/List/MessageConversationList'
 import CreateMessage from 'components/MessageConversation/CreateMessage'
 import Toolbar from 'components/Common/Toolbar'
 
-import { SET_DISPLAY_TIME_DIFF } from 'constants/actions'
 import { subheader } from 'styles/style'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
@@ -56,10 +66,7 @@ class MessagingCenter extends Component {
         this.props.messageTypes.map(messageType =>
             this.props.loadMessageConversations(
                 messageType,
-                selectedMessageType,
-                null,
-                null,
-                null
+                selectedMessageType
             )
         )
 
@@ -245,76 +252,42 @@ class MessagingCenter extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    snackMessage: state.messaging.snackMessage,
+    messageTypes: state.messaging.messageTypes,
+    messageConversations: state.messaging.messageConversations,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    assignedToMeFilter: state.messaging.assignedToMeFilter,
+    markedForFollowUpFilter: state.messaging.markedForFollowUpFilter,
+    unreadFilter: state.messaging.unreadFilter,
+    selectedMessageType: state.messaging.selectedMessageType,
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    settingSelectedMessageConversation:
+        state.messaging.settingSelectedMessageConversation,
+    checkedIds: state.messaging.checkedIds,
+    checkedOptions: state.messaging.checkedIds.length > 0,
+    loaded: state.messaging.loaded,
+    isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => {
-            return {
-                snackMessage: state.messaging.snackMessage,
-                messageTypes: state.messaging.messageTypes,
-                messageConversations: state.messaging.messageConversations,
-                messageFilter: state.messaging.messageFilter,
-                statusFilter: state.messaging.statusFilter,
-                priorityFilter: state.messaging.priorityFilter,
-                assignedToMeFilter: state.messaging.assignedToMeFilter,
-                markedForFollowUpFilter:
-                    state.messaging.markedForFollowUpFilter,
-                unreadFilter: state.messaging.unreadFilter,
-                selectedMessageType: state.messaging.selectedMessageType,
-                selectedMessageConversation:
-                    state.messaging.selectedMessageConversation,
-                settingSelectedMessageConversation:
-                    state.messaging.settingSelectedMessageConversation,
-                checkedIds: state.messaging.checkedIds,
-                checkedOptions: state.messaging.checkedIds.length > 0,
-                loaded: state.messaging.loaded,
-                isInFeedbackRecipientGroup:
-                    state.messaging.isInFeedbackRecipientGroup,
-                attachments: state.messaging.attachments,
-            }
+        mapStateToProps,
+        {
+            loadMessageConversations,
+            setIsInFeedbackRecipientGroup,
+            clearCheckedIds,
+            setSelectedMessageConversation,
+            setSelectedMessageType,
+            clearSelectedMessageConversation,
+            updateInputFields,
+            setFilter,
+            setDisplayTimeDiff,
+            clearAttachments,
         },
-        dispatch => ({
-            loadMessageConversations: (messageType, selectedMessageType) =>
-                dispatch({
-                    type: actions.LOAD_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageType,
-                        selectedMessageType,
-                    },
-                }),
-            setIsInFeedbackRecipientGroup: isInFeedbackRecipientGroup =>
-                dispatch({
-                    type: actions.SET_IN_FEEDBACK_RECIPIENT_GROUP,
-                    payload: { isInFeedbackRecipientGroup },
-                }),
-            clearCheckedIds: () => dispatch({ type: actions.CLEAR_CHECKED }),
-            setSelectedMessageConversation: messageConversation =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_CONVERSATION,
-                    payload: { messageConversation },
-                }),
-            setSelectedMessageType: messageTypeId =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_TYPE,
-                    payload: { messageTypeId },
-                }),
-            clearSelectedMessageConversation: () =>
-                dispatch({
-                    type: actions.CLEAR_SELECTED_MESSAGE_CONVERSATION,
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            setFilter: (filter, filterType) =>
-                dispatch({
-                    type: actions.SET_FILTER,
-                    payload: { filter, filterType },
-                }),
-            setDisplayTimeDiff: () => dispatch({ type: SET_DISPLAY_TIME_DIFF }),
-            clearAttachments: () =>
-                dispatch({ type: actions.CLEAR_ATTACHMENTS }),
-        }),
         null,
         { pure: false }
     )

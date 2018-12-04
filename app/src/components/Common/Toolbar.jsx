@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Subject, Observable } from 'rxjs/Rx'
 
 import ViewFancy from 'material-ui-icons/ViewList'
 import ViewList from 'material-ui-icons/ViewHeadline'
@@ -25,6 +24,8 @@ import theme from 'styles/theme'
 
 import extendedChoices from 'constants/extendedChoices'
 import ToolbarExtendedChoicePicker from 'components/Common/ToolbarExtendedChoicePicker'
+
+import { debounce } from '../../utils/helpers'
 
 const headerHeight = '48px'
 const searchDelay = 300
@@ -70,33 +71,22 @@ const styles = {
 }
 
 class Toolbar extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            lastMessageFilter: '',
-        }
+    state = {
+        lastMessageFilter: '',
     }
+    debouncedSearch = debounce(this.search, searchDelay)
 
-    inputStream = new Subject()
-    componentDidMount() {
-        this.inputStream
-            .debounce(() => Observable.timer(searchDelay))
-            .subscribe(messageFilter => {
-                if (
-                    this.props.selectedMessageType &&
-                    this.state.lastMessageFilter !== messageFilter
-                ) {
-                    this.props.loadMessageConversations(
-                        this.props.selectedMessageType,
-                        this.props.selectedMessageType.id,
-                        messageFilter,
-                        this.props.statusFilter,
-                        this.props.priorityFilter
-                    )
-                    this.setState({ lastMessageFilter: messageFilter })
-                }
-            })
+    search(messageFilter) {
+        if (
+            this.props.selectedMessageType &&
+            this.state.lastMessageFilter !== messageFilter
+        ) {
+            this.props.loadMessageConversations(
+                this.props.selectedMessageType,
+                this.props.selectedMessageType.id
+            )
+            this.setState({ lastMessageFilter: messageFilter })
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -105,7 +95,7 @@ class Toolbar extends Component {
             this.props.selectedMessageType.id !==
                 prevProps.selectedMessageType.id
         ) {
-            this.inputStream.next('')
+            this.debouncedSearch('')
             this.props.messageFilter !== undefined &&
                 this.props.setFilter(undefined, 'MESSAGE')
             this.props.statusFilter !== undefined &&
@@ -294,9 +284,9 @@ class Toolbar extends Component {
                                 style={styles.filterControl}
                                 fullWidth
                                 hintText={i18n.t('Search')}
-                                value={this.props.messageFilter}
+                                value={this.props.messageFilter || ''}
                                 onChange={(event, messageFilter) => {
-                                    this.inputStream.next(messageFilter)
+                                    this.debouncedSearch(messageFilter)
                                     this.props.setFilter(
                                         messageFilter,
                                         'MESSAGE'
@@ -374,7 +364,7 @@ class Toolbar extends Component {
                             alignSelf: 'center',
                         }}
                         icon={
-                            !this.state.wideview ? <ViewList /> : <ViewFancy />
+                            !this.props.wideview ? <ViewList /> : <ViewFancy />
                         }
                         onClick={() => this.props.toogleWideview()}
                     />

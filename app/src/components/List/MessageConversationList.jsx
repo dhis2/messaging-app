@@ -7,14 +7,13 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
+import { loadMessageConversations } from '../../actions'
 import { messagePanelContainer } from 'styles/style'
 import theme from 'styles/theme'
 import ListItemHeader from 'components/List/ListItemHeader'
 import MessageConversationListItem from 'components/List/MessageConversationListItem'
 
-const uniqWith = require('lodash/uniqWith')
-const isEqual = require('lodash/isEqual')
+import { dedupeById, debounce } from 'utils/helpers'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
@@ -46,22 +45,20 @@ class MessageConversationList extends Component {
             this.isBottom(messageList) &&
             messageType.loaded < messageType.total
         ) {
-            messageType.page++
-            this.props.loadMoreMessageConversations(
+            this.props.loadMessageConversations(
                 messageType,
-                this.props.messageFilter,
-                this.props.statusFilter,
-                this.props.priorityFilter
+                messageType.id,
+                true
             )
         }
     }
 
+    debouncedOnScroll = debounce(this.onScroll, 150)
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
-        const children = uniqWith(
-            this.props.messageConversations[this.props.selectedMessageType.id],
-            isEqual
+        const children = dedupeById(
+            this.props.messageConversations[this.props.selectedMessageType.id]
         )
 
         const messageType = this.props.selectedMessageType
@@ -75,7 +72,9 @@ class MessageConversationList extends Component {
         return (
             <div
                 id={'messagelist'}
-                onScroll={() => this.onScroll(this.props.selectedMessageType)}
+                onScroll={() =>
+                    this.debouncedOnScroll(this.props.selectedMessageType)
+                }
                 style={styles.canvas(this.props.wideview)}
             >
                 {this.props.wideview && (
@@ -121,35 +120,22 @@ class MessageConversationList extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    messageTypes: state.messaging.messageTypes,
+    messageFilter: state.messaging.messageFilter,
+    statusFilter: state.messaging.statusFilter,
+    priorityFilter: state.messaging.priorityFilter,
+    messageConversations: state.messaging.messageConversations,
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+})
+
 export default compose(
     connect(
-        state => ({
-            messageTypes: state.messaging.messageTypes,
-            messageFilter: state.messaging.messageFilter,
-            statusFilter: state.messaging.statusFilter,
-            priorityFilter: state.messaging.priorityFilter,
-            messageConversations: state.messaging.messageConversations,
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-        }),
-        dispatch => ({
-            loadMoreMessageConversations: (
-                messageType,
-                messageFilter,
-                statusFilter,
-                priorityFilter
-            ) =>
-                dispatch({
-                    type: actions.LOAD_MORE_MESSAGE_CONVERSATIONS,
-                    payload: {
-                        messageType,
-                        messageFilter,
-                        statusFilter,
-                        priorityFilter,
-                    },
-                }),
-        }),
+        mapStateToProps,
+        {
+            loadMessageConversations,
+        },
         null,
         { pure: false }
     )

@@ -12,7 +12,15 @@ import TextField from 'material-ui/TextField'
 import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
 
-import * as actions from 'constants/actions'
+import {
+    sendMessage,
+    sendFeedbackMessage,
+    displaySnackMessage,
+    updateInputFields,
+    addAttachment,
+    removeAttachment,
+    cancelAttachment,
+} from '../../actions'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'
@@ -21,8 +29,6 @@ import { NEGATIVE } from 'constants/development'
 import Attachments from 'components/Attachments/Attachments'
 
 import { subheader } from 'styles/style'
-
-const find = require('lodash/find')
 
 const styles = {
     canvas: {
@@ -73,9 +79,12 @@ class CreateMessage extends Component {
     }
 
     sendMessage = () => {
-        const messageType = find(this.props.messageTypes, {
-            id: this.state.isMessageFeedback ? 'TICKET' : 'PRIVATE',
-        })
+        const messageTypeId = this.state.isMessageFeedback
+            ? 'TICKET'
+            : 'PRIVATE'
+        const messageType = this.props.messageTypes.find(
+            messageType => messageType.id === messageTypeId
+        )
 
         if (this.state.isMessageFeedback) {
             this.props.sendFeedbackMessage(messageType)
@@ -226,76 +235,26 @@ class CreateMessage extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    messageTypes: state.messaging.messageTypes,
+    subject: state.messaging.subject,
+    input: state.messaging.input,
+    recipients: state.messaging.recipients,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            messageTypes: state.messaging.messageTypes,
-            subject: state.messaging.subject,
-            input: state.messaging.input,
-            recipients: state.messaging.recipients,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            sendMessage: (
-                users,
-                userGroups,
-                organisationUnits,
-                messageConversationId,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.SEND_MESSAGE,
-                    payload: {
-                        users,
-                        userGroups,
-                        organisationUnits,
-                        messageConversationId,
-                        messageType,
-                    },
-                }),
-            sendFeedbackMessage: messageType =>
-                dispatch({
-                    type: actions.SEND_FEEDBACK_MESSAGE,
-                    payload: {
-                        messageType,
-                    },
-                }),
-            displaySnackMessage: (
-                message,
-                onSnackActionClick,
-                onSnackRequestClose,
-                snackType
-            ) =>
-                dispatch({
-                    type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: {
-                        message,
-                        onSnackActionClick,
-                        onSnackRequestClose,
-                        snackType,
-                    },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            addAttachment: attachment =>
-                dispatch({
-                    type: actions.ADD_ATTACHMENT,
-                    payload: { attachment },
-                }),
-            removeAttachment: attachmentId =>
-                dispatch({
-                    type: actions.REMOVE_ATTACHMENT,
-                    payload: { attachmentId },
-                }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
-        }),
+        mapStateToProps,
+        {
+            sendMessage,
+            sendFeedbackMessage,
+            displaySnackMessage,
+            updateInputFields,
+            addAttachment,
+            removeAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )

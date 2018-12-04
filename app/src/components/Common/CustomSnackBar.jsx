@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
 
-import * as actions from 'constants/actions'
+import { clearSnackMessage } from '../../actions'
 import { compose, pure } from 'recompose'
 
 import theme from 'styles/theme'
@@ -61,20 +61,19 @@ class CustomSnackBar extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    message: state.messaging.snackMessage,
+    type: state.messaging.snackType,
+    onSnackActionClick: state.messaging.onSnackActionClick,
+    onSnackRequestClose: state.messaging.onSnackRequestClose,
+})
+
 export default compose(
     connect(
-        state => {
-            return {
-                message: state.messaging.snackMessage,
-                type: state.messaging.snackType,
-                onSnackActionClick: state.messaging.onSnackActionClick,
-                onSnackRequestClose: state.messaging.onSnackRequestClose,
-            }
-        },
-        dispatch => ({
-            clearSnackMessage: () =>
-                dispatch({ type: actions.CLEAR_SNACK_MESSAGE }),
-        })
+        mapStateToProps,
+        {
+            clearSnackMessage,
+        }
     ),
     pure
 )(CustomSnackBar)

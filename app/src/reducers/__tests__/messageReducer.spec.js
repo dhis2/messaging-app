@@ -1,7 +1,6 @@
 import messageReducer, { initialState } from '../messageReducer'
 import * as actions from '../../constants/actions'
-
-let findIndex = require('lodash/findIndex')
+import { findIndexOfId } from '../../utils/helpers'
 
 describe('message conversation reducer', () => {
     it('should return the default state', () => {
@@ -87,7 +86,7 @@ describe('message conversation reducer', () => {
         loadingMessageType.loading = true
 
         stateMessageTypes[
-            findIndex(stateMessageTypes, { id: loadingMessageType.id })
+            findIndexOfId(stateMessageTypes, loadingMessageType)
         ] = loadingMessageType
 
         const expectedState = {

@@ -12,7 +12,15 @@ import Attachments from 'components/Attachments/Attachments'
 
 import i18n from 'd2-i18n'
 
-import * as actions from 'constants/actions'
+import {
+    replyMessage,
+    setSelectedMessageType,
+    updateInputFields,
+    displaySnackMessage,
+    addAttachment,
+    removeAttachment,
+    cancelAttachment,
+} from '../../actions'
 
 import { NEGATIVE } from 'constants/development'
 
@@ -135,75 +143,27 @@ class ReplyCard extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    selectedMessageConversation: state.messaging.selectedMessageConversation,
+    selectedMessageType: state.messaging.selectedMessageType,
+    messageTypes: state.messaging.messageTypes,
+    input: state.messaging.input,
+    isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
+    attachments: state.messaging.attachments,
+})
+
 export default compose(
     connect(
-        state => ({
-            selectedMessageConversation:
-                state.messaging.selectedMessageConversation,
-            selectedMessageType: state.messaging.selectedMessageType,
-            messageTypes: state.messaging.messageTypes,
-            input: state.messaging.input,
-            isInFeedbackRecipientGroup:
-                state.messaging.isInFeedbackRecipientGroup,
-            attachments: state.messaging.attachments,
-        }),
-        dispatch => ({
-            replyMessage: (
-                message,
-                internalReply,
-                messageConversation,
-                messageType
-            ) =>
-                dispatch({
-                    type: actions.REPLY_MESSAGE,
-                    payload: {
-                        message,
-                        internalReply,
-                        messageConversation,
-                        messageType,
-                    },
-                }),
-            setSelectedMessageType: messageTypeId =>
-                dispatch({
-                    type: actions.SET_SELECTED_MESSAGE_TYPE,
-                    payload: { messageTypeId },
-                }),
-            updateInputFields: (subject, input, recipients) =>
-                dispatch({
-                    type: actions.UPDATE_INPUT_FIELDS,
-                    payload: { subject, input, recipients },
-                }),
-            displaySnackMessage: (
-                message,
-                onSnackActionClick,
-                onSnackRequestClose,
-                snackType
-            ) =>
-                dispatch({
-                    type: actions.DISPLAY_SNACK_MESSAGE,
-                    payload: {
-                        message,
-                        onSnackActionClick,
-                        onSnackRequestClose,
-                        snackType,
-                    },
-                }),
-            addAttachment: attachment =>
-                dispatch({
-                    type: actions.ADD_ATTACHMENT,
-                    payload: { attachment },
-                }),
-            removeAttachment: attachmentId =>
-                dispatch({
-                    type: actions.REMOVE_ATTACHMENT,
-                    payload: { attachmentId },
-                }),
-            cancelAttachment: attachmentName =>
-                dispatch({
-                    type: actions.CANCEL_ATTACHMENT,
-                    payload: { attachmentName },
-                }),
-        }),
+        mapStateToProps,
+        {
+            replyMessage,
+            setSelectedMessageType,
+            updateInputFields,
+            displaySnackMessage,
+            addAttachment,
+            removeAttachment,
+            cancelAttachment,
+        },
         null,
         { pure: false }
     )
