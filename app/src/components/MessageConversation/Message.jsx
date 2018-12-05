@@ -84,13 +84,13 @@ const Message = ({
                     </div>
                 </div>
 
-                <Attachments
+                {/* <Attachments
                     dataDirection={'download'}
                     style={{ paddingLeft: 0 }}
                     attachments={message.attachments}
                     downloadAttachment={downloadAttachment}
                     cancelAttachment={cancelAttachment}
-                />
+                /> */}
 
                 <CardText style={styles.cardText}>
                     <Linkify>{message.text}</Linkify>

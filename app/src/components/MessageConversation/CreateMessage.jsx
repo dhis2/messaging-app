@@ -204,14 +204,14 @@ class CreateMessage extends Component {
                             floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
-                        <Attachments
+                        {/* <Attachments
                             dataDirection={'upload'}
                             attachments={this.props.attachments}
                             removeAttachment={attachment =>
                                 this.props.removeAttachment(attachment.id)
                             }
                             cancelAttachment={this.props.cancelAttachment}
-                        />
+                        /> */}
                         <CardActions style={{ paddingLeft: '0px' }}>
                             <RaisedButton
                                 primary
@@ -232,11 +232,11 @@ class CreateMessage extends Component {
                                     history.push('/PRIVATE')
                                 }}
                             />
-                            <AttachmentField
+                            {/* <AttachmentField
                                 addAttachment={attachment => {
                                     this.props.addAttachment(attachment)
                                 }}
-                            />
+                            /> */}
                         </CardActions>
                     </CardText>
                 </Card>
