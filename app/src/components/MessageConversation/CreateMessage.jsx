@@ -20,6 +20,7 @@ import {
     addAttachment,
     removeAttachment,
     cancelAttachment,
+    addRecipientByUserId,
 } from '../../actions'
 import history from 'utils/history'
 import SuggestionField from 'components/Common/SuggestionField'
@@ -51,6 +52,15 @@ class CreateMessage extends Component {
 
         this.state = {
             isMessageFeedback: false,
+        }
+    }
+
+    componentDidMount() {
+        const { addRecipientByUserId } = this.props
+        const { messageId, recipientId } = this.props.match.params
+
+        if (messageId === 'create' && recipientId) {
+            addRecipientByUserId(recipientId)
         }
     }
 
@@ -254,6 +264,7 @@ export default compose(
             addAttachment,
             removeAttachment,
             cancelAttachment,
+            addRecipientByUserId,
         },
         null,
         { pure: false }

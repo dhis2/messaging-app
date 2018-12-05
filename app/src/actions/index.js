@@ -365,6 +365,16 @@ export const addRecipients = (
     }
 }
 
+export const addRecipientByUserId = id => async dispatch => {
+    try {
+        const user = await api.getUserById(id)
+        dispatch(createAction(actions.ADD_RECIPIENT_BY_ID_SUCCESS, user))
+    } catch (error) {
+        console.error(error)
+        // No action required, the field will just be empty
+    }
+}
+
 export const addAttachment = attachment => async dispatch => {
     dispatch(createAction(actions.ADD_ATTACHMENT, attachment))
 

@@ -231,6 +231,12 @@ function messageReducer(state = initialState, action) {
                 recipients: action.payload.recipients,
             }
 
+        case actions.ADD_RECIPIENT_BY_ID_SUCCESS:
+            return {
+                ...state,
+                recipients: [...state.recipients, action.payload],
+            }
+
         case actions.SET_FILTER:
             return {
                 ...state,

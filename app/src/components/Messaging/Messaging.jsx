@@ -25,7 +25,10 @@ const ContentLoader = () => (
                 path="/"
                 component={() => <Redirect to="/PRIVATE" />}
             />
-            <Route path="/:messageType" component={MessagingCenter} />
+            <Route
+                path="/:messageType/:messageId?/:recipientId?"
+                component={MessagingCenter}
+            />
         </div>
     </Router>
 )
