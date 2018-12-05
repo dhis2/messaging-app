@@ -359,7 +359,7 @@ export const addRecipients = (
                 page: 1,
             })
         )
-        dispatch(setSelectedMessageConversation())
+        dispatch(setSelectedMessageConversation(messageConversation))
     } catch (error) {
         dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
     }
