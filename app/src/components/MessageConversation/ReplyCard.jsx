@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField'
 
 import AttachmentField from 'components/Attachments/AttachmentField'
 import Attachments from 'components/Attachments/Attachments'
+import { supportsAttachments } from 'utils/helpers'
 
 import i18n from 'd2-i18n'
 
@@ -74,16 +75,17 @@ class ReplyCard extends Component {
                         floatingLabelText={i18n.t('Message')}
                         onChange={this.texFieldUpdate}
                     />
-                    {!this.state.discardState && (
-                        <Attachments
-                            dataDirection={'upload'}
-                            attachments={this.props.attachments}
-                            removeAttachment={attachment =>
-                                this.props.removeAttachment(attachment.id)
-                            }
-                            cancelAttachment={this.props.cancelAttachment}
-                        />
-                    )}
+                    {this.props.enableAttachments &&
+                        !this.state.discardState && (
+                            <Attachments
+                                dataDirection={'upload'}
+                                attachments={this.props.attachments}
+                                removeAttachment={attachment =>
+                                    this.props.removeAttachment(attachment.id)
+                                }
+                                cancelAttachment={this.props.cancelAttachment}
+                            />
+                        )}
 
                     <CardActions style={{ paddingLeft: '0px' }}>
                         <RaisedButton
@@ -130,11 +132,13 @@ class ReplyCard extends Component {
                                 })
                             }}
                         />
-                        <AttachmentField
-                            addAttachment={attachment => {
-                                this.props.addAttachment(attachment)
-                            }}
-                        />
+                        {this.props.enableAttachments && (
+                            <AttachmentField
+                                addAttachment={attachment => {
+                                    this.props.addAttachment(attachment)
+                                }}
+                            />
+                        )}
                         )
                     </CardActions>
                 </CardText>
@@ -150,6 +154,7 @@ const mapStateToProps = state => ({
     input: state.messaging.input,
     isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
     attachments: state.messaging.attachments,
+    enableAttachments: supportsAttachments(state.messaging.dhis2CoreVersion),
 })
 
 export default compose(

@@ -8,6 +8,7 @@ import {
     downloadAttachment,
     cancelAttachment,
 } from '../../actions'
+import { supportsAttachments } from 'utils/helpers'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 
@@ -209,6 +210,7 @@ class MessageConversation extends Component {
                                     )
                                 }
                                 cancelAttachment={this.props.cancelAttachment}
+                                enableAttachments={this.props.enableAttachments}
                             />
                         ))}
                     </Paper>
@@ -225,6 +227,7 @@ class MessageConversation extends Component {
 const mapStateToProps = state => ({
     selectedMessageType: state.messaging.selectedMessageType,
     displayTimeDiff: state.messaging.displayTimeDiff,
+    enableAttachments: supportsAttachments(state.messaging.dhis2CoreVersion),
 })
 
 export default compose(
