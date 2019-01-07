@@ -7,6 +7,7 @@ import {
     addRecipients,
     downloadAttachment,
     cancelAttachment,
+    clearSelectedMessageConversation,
 } from '../../actions'
 import { supportsAttachments } from 'utils/helpers'
 
@@ -51,6 +52,15 @@ class MessageConversation extends Component {
                 currentUser: instance.currentUser,
             })
         })
+    }
+
+    backToList = () => {
+        const {
+            clearSelectedMessageConversation,
+            messageConversation,
+        } = this.props
+        history.push(`/${messageConversation.messageType}`)
+        clearSelectedMessageConversation()
     }
 
     addRecipients = () => {
@@ -114,11 +124,7 @@ class MessageConversation extends Component {
                         <IconButton
                             style={styles.iconButton}
                             tooltipPosition="bottom-right"
-                            onClick={() =>
-                                history.push(
-                                    `/${messageConversation.messageType}`
-                                )
-                            }
+                            onClick={this.backToList}
                             tooltip={i18n.t('Show all messages')}
                         >
                             <NavigationBack />
@@ -237,6 +243,7 @@ export default compose(
             addRecipients,
             downloadAttachment,
             cancelAttachment,
+            clearSelectedMessageConversation,
         },
         null,
         { pure: false }
