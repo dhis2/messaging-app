@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -19,6 +20,7 @@ import {
     setFilter,
     setDisplayTimeDiff,
     clearAttachments,
+    setDhis2CoreVersion,
 } from '../../actions'
 
 import theme from 'styles/theme'
@@ -51,6 +53,8 @@ class MessagingCenter extends Component {
     componentDidMount() {
         const selectedMessageType = this.props.match.params.messageType
         const selectedId = this.props.match.params.messageId
+
+        this.props.setDhis2CoreVersion(this.context.d2.system.version.minor)
 
         if (
             selectedId &&
@@ -257,6 +261,10 @@ class MessagingCenter extends Component {
     }
 }
 
+MessagingCenter.contextTypes = {
+    d2: PropTypes.object,
+}
+
 const mapStateToProps = state => ({
     snackMessage: state.messaging.snackMessage,
     messageTypes: state.messaging.messageTypes,
@@ -292,6 +300,7 @@ export default compose(
             setFilter,
             setDisplayTimeDiff,
             clearAttachments,
+            setDhis2CoreVersion,
         },
         null,
         { pure: false }

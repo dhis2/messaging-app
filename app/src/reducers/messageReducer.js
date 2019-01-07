@@ -363,6 +363,12 @@ function messageReducer(state = initialState, action) {
                 attachments: [],
             }
 
+        case actions.SET_DHIS2_CORE_VERSION:
+            return {
+                ...state,
+                dhis2CoreVersion: action.payload,
+            }
+
         default:
             return state
     }

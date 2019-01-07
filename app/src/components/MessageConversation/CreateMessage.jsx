@@ -23,6 +23,7 @@ import {
     addRecipientByUserId,
 } from '../../actions'
 import history from 'utils/history'
+import { supportsAttachments } from 'utils/helpers'
 import SuggestionField from 'components/Common/SuggestionField'
 import AttachmentField from 'components/Attachments/AttachmentField'
 
@@ -204,14 +205,16 @@ class CreateMessage extends Component {
                             floatingLabelText={i18n.t('Message')}
                             onChange={this.inputUpdate}
                         />
-                        <Attachments
-                            dataDirection={'upload'}
-                            attachments={this.props.attachments}
-                            removeAttachment={attachment =>
-                                this.props.removeAttachment(attachment.id)
-                            }
-                            cancelAttachment={this.props.cancelAttachment}
-                        />
+                        {this.props.enableAttachments && (
+                            <Attachments
+                                dataDirection={'upload'}
+                                attachments={this.props.attachments}
+                                removeAttachment={attachment =>
+                                    this.props.removeAttachment(attachment.id)
+                                }
+                                cancelAttachment={this.props.cancelAttachment}
+                            />
+                        )}
                         <CardActions style={{ paddingLeft: '0px' }}>
                             <RaisedButton
                                 primary
@@ -232,11 +235,13 @@ class CreateMessage extends Component {
                                     history.push('/PRIVATE')
                                 }}
                             />
-                            <AttachmentField
-                                addAttachment={attachment => {
-                                    this.props.addAttachment(attachment)
-                                }}
-                            />
+                            {this.props.enableAttachments && (
+                                <AttachmentField
+                                    addAttachment={attachment => {
+                                        this.props.addAttachment(attachment)
+                                    }}
+                                />
+                            )}
                         </CardActions>
                     </CardText>
                 </Card>
@@ -251,6 +256,7 @@ const mapStateToProps = state => ({
     input: state.messaging.input,
     recipients: state.messaging.recipients,
     attachments: state.messaging.attachments,
+    enableAttachments: supportsAttachments(state.messaging.dhis2CoreVersion),
 })
 
 export default compose(

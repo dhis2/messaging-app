@@ -460,3 +460,6 @@ export const setIsInFeedbackRecipientGroup = isInFeedbackRecipientGroup =>
     createAction(actions.SET_IN_FEEDBACK_RECIPIENT_GROUP, {
         isInFeedbackRecipientGroup,
     })
+
+export const setDhis2CoreVersion = version =>
+    createAction(actions.SET_DHIS2_CORE_VERSION, version)

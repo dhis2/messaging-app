@@ -54,6 +54,7 @@ const Message = ({
     lastMessage,
     downloadAttachment,
     cancelAttachment,
+    enableAttachments,
 }) => {
     const fromTitle = message.sender
         ? currentUser && currentUser.id === message.sender.id
@@ -84,13 +85,15 @@ const Message = ({
                     </div>
                 </div>
 
-                <Attachments
-                    dataDirection={'download'}
-                    style={{ paddingLeft: 0 }}
-                    attachments={message.attachments}
-                    downloadAttachment={downloadAttachment}
-                    cancelAttachment={cancelAttachment}
-                />
+                {enableAttachments && (
+                    <Attachments
+                        dataDirection={'download'}
+                        style={{ paddingLeft: 0 }}
+                        attachments={message.attachments}
+                        downloadAttachment={downloadAttachment}
+                        cancelAttachment={cancelAttachment}
+                    />
+                )}
 
                 <CardText style={styles.cardText}>
                     <Linkify>{message.text}</Linkify>

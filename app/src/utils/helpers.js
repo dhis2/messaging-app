@@ -34,3 +34,7 @@ export function debounce(fn, delay) {
         }, delay)
     }
 }
+
+export function supportsAttachments(dhis2CoreVersion) {
+    return dhis2CoreVersion > 30
+}
