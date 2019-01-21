@@ -426,7 +426,7 @@ export const displaySnackMessage = (
     onSnackRequestClose,
     snackType
 ) =>
-    createAction(actions.CLEAR_CHECKED, {
+    createAction(actions.DISPLAY_SNACK_MESSAGE, {
         message,
         onSnackActionClick,
         onSnackRequestClose,

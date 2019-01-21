@@ -25,7 +25,6 @@ import {
     deleteMessageConversations,
     updateMessageConversations,
     markMessageConversations,
-    displaySnackMessage,
 } from '../../actions'
 import extendedChoices from 'constants/extendedChoices'
 
@@ -319,7 +318,6 @@ export default compose(
             deleteMessageConversations,
             updateMessageConversations,
             markMessageConversations,
-            displaySnackMessage,
         },
         null,
         { pure: false }
