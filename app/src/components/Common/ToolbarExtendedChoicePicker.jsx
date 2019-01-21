@@ -113,10 +113,13 @@ class ToolbarExtendedChoicePicker extends Component {
                         this.getIds(),
                         this.props.selectedMessageType
                     )
-                    this.toggleDialog()
                     this.props.clearCheckedIds()
-                    this.props.clearSelectedMessageConversation()
-                    history.push(`/${this.props.selectedMessageType.id}`)
+                    this.toggleDialog()
+
+                    if (this.props.selectedMessageConversation) {
+                        this.props.clearSelectedMessageConversation()
+                        history.push(`/${this.props.selectedMessageType.id}`)
+                    }
                 }}
             />,
         ]
