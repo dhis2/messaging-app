@@ -89,7 +89,7 @@ class ToolbarExtendedChoicePicker extends Component {
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds()
     }
 
-    toogleDialog = () => {
+    toggleDialog = () => {
         this.setState({ dialogOpen: !this.state.dialogOpen })
     }
 
@@ -102,7 +102,7 @@ class ToolbarExtendedChoicePicker extends Component {
             <FlatButton
                 label={i18n.t('Cancel')}
                 primary
-                onClick={() => this.toogleDialog()}
+                onClick={() => this.toggleDialog()}
             />,
             <FlatButton
                 label={i18n.t('Submit')}
@@ -113,8 +113,9 @@ class ToolbarExtendedChoicePicker extends Component {
                         this.getIds(),
                         this.props.selectedMessageType
                     )
-                    this.toogleDialog()
+                    this.toggleDialog()
                     this.props.clearCheckedIds()
+                    this.props.clearSelectedMessageConversation()
                     history.push(`/${this.props.selectedMessageType.id}`)
                 }}
             />,
@@ -136,7 +137,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     actions={actionButtons}
                     modal={false}
                     open={this.state.dialogOpen}
-                    onRequestClose={this.toogleDialog}
+                    onRequestClose={this.toggleDialog}
                 />
                 <AssignToDialog
                     open={this.state.assignToOpen}
@@ -156,7 +157,7 @@ class ToolbarExtendedChoicePicker extends Component {
                     <IconButton
                         tooltip={i18n.t('Delete selected')}
                         onClick={() => {
-                            this.toogleDialog()
+                            this.toggleDialog()
                         }}
                     >
                         <Delete />
