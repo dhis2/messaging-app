@@ -8,13 +8,15 @@ import { init, getUserSettings } from 'd2/lib/d2'
 import 'whatwg-fetch'
 
 import configI18n from './utils/configI18n'
+import getDhis2CoreVersion from './utils/getDhis2CoreVersion'
 
 const schemas = ['messageConversation']
 ;(async () => {
     const PRODUCTION = process.env.NODE_ENV === 'production'
     const baseUrl = PRODUCTION ? '..' : DHIS_CONFIG.baseUrl
+    const instanceVersion = await getDhis2CoreVersion(baseUrl)
     const dhisConfig = {
-        baseUrl: `${baseUrl}/api`,
+        baseUrl: `${baseUrl}/api/${instanceVersion.minor}`,
         headers: PRODUCTION ? null : null,
         schemas,
     }
