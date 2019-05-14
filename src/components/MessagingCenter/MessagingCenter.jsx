@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import Subheader from 'material-ui/Subheader/Subheader'
 import MailIcon from 'material-ui-icons/MailOutline'
-
 import i18n from 'd2-i18n'
-
 import * as api from '../../api/api'
 import {
     loadMessageConversations,
@@ -22,15 +19,12 @@ import {
     clearAttachments,
     setDhis2CoreVersion,
 } from '../../actions'
-
 import theme from '../../styles/theme'
-
 import MessageConversation from '../MessageConversation/MessageConversation'
 import SidebarList from '../List/SidebarList'
 import MessageConversationList from '../List/MessageConversationList'
 import CreateMessage from '../MessageConversation/CreateMessage'
 import Toolbar from '../Common/Toolbar'
-
 import { subheader } from '../../styles/style'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']

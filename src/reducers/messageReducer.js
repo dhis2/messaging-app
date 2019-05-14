@@ -1,9 +1,7 @@
 import i18n from 'd2-i18n'
 import log from 'loglevel'
-
 import * as actions from '../constants/actions'
 import messageTypes from '../constants/messageTypes'
-
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development'
 import { findIndexOfId } from '../utils/helpers'
 

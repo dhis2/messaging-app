@@ -1,17 +1,13 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-
 import PropTypes from 'prop-types'
 import HeaderBar from '@dhis2/d2-ui-header-bar'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
 import { Router, Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
-
 import MessagingCenter from '../MessagingCenter/MessagingCenter'
 import CustomSnackBar from '../Common/CustomSnackBar'
 import history from '../../utils/history'
-
 import theme from '../../styles/theme'
 import store from '../../store'
 

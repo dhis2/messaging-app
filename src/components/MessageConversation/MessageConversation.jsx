@@ -12,24 +12,19 @@ import {
 import { supportsAttachments } from '../../utils/helpers'
 
 import { getInstance as getD2Instance } from 'd2/lib/d2'
-
 import Subheader from 'material-ui/Subheader/Subheader'
 import AddIcon from 'material-ui-icons/Add'
 import NavigationBack from 'material-ui-icons/ArrowBack'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
-
 import Paper from 'material-ui/Paper'
-
 import i18n from 'd2-i18n'
-
 import Message from './Message'
 import ReplyCard from './ReplyCard'
 import SuggestionField from '../Common/SuggestionField'
 import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel'
 import { styles } from '../../styles/messageConversationStyles'
-
 import theme from '../../styles/theme'
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT']

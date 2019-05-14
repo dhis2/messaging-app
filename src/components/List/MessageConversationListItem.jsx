@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import Subheader from 'material-ui/Subheader/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
 import Flag from 'material-ui-icons/Flag'
-
 import i18n from 'd2-i18n'
-
 import history from '../../utils/history'
 import {
     setChecked,
@@ -22,8 +19,7 @@ import {
 import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel'
 import theme from '../../styles/theme'
 import { fontFamily } from '../../constants/development'
-
-const moment = require('moment')
+import moment from 'moment'
 
 const styles = {
     container(backgroundColor, wideview, cursor) {

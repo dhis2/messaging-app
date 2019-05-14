@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import { generateUid } from 'd2/lib/uid'
 import i18n from 'd2-i18n'
-
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import Subheader from 'material-ui/Subheader/Subheader'
 import RadioButton from 'material-ui/RadioButton'
-
 import {
     sendMessage,
     sendFeedbackMessage,
@@ -26,10 +23,8 @@ import history from '../../utils/history'
 import { supportsAttachments } from '../../utils/helpers'
 import SuggestionField from '../Common/SuggestionField'
 import AttachmentField from '../Attachments/AttachmentField'
-
 import { NEGATIVE } from '../../constants/development'
 import Attachments from '../Attachments/Attachments'
-
 import { subheader } from '../../styles/style'
 
 const styles = {

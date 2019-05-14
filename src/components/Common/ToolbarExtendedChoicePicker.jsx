@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
@@ -12,13 +11,10 @@ import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
 import Divider from 'material-ui/Divider'
-
 import Delete from 'material-ui-icons/Delete'
 import MarkUnread from 'material-ui-icons/Markunread'
 import Done from 'material-ui-icons/Done'
-
 import i18n from 'd2-i18n'
-
 import {
     clearCheckedIds,
     clearSelectedMessageConversation,
@@ -27,7 +23,6 @@ import {
     markMessageConversations,
 } from '../../actions'
 import extendedChoices from '../../constants/extendedChoices'
-
 import history from '../../utils/history'
 import AssignToDialog from './AssignToDialog'
 

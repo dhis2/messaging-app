@@ -8,6 +8,7 @@ const messageConversationFields =
     '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, contentLength]],userMessages[user[id, displayName]]'
 
 const order = 'lastMessage:desc'
+
 export const getMessageConversations = (
     messageType,
     page,

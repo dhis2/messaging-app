@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-
 import AttachmentField from '../Attachments/AttachmentField'
 import Attachments from '../Attachments/Attachments'
 import { supportsAttachments } from '../../utils/helpers'
-
 import i18n from 'd2-i18n'
-
 import {
     replyMessage,
     setSelectedMessageType,
@@ -22,7 +18,6 @@ import {
     removeAttachment,
     cancelAttachment,
 } from '../../actions'
-
 import { NEGATIVE } from '../../constants/development'
 
 class ReplyCard extends Component {

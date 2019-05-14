@@ -1,8 +1,6 @@
 import React from 'react'
-
 import Dialog from 'material-ui/Dialog'
 import i18n from 'd2-i18n'
-
 import SuggestionField from './SuggestionField'
 
 const AssignToDialog = ({

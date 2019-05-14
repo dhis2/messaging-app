@@ -1,18 +1,12 @@
 import React from 'react'
-
 import Divider from 'material-ui/Divider'
 import CardText from 'material-ui/Card/CardText'
-
 import Attachments from '../Attachments/Attachments'
-
 import i18n from 'd2-i18n'
 import Linkify from 'react-linkify'
-
 import theme from '../../styles/theme'
-
 import { fontFamily } from '../../constants/development'
-
-const moment = require('moment')
+import moment from 'moment'
 
 const styles = {
     canvas(backgroundColor) {

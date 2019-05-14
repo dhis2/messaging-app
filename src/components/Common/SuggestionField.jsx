@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
-
 import ChipInput from 'material-ui-chip-input'
 import { debounce } from '../../utils/helpers'
-
 import i18n from 'd2-i18n'
 import * as api from '../../api/api'
 
 const searchDelay = 300
-
 const minCharLength = 2
 
 /*
  * An AutoComplete text field with suggestions from a given list of
  * identifiable objects. Selected objects are shown as chips in the text field.
  */
+
 class SuggestionField extends Component {
     state = {
         input: '',

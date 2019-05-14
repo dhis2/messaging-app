@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import { List } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Toggle from 'material-ui/Toggle'
-
 import i18n from 'd2-i18n'
-
 import history from '../../utils/history'
 import { setSelectedMessageType, clearCheckedIds } from '../../actions'
-
 import MessageTypeItem from './MessageTypeItem'
 import theme from '../../styles/theme'
-
-const moment = require('moment')
+import moment from 'moment'
 
 const styles = {
     canvas: {

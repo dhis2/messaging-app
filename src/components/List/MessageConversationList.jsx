@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import Subheader from 'material-ui/Subheader/Subheader'
 import CircularProgress from 'material-ui/CircularProgress'
-
 import i18n from 'd2-i18n'
-
 import { loadMessageConversations } from '../../actions'
 import { messagePanelContainer } from '../../styles/style'
 import theme from '../../styles/theme'
 import ListItemHeader from './ListItemHeader'
 import MessageConversationListItem from './MessageConversationListItem'
-
 import { dedupeById, debounce } from '../../utils/helpers'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']

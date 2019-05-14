@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-
 import Subheader from 'material-ui/Subheader/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
-
 import i18n from 'd2-i18n'
-
 import { setAllChecked, clearCheckedIds } from '../../actions'
 import theme from '../../styles/theme'
 import { fontFamily } from '../../constants/development'
