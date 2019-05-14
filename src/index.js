@@ -7,14 +7,14 @@ import { init, getUserSettings } from 'd2/lib/d2'
 import configI18n from './utils/configI18n'
 import getDhis2CoreVersion from './utils/getDhis2CoreVersion'
 
+const { REACT_APP_DHIS2_BASE_URL } = process.env
 const schemas = ['messageConversation']
+
 ;(async () => {
-    const PRODUCTION = process.env.NODE_ENV === 'production'
-    const baseUrl = PRODUCTION ? '..' : 'http://localhost:8080'
-    const instanceVersion = await getDhis2CoreVersion(baseUrl)
+    const instanceVersion = await getDhis2CoreVersion(REACT_APP_DHIS2_BASE_URL)
     const dhisConfig = {
-        baseUrl: `${baseUrl}/api/${instanceVersion.minor}`,
-        headers: PRODUCTION ? null : null,
+        baseUrl: `${REACT_APP_DHIS2_BASE_URL}/api/${instanceVersion.minor}`,
+        headers: null,
         schemas,
     }
     const d2 = await init(dhisConfig)
