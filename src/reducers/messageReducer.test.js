@@ -1,6 +1,6 @@
-import messageReducer, { initialState } from '../messageReducer'
-import * as actions from '../../constants/actions'
-import { findIndexOfId } from '../../utils/helpers'
+import messageReducer, { initialState } from './messageReducer'
+import * as actions from '../constants/actions'
+import { findIndexOfId } from '../utils/helpers'
 
 describe('message conversation reducer', () => {
     it('should return the default state', () => {

@@ -4,8 +4,6 @@ import { createLogger } from 'redux-logger'
 import messageReducer from './reducers/messageReducer'
 
 const middlewares = [ReduxThunk]
-
-// eslint-disable-next-line
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 if (process.env.NODE_ENV === 'development') {
