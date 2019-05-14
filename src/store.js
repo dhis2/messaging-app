@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-
 import messageReducer from './reducers/messageReducer'
 
 const middlewares = [ReduxThunk]
