@@ -1,4 +1,3 @@
-import 'whatwg-fetch'
 import System from 'd2/lib/system/System'
 
 const fetchInit = {
