@@ -26,6 +26,7 @@ import MessageConversationList from '../List/MessageConversationList'
 import CreateMessage from '../MessageConversation/CreateMessage'
 import Toolbar from '../Common/Toolbar'
 import { subheader } from '../../styles/style'
+import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
 const autoRefreshTime = 300000
@@ -168,7 +169,7 @@ class MessagingCenter extends Component {
                 : false) && this.props.isInFeedbackRecipientGroup
 
         return (
-            <div className={'messaging-center'}>
+            <div className='messaging-center'>
                 <Toolbar
                     {...this.props}
                     id={id}
@@ -176,7 +177,7 @@ class MessagingCenter extends Component {
                     displayExtendedChoices={displayExtendedChoices}
                     toogleWideview={this.toogleWideview}
                 />
-                <div className="messaging-center__main-content">
+                <div className='messaging-center__main-content'>
                     <SidebarList
                         {...this.props}
                         drawerOpen={this.state.drawerOpen}
@@ -233,9 +234,7 @@ class MessagingCenter extends Component {
                         : !this.state.wideview &&
                           id !== 'create' && (
                               <div
-                                  className={
-                                      'messaging-center__no-message-selected'
-                                  }
+                                  className='messaging-center__no-message-selected'
                               >
                                   <Subheader style={subheader}>
                                       {i18n.t('Select a message')}

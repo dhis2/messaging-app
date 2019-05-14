@@ -1,0 +1,17 @@
+.attachment {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.attachment__button {
+    height: 40px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    display: flex;
+}
+
+.attachment__progress {
+    bottom: -35px;
+}

@@ -4,15 +4,7 @@ import LinearProgress from 'material-ui/LinearProgress'
 import Clear from 'material-ui-icons/Clear'
 import Download from 'material-ui-icons/CloudDownload'
 import theme from '../../styles/theme'
-
-const styles = {
-    attachment__button: {
-        height: '40px',
-        marginRight: '5px',
-        marginBottom: '5px',
-        display: 'flex',
-    },
-}
+import './Attachments.css'
 
 const Attachments = ({
     dataDirection,
@@ -22,7 +14,7 @@ const Attachments = ({
     downloadAttachment,
     cancelAttachment,
 }) => (
-    <div className={'attachment'} style={{ ...style }}>
+    <div className='attachment' style={{ ...style }}>
         {attachments.map((attachment, index) => (
             <Attachment
                 // combining name with index prevents errors when user uploads files with duplicate names
@@ -46,7 +38,7 @@ const Attachment = ({
 }) => {
     return (
         <FlatButton
-            style={styles.attachment__button}
+            className="attachment__button"
             backgroundColor={theme.palette.accent2Color}
             label={`${attachment.name} (${parseFloat(
                 parseInt(attachment.contentLength, 10) / 1000000
