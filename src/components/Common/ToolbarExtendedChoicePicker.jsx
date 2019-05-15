@@ -127,11 +127,7 @@ class ToolbarExtendedChoicePicker extends Component {
         return display ? (
             <div style={styles.canvas}>
                 <Dialog
-                    title={i18n.t(
-                        `Are you sure you want to delete selected message conversation${
-                            this.props.checkedIds.length > 1 ? 's?' : '?'
-                        }`
-                    )}
+                    title={i18n.t('Are you sure you want to delete selected message conversation(s)?')}
                     actions={actionButtons}
                     modal={false}
                     open={this.state.dialogOpen}
