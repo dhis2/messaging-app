@@ -22,7 +22,7 @@ import {
 import history from '../../utils/history'
 import { supportsAttachments } from '../../utils/helpers'
 import SuggestionField from '../Common/SuggestionField'
-import AttachmentField from '../Attachments/AttachmentField'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton'
 import { NEGATIVE } from '../../constants/development'
 import Attachments from '../Attachments/Attachments'
 import { subheader } from '../../styles/style'
@@ -231,7 +231,7 @@ class CreateMessage extends Component {
                                 }}
                             />
                             {this.props.enableAttachments && (
-                                <AttachmentField
+                                <AttachmentUploadButton
                                     addAttachment={attachment => {
                                         this.props.addAttachment(attachment)
                                     }}

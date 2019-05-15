@@ -2,9 +2,18 @@ import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import AttachFile from 'material-ui-icons/AttachFile'
 import i18n from 'd2-i18n'
-import './Attachments.css'
+import './AttachmentUploadButton.css'
 
-const AttachmentField = ({ addAttachment }) => (
+const createHandleChange = addAttachment => event => {
+    const files = event.target.files;
+    const hasFile = files.length > 0;
+
+    if (hasFile) {
+        addAttachment(files[0])
+    }
+}
+
+const AttachmentUploadButton = ({ addAttachment }) => (
     <FlatButton
         className='attachment__upload-button'
         label={i18n.t('Upload attachment')}
@@ -15,13 +24,9 @@ const AttachmentField = ({ addAttachment }) => (
         <input
             className='attachment__upload-button--input'
             type="file"
-            onChange={() =>
-                this.input.files[0] !== undefined &&
-                addAttachment(this.input.files[0])
-            }
-            ref={x => (this.input = x)}
+            onChange={createHandleChange(addAttachment)}
         />
     </FlatButton>
 )
 
-export default AttachmentField
+export default AttachmentUploadButton

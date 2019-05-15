@@ -5,7 +5,7 @@ import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import AttachmentField from '../Attachments/AttachmentField'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton'
 import Attachments from '../Attachments/Attachments'
 import { supportsAttachments } from '../../utils/helpers'
 import i18n from 'd2-i18n'
@@ -128,7 +128,7 @@ class ReplyCard extends Component {
                             }}
                         />
                         {this.props.enableAttachments && (
-                            <AttachmentField
+                            <AttachmentUploadButton
                                 addAttachment={attachment => {
                                     this.props.addAttachment(attachment)
                                 }}
