@@ -243,20 +243,19 @@ class MessageConversationListItem extends Component {
                         label={messageConversation.priority}
                     />
                 )}
-                {this.props.notification &&
-                    this.props.wideview && (
-                        <ExtendedChoiceLabel
-                            showTitle={false}
-                            title={i18n.t('Assignee')}
-                            color={fontColor}
-                            fontWeight={fontWeight}
-                            label={
-                                messageConversation.assignee
-                                    ? messageConversation.assignee.displayName
-                                    : undefined
-                            }
-                        />
-                    )}
+                {this.props.notification && this.props.wideview && (
+                    <ExtendedChoiceLabel
+                        showTitle={false}
+                        title={i18n.t('Assignee')}
+                        color={fontColor}
+                        fontWeight={fontWeight}
+                        label={
+                            messageConversation.assignee
+                                ? messageConversation.assignee.displayName
+                                : undefined
+                        }
+                    />
+                )}
                 <Subheader
                     style={styles.dateFormat(
                         this.props.wideview,
@@ -267,8 +266,8 @@ class MessageConversationListItem extends Component {
                     {today.diff(messageDate, 'hours') < 72
                         ? messageDate.from(today)
                         : today.year() === messageDate.year()
-                            ? messageDate.format('MMM DD')
-                            : messageDate.format('ll')}
+                        ? messageDate.format('MMM DD')
+                        : messageDate.format('ll')}
                 </Subheader>
             </Paper>
         )

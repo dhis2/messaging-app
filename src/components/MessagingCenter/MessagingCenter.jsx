@@ -36,7 +36,7 @@ class MessagingCenter extends Component {
     constructor(props) {
         super(props)
 
-        this.intervalId = null;
+        this.intervalId = null
         this.state = {
             autoRefresh: false,
             checkedItems: false,
@@ -119,30 +119,36 @@ class MessagingCenter extends Component {
         // Cancel existing interval if it shouldn't autorefresh
         if (!autoRefresh && this.intervalId) {
             clearInterval(this.intervalId)
-            this.intervalId = null;
+            this.intervalId = null
         }
 
         if (autoRefresh) {
-            this.intervalId = setInterval(this.tick.bind(this), refreshTimerInterval)
+            this.intervalId = setInterval(
+                this.tick.bind(this),
+                refreshTimerInterval
+            )
         }
 
         this.setState({
             autoRefresh,
-            refreshTimer: autoRefresh ? this.state.refreshTimer : refreshTimerTotal
+            refreshTimer: autoRefresh
+                ? this.state.refreshTimer
+                : refreshTimerTotal,
         })
     }
 
     tick() {
-        const timerHasElapsed = this.state.refreshTimer - refreshTimerInterval <= 0;
+        const timerHasElapsed =
+            this.state.refreshTimer - refreshTimerInterval <= 0
 
         if (timerHasElapsed) {
             this.refresh()
             this.setState({
-                refreshTimer: refreshTimerTotal
+                refreshTimer: refreshTimerTotal,
             })
         } else {
             this.setState(prevState => ({
-                refreshTimer: prevState.refreshTimer - refreshTimerInterval
+                refreshTimer: prevState.refreshTimer - refreshTimerInterval,
             }))
         }
     }
@@ -179,7 +185,7 @@ class MessagingCenter extends Component {
                 : false) && this.props.isInFeedbackRecipientGroup
 
         return (
-            <div className='messaging-center'>
+            <div className="messaging-center">
                 <Toolbar
                     {...this.props}
                     id={id}
@@ -187,7 +193,7 @@ class MessagingCenter extends Component {
                     displayExtendedChoices={displayExtendedChoices}
                     toogleWideview={this.toogleWideview}
                 />
-                <div className='messaging-center__main-content'>
+                <div className="messaging-center__main-content">
                     <SidebarList
                         {...this.props}
                         drawerOpen={this.state.drawerOpen}
@@ -243,9 +249,7 @@ class MessagingCenter extends Component {
                           )
                         : !this.state.wideview &&
                           id !== 'create' && (
-                              <div
-                                  className='messaging-center__no-message-selected'
-                              >
+                              <div className="messaging-center__no-message-selected">
                                   <Subheader style={subheader}>
                                       {i18n.t('Select a message')}
                                   </Subheader>

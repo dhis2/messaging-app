@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import * as actions from '../constants/actions'
 import log from 'loglevel'
 import * as api from '../api/api'

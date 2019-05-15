@@ -14,7 +14,7 @@ const Attachments = ({
     downloadAttachment,
     cancelAttachment,
 }) => (
-    <div className='attachment' style={{ ...style }}>
+    <div className="attachment" style={{ ...style }}>
         {attachments.map((attachment, index) => (
             <Attachment
                 // combining name with index prevents errors when user uploads files with duplicate names
@@ -48,8 +48,8 @@ const Attachment = ({
                 dataDirection === 'download'
                     ? downloadAttachment(attachment)
                     : attachment.loading
-                        ? cancelAttachment(attachment.name)
-                        : removeAttachment(attachment)
+                    ? cancelAttachment(attachment.name)
+                    : removeAttachment(attachment)
             }}
             icon={dataDirection === 'download' ? <Download /> : <Clear />}
         >

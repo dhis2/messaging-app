@@ -33,7 +33,7 @@ describe('message conversation reducer', () => {
                     ...initialState.messageTypes['VALIDATION_RESULT'],
                 },
                 nrOfUnread: 2,
-            }
+            },
         }
 
         const expectedState = {
@@ -80,7 +80,7 @@ describe('message conversation reducer', () => {
             },
         }
 
-        let stateMessageTypes = initialState.messageTypes
+        const stateMessageTypes = initialState.messageTypes
 
         const loadingMessageType = messageType
         loadingMessageType.loading = true

@@ -5,6 +5,7 @@ env:
   global:	
     - secure: Xyum4eTznQEE2p7grxphTZ8XCU+BRP5jSX5hPVtHYTEDHa15r3YxcAmbfLKjQm+5YCP40yyGS7bwzCDRdOEoRsGFeiEKZviDHh71yHm3biv3qCb/sV1eYZ2+0X9zGusad3E8gxbI/gJ6DTaT0aUpHpEymMF57tIF5cGnQ70V4q6KXHRn5UZGHqeZtCjjvJEOLFNUkabrsLY4Bx8lluAq1R7qpYSBxcPLElBifcsWBX43JymVOIjYZ5shxo0yNDfZfkT4aEo4oIaH4LCJ6t5KIHPCl6U/z1Nyd/gUatO7FkTpDhLjptmKzI5ID+1sNhTY//i/kfeR0BYT07LrRp4xWol9tzmXFyx3pE6UKQAQuinzNGjAxwGcAMGJDzBsy4yepMah6acPBM72EEdOMNJLlT1tMG2oQlUP5K2snRlFyXyQOWvehqmeyticQdVVsl0DPRTxhbjxQ1jhBxXPq/7izDysBq6sinLUfX/4jdGSAoSmRdjSIHhNzEWxb49xshA9NeuLDYArPl2N1Qu1oteOX7/bByz6GM7f3kQ0ouWGgzQHV9qvOzHDxzsMJjnH742+yzc0wCvXVcIbkJJ6l8NB601asLUUBBqFtyvp+xzbLaGZEuMmns18oUFdg8dTPsSc4Zjf66lMpVlkCRqqKLMoUMfIlgUrDR3Bx4AyPENVvGY=	
 script:	
+  - npm run lint:style
   - npm run test
   - npm run build	
 deploy:	

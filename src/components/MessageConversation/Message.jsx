@@ -74,8 +74,8 @@ const Message = ({
                                   'HH:mm'
                               )}`
                             : today.year() === messageDate.year()
-                                ? messageDate.format('MMM DD, HH:mm')
-                                : messageDate.format('MMM DD, YYYY HH:mm')}
+                            ? messageDate.format('MMM DD, HH:mm')
+                            : messageDate.format('MMM DD, YYYY HH:mm')}
                     </div>
                 </div>
 

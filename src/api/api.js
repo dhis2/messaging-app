@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 import { pageSize } from '../constants/development'
 
@@ -107,15 +109,14 @@ export const updateMessageConversationAssignee = (
     value
 ) =>
     getD2Instance()
-        .then(
-            instance =>
-                value === undefined
-                    ? instance.Api.getApi().delete(
-                          `messageConversations/${messageConversationId}/assign`
-                      )
-                    : instance.Api.getApi().post(
-                          `messageConversations/${messageConversationId}/assign?userId=${value}`
-                      )
+        .then(instance =>
+            value === undefined
+                ? instance.Api.getApi().delete(
+                      `messageConversations/${messageConversationId}/assign`
+                  )
+                : instance.Api.getApi().post(
+                      `messageConversations/${messageConversationId}/assign?userId=${value}`
+                  )
         )
         .then(result => result)
         .catch(error => {
@@ -340,19 +341,18 @@ export const searchRecipients = (
                 filter: filters,
             })
         )
-        .then(
-            ({ users }) =>
-                searchOnlyUsers
-                    ? { users, undefined }
-                    : searchUserGroups(searchValue).then(({ userGroups }) =>
-                          searchOrganisationUnits(searchValue).then(
-                              ({ organisationUnits }) => ({
-                                  users,
-                                  userGroups,
-                                  organisationUnits,
-                              })
-                          )
+        .then(({ users }) =>
+            searchOnlyUsers
+                ? { users, undefined }
+                : searchUserGroups(searchValue).then(({ userGroups }) =>
+                      searchOrganisationUnits(searchValue).then(
+                          ({ organisationUnits }) => ({
+                              users,
+                              userGroups,
+                              organisationUnits,
+                          })
                       )
+                  )
         )
         .catch(error => {
             throw error

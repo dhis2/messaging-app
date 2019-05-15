@@ -40,7 +40,7 @@ export const initialState = {
 
 function messageReducer(state = initialState, action) {
     const stateMessageTypes = state.messageTypes
-    let oldAttachments = state.attachments
+    const oldAttachments = state.attachments
 
     switch (action.type) {
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
@@ -305,16 +305,15 @@ function messageReducer(state = initialState, action) {
         case actions.ADD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
-                attachments: state.attachments.map(
-                    attachment =>
-                        attachment.name === action.payload.name
-                            ? {
-                                  id: action.payload.id,
-                                  name: attachment.name,
-                                  contentLength: attachment.contentLength,
-                                  loading: false,
-                              }
-                            : attachment
+                attachments: state.attachments.map(attachment =>
+                    attachment.name === action.payload.name
+                        ? {
+                              id: action.payload.id,
+                              name: attachment.name,
+                              contentLength: attachment.contentLength,
+                              loading: false,
+                          }
+                        : attachment
                 ),
             }
 

@@ -5,8 +5,8 @@ import i18n from 'd2-i18n'
 import './AttachmentUploadButton.css'
 
 const createHandleChange = addAttachment => event => {
-    const files = event.target.files;
-    const hasFile = files.length > 0;
+    const files = event.target.files
+    const hasFile = files.length > 0
 
     if (hasFile) {
         addAttachment(files[0])
@@ -15,14 +15,14 @@ const createHandleChange = addAttachment => event => {
 
 const AttachmentUploadButton = ({ addAttachment }) => (
     <FlatButton
-        className='attachment__upload-button'
+        className="attachment__upload-button"
         label={i18n.t('Upload attachment')}
         labelPosition="after"
         containerElement="label"
         icon={<AttachFile />}
     >
         <input
-            className='attachment__upload-button--input'
+            className="attachment__upload-button--input"
             type="file"
             onChange={createHandleChange(addAttachment)}
         />

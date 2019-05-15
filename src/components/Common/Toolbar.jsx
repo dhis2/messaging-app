@@ -271,86 +271,81 @@ class Toolbar extends Component {
                             </SelectField>
                         )}
 
-                    {!checkedOptions &&
-                        displaySearch && (
-                            <TextField
-                                style={styles.filterControl}
-                                fullWidth
-                                hintText={i18n.t('Search')}
-                                value={this.props.messageFilter || ''}
-                                onChange={(event, messageFilter) => {
-                                    this.debouncedSearch(messageFilter)
+                    {!checkedOptions && displaySearch && (
+                        <TextField
+                            style={styles.filterControl}
+                            fullWidth
+                            hintText={i18n.t('Search')}
+                            value={this.props.messageFilter || ''}
+                            onChange={(event, messageFilter) => {
+                                this.debouncedSearch(messageFilter)
+                                this.props.setFilter(messageFilter, 'MESSAGE')
+                            }}
+                            type="search"
+                        />
+                    )}
+
+                    {!checkedOptions && displaySearch && (
+                        <IconMenu
+                            iconButtonElement={
+                                <IconButton>
+                                    <MoreVertIcon />
+                                </IconButton>
+                            }
+                            anchorOrigin={{
+                                horizontal: 'right',
+                                vertical: 'top',
+                            }}
+                            targetOrigin={{
+                                horizontal: 'right',
+                                vertical: 'top',
+                            }}
+                            style={styles.iconMenu}
+                            menuStyle={{ overflowX: 'hidden' }}
+                        >
+                            <Subheader style={{ padding: '0px 16px' }}>
+                                {i18n.t('Set filter')}
+                            </Subheader>
+                            {this.props.displayExtendedChoices && (
+                                <Checkbox
+                                    style={{ padding: '0px 16px' }}
+                                    key={'assignedToMeFilter'}
+                                    label={i18n.t('Assigned to me')}
+                                    checked={this.props.assignedToMeFilter}
+                                    onClick={() => {
+                                        this.props.setFilter(
+                                            !this.props.assignedToMeFilter,
+                                            'ASSIGNED_TO_ME'
+                                        )
+                                    }}
+                                />
+                            )}
+                            <Checkbox
+                                style={{ padding: '0px 16px' }}
+                                key={'markedForFollowUpFilter'}
+                                label={i18n.t('Marked for followup')}
+                                checked={this.props.markedForFollowUpFilter}
+                                onClick={() => {
                                     this.props.setFilter(
-                                        messageFilter,
-                                        'MESSAGE'
+                                        !this.props.markedForFollowUpFilter,
+                                        'MARKED_FOR_FOLLOWUP'
                                     )
                                 }}
-                                type="search"
                             />
-                        )}
-
-                    {!checkedOptions &&
-                        displaySearch && (
-                            <IconMenu
-                                iconButtonElement={
-                                    <IconButton>
-                                        <MoreVertIcon />
-                                    </IconButton>
-                                }
-                                anchorOrigin={{
-                                    horizontal: 'right',
-                                    vertical: 'top',
+                            <Checkbox
+                                style={{ padding: '0px 16px' }}
+                                key={'unreadFilter'}
+                                label={i18n.t('Unread messages')}
+                                checked={this.props.unreadFilter}
+                                onClick={() => {
+                                    this.props.setFilter(
+                                        !this.props.unreadFilter,
+                                        'UNREAD'
+                                    )
                                 }}
-                                targetOrigin={{
-                                    horizontal: 'right',
-                                    vertical: 'top',
-                                }}
-                                style={styles.iconMenu}
-                                menuStyle={{ overflowX: 'hidden' }}
-                            >
-                                <Subheader style={{ padding: '0px 16px' }}>
-                                    {i18n.t('Set filter')}
-                                </Subheader>
-                                {this.props.displayExtendedChoices && (
-                                    <Checkbox
-                                        style={{ padding: '0px 16px' }}
-                                        key={'assignedToMeFilter'}
-                                        label={i18n.t('Assigned to me')}
-                                        checked={this.props.assignedToMeFilter}
-                                        onClick={() => {
-                                            this.props.setFilter(
-                                                !this.props.assignedToMeFilter,
-                                                'ASSIGNED_TO_ME'
-                                            )
-                                        }}
-                                    />
-                                )}
-                                <Checkbox
-                                    style={{ padding: '0px 16px' }}
-                                    key={'markedForFollowUpFilter'}
-                                    label={i18n.t('Marked for followup')}
-                                    checked={this.props.markedForFollowUpFilter}
-                                    onClick={() => {
-                                        this.props.setFilter(
-                                            !this.props.markedForFollowUpFilter,
-                                            'MARKED_FOR_FOLLOWUP'
-                                        )
-                                    }}
-                                />
-                                <Checkbox
-                                    style={{ padding: '0px 16px' }}
-                                    key={'unreadFilter'}
-                                    label={i18n.t('Unread messages')}
-                                    checked={this.props.unreadFilter}
-                                    onClick={() => {
-                                        this.props.setFilter(
-                                            !this.props.unreadFilter,
-                                            'UNREAD'
-                                        )
-                                    }}
-                                />
-                            </IconMenu>
-                        )}
+                            />
+                        </IconMenu>
+                    )}
                     <FlatButton
                         style={{
                             width: '50px',
