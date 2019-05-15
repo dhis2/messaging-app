@@ -1,7 +1,6 @@
 {
   "name": "Messaging",
-  "launch_path": "index.html",
-  "appType": "APP",
+  "description": "App for messaging",
   "icons": [{
     "src": "icon.png",
     "sizes": "48x48",
@@ -10,7 +9,5 @@
   "developer": {
     "name": "Henning Håkonsen",
     "company": "DHIS2"
-  },
-  "description": "App for messaging",
-  "default_locale": "en"
+  }
 }

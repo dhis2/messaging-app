@@ -5,6 +5,7 @@ import App from './components/App/App'
 import { init, getUserSettings } from 'd2/lib/d2'
 import configI18n from './utils/configI18n'
 import getDhis2CoreVersion from './utils/getDhis2CoreVersion'
+import './index.css'
 
 const { REACT_APP_DHIS2_BASE_URL } = process.env
 
