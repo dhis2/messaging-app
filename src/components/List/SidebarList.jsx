@@ -71,7 +71,7 @@ class SidebarList extends Component {
                 <Toggle
                     style={{ width: '', margin: '20px' }}
                     label={`${i18n.t('Auto refresh')} (${moment(
-                        this.props.counter
+                        this.props.refreshTimer
                     ).format('mm:ss')})`}
                     toggled={this.props.autoRefresh}
                     onToggle={() =>

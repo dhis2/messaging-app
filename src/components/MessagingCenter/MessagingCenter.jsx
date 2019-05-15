@@ -29,19 +29,19 @@ import { subheader } from '../../styles/style'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
-const autoRefreshTime = 300000
-const subtractInterval = 10000
+const refreshTimerTotal = 300000 // 5 minutes
+const refreshTimerInterval = 10000 // 10 seconds
 
 class MessagingCenter extends Component {
     constructor(props) {
         super(props)
 
+        this.intervalId = null;
         this.state = {
-            checkedItems: false,
-            wideview: true,
             autoRefresh: false,
-            timer: null,
-            counter: autoRefreshTime,
+            checkedItems: false,
+            refreshTimer: refreshTimerTotal,
+            wideview: true,
         }
     }
 
@@ -74,10 +74,6 @@ class MessagingCenter extends Component {
         )
 
         this.props.setDisplayTimeDiff()
-
-        setTimeout(() => {
-            this.autoRefresh()
-        }, autoRefreshTime)
     }
 
     componentDidUpdate() {
@@ -113,43 +109,57 @@ class MessagingCenter extends Component {
         }
     }
 
+    componentWillUnmount() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId)
+        }
+    }
+
     setAutoRefresh = autoRefresh => {
-        !autoRefresh && clearInterval(this.state.timer)
+        // Cancel existing interval if it shouldn't autorefresh
+        if (!autoRefresh && this.intervalId) {
+            clearInterval(this.intervalId)
+            this.intervalId = null;
+        }
+
+        if (autoRefresh) {
+            this.intervalId = setInterval(this.tick.bind(this), refreshTimerInterval)
+        }
+
         this.setState({
             autoRefresh,
-            counter: !autoRefresh ? autoRefreshTime : this.state.counter,
-            timer: !autoRefresh
-                ? null
-                : setInterval(this.tick.bind(this), subtractInterval),
+            refreshTimer: autoRefresh ? this.state.refreshTimer : refreshTimerTotal
         })
     }
 
     tick() {
-        this.setState({
-            counter: this.state.counter - subtractInterval,
-        })
+        const timerHasElapsed = this.state.refreshTimer - refreshTimerInterval <= 0;
+
+        if (timerHasElapsed) {
+            this.refresh()
+            this.setState({
+                refreshTimer: refreshTimerTotal
+            })
+        } else {
+            this.setState(prevState => ({
+                refreshTimer: prevState.refreshTimer - refreshTimerInterval
+            }))
+        }
     }
 
-    autoRefresh() {
-        if (this.state.autoRefresh) {
-            this.props.messageTypes.map(messageType =>
-                this.props.loadMessageConversations(
-                    messageType,
-                    this.props.selectedMessageType
-                )
+    refresh() {
+        this.props.messageTypes.map(messageType =>
+            this.props.loadMessageConversations(
+                messageType,
+                this.props.selectedMessageType
             )
+        )
 
-            if (this.props.selectedMessageConversation) {
-                this.props.setSelectedMessageConversation(
-                    this.props.selectedMessageConversation
-                )
-            }
+        if (this.props.selectedMessageConversation) {
+            this.props.setSelectedMessageConversation(
+                this.props.selectedMessageConversation
+            )
         }
-
-        this.setState({ counter: autoRefreshTime })
-        setTimeout(() => {
-            this.autoRefresh()
-        }, autoRefreshTime)
     }
 
     toogleWideview = () => {
@@ -183,7 +193,7 @@ class MessagingCenter extends Component {
                         drawerOpen={this.state.drawerOpen}
                         messageTypes={this.props.messageTypes}
                         autoRefresh={this.state.autoRefresh}
-                        counter={this.state.counter}
+                        refreshTimer={this.state.refreshTimer}
                         setAutoRefresh={this.setAutoRefresh}
                     />
 
