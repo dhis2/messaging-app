@@ -8,6 +8,9 @@ msgstr ""
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
 "PO-Revision-Date: 2018-10-10T18:08:03.592Z\n"
 
+msgid "Messaging"
+msgstr ""
+
 msgid "Upload attachment"
 msgstr ""
 

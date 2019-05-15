@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import * as serviceWorker from './serviceWorker';
-import Messaging from './components/Messaging/Messaging'
+import App from './components/App/App'
 import { init, getUserSettings } from 'd2/lib/d2'
 import configI18n from './utils/configI18n'
 import getDhis2CoreVersion from './utils/getDhis2CoreVersion'
@@ -18,7 +18,7 @@ const initApp = async () => {
     const d2 = await init(dhisConfig)
     const userSettings = await getUserSettings()
     configI18n(userSettings)
-    render(<Messaging d2={d2} />, document.getElementById('root'))
+    render(<App d2={d2} />, document.getElementById('root'))
 }
 
 initApp()
