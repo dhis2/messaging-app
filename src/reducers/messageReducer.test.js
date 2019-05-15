@@ -25,15 +25,15 @@ describe('message conversation reducer', () => {
                     pageSize: 25,
                     total: 4,
                 },
-            },
-            messageType: {
-                displayName: 'Validation',
-                id: 'VALIDATION_RESULT',
-            },
-            selectedMessageType: {
-                ...initialState.messageTypes['VALIDATION_RESULT'],
-            },
-            nrOfUnread: 2,
+                messageType: {
+                    displayName: 'Validation',
+                    id: 'VALIDATION_RESULT',
+                },
+                selectedMessageType: {
+                    ...initialState.messageTypes['VALIDATION_RESULT'],
+                },
+                nrOfUnread: 2,
+            }
         }
 
         const expectedState = {
