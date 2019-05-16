@@ -66,13 +66,18 @@ class MessageConversation extends Component {
         const organisationUnits = this.state.recipients.filter(
             r => r.type === 'organisationUnit'
         )
-        this.props.addRecipients(
+        const {
+            messageConversation,
+            selectedMessageType: messageType,
+        } = this.props
+
+        this.props.addRecipients({
             users,
             userGroups,
             organisationUnits,
-            this.props.messageConversation,
-            this.props.selectedMessageType
-        )
+            messageConversation,
+            messageType,
+        })
 
         this.setState({
             recipients: [],
@@ -86,13 +91,11 @@ class MessageConversation extends Component {
     }
 
     render() {
-        const messageConversation = this.props.messageConversation
-
+        const { messageConversation } = this.props
         const messages = messageConversation.messages
         const notification = !!(
             NOTIFICATIONS.indexOf(messageConversation.messageType) + 1
         )
-
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
             .map(userMessage =>
@@ -102,7 +105,6 @@ class MessageConversation extends Component {
                     ? userMessage.user.displayName
                     : i18n.t('me')
             )
-
         const userMessagesLength = messageConversation.userMessages.length
 
         if (userMessagesLength > maxParticipantsDisplay) {

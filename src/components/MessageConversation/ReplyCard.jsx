@@ -34,12 +34,19 @@ class ReplyCard extends Component {
     }
 
     replyMessage = internalReply => {
-        this.props.replyMessage(
-            this.props.input,
+        const {
+            input: message,
+            selectedMessageConversation: messageConversation,
+            selectedMessageType: messageType,
+        } = this.props
+
+        this.props.replyMessage({
+            message,
             internalReply,
-            this.props.selectedMessageConversation,
-            this.props.selectedMessageType
-        )
+            messageConversation,
+            messageType,
+        })
+
         this.wipeInput()
     }
 
@@ -53,6 +60,27 @@ class ReplyCard extends Component {
 
     texFieldUpdate = (event, newValue) => {
         this.props.updateInputFields('', newValue, [])
+    }
+
+    handleDiscard = () => {
+        const message = i18n.t('Reply discarded')
+        const snackType = NEGATIVE
+        const onSnackActionClick = () => this.setState({ discardState: false })
+        const onSnackRequestClose = () => {
+            this.setState({ discardState: false })
+            this.wipeInput()
+        }
+
+        this.setState({ discardState: true })
+        this.props.displaySnackMessage({
+            message,
+            onSnackActionClick,
+            onSnackRequestClose,
+            snackType,
+        })
+        this.setState({
+            expanded: false,
+        })
     }
 
     render() {
@@ -110,22 +138,7 @@ class ReplyCard extends Component {
                                 this.props.input === '' ||
                                 this.state.discardState
                             }
-                            onClick={() => {
-                                this.setState({ discardState: true })
-                                this.props.displaySnackMessage(
-                                    i18n.t('Reply discarded'),
-                                    () =>
-                                        this.setState({ discardState: false }),
-                                    () => {
-                                        this.setState({ discardState: false })
-                                        this.wipeInput()
-                                    },
-                                    NEGATIVE
-                                )
-                                this.setState({
-                                    expanded: false,
-                                })
-                            }}
+                            onClick={this.handleDiscard}
                         />
                         {this.props.enableAttachments && (
                             <AttachmentUploadButton

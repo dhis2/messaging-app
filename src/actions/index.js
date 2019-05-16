@@ -1,4 +1,3 @@
-/*eslint-disable*/
 import * as actions from '../constants/actions'
 import log from 'loglevel'
 import * as api from '../api/api'
@@ -16,6 +15,7 @@ export const setDisplayTimeDiff = () => async dispatch => {
     try {
         const serverDate = await api.getServerDate()
         const displayTimeDiff = moment().diff(moment(serverDate)) - FUTURE_HACK
+
         dispatch(
             createAction(actions.SET_DISPLAY_TIME_DIFF_SUCCESS, displayTimeDiff)
         )
@@ -26,8 +26,10 @@ export const setDisplayTimeDiff = () => async dispatch => {
 
 export const setSelectedMessageConversation = messageConversation => async dispatch => {
     dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION))
+
     try {
         const result = await api.getMessageConversation(messageConversation)
+
         dispatch(
             createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS, {
                 messageConversation: result,
@@ -42,13 +44,13 @@ export const setSelectedMessageConversation = messageConversation => async dispa
     }
 }
 
-export const updateMessageConversations = (
+export const updateMessageConversations = ({
     messageConversationIds,
     identifier,
     value,
     messageType,
-    selectedMessageConversation
-) => async dispatch => {
+    selectedMessageConversation,
+}) => async dispatch => {
     if (identifier === 'FOLLOW_UP') {
         try {
             await api.updateMessageConversationFollowup(
@@ -154,6 +156,14 @@ export const loadMessageConversations = (
 ) => async (dispatch, getState) => {
     const promises = []
     const state = getState()
+    const {
+        messageFilter,
+        statusFilter: status,
+        priorityFilter: priority,
+        assignedToMeFilter,
+        markedForFollowUpFilter,
+        unreadFilter,
+    } = state.messaging
 
     // Default fallback values so this action can be called without arguments
     messageType = messageType || state.messaging.selectedMessageType
@@ -170,16 +180,16 @@ export const loadMessageConversations = (
     try {
         for (let i = 1; i <= messageType.page; i++) {
             const promise = api
-                .getMessageConversations(
-                    messageType.id,
-                    i,
-                    state.messaging.messageFilter,
-                    state.messaging.statusFilter,
-                    state.messaging.priorityFilter,
-                    state.messaging.assignedToMeFilter,
-                    state.messaging.markedForFollowUpFilter,
-                    state.messaging.unreadFilter
-                )
+                .getMessageConversations({
+                    messageType: messageType.id,
+                    page: i,
+                    messageFilter,
+                    status,
+                    priority,
+                    assignedToMeFilter,
+                    markedForFollowUpFilter,
+                    unreadFilter,
+                })
                 .then(result => ({
                     messageConversations: result.messageConversations,
                     pager: result.pager,
@@ -190,7 +200,6 @@ export const loadMessageConversations = (
 
         const result = await Promise.all(promises)
         const nrOfUnread = await api.getNrOfUnread(messageType.id)
-
         const messageConversations = result.reduce(
             (accumulated, r) => accumulated.concat(r.messageConversations),
             []
@@ -200,8 +209,8 @@ export const loadMessageConversations = (
             createAction(actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS, {
                 messageConversations,
                 pager: result[result.length - 1].pager,
-                messageType: messageType,
-                selectedMessageType: selectedMessageType,
+                messageType,
+                selectedMessageType,
                 nrOfUnread,
             })
         )
@@ -220,13 +229,16 @@ export const deleteMessageConversations = (
         const promises = messageConversationIds.map(messageConversationId =>
             api.deleteMessageConversation(messageConversationId)
         )
+
         await Promise.all(promises)
+
         dispatch(
             createAction(actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS, {
                 messageType: messageType,
                 page: 1,
             })
         )
+
         dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(
@@ -235,24 +247,28 @@ export const deleteMessageConversations = (
     }
 }
 
-export const sendMessage = (
+export const sendMessage = ({
     users,
     userGroups,
     organisationUnits,
     messageConversationId,
-    messageType
-) => async (dispatch, getState) => {
+    messageType,
+}) => async (dispatch, getState) => {
     try {
-        const state = getState()
-        await api.sendMessage(
-            state.messaging.subject,
+        const {
+            messaging: { subject, input, attachments },
+        } = getState()
+
+        await api.sendMessage({
+            subject,
             users,
             userGroups,
             organisationUnits,
-            state.messaging.input,
-            state.messaging.attachments,
-            messageConversationId
-        )
+            text: input,
+            attachments,
+            id: messageConversationId,
+        })
+
         dispatch(
             createAction(actions.SEND_MESSAGE_SUCCESS, { messageType, page: 1 })
         )
@@ -272,32 +288,40 @@ export const sendFeedbackMessage = messageType => async (
             state.messaging.subject,
             state.messaging.input
         )
+
         dispatch(
             createAction(actions.SEND_MESSAGE_SUCCESS, {
                 messageType: messageType,
                 page: 1,
             })
         )
+
         dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
     }
 }
 
-export const replyMessage = (
+export const replyMessage = ({
     message,
     internalReply,
     messageConversation,
-    messageType
-) => async (dispatch, getState) => {
-    const state = getState()
+    messageType,
+}) => async (dispatch, getState) => {
     try {
-        await api.replyMessage(
+        const { id } = messageConversation
+        const state = getState()
+        const attachments = state.messaging.attachments.map(
+            attachment => attachment.id
+        )
+
+        await api.replyMessage({
             message,
             internalReply,
-            state.messaging.attachments.map(attachment => attachment.id),
-            messageConversation.id
-        )
+            attachments,
+            id,
+        })
+
         dispatch(
             createAction(actions.REPLY_MESSAGE_SUCCESS, {
                 messageConversation: messageConversation,
@@ -305,6 +329,7 @@ export const replyMessage = (
                 page: 1,
             })
         )
+
         dispatch(loadMessageConversations())
         dispatch(setSelectedMessageConversation(messageConversation))
     } catch (error) {
@@ -321,12 +346,14 @@ export const markMessageConversations = (
         await (mode === 'read'
             ? api.markRead(markedConversations)
             : api.markUnread(markedConversations))
+
         dispatch(
             createAction(actions.MARK_MESSAGE_CONVERSATIONS_SUCCESS, {
                 messageType: messageType,
                 page: 1,
             })
         )
+
         dispatch(loadMessageConversations())
     } catch (error) {
         dispatch(
@@ -335,20 +362,23 @@ export const markMessageConversations = (
     }
 }
 
-export const addRecipients = (
+export const addRecipients = ({
     users,
     userGroups,
     organisationUnits,
     messageConversation,
-    messageType
-) => async dispatch => {
+    messageType,
+}) => async dispatch => {
     try {
-        await api.addRecipients(
+        const { id: messageConversationId } = messageConversation
+
+        await api.addRecipients({
             users,
             userGroups,
             organisationUnits,
-            messageConversation.id
-        )
+            messageConversationId,
+        })
+
         dispatch(
             createAction(actions.ADD_RECIPIENTS_SUCCESS, {
                 messageConversation: messageConversation,
@@ -356,6 +386,7 @@ export const addRecipients = (
                 page: 1,
             })
         )
+
         dispatch(setSelectedMessageConversation(messageConversation))
     } catch (error) {
         dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
@@ -365,6 +396,7 @@ export const addRecipients = (
 export const addRecipientByUserId = id => async dispatch => {
     try {
         const user = await api.getUserById(id)
+
         dispatch(createAction(actions.ADD_RECIPIENT_BY_ID_SUCCESS, user))
     } catch (error) {
         console.error(error)
@@ -377,6 +409,7 @@ export const addAttachment = attachment => async dispatch => {
 
     try {
         const result = await api.addAttachment(attachment)
+
         dispatch(
             createAction(actions.ADD_ATTACHMENT_SUCCESS, {
                 id: result.response.fileResource.id,
@@ -400,6 +433,7 @@ export const downloadAttachment = (
             messageId,
             attachmentId
         )
+
         dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
     } catch (error) {
         dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
@@ -417,12 +451,12 @@ export const clearCheckedIds = () => createAction(actions.CLEAR_CHECKED)
 export const clearSelectedMessageConversation = () =>
     createAction(actions.CLEAR_SELECTED_MESSAGE_CONVERSATION)
 
-export const displaySnackMessage = (
+export const displaySnackMessage = ({
     message,
     onSnackActionClick,
     onSnackRequestClose,
-    snackType
-) =>
+    snackType,
+}) =>
     createAction(actions.DISPLAY_SNACK_MESSAGE, {
         message,
         onSnackActionClick,

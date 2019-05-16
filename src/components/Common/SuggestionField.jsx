@@ -33,14 +33,19 @@ class SuggestionField extends Component {
             input.length >= minCharLength
 
         if (doSearch) {
-            api.searchRecipients(
-                input,
-                this.state.searchOnlyUsers,
-                this.state.searchOnlyFeedbackRecipients,
-                this.props.feedbackRecipientsId
-            ).then(({ users, userGroups, organisationUnits }) => {
-                const addType = type => result => ({ ...result, type })
+            const {
+                feedbackRecipientsId,
+                searchOnlyUsers,
+                searchOnlyFeedbackRecipients,
+            } = this.state
 
+            api.searchRecipients({
+                searchValue: input,
+                searchOnlyUsers,
+                searchOnlyFeedbackRecipients,
+                feedbackRecipientsId,
+            }).then(({ users, userGroups, organisationUnits }) => {
+                const addType = type => result => ({ ...result, type })
                 let internalSearchResult = users.map(addType('user'))
 
                 if (!this.state.searchOnlyUsers) {

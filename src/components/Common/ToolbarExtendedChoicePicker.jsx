@@ -63,14 +63,19 @@ class ToolbarExtendedChoicePicker extends Component {
             : this.props.checkedIds.map(id => id.id)
 
     updateMessageConversation = (identifier, value) => {
-        const ids = this.getIds()
-        this.props.updateMessageConversations(
-            ids,
+        const {
+            selectedMessageType: messageType,
+            selectedMessageConversation,
+        } = this.props
+        const messageConversationIds = this.getIds()
+
+        this.props.updateMessageConversations({
+            messageConversationIds,
             identifier,
             value,
-            this.props.selectedMessageType,
-            this.props.selectedMessageConversation
-        )
+            messageType,
+            selectedMessageConversation,
+        })
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds()
     }
 
