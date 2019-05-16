@@ -29,8 +29,8 @@ import { subheader } from '../../styles/style'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
-const refreshTimerTotal = 10000 // 5 minutes
-const refreshTimerInterval = 1000 // 10 seconds
+const refreshTimerTotal = 300000 // 5 minutes
+const refreshTimerInterval = 10000 // 10 seconds
 
 class MessagingCenter extends Component {
     constructor(props) {
