@@ -4,15 +4,13 @@ import * as serviceWorker from './serviceWorker'
 import App from './components/App/App'
 import { init, getUserSettings } from 'd2/lib/d2'
 import configI18n from './utils/configI18n'
-import getDhis2CoreVersion from './utils/getDhis2CoreVersion'
 import './index.css'
 
 const { REACT_APP_DHIS2_BASE_URL } = process.env
 
 const initApp = async () => {
-    const instanceVersion = await getDhis2CoreVersion(REACT_APP_DHIS2_BASE_URL)
     const dhisConfig = {
-        baseUrl: `${REACT_APP_DHIS2_BASE_URL}/api/${instanceVersion.minor}`,
+        baseUrl: `${REACT_APP_DHIS2_BASE_URL}/api/`,
         headers: null,
         schemas: ['messageConversation'],
     }
