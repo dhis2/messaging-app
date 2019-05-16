@@ -131,9 +131,7 @@ class MessagingCenter extends Component {
 
         this.setState({
             autoRefresh,
-            refreshTimer: autoRefresh
-                ? this.state.refreshTimer
-                : refreshTimerTotal,
+            refreshTimer: refreshTimerTotal,
         })
     }
 
