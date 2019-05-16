@@ -123,10 +123,7 @@ class MessagingCenter extends Component {
         }
 
         if (autoRefresh) {
-            this.intervalId = setInterval(
-                this.tick.bind(this),
-                refreshTimerInterval
-            )
+            this.intervalId = setInterval(this.tick, refreshTimerInterval)
         }
 
         this.setState({
@@ -135,7 +132,7 @@ class MessagingCenter extends Component {
         })
     }
 
-    tick() {
+    tick = () => {
         const timerHasElapsed =
             this.state.refreshTimer - refreshTimerInterval <= 0
 
@@ -151,7 +148,7 @@ class MessagingCenter extends Component {
         }
     }
 
-    refresh() {
+    refresh = () => {
         this.props.messageTypes.map(messageType =>
             this.props.loadMessageConversations(
                 messageType,
