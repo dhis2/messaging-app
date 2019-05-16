@@ -5,8 +5,11 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
-"PO-Revision-Date: 2018-10-10T18:08:03.592Z\n"
+"POT-Creation-Date: 2019-05-15T13:44:34.287Z\n"
+"PO-Revision-Date: 2019-05-15T13:44:34.287Z\n"
+
+msgid "Messaging"
+msgstr ""
 
 msgid "Upload attachment"
 msgstr ""
@@ -48,6 +51,9 @@ msgid "Cancel"
 msgstr ""
 
 msgid "Submit"
+msgstr ""
+
+msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
 
 msgid "Delete selected"
