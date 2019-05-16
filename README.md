@@ -5,6 +5,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Env settings
+
+Env variables for this app can be configured per environment (`development`, `production`, `test`). If you're running your local DHIS2 backend on a different port than the one specified in `.env.development`, you can specify an override in a `.env.development.local` file. For more information see https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables
+
 ## Available Scripts
 
 In the project directory, you can run:
