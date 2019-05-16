@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/dhis2/messaging-app.svg?branch=master)](https://travis-ci.com/dhis2/messaging-app)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdhis2%2Fmessaging-app.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdhis2%2Fmessaging-app?ref=badge_shield)
+[![Greenkeeper badge](https://badges.greenkeeper.io/dhis2/messaging-app.svg)](https://greenkeeper.io/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
