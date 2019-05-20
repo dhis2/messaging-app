@@ -1,5 +1,3 @@
-/*eslint-disable*/
-
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 import { pageSize } from '../constants/development'
 
@@ -11,7 +9,7 @@ const messageConversationFields =
 
 const order = 'lastMessage:desc'
 
-export const getMessageConversations = (
+export const getMessageConversations = ({
     messageType,
     page,
     messageFilter,
@@ -19,8 +17,8 @@ export const getMessageConversations = (
     priority,
     assignedToMeFilter,
     markedForFollowUpFilter,
-    unreadFilter
-) => {
+    unreadFilter,
+}) => {
     const filters = [`messageType:eq:${messageType}`]
     typeof status !== 'undefined' && filters.push(`status:eq:${status}`)
     typeof priority !== 'undefined' && filters.push(`priority:eq:${priority}`)
@@ -152,15 +150,15 @@ export const getNrOfUnread = messageType =>
             throw error
         })
 
-export const sendMessage = (
+export const sendMessage = ({
     subject,
     users,
     userGroups,
     organisationUnits,
     text,
     attachments,
-    id
-) =>
+    id,
+}) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post('messageConversations', {
@@ -194,7 +192,7 @@ export const sendFeedbackMessage = (subject, text) =>
             throw error
         })
 
-export const replyMessage = (message, internalReply, attachments, id) =>
+export const replyMessage = ({ message, internalReply, attachments, id }) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post(
@@ -324,12 +322,12 @@ const searchUserGroups = searchValue =>
             throw error
         })
 
-export const searchRecipients = (
+export const searchRecipients = ({
     searchValue,
     searchOnlyUsers,
     searchOnlyFeedbackRecipients,
-    feedbackRecipientsId
-) => {
+    feedbackRecipientsId,
+}) => {
     const filters = [`displayName:token:${searchValue}`]
     searchOnlyFeedbackRecipients &&
         filters.push(`userGroups.id:eq:${feedbackRecipientsId}`)
@@ -374,12 +372,12 @@ export const fetchParticipants = messageConversationId =>
             throw error
         })
 
-export const addRecipients = (
+export const addRecipients = ({
     users,
     userGroups,
     organisationUnits,
-    messageConversationId
-) =>
+    messageConversationId,
+}) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post(
@@ -412,7 +410,7 @@ export const getUserById = id =>
         })
 
 export function createAttachment(attachment) {
-    let form = new FormData()
+    const form = new FormData()
     form.append('file', attachment)
     return form
 }

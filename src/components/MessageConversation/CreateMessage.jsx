@@ -103,14 +103,15 @@ class CreateMessage extends Component {
             const organisationUnits = this.props.recipients.filter(
                 r => r.type === 'organisationUnit'
             )
+            const messageConversationId = generateUid()
 
-            this.props.sendMessage(
+            this.props.sendMessage({
                 users,
                 userGroups,
                 organisationUnits,
-                generateUid(),
-                messageType
-            )
+                messageConversationId,
+                messageType,
+            })
             history.push('/PRIVATE')
         }
     }
@@ -118,6 +119,22 @@ class CreateMessage extends Component {
     wipeInput = () => {
         this.props.updateInputFields('', '', [])
         this.props.attachments.length > 0 && this.props.clearAttachments()
+    }
+
+    handleDiscard = () => {
+        const message = i18n.t('Message discarded')
+        const snackType = NEGATIVE
+        const onSnackActionClick = () => history.push('/PRIVATE/create')
+        const onSnackRequestClose = () => this.wipeInput()
+
+        this.props.displaySnackMessage({
+            message,
+            onSnackActionClick,
+            onSnackRequestClose,
+            snackType,
+        })
+
+        history.push('/PRIVATE')
     }
 
     render() {
@@ -220,15 +237,7 @@ class CreateMessage extends Component {
                             <FlatButton
                                 label={i18n.t('Discard')}
                                 disabled={discardDisabled}
-                                onClick={() => {
-                                    this.props.displaySnackMessage(
-                                        i18n.t('Message discarded'),
-                                        () => history.push('/PRIVATE/create'),
-                                        () => this.wipeInput(),
-                                        NEGATIVE
-                                    )
-                                    history.push('/PRIVATE')
-                                }}
+                                onClick={this.handleDiscard}
                             />
                             {this.props.enableAttachments && (
                                 <AttachmentUploadButton
