@@ -37,7 +37,7 @@ class SuggestionField extends Component {
                 feedbackRecipientsId,
                 searchOnlyUsers,
                 searchOnlyFeedbackRecipients,
-            } = this.state
+            } = this.props
 
             api.searchRecipients({
                 searchValue: input,
