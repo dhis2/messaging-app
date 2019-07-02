@@ -94,14 +94,14 @@ export const updateMessageConversations = ({
                         messageType.id === 'VALIDATION_RESULT'
                     ) {
                         promise = api
-                            .addRecipients(
-                                value.map(value => ({
+                            .addRecipients({
+                                users: value.map(value => ({
                                     id: value,
                                 })),
-                                [],
-                                [],
-                                messageConversationId
-                            )
+                                userGroups: [],
+                                organisationUnits: [],
+                                messageConversationId,
+                            })
                             .then(() =>
                                 api.updateMessageConversationAssignee(
                                     messageConversationId,
