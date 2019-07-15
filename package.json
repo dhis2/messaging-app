@@ -37,7 +37,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@dhis2/cli-style": "^3.2.2",
+    "@dhis2/cli-style": "^4.1.0",
     "d2-i18n-extract": "^1.0.5",
     "d2-i18n-generate": "^1.0.15",
     "husky": "^2.3.0",
