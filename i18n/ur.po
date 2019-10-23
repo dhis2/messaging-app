@@ -1,0 +1,196 @@
+# Translators:
+# phil_dhis2, 2019
+# Viktor Varland <viktor@dhis2.org>, 2019
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
+"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Language-Team: Urdu (https://www.transifex.com/hisp-uio/teams/100509/ur/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ur\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Upload attachment"
+msgstr ""
+
+msgid "Assignee"
+msgstr ""
+
+msgid "No results found"
+msgstr "کوئی نتیجہ نہیں ملا"
+
+msgid "Compose"
+msgstr ""
+
+msgid "Deselect all"
+msgstr "سب کو منتخب کریں"
+
+msgid "Status"
+msgstr "حالت"
+
+msgid "Priority"
+msgstr "ترجیح"
+
+msgid "Search"
+msgstr "تلاش کریں"
+
+msgid "Set filter"
+msgstr ""
+
+msgid "Assigned to me"
+msgstr ""
+
+msgid "Marked for followup"
+msgstr ""
+
+msgid "Unread messages"
+msgstr ""
+
+msgid "Cancel"
+msgstr "منسوخ"
+
+msgid "Submit"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Mark selected as unread"
+msgstr ""
+
+msgid "Mark selected as read"
+msgstr ""
+
+msgid "Assign selected"
+msgstr ""
+
+msgid "Mark for followup"
+msgstr ""
+
+msgid "Clear followup"
+msgstr ""
+
+msgid "Clear assignee"
+msgstr ""
+
+msgid "Set status"
+msgstr ""
+
+msgid "Set priority"
+msgstr ""
+
+msgid "selected"
+msgstr "منتخب شدہ"
+
+msgid "Sender"
+msgstr ""
+
+msgid "Subject"
+msgstr "مضمون"
+
+msgid "Date"
+msgstr "تاریخ"
+
+msgid "Auto refresh"
+msgstr ""
+
+msgid "Create"
+msgstr "تخلیق"
+
+msgid "To"
+msgstr "کرنے کے لئے"
+
+msgid "Feedback recipient group"
+msgstr ""
+
+msgid "Private message"
+msgstr ""
+
+msgid "Feedback message"
+msgstr ""
+
+msgid "Message"
+msgstr "پیغام"
+
+msgid "Send"
+msgstr "بھیجو"
+
+msgid "Discard"
+msgstr "ذائل"
+
+msgid "Message discarded"
+msgstr ""
+
+msgid "me"
+msgstr ""
+
+msgid "Show all messages"
+msgstr ""
+
+msgid "Participants"
+msgstr ""
+
+msgid "Add participants to conversation"
+msgstr ""
+
+msgid "Add"
+msgstr "اضافہ"
+
+msgid "Reply"
+msgstr "جواب"
+
+msgid "Internal reply"
+msgstr ""
+
+msgid "Reply discarded"
+msgstr ""
+
+msgid "Select a message"
+msgstr ""
+
+msgid "No status"
+msgstr ""
+
+msgid "Open"
+msgstr "کھلا"
+
+msgid "Pending"
+msgstr ""
+
+msgid "Invalid"
+msgstr "غلط"
+
+msgid "Solved"
+msgstr ""
+
+msgid "No priority"
+msgstr ""
+
+msgid "High"
+msgstr "ہائی"
+
+msgid "Medium"
+msgstr "درمیانہ"
+
+msgid "Low"
+msgstr "کم"
+
+msgid "Successfully updated status"
+msgstr ""
+
+msgid "Successfully updated priority"
+msgstr ""
+
+msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully changed followup"
+msgstr ""
+
+msgid "Successfully deleted message conversation(s)"
+msgstr ""
