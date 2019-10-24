@@ -15,6 +15,8 @@
     "lint": "eslint src"
   },
   "devDependencies": {
+    "@dhis2/d2-i18n-extract": "^1.0.5",
+    "@dhis2/d2-i18n-generate": "^1.1.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^23.0.1",
@@ -42,15 +44,11 @@
   },
   "dependencies": {
     "@dhis2/d2-i18n": "^1.0.6",
-    "@dhis2/d2-i18n-generate": "^1.1.1",
     "@dhis2/d2-ui-header-bar": "^1.1.1",
     "autoprefixer": "7.1.6",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "css-loader": "0.28.7",
     "d2": "^29.1.5",
-    "d2-i18n": "^1.0.3",
-    "d2-i18n-extract": "^1.0.5",
-    "d2-i18n-generate": "^1.0.15",
     "d2-ui": "^29.0.3",
     "d2-utilizr": "^0.2.15",
     "extract-text-webpack-plugin": "3.0.2",

@@ -92,6 +92,15 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@dhis2/d2-i18n-extract@^1.0.5":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@dhis2/d2-i18n-extract/-/d2-i18n-extract-1.0.8.tgz#9d98690d522a51895c8ef3fe7136f026b0f8dacd"
+  integrity sha512-wjQ5J0v8Td12+KcQYSuuZ1tQLReXJ1gBSqkyImf2aNtLwJKERaTOjZ71da+GXdHtd6ph/DP1ezQvFDFKhBHa/A==
+  dependencies:
+    argparse "^1.0.10"
+    i18next-conv "^6.0.0"
+    i18next-scanner "^2.4.4"
+
 "@dhis2/d2-i18n-generate@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@dhis2/d2-i18n-generate/-/d2-i18n-generate-1.1.1.tgz#e800fa39e85a71c23040b6378de1c9439f69fef7"
@@ -2528,30 +2537,6 @@ currently-unhandled@^0.4.1:
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
-
-d2-i18n-extract@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/d2-i18n-extract/-/d2-i18n-extract-1.0.5.tgz#8b9e9a7e645036150ff9fa1a931934fc7204b6fa"
-  dependencies:
-    argparse "^1.0.10"
-    i18next-conv "^6.0.0"
-    i18next-scanner "^2.4.4"
-
-d2-i18n-generate@^1.0.15:
-  version "1.0.15"
-  resolved "https://registry.yarnpkg.com/d2-i18n-generate/-/d2-i18n-generate-1.0.15.tgz#c6403df3c4296af74b75e7f07a0c3f8b87af3901"
-  dependencies:
-    argparse "^1.0.10"
-    handlebars "^4.0.11"
-    i18next-conv "^6.0.0"
-    moment "^2.22.1"
-    rimraf "^2.6.2"
-
-d2-i18n@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/d2-i18n/-/d2-i18n-1.0.3.tgz#16fd6e42bf2ed3fbf3d2c37be99945222ab2570f"
-  dependencies:
-    i18next "^10.3"
 
 d2-manifest@^1.0.0:
   version "1.0.0"
