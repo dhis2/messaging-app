@@ -16,7 +16,7 @@ import Chip from 'material-ui/Chip';
 
 import Paper from 'material-ui/Paper';
 
-import i18n from 'd2-i18n';
+import i18n from '@dhis2/d2-i18n';
 
 import Message from './Message';
 import ReplyCard from './ReplyCard';
