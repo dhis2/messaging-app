@@ -1,0 +1,196 @@
+# Translators:
+# phil_dhis2, 2019
+# Viktor Varland <viktor@dhis2.org>, 2019
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
+"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Language-Team: Ukrainian (https://www.transifex.com/hisp-uio/teams/100509/uk/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+msgid "Upload attachment"
+msgstr ""
+
+msgid "Assignee"
+msgstr ""
+
+msgid "No results found"
+msgstr "Результатів не знайдено"
+
+msgid "Compose"
+msgstr ""
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Priority"
+msgstr ""
+
+msgid "Search"
+msgstr "Пошук"
+
+msgid "Set filter"
+msgstr ""
+
+msgid "Assigned to me"
+msgstr ""
+
+msgid "Marked for followup"
+msgstr ""
+
+msgid "Unread messages"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "Submit"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Mark selected as unread"
+msgstr ""
+
+msgid "Mark selected as read"
+msgstr ""
+
+msgid "Assign selected"
+msgstr ""
+
+msgid "Mark for followup"
+msgstr ""
+
+msgid "Clear followup"
+msgstr ""
+
+msgid "Clear assignee"
+msgstr ""
+
+msgid "Set status"
+msgstr ""
+
+msgid "Set priority"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Auto refresh"
+msgstr ""
+
+msgid "Create"
+msgstr "Створити"
+
+msgid "To"
+msgstr "До"
+
+msgid "Feedback recipient group"
+msgstr ""
+
+msgid "Private message"
+msgstr ""
+
+msgid "Feedback message"
+msgstr ""
+
+msgid "Message"
+msgstr "Повідомлення"
+
+msgid "Send"
+msgstr "Надіслати"
+
+msgid "Discard"
+msgstr "Ігнорувати"
+
+msgid "Message discarded"
+msgstr ""
+
+msgid "me"
+msgstr ""
+
+msgid "Show all messages"
+msgstr ""
+
+msgid "Participants"
+msgstr ""
+
+msgid "Add participants to conversation"
+msgstr ""
+
+msgid "Add"
+msgstr "Додати"
+
+msgid "Reply"
+msgstr "Відповісти"
+
+msgid "Internal reply"
+msgstr ""
+
+msgid "Reply discarded"
+msgstr ""
+
+msgid "Select a message"
+msgstr ""
+
+msgid "No status"
+msgstr ""
+
+msgid "Open"
+msgstr "Відкрити"
+
+msgid "Pending"
+msgstr ""
+
+msgid "Invalid"
+msgstr "Невірне"
+
+msgid "Solved"
+msgstr ""
+
+msgid "No priority"
+msgstr ""
+
+msgid "High"
+msgstr "High"
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "Low"
+msgstr "Low"
+
+msgid "Successfully updated status"
+msgstr ""
+
+msgid "Successfully updated priority"
+msgstr ""
+
+msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully changed followup"
+msgstr ""
+
+msgid "Successfully deleted message conversation(s)"
+msgstr ""
