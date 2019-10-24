@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Subject, Observable } from 'rxjs/Rx'
 import ChipInput from 'material-ui-chip-input'
 
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import * as api from 'api/api'
 
 const find = require('lodash/find')

@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
 import MailIcon from 'material-ui-icons/MailOutline'
 
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 
 import * as api from 'api/api'
 import * as actions from 'constants/actions'

@@ -6,7 +6,7 @@ import { List } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Toggle from 'material-ui/Toggle'
 
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 
 import * as actions from 'constants/actions'
 import history from 'utils/history'

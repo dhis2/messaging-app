@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
 import { generateUid } from 'd2/lib/uid'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
