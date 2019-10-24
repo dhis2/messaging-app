@@ -15,6 +15,8 @@
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./src/locales/"
   },
   "dependencies": {
+    "@dhis2/d2-i18n": "^1.0.6",
+    "@dhis2/d2-i18n-generate": "^1.1.1",
     "@dhis2/ui": "^1.0.0-beta.14",
     "d2": "31.0.2",
     "d2-i18n": "^1.0.3",
