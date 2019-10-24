@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField'
 import AttachmentUploadButton from '../Attachments/AttachmentUploadButton'
 import Attachments from '../Attachments/Attachments'
 import { supportsAttachments } from '../../utils/helpers'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import {
     replyMessage,
     setSelectedMessageType,

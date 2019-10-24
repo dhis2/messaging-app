@@ -14,7 +14,7 @@ import Divider from 'material-ui/Divider'
 import Delete from 'material-ui-icons/Delete'
 import MarkUnread from 'material-ui-icons/Markunread'
 import Done from 'material-ui-icons/Done'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import {
     clearCheckedIds,
     clearSelectedMessageConversation,

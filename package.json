@@ -15,9 +15,9 @@
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./src/locales/"
   },
   "dependencies": {
+    "@dhis2/d2-i18n": "^1.0.6",
     "@dhis2/ui": "^1.0.0-beta.14",
     "d2": "31.0.2",
-    "d2-i18n": "^1.0.3",
     "d2-ui": "^29.0.25",
     "d2-utilizr": "^0.2.15",
     "history": "^4.7.2",
@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@dhis2/cli-style": "^3.2.2",
-    "d2-i18n-extract": "^1.0.5",
-    "d2-i18n-generate": "^1.0.15",
+    "@dhis2/d2-i18n-extract": "^1.0.5",
+    "@dhis2/d2-i18n-generate": "^1.1.1",
     "husky": "^2.3.0",
     "redux-logger": "3.0.6"
   },

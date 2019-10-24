@@ -4,7 +4,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 import Badge from 'material-ui/Badge'
 import Subheader from 'material-ui/Subheader/Subheader'
 
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 
 import theme from '../../styles/theme'
 
