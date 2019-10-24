@@ -5,7 +5,7 @@ import Subheader from 'material-ui/Subheader/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
 import Flag from 'material-ui-icons/Flag'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import history from '../../utils/history'
 import {
     setChecked,

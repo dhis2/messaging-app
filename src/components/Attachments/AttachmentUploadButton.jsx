@@ -1,7 +1,7 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
 import AttachFile from 'material-ui-icons/AttachFile'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import './AttachmentUploadButton.css'
 
 const createHandleChange = addAttachment => event => {

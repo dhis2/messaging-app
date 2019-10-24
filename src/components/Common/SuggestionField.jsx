@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import ChipInput from 'material-ui-chip-input'
 import { debounce } from '../../utils/helpers'
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 import * as api from '../../api/api'
 
 const searchDelay = 300
