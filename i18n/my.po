@@ -1,0 +1,193 @@
+# Translators:
+# phil_dhis2, 2019
+# Viktor Varland <viktor@dhis2.org>, 2019
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2018-07-05T09:36:41.348Z\n"
+"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Language-Team: Burmese (https://www.transifex.com/hisp-uio/teams/100509/my/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: my\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Assignee"
+msgstr ""
+
+msgid "Create"
+msgstr "ဖန်တီးသည်"
+
+msgid "To"
+msgstr ""
+
+msgid "Feedback recipient group"
+msgstr ""
+
+msgid "Private message"
+msgstr ""
+
+msgid "Feedback message"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Message"
+msgstr "သတင်း"
+
+msgid "Send"
+msgstr "ပို့သည်"
+
+msgid "Discard"
+msgstr "Discard"
+
+msgid "Message discarded"
+msgstr ""
+
+msgid "Sender"
+msgstr ""
+
+msgid "Status"
+msgstr "အခြေအနေ"
+
+msgid "Priority"
+msgstr ""
+
+msgid "Date"
+msgstr "ရက်စွဲ"
+
+msgid "me"
+msgstr ""
+
+msgid "Show all messages"
+msgstr ""
+
+msgid "Participants"
+msgstr ""
+
+msgid "Add participants to conversation"
+msgstr ""
+
+msgid "Add"
+msgstr "ထပ်ထည့်သည်"
+
+msgid "Select a message"
+msgstr ""
+
+msgid "Reply"
+msgstr "အကြောင်းပြန်သည်"
+
+msgid "Internal reply"
+msgstr ""
+
+msgid "Reply discarded"
+msgstr ""
+
+msgid "Auto refresh"
+msgstr ""
+
+msgid "No results found"
+msgstr "No results found"
+
+msgid "Compose"
+msgstr ""
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Set filter"
+msgstr ""
+
+msgid "Assigned to me"
+msgstr ""
+
+msgid "Marked for followup"
+msgstr ""
+
+msgid "Unread messages"
+msgstr ""
+
+msgid "Cancel"
+msgstr "ပယ်ဖျက်သည်"
+
+msgid "Submit"
+msgstr "Submit"
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Mark selected as unread"
+msgstr ""
+
+msgid "Mark selected as read"
+msgstr ""
+
+msgid "Assign selected"
+msgstr ""
+
+msgid "Mark for followup"
+msgstr ""
+
+msgid "Clear followup"
+msgstr ""
+
+msgid "Clear assigned"
+msgstr ""
+
+msgid "Set status"
+msgstr ""
+
+msgid "Set priority"
+msgstr ""
+
+msgid "selected"
+msgstr ""
+
+msgid "No status"
+msgstr ""
+
+msgid "Open"
+msgstr "Open"
+
+msgid "Pending"
+msgstr ""
+
+msgid "Invalid"
+msgstr ""
+
+msgid "Solved"
+msgstr ""
+
+msgid "No priority"
+msgstr ""
+
+msgid "High"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Low"
+msgstr ""
+
+msgid "Successfully updated status"
+msgstr ""
+
+msgid "Successfully updated priority"
+msgstr ""
+
+msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully changed followup"
+msgstr ""
+
+msgid "Successfully deleted message conversation(s)"
+msgstr ""
