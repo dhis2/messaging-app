@@ -1,0 +1,202 @@
+# Translators:
+# Viktor Varland <viktor@dhis2.org>, 2019
+# Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2019
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2019-05-15T13:44:34.287Z\n"
+"PO-Revision-Date: 2019-06-25 18:26+0000\n"
+"Last-Translator: Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2019\n"
+"Language-Team: Indonesian (https://www.transifex.com/hisp-uio/teams/100509/id/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: id\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Messaging"
+msgstr "Pengiriman pesan"
+
+msgid "Upload attachment"
+msgstr "Unggah lampiran"
+
+msgid "Assignee"
+msgstr ""
+
+msgid "No results found"
+msgstr "Tidak ada hasil ditemukan"
+
+msgid "Compose"
+msgstr "Tulis"
+
+msgid "Deselect all"
+msgstr ""
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Priority"
+msgstr "Prioritas"
+
+msgid "Search"
+msgstr "Pencarian"
+
+msgid "Set filter"
+msgstr "Pilih penyaring"
+
+msgid "Assigned to me"
+msgstr ""
+
+msgid "Marked for followup"
+msgstr "Ditandai untuk tindak lanjut"
+
+msgid "Unread messages"
+msgstr "Pesan belum dibaca"
+
+msgid "Cancel"
+msgstr "batal"
+
+msgid "Submit"
+msgstr "Kirim"
+
+msgid "Are you sure you want to delete selected message conversation(s)?"
+msgstr "Apakah Anda yakin akan menghapus percakapan pesan(2) yang dipilih?"
+
+msgid "Delete selected"
+msgstr "Hapus yang terpilih"
+
+msgid "Mark selected as unread"
+msgstr "Tandai yang terpilih sebagai belum dibaca"
+
+msgid "Mark selected as read"
+msgstr "Tandai yang terpilih sebagai sudah dibaca"
+
+msgid "Assign selected"
+msgstr "Tugaskan yang terpilih"
+
+msgid "Mark for followup"
+msgstr "Tandai untuk tindak lanjut"
+
+msgid "Clear followup"
+msgstr "Hapus tindak lanjut"
+
+msgid "Clear assignee"
+msgstr ""
+
+msgid "Set status"
+msgstr "Pilih status"
+
+msgid "Set priority"
+msgstr "Pilih prioritas"
+
+msgid "selected"
+msgstr "Terpilih"
+
+msgid "Sender"
+msgstr "Pengirim"
+
+msgid "Subject"
+msgstr "Judul"
+
+msgid "Date"
+msgstr "Tanggal"
+
+msgid "Auto refresh"
+msgstr "Penyegaran otomatis"
+
+msgid "Create"
+msgstr "Buat"
+
+msgid "To"
+msgstr "Untuk"
+
+msgid "Feedback recipient group"
+msgstr "Grup penerima umpan balik"
+
+msgid "Private message"
+msgstr "Pesan pribadi"
+
+msgid "Feedback message"
+msgstr "Pesan umpan balik"
+
+msgid "Message"
+msgstr "Pesan"
+
+msgid "Send"
+msgstr "Kirim"
+
+msgid "Discard"
+msgstr "Buang"
+
+msgid "Message discarded"
+msgstr "Pesan dibuang"
+
+msgid "me"
+msgstr "saya"
+
+msgid "Show all messages"
+msgstr "Tampilkan semua pesan"
+
+msgid "Participants"
+msgstr "Partisipan"
+
+msgid "Add participants to conversation"
+msgstr "Tambahkan partisipan dalam percakapan"
+
+msgid "Add"
+msgstr "Tambah"
+
+msgid "Reply"
+msgstr "Balas"
+
+msgid "Internal reply"
+msgstr "Balasan internal"
+
+msgid "Reply discarded"
+msgstr "Balasan dibuang"
+
+msgid "Select a message"
+msgstr "Pilih pesan"
+
+msgid "No status"
+msgstr "Tidak ada status"
+
+msgid "Open"
+msgstr "Buka"
+
+msgid "Pending"
+msgstr "Tertunda"
+
+msgid "Invalid"
+msgstr "Tidak valid"
+
+msgid "Solved"
+msgstr "Terselesaikan"
+
+msgid "No priority"
+msgstr "Tidak prioritas"
+
+msgid "High"
+msgstr "Tinggi"
+
+msgid "Medium"
+msgstr "Sedang"
+
+msgid "Low"
+msgstr "Rendah"
+
+msgid "Successfully updated status"
+msgstr "Berhasil memperbarui status"
+
+msgid "Successfully updated priority"
+msgstr "Berhasil memperbarui prioritas"
+
+msgid "Successfully updated assignee"
+msgstr ""
+
+msgid "Successfully changed followup"
+msgstr "Berhasil memperbarui tindak lanjut"
+
+msgid "Successfully deleted message conversation(s)"
+msgstr "Berhasil menghapus percakapan pesan(2)"
