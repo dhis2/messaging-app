@@ -3,7 +3,7 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 import CardText from 'material-ui/Card/CardText';
 
-import i18n from 'd2-i18n';
+import i18n from '@dhis2/d2-i18n';
 import Linkify from 'react-linkify';
 
 import theme from '../styles/theme';

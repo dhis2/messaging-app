@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import Subheader from 'material-ui/Subheader/Subheader';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import i18n from 'd2-i18n';
+import i18n from '@dhis2/d2-i18n';
 
 import * as actions from 'constants/actions';
 import { messagePanelContainer } from '../styles/style';

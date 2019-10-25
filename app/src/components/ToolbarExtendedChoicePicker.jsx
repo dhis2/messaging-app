@@ -17,7 +17,7 @@ import Delete from 'material-ui-icons/Delete';
 import MarkUnread from 'material-ui-icons/Markunread';
 import Done from 'material-ui-icons/Done';
 
-import i18n from 'd2-i18n';
+import i18n from '@dhis2/d2-i18n';
 
 import * as actions from 'constants/actions';
 import extendedChoices from 'constants/extendedChoices';
