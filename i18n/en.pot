@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2019-05-15T13:44:34.287Z\n"
-"PO-Revision-Date: 2019-05-15T13:44:34.287Z\n"
+"POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
+"PO-Revision-Date: 2019-10-25T13:02:34.460Z\n"
 
 msgid "Messaging"
 msgstr ""
@@ -98,6 +98,9 @@ msgstr ""
 msgid "Auto refresh"
 msgstr ""
 
+msgid "Message discarded"
+msgstr ""
+
 msgid "Create"
 msgstr ""
 
@@ -122,9 +125,6 @@ msgstr ""
 msgid "Discard"
 msgstr ""
 
-msgid "Message discarded"
-msgstr ""
-
 msgid "me"
 msgstr ""
 
@@ -140,13 +140,13 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
+msgid "Reply discarded"
+msgstr ""
+
 msgid "Reply"
 msgstr ""
 
 msgid "Internal reply"
-msgstr ""
-
-msgid "Reply discarded"
 msgstr ""
 
 msgid "Select a message"
