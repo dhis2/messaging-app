@@ -17,7 +17,7 @@ import IconButton from 'material-ui/IconButton'
 import Checkbox from 'material-ui/Checkbox/Checkbox'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 
-import i18n from 'd2-i18n'
+import i18n from '@dhis2/d2-i18n'
 
 import history from 'utils/history'
 
