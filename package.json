@@ -15,7 +15,7 @@
     "lint": "eslint src"
   },
   "devDependencies": {
-    "@dhis2/d2-i18n-extract": "^1.0.5",
+    "@dhis2/d2-i18n-extract": "^1.0.8",
     "@dhis2/d2-i18n-generate": "^1.1.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
