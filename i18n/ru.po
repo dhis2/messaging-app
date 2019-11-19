@@ -1,13 +1,13 @@
 # Translators:
-# phil_dhis2, 2019
 # Viktor Varland <viktor@dhis2.org>, 2019
+# phil_dhis2, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-07-05T09:36:41.348Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Last-Translator: phil_dhis2, 2019\n"
 "Language-Team: Russian (https://www.transifex.com/hisp-uio/teams/100509/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgid "Send"
 msgstr "Отправить"
 
 msgid "Discard"
-msgstr "Discard"
+msgstr "Отмена"
 
 msgid "Message discarded"
 msgstr ""
@@ -91,7 +91,7 @@ msgid "Auto refresh"
 msgstr ""
 
 msgid "No results found"
-msgstr "No results found"
+msgstr "Результаты не найдены"
 
 msgid "Compose"
 msgstr ""
@@ -169,13 +169,13 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "High"
+msgstr "Высокий"
 
 msgid "Medium"
-msgstr "Medium"
+msgstr "Средний"
 
 msgid "Low"
-msgstr "Low"
+msgstr "Низкий"
 
 msgid "Successfully updated status"
 msgstr ""
