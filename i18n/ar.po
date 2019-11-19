@@ -34,7 +34,7 @@ msgid "Status"
 msgstr "الحالة"
 
 msgid "Priority"
-msgstr "Priority"
+msgstr ""
 
 msgid "Search"
 msgstr "البحث"
