@@ -24,13 +24,13 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr ""
+msgstr "هیج نتیجه ی یافت نشد"
 
 msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr ""
+msgstr "همه از حالت انتخاب خارج"
 
 msgid "Status"
 msgstr "وضعیت"
@@ -57,7 +57,7 @@ msgid "Cancel"
 msgstr "لغو کردن"
 
 msgid "Submit"
-msgstr ""
+msgstr "ارایه"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -90,7 +90,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "منتخبین"
 
 msgid "Sender"
 msgstr ""
@@ -126,7 +126,7 @@ msgid "Send"
 msgstr "فرستادن"
 
 msgid "Discard"
-msgstr ""
+msgstr "ازبین بردن"
 
 msgid "Message discarded"
 msgstr ""
@@ -147,7 +147,7 @@ msgid "Add"
 msgstr "افزودن"
 
 msgid "Reply"
-msgstr ""
+msgstr "پاسخ"
 
 msgid "Internal reply"
 msgstr ""
@@ -177,13 +177,13 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "بلندی"
 
 msgid "Medium"
-msgstr ""
+msgstr "متوسط"
 
 msgid "Low"
-msgstr ""
+msgstr "پاین"
 
 msgid "Successfully updated status"
 msgstr ""
