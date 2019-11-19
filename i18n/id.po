@@ -52,7 +52,7 @@ msgid "Sender"
 msgstr "Pengirim"
 
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Priority"
 msgstr "Prioritas"
