@@ -177,13 +177,13 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "High"
+msgstr ""
 
 msgid "Medium"
-msgstr "Medium"
+msgstr ""
 
 msgid "Low"
-msgstr "Low"
+msgstr ""
 
 msgid "Successfully updated status"
 msgstr ""
