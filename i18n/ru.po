@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 msgid "Messaging"
-msgstr "Messaging"
+msgstr ""
 
 msgid "Upload attachment"
 msgstr ""
@@ -25,7 +25,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr "No results found"
+msgstr "Результаты не найдены"
 
 msgid "Compose"
 msgstr ""
@@ -127,7 +127,7 @@ msgid "Send"
 msgstr "Отправить"
 
 msgid "Discard"
-msgstr "Discard"
+msgstr "Отмена"
 
 msgid "Message discarded"
 msgstr ""
@@ -163,7 +163,7 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr "Open"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
@@ -178,13 +178,13 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "High"
+msgstr "Высокий"
 
 msgid "Medium"
-msgstr "Medium"
+msgstr "Средний"
 
 msgid "Low"
-msgstr "Low"
+msgstr "Низкий"
 
 msgid "Successfully updated status"
 msgstr ""
