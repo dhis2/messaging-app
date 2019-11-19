@@ -42,7 +42,7 @@ msgid "Send"
 msgstr "فرستادن"
 
 msgid "Discard"
-msgstr ""
+msgstr "ازبین بردن"
 
 msgid "Message discarded"
 msgstr ""
@@ -78,7 +78,7 @@ msgid "Select a message"
 msgstr ""
 
 msgid "Reply"
-msgstr ""
+msgstr "پاسخ"
 
 msgid "Internal reply"
 msgstr ""
@@ -90,13 +90,13 @@ msgid "Auto refresh"
 msgstr ""
 
 msgid "No results found"
-msgstr ""
+msgstr "هیج نتیجه ی یافت نشد"
 
 msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr ""
+msgstr "همه از حالت انتخاب خارج"
 
 msgid "Search"
 msgstr "جستجو"
@@ -117,7 +117,7 @@ msgid "Cancel"
 msgstr "انصراف"
 
 msgid "Submit"
-msgstr ""
+msgstr "ارایه"
 
 msgid "Delete selected"
 msgstr ""
@@ -147,7 +147,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "منتخبین"
 
 msgid "No status"
 msgstr ""
@@ -168,13 +168,13 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "بلندی"
 
 msgid "Medium"
-msgstr ""
+msgstr "متوسط"
 
 msgid "Low"
-msgstr ""
+msgstr "پاین"
 
 msgid "Successfully updated status"
 msgstr ""
