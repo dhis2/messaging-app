@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2019-05-15T13:44:34.287Z\n"
+"POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2019\n"
 "Language-Team: Indonesian (https://www.transifex.com/hisp-uio/teams/100509/id/)\n"
@@ -105,6 +105,9 @@ msgstr "Tanggal"
 msgid "Auto refresh"
 msgstr "Penyegaran otomatis"
 
+msgid "Message discarded"
+msgstr "Pesan dibuang"
+
 msgid "Create"
 msgstr "Buat"
 
@@ -129,9 +132,6 @@ msgstr "Kirim"
 msgid "Discard"
 msgstr "Buang"
 
-msgid "Message discarded"
-msgstr "Pesan dibuang"
-
 msgid "me"
 msgstr "saya"
 
@@ -147,14 +147,14 @@ msgstr "Tambahkan partisipan dalam percakapan"
 msgid "Add"
 msgstr "Tambah"
 
+msgid "Reply discarded"
+msgstr "Balasan dibuang"
+
 msgid "Reply"
 msgstr "Balas"
 
 msgid "Internal reply"
 msgstr "Balasan internal"
-
-msgid "Reply discarded"
-msgstr "Balasan dibuang"
 
 msgid "Select a message"
 msgstr "Pilih pesan"
