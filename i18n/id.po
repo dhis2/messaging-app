@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2018-07-05T09:36:41.348Z\n"
+"POT-Creation-Date: 2019-10-25T09:42:35.949Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
 "Last-Translator: Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2019\n"
 "Language-Team: Indonesian (https://www.transifex.com/hisp-uio/teams/100509/id/)\n"
@@ -138,7 +138,7 @@ msgstr "Tandai untuk tindak lanjut"
 msgid "Clear followup"
 msgstr "Hapus tindak lanjut"
 
-msgid "Clear assigned"
+msgid "Clear assignee"
 msgstr ""
 
 msgid "Set status"
