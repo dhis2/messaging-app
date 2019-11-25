@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2019-05-15T13:44:34.287Z\n"
+"POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: phil_dhis2, 2019\n"
 "Language-Team: French (https://www.transifex.com/hisp-uio/teams/100509/fr/)\n"
@@ -106,6 +106,9 @@ msgstr "Date"
 msgid "Auto refresh"
 msgstr ""
 
+msgid "Message discarded"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
@@ -130,9 +133,6 @@ msgstr "Envoyer"
 msgid "Discard"
 msgstr "Abandonner"
 
-msgid "Message discarded"
-msgstr ""
-
 msgid "me"
 msgstr ""
 
@@ -148,13 +148,13 @@ msgstr ""
 msgid "Add"
 msgstr "Ajouter"
 
+msgid "Reply discarded"
+msgstr ""
+
 msgid "Reply"
 msgstr "Répondre"
 
 msgid "Internal reply"
-msgstr ""
-
-msgid "Reply discarded"
 msgstr ""
 
 msgid "Select a message"
