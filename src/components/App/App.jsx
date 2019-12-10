@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 import i18n from '@dhis2/d2-i18n'
-import HeaderBar from '@dhis2/ui/widgets/HeaderBar'
+import { HeaderBar } from '@dhis2/ui-widgets'
 import CustomSnackBar from '../Common/CustomSnackBar'
 import store from '../../store'
 import Routes from './Routes'

@@ -4,7 +4,10 @@ import * as serviceWorker from './serviceWorker'
 import App from './components/App/App'
 import { init, getUserSettings } from 'd2/lib/d2'
 import configI18n from './utils/configI18n'
+import { CssReset } from '@dhis2/ui-core'
+import { Provider } from '@dhis2/app-runtime'
 import './index.css'
+import 'typeface-roboto'
 
 const { REACT_APP_DHIS2_BASE_URL } = process.env
 
@@ -17,7 +20,18 @@ const initApp = async () => {
     const d2 = await init(dhisConfig)
     const userSettings = await getUserSettings()
     configI18n(userSettings)
-    render(<App d2={d2} />, document.getElementById('root'))
+    render(
+        <Provider
+            config={{
+                baseUrl: REACT_APP_DHIS2_BASE_URL,
+                apiVersion: '',
+            }}
+        >
+            <CssReset />
+            <App d2={d2} />
+        </Provider>,
+        document.getElementById('root')
+    )
 }
 
 initApp()
