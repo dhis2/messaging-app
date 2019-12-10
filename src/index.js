@@ -7,6 +7,7 @@ import configI18n from './utils/configI18n'
 import { CssReset } from '@dhis2/ui-core'
 import { Provider } from '@dhis2/app-runtime'
 import './index.css'
+import 'typeface-roboto'
 
 const { REACT_APP_DHIS2_BASE_URL } = process.env
 
