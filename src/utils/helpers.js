@@ -38,3 +38,7 @@ export function debounce(fn, delay) {
 export function supportsAttachments(dhis2CoreVersion) {
     return dhis2CoreVersion > 30
 }
+
+export function supportsUnversionedApiCalls(dhis2CoreVersion) {
+    return dhis2CoreVersion > 31
+}
