@@ -149,7 +149,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "选择的"
 
 msgid "No status"
 msgstr ""
