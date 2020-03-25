@@ -1,12 +1,13 @@
 # Translators:
 # Viktor Varland <viktor@dhis2.org>, 2019
+# Hamza Assada <7amza.it@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Last-Translator: Hamza Assada <7amza.it@gmail.com>, 2020\n"
 "Language-Team: Arabic (https://www.transifex.com/hisp-uio/teams/100509/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,7 +19,7 @@ msgid "Messaging"
 msgstr "المراسلة"
 
 msgid "Upload attachment"
-msgstr ""
+msgstr "تحميل مرفقات"
 
 msgid "Assignee"
 msgstr ""
@@ -36,7 +37,7 @@ msgid "Status"
 msgstr "الحالة"
 
 msgid "Priority"
-msgstr ""
+msgstr "الأولوية"
 
 msgid "Search"
 msgstr "بحث"
@@ -45,13 +46,13 @@ msgid "Set filter"
 msgstr ""
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "تم تعيينه لي"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "وضع علامة للمتابعة"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "رسائل غير مقروءة"
 
 msgid "Cancel"
 msgstr "إلغاء"
@@ -63,13 +64,13 @@ msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
 
 msgid "Delete selected"
-msgstr ""
+msgstr "حذف المحدد"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "وضع علامة على المحدد على أنه غير مقروء"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "وضع علامة على المحدد على أنه مقروء"
 
 msgid "Assign selected"
 msgstr ""
@@ -93,19 +94,19 @@ msgid "selected"
 msgstr "محدد"
 
 msgid "Sender"
-msgstr ""
+msgstr "المرسل"
 
 msgid "Subject"
-msgstr ""
+msgstr "الموضوع"
 
 msgid "Date"
 msgstr "التاريخ"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "تحديث تلقائي"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "تم تجاهل الرسالة"
 
 msgid "Create"
 msgstr "إنشاء"
@@ -117,7 +118,7 @@ msgid "Feedback recipient group"
 msgstr ""
 
 msgid "Private message"
-msgstr ""
+msgstr "رسالة على الخاص"
 
 msgid "Feedback message"
 msgstr ""
@@ -135,7 +136,7 @@ msgid "me"
 msgstr ""
 
 msgid "Show all messages"
-msgstr ""
+msgstr "عرض كافة الرسائل"
 
 msgid "Participants"
 msgstr ""
@@ -156,7 +157,7 @@ msgid "Internal reply"
 msgstr ""
 
 msgid "Select a message"
-msgstr ""
+msgstr "حدد رسالة"
 
 msgid "No status"
 msgstr ""
@@ -165,13 +166,13 @@ msgid "Open"
 msgstr "فتح"
 
 msgid "Pending"
-msgstr ""
+msgstr "معلق"
 
 msgid "Invalid"
 msgstr "غير صالح"
 
 msgid "Solved"
-msgstr ""
+msgstr "تم حلها"
 
 msgid "No priority"
 msgstr ""
@@ -186,7 +187,7 @@ msgid "Low"
 msgstr "منخفض"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "تم تحديث الحالة بنجاح"
 
 msgid "Successfully updated priority"
 msgstr ""
