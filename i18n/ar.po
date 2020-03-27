@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 msgid "Assignee"
-msgstr ""
+msgstr "المحال إليه"
 
 msgid "Create"
 msgstr "إنشاء"
@@ -26,13 +26,13 @@ msgid "To"
 msgstr "الى"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "مجموعة مستلمي التغذية الراجعة"
 
 msgid "Private message"
 msgstr "رسالة على الخاص"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "رسالة تغذية راجعة"
 
 msgid "Subject"
 msgstr "الموضوع"
@@ -62,16 +62,16 @@ msgid "Date"
 msgstr "التاريخ"
 
 msgid "me"
-msgstr ""
+msgstr "أنا"
 
 msgid "Show all messages"
 msgstr "عرض كافة الرسائل"
 
 msgid "Participants"
-msgstr ""
+msgstr "المشاركون"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "أضف مشاركين إلى المحادثة"
 
 msgid "Add"
 msgstr "إضافة"
@@ -83,10 +83,10 @@ msgid "Reply"
 msgstr "رد"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "رد داخلي"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "تم التخلص من الرد"
 
 msgid "Auto refresh"
 msgstr "تحديث تلقائي"
@@ -95,7 +95,7 @@ msgid "No results found"
 msgstr "لم يتم العثور على أية نتائج"
 
 msgid "Compose"
-msgstr ""
+msgstr "انشاء"
 
 msgid "Deselect all"
 msgstr "إلغاء تحديد الكل"
@@ -104,7 +104,7 @@ msgid "Search"
 msgstr "البحث"
 
 msgid "Set filter"
-msgstr ""
+msgstr "تعيين عامل التصفية"
 
 msgid "Assigned to me"
 msgstr "تم تعيينه لي"
@@ -131,28 +131,28 @@ msgid "Mark selected as read"
 msgstr "وضع علامة على المحدد على أنه مقروء"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "إحالة المحدد"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "وضع علامة للمتابعة"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "إلغاء علامة المتابعة"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "تصفية المحال إليه"
 
 msgid "Set status"
-msgstr ""
+msgstr "حدد الحالة"
 
 msgid "Set priority"
-msgstr ""
+msgstr "حدد الأولوية"
 
 msgid "selected"
 msgstr "محدد"
 
 msgid "No status"
-msgstr ""
+msgstr "لا حالة"
 
 msgid "Open"
 msgstr "فتح"
@@ -167,7 +167,7 @@ msgid "Solved"
 msgstr "تم حلها"
 
 msgid "No priority"
-msgstr ""
+msgstr "بدون أولوية"
 
 msgid "High"
 msgstr "مرتفع"
@@ -182,13 +182,13 @@ msgid "Successfully updated status"
 msgstr "تم تحديث الحالة بنجاح"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "تم تحديث الأولوية بنجاح"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "تم تحديث المحال إليه بنجاح"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "تم تغيير حالة المتابعة بنجاح"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "تم حذف رسالة (رسائل) المحادثات بنجاح"
