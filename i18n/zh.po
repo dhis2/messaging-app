@@ -144,7 +144,7 @@ msgid "Add"
 msgstr "添加"
 
 msgid "Reply"
-msgstr ""
+msgstr "回复"
 
 msgid "Internal reply"
 msgstr ""
