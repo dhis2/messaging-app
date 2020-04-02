@@ -153,7 +153,7 @@ msgid "Reply discarded"
 msgstr ""
 
 msgid "Reply"
-msgstr ""
+msgstr "回复"
 
 msgid "Internal reply"
 msgstr ""
