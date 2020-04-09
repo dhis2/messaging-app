@@ -19,7 +19,7 @@ msgid "Messaging"
 msgstr "Meldingstjenester"
 
 msgid "Upload attachment"
-msgstr ""
+msgstr "Last opp vedlegg"
 
 msgid "Assignee"
 msgstr ""
@@ -31,7 +31,7 @@ msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr ""
+msgstr "Fjern valg"
 
 msgid "Status"
 msgstr "Status"
@@ -91,7 +91,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "valgt"
 
 msgid "Sender"
 msgstr ""
@@ -151,7 +151,7 @@ msgid "Reply discarded"
 msgstr ""
 
 msgid "Reply"
-msgstr ""
+msgstr "Svar"
 
 msgid "Internal reply"
 msgstr ""
