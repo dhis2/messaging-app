@@ -1,13 +1,13 @@
 # Translators:
-# Karoline Tufte Lien <karoline@dhis2.org>, 2020
 # Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020
+# Karoline Tufte Lien <karoline@dhis2.org>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020\n"
+"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2020\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Upload attachment"
-msgstr ""
+msgstr "Last opp vedlegg"
 
 msgid "Assignee"
 msgstr ""
@@ -28,7 +28,7 @@ msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr ""
+msgstr "Fjern valg"
 
 msgid "Status"
 msgstr "Status"
@@ -85,7 +85,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "valgt"
 
 msgid "Sender"
 msgstr ""
@@ -142,7 +142,7 @@ msgid "Add"
 msgstr "Legg til"
 
 msgid "Reply"
-msgstr ""
+msgstr "Svar"
 
 msgid "Internal reply"
 msgstr ""
