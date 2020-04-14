@@ -1,13 +1,14 @@
 # Translators:
 # phil_dhis2, 2019
 # Viktor Varland <viktor@dhis2.org>, 2019
+# Pablo Pajuelo Cabezas <ppajuelo@quadram.mobi>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Last-Translator: Pablo Pajuelo Cabezas <ppajuelo@quadram.mobi>, 2020\n"
 "Language-Team: Spanish (https://www.transifex.com/hisp-uio/teams/100509/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +44,7 @@ msgid "Set filter"
 msgstr ""
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "Asignado a mí"
 
 msgid "Marked for followup"
 msgstr ""
