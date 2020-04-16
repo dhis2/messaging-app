@@ -27,13 +27,13 @@ msgid "To"
 msgstr "至"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "反馈接收组"
 
 msgid "Private message"
-msgstr ""
+msgstr "个人消息"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "反馈消息"
 
 msgid "Subject"
 msgstr "主题"
@@ -48,10 +48,10 @@ msgid "Discard"
 msgstr "放弃"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "忽略的消息"
 
 msgid "Sender"
-msgstr ""
+msgstr "发送者"
 
 msgid "Status"
 msgstr "状态"
@@ -63,40 +63,40 @@ msgid "Date"
 msgstr "日期"
 
 msgid "me"
-msgstr ""
+msgstr "我最近"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "显示所有消息"
 
 msgid "Participants"
-msgstr ""
+msgstr "参与者"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "添加参与者到会话"
 
 msgid "Add"
 msgstr "添加"
 
 msgid "Select a message"
-msgstr ""
+msgstr "选择应该消息"
 
 msgid "Reply"
 msgstr "回复"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "内部重播"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "忽略的应答"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "自动刷新"
 
 msgid "No results found"
 msgstr "没有发现"
 
 msgid "Compose"
-msgstr ""
+msgstr "编辑"
 
 msgid "Deselect all"
 msgstr "去全选"
@@ -105,16 +105,16 @@ msgid "Search"
 msgstr "搜索"
 
 msgid "Set filter"
-msgstr ""
+msgstr "设置过滤器"
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "指派给我"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "标记为后续"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "未读信息"
 
 msgid "Cancel"
 msgstr "取消"
@@ -123,52 +123,52 @@ msgid "Submit"
 msgstr "提交"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "删除选择的"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "标记选择的为未读"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "标记选择的已读"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "分派选择的"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "标记为后续跟踪"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "清除后续跟踪"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "清除被指派者"
 
 msgid "Set status"
-msgstr ""
+msgstr "设置状态"
 
 msgid "Set priority"
-msgstr ""
+msgstr "设置优先级"
 
 msgid "selected"
 msgstr "选择的"
 
 msgid "No status"
-msgstr ""
+msgstr "无状态"
 
 msgid "Open"
 msgstr "打开"
 
 msgid "Pending"
-msgstr ""
+msgstr "悬吊中"
 
 msgid "Invalid"
 msgstr "无效"
 
 msgid "Solved"
-msgstr ""
+msgstr "已解决"
 
 msgid "No priority"
-msgstr ""
+msgstr "无优先级"
 
 msgid "High"
 msgstr "高"
@@ -180,16 +180,16 @@ msgid "Low"
 msgstr "低"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "成功更新状态"
 
 msgid "Successfully updated priority"
 msgstr ""
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "成功更新指派人"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "成功改变后续处置"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "成功删除谈话"
