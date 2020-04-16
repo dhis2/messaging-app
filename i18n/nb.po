@@ -1,13 +1,13 @@
 # Translators:
-# Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020
 # Karoline Tufte Lien <karoline@dhis2.org>, 2020
+# Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2020\n"
+"Last-Translator: Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,13 +19,13 @@ msgid "Upload attachment"
 msgstr "Last opp vedlegg"
 
 msgid "Assignee"
-msgstr ""
+msgstr "Fullmektig"
 
 msgid "No results found"
-msgstr ""
+msgstr "Ingen resultater funnet"
 
 msgid "Compose"
-msgstr ""
+msgstr "Komponer"
 
 msgid "Deselect all"
 msgstr "Fjern valg"
@@ -34,61 +34,61 @@ msgid "Status"
 msgstr "Status"
 
 msgid "Priority"
-msgstr ""
+msgstr "Prioritet"
 
 msgid "Search"
 msgstr "Søk"
 
 msgid "Set filter"
-msgstr ""
+msgstr "Sett filter"
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "Tildelt til meg"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "Merket for oppfølging"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "Uleste meldinger"
 
 msgid "Cancel"
 msgstr "Avbryt"
 
 msgid "Submit"
-msgstr ""
+msgstr "Send inn"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Slett valgte"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "Merk valgte som ulest"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "Merk valgte som lest"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Tildel valgte"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "Merk for oppfølging"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "Fjern oppfølging"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "Fjern fullmektig"
 
 msgid "Set status"
-msgstr ""
+msgstr "Sett status"
 
 msgid "Set priority"
-msgstr ""
+msgstr "Set prioritet"
 
 msgid "selected"
 msgstr "valgt"
 
 msgid "Sender"
-msgstr ""
+msgstr "Avsender"
 
 msgid "Subject"
 msgstr "Emne"
@@ -97,7 +97,7 @@ msgid "Date"
 msgstr "Dato"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "automatisk oppdatering"
 
 msgid "Create"
 msgstr "Opprett"
@@ -106,13 +106,13 @@ msgid "To"
 msgstr "Til"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "Tilbakemelding mottakergruppe"
 
 msgid "Private message"
-msgstr ""
+msgstr "Privat melding"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "Tilbakemelding på melding"
 
 msgid "Message"
 msgstr "Melding"
@@ -121,22 +121,22 @@ msgid "Send"
 msgstr "Send"
 
 msgid "Discard"
-msgstr ""
+msgstr "Forkast"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "Meldingen ble forkastet"
 
 msgid "me"
-msgstr ""
+msgstr "meg"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "Vis alle meldinger"
 
 msgid "Participants"
-msgstr ""
+msgstr "Deltakere"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "Legg til deltakere til samtalen"
 
 msgid "Add"
 msgstr "Legg til"
@@ -145,52 +145,52 @@ msgid "Reply"
 msgstr "Svar"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "Internt svar"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Svar på forkastet melding"
 
 msgid "Select a message"
-msgstr ""
+msgstr "Velg en melding"
 
 msgid "No status"
-msgstr ""
+msgstr "Ingen status"
 
 msgid "Open"
 msgstr "Åpne"
 
 msgid "Pending"
-msgstr ""
+msgstr "Venter"
 
 msgid "Invalid"
 msgstr "Ugyldig"
 
 msgid "Solved"
-msgstr ""
+msgstr "Løst"
 
 msgid "No priority"
-msgstr ""
+msgstr "Ingen prioritet"
 
 msgid "High"
-msgstr ""
+msgstr "Høy"
 
 msgid "Medium"
-msgstr ""
+msgstr "Medium"
 
 msgid "Low"
-msgstr ""
+msgstr "Lav"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "Statusoppdatering vellykket"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "Vellykket oppdatering av prioritet"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "Vellykket oppdatert fullmektig"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "Oppfølgingen ble endret"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "Sletting av samtaler var vellykket"
