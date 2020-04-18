@@ -1,0 +1,196 @@
+# Translators:
+# Karoline Tufte Lien <karoline@dhis2.org>, 2020
+# Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
+"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"Last-Translator: Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020\n"
+"Language-Team: Norwegian Bokmål (https://www.transifex.com/hisp-uio/teams/100509/nb/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Upload attachment"
+msgstr "Last opp vedlegg"
+
+msgid "Assignee"
+msgstr "Fullmektig"
+
+msgid "No results found"
+msgstr "Ingen resultater funnet"
+
+msgid "Compose"
+msgstr "Komponer"
+
+msgid "Deselect all"
+msgstr "Fjern valg"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Priority"
+msgstr "Prioritet"
+
+msgid "Search"
+msgstr "Søk"
+
+msgid "Set filter"
+msgstr "Sett filter"
+
+msgid "Assigned to me"
+msgstr "Tildelt til meg"
+
+msgid "Marked for followup"
+msgstr "Merket for oppfølging"
+
+msgid "Unread messages"
+msgstr "Uleste meldinger"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Submit"
+msgstr "Send inn"
+
+msgid "Delete selected"
+msgstr "Slett valgte"
+
+msgid "Mark selected as unread"
+msgstr "Merk valgte som ulest"
+
+msgid "Mark selected as read"
+msgstr "Merk valgte som lest"
+
+msgid "Assign selected"
+msgstr "Tildel valgte"
+
+msgid "Mark for followup"
+msgstr "Merk for oppfølging"
+
+msgid "Clear followup"
+msgstr "Fjern oppfølging"
+
+msgid "Clear assignee"
+msgstr "Fjern fullmektig"
+
+msgid "Set status"
+msgstr "Sett status"
+
+msgid "Set priority"
+msgstr "Set prioritet"
+
+msgid "selected"
+msgstr "valgt"
+
+msgid "Sender"
+msgstr "Avsender"
+
+msgid "Subject"
+msgstr "Emne"
+
+msgid "Date"
+msgstr "Dato"
+
+msgid "Auto refresh"
+msgstr "automatisk oppdatering"
+
+msgid "Create"
+msgstr "Opprett"
+
+msgid "To"
+msgstr "Til"
+
+msgid "Feedback recipient group"
+msgstr "Tilbakemelding mottakergruppe"
+
+msgid "Private message"
+msgstr "Privat melding"
+
+msgid "Feedback message"
+msgstr "Tilbakemelding på melding"
+
+msgid "Message"
+msgstr "Melding"
+
+msgid "Send"
+msgstr "Send"
+
+msgid "Discard"
+msgstr "Forkast"
+
+msgid "Message discarded"
+msgstr "Meldingen ble forkastet"
+
+msgid "me"
+msgstr "meg"
+
+msgid "Show all messages"
+msgstr "Vis alle meldinger"
+
+msgid "Participants"
+msgstr "Deltakere"
+
+msgid "Add participants to conversation"
+msgstr "Legg til deltakere til samtalen"
+
+msgid "Add"
+msgstr "Legg til"
+
+msgid "Reply"
+msgstr "Svar"
+
+msgid "Internal reply"
+msgstr "Internt svar"
+
+msgid "Reply discarded"
+msgstr "Svar på forkastet melding"
+
+msgid "Select a message"
+msgstr "Velg en melding"
+
+msgid "No status"
+msgstr "Ingen status"
+
+msgid "Open"
+msgstr "Åpne"
+
+msgid "Pending"
+msgstr "Venter"
+
+msgid "Invalid"
+msgstr "Ugyldig"
+
+msgid "Solved"
+msgstr "Løst"
+
+msgid "No priority"
+msgstr "Ingen prioritet"
+
+msgid "High"
+msgstr "Høy"
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "Low"
+msgstr "Lav"
+
+msgid "Successfully updated status"
+msgstr "Statusoppdatering vellykket"
+
+msgid "Successfully updated priority"
+msgstr "Vellykket oppdatering av prioritet"
+
+msgid "Successfully updated assignee"
+msgstr "Vellykket oppdatert fullmektig"
+
+msgid "Successfully changed followup"
+msgstr "Oppfølgingen ble endret"
+
+msgid "Successfully deleted message conversation(s)"
+msgstr "Sletting av samtaler var vellykket"
