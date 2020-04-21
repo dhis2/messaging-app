@@ -183,7 +183,7 @@ msgid "Successfully updated status"
 msgstr "成功更新状态"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "成功更新优先级"
 
 msgid "Successfully updated assignee"
 msgstr "成功更新指派人"
