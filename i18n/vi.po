@@ -2,13 +2,14 @@
 # Translators:
 # phil_dhis2, 2019
 # Viktor Varland <viktor@dhis2.org>, 2019
+# Mai Nguyen <thanhmai.jica@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Last-Translator: Mai Nguyen <thanhmai.jica@gmail.com>, 2020\n"
 "Language-Team: Vietnamese (https://www.transifex.com/hisp-uio/teams/100509/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,16 +21,16 @@ msgid "Messaging"
 msgstr "Tin nhắn"
 
 msgid "Upload attachment"
-msgstr ""
+msgstr "Tải tập tin đính kèm"
 
 msgid "Assignee"
-msgstr ""
+msgstr "Người nhận"
 
 msgid "No results found"
 msgstr "Không tìm thấy kết quả nào"
 
 msgid "Compose"
-msgstr ""
+msgstr "Soạn tin"
 
 msgid "Deselect all"
 msgstr "Bỏ chọn tất cả"
@@ -38,22 +39,22 @@ msgid "Status"
 msgstr "Tình trạng"
 
 msgid "Priority"
-msgstr ""
+msgstr "Ưu tiên"
 
 msgid "Search"
 msgstr "Tìm kiếm"
 
 msgid "Set filter"
-msgstr ""
+msgstr "Đặt bộ lọc"
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "Giao cho tôi"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "Đánh dấu để theo dõi"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "Tin nhắn chưa đọc"
 
 msgid "Cancel"
 msgstr "Hủy"
@@ -63,39 +64,40 @@ msgstr "Nộp"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
+"Bạn có chắc chắn muốn xóa (các) cuộc hội thoại tin nhắn đã chọn không?"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Xóa các tin đã chọn"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "Đánh dấu các tin được chọn là chưa đọc"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "Đánh dấu các tin được chọn là đã đọc"
 
 msgid "Assign selected"
 msgstr ""
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "Đánh dấu để theo dõi"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "Xóa theo dõi"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "Xóa người nhận"
 
 msgid "Set status"
-msgstr ""
+msgstr "Đặt trạng thái"
 
 msgid "Set priority"
-msgstr ""
+msgstr "Đặ ưu tiên"
 
 msgid "selected"
 msgstr "đã chọn"
 
 msgid "Sender"
-msgstr ""
+msgstr "Người gửi"
 
 msgid "Subject"
 msgstr "Chủ đề"
@@ -104,10 +106,10 @@ msgid "Date"
 msgstr "Ngày"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "Tự động làm mới"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "Xóa tin nhắn"
 
 msgid "Create"
 msgstr "Tạo mới"
@@ -116,13 +118,13 @@ msgid "To"
 msgstr "Đến"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "Nhóm người nhận phản hồi"
 
 msgid "Private message"
-msgstr ""
+msgstr "Tin nhắn riêng"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "Tin nhắn phản hồi"
 
 msgid "Message"
 msgstr "Tin nhắn"
@@ -134,16 +136,16 @@ msgid "Discard"
 msgstr "Bỏ"
 
 msgid "me"
-msgstr ""
+msgstr "Tôi"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "Hiện tất các tin nhắn"
 
 msgid "Participants"
-msgstr ""
+msgstr "Những người tham gia"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "Thêm người tham gia vào cuộc trò chuyện"
 
 msgid "Add"
 msgstr "Thêm"
@@ -155,10 +157,10 @@ msgid "Reply"
 msgstr "Trả lời"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "Trả lời nội bộ"
 
 msgid "Select a message"
-msgstr ""
+msgstr "Chọn một tin nhắn"
 
 msgid "No status"
 msgstr ""
@@ -167,16 +169,16 @@ msgid "Open"
 msgstr "Mở"
 
 msgid "Pending"
-msgstr ""
+msgstr "Đang chờ xử lý"
 
 msgid "Invalid"
 msgstr "Không hợp lệ"
 
 msgid "Solved"
-msgstr ""
+msgstr "Đã giải quyết"
 
 msgid "No priority"
-msgstr ""
+msgstr "Không ưu tiên"
 
 msgid "High"
 msgstr "Cao"
@@ -188,16 +190,16 @@ msgid "Low"
 msgstr "Thấp"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "Tình trạng cập nhật thành công"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "Ưu tiên cập nhật thành công"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "Người nhận được cập nhật thành công"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "Thay đổi thành công theo dõi"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "Đã xóa thành công cuộc trò chuyện tin nhắn"
