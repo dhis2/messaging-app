@@ -33,7 +33,7 @@ msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr ""
+msgstr "Desmarcar todos"
 
 msgid "Status"
 msgstr "Estado"
