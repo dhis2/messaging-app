@@ -1,14 +1,14 @@
 # 
 # Translators:
-# Karoline Tufte Lien <karoline@dhis2.org>, 2020
 # Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020
+# Karoline Tufte Lien <karoline@dhis2.org>, 2020
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2019-10-25T13:02:34.460Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Caroline Hesthagen Holen <carolinehholen@gmail.com>, 2020\n"
+"Last-Translator: Karoline Tufte Lien <karoline@dhis2.org>, 2020\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/hisp-uio/teams/100509/nb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,13 +23,13 @@ msgid "Upload attachment"
 msgstr "Last opp vedlegg"
 
 msgid "Assignee"
-msgstr "Fullmektig"
+msgstr "Oppdragstaker"
 
 msgid "No results found"
 msgstr "Ingen resultater funnet"
 
 msgid "Compose"
-msgstr "Komponer"
+msgstr "Skriv"
 
 msgid "Deselect all"
 msgstr "Fjern valg"
@@ -83,7 +83,7 @@ msgid "Clear followup"
 msgstr "Fjern oppfølging"
 
 msgid "Clear assignee"
-msgstr "Fjern fullmektig"
+msgstr "Fjern oppdragstaker"
 
 msgid "Set status"
 msgstr "Sett status"
@@ -194,7 +194,7 @@ msgid "Successfully updated priority"
 msgstr "Vellykket oppdatering av prioritet"
 
 msgid "Successfully updated assignee"
-msgstr "Vellykket oppdatert fullmektig"
+msgstr "Vellykket oppdatert oppdragstaker"
 
 msgid "Successfully changed followup"
 msgstr "Oppfølgingen ble endret"
