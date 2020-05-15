@@ -144,10 +144,10 @@ msgid "Clear assignee"
 msgstr "تصفية المحال إليه"
 
 msgid "Set status"
-msgstr "حدد الحالة"
+msgstr "تعيين الحالة"
 
 msgid "Set priority"
-msgstr "حدد الأولوية"
+msgstr "تعيين الأولوية"
 
 msgid "selected"
 msgstr "محدد"
