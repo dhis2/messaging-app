@@ -86,10 +86,10 @@ msgid "Clear assignee"
 msgstr "تصفية المحال إليه"
 
 msgid "Set status"
-msgstr "حدد الحالة"
+msgstr "تعيين الحالة"
 
 msgid "Set priority"
-msgstr "حدد الأولوية"
+msgstr "تعيين الأولوية"
 
 msgid "selected"
 msgstr "محدد"
@@ -167,7 +167,7 @@ msgid "Open"
 msgstr "فتح"
 
 msgid "Pending"
-msgstr "معلق"
+msgstr "قيد الانتظار"
 
 msgid "Invalid"
 msgstr "غير صالح"
