@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Assignee"
-msgstr "Oppdragstaker"
+msgstr "Tildelt programbruker"
 
 msgid "Create"
 msgstr "Opprett"
@@ -140,7 +140,7 @@ msgid "Clear followup"
 msgstr "Fjern oppfølging"
 
 msgid "Clear assignee"
-msgstr "Fjern oppdragstaker"
+msgstr "Fjern tildelt programbruker"
 
 msgid "Set status"
 msgstr "Sett status"
@@ -185,7 +185,7 @@ msgid "Successfully updated priority"
 msgstr "Vellykket oppdatering av prioritet"
 
 msgid "Successfully updated assignee"
-msgstr "Vellykket oppdatert oppdragstaker"
+msgstr "Vellykket oppdatert tildelt programbruker"
 
 msgid "Successfully changed followup"
 msgstr "Oppfølgingen ble endret"
