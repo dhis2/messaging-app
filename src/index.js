@@ -4,7 +4,7 @@ import * as serviceWorker from './serviceWorker'
 import App from './components/App/App'
 import { init, getUserSettings } from 'd2/lib/d2'
 import { CssReset } from '@dhis2/ui-core'
-import { Provider } from '@dhis2/app-runtime'
+import { DataProvider } from '@dhis2/app-runtime'
 
 import configI18n from './utils/configI18n'
 import { supportsUnversionedApiCalls } from './utils/helpers'
@@ -31,15 +31,13 @@ const initApp = async () => {
     configI18n(userSettings)
 
     render(
-        <Provider
-            config={{
-                baseUrl: REACT_APP_DHIS2_BASE_URL,
-                apiVersion: providerApiVersion,
-            }}
+        <DataProvider
+            baseUrl={REACT_APP_DHIS2_BASE_URL}
+            apiVersion={providerApiVersion}
         >
             <CssReset />
             <App d2={d2} />
-        </Provider>,
+        </DataProvider>,
         document.getElementById('root')
     )
 }
