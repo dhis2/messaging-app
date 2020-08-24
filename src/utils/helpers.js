@@ -42,3 +42,7 @@ export function supportsAttachments(dhis2CoreVersion) {
 export function supportsUnversionedApiCalls(dhis2CoreVersion) {
     return dhis2CoreVersion > 31
 }
+
+export function supportsUserLookupEndPoint(dhis2CoreVersion) {
+    return dhis2CoreVersion > 34
+}

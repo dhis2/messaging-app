@@ -1,5 +1,6 @@
 import { getInstance as getD2Instance } from 'd2/lib/d2'
 import { pageSize } from '../constants/development'
+import { supportsUserLookupEndPoint } from '../utils/helpers.js'
 
 const initialMessageConversationFields =
     'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp'
@@ -328,17 +329,28 @@ export const searchRecipients = ({
     searchOnlyFeedbackRecipients,
     feedbackRecipientsId,
 }) => {
-    const filters = [`displayName:token:${searchValue}`]
-    searchOnlyFeedbackRecipients &&
-        filters.push(`userGroups.id:eq:${feedbackRecipientsId}`)
-
     return getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('users', {
-                pageSize: MAX_RECIPIENT,
-                filter: filters,
-            })
-        )
+        .then(instance => {
+            if (supportsUserLookupEndPoint(instance.system.version.minor)) {
+                // version >= v2.35
+                const url = searchOnlyFeedbackRecipients
+                    ? 'userLookup/feedbackRecipients'
+                    : 'userLookup'
+
+                return instance.Api.getApi().get(`${url}?query=${searchValue}`)
+            } else {
+                // version < 2.35
+                const filters = [`displayName:token:${searchValue}`]
+                if (searchOnlyFeedbackRecipients) {
+                    filters.push(`userGroups.id:eq:${feedbackRecipientsId}`)
+                }
+
+                return instance.Api.getApi().get('users', {
+                    pageSize: MAX_RECIPIENT,
+                    filter: filters,
+                })
+            }
+        })
         .then(({ users }) =>
             searchOnlyUsers
                 ? { users, undefined }
