@@ -58,7 +58,7 @@ msgid "Status"
 msgstr "Estado"
 
 msgid "Priority"
-msgstr ""
+msgstr "Prioridade"
 
 msgid "Date"
 msgstr "Data"
