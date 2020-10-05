@@ -3,9 +3,9 @@
   "version": "31.0.0",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "d2-app-scripts start",
+    "build": "d2-app-scripts build",
+    "test": "d2-app-scripts test",
     "eject": "react-scripts eject",
     "prestart": "npm run localize",
     "pretest": "npm run localize",
@@ -15,7 +15,7 @@
     "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./src/locales/"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^2.0.4",
+    "@dhis2/app-runtime": "^2.3.0",
     "@dhis2/d2-i18n": "^1.0.6",
     "@dhis2/ui": "^1.0.0-beta.14",
     "@dhis2/ui-core": "^4.1.1",
@@ -41,6 +41,7 @@
     "typeface-roboto": "^0.0.75"
   },
   "devDependencies": {
+    "@dhis2/cli-app-scripts": "^5.2.1",
     "@dhis2/cli-style": "^3.2.2",
     "@dhis2/d2-i18n-extract": "^1.0.8",
     "@dhis2/d2-i18n-generate": "^1.1.1",
