@@ -251,7 +251,6 @@ export const sendMessage = ({
     users,
     userGroups,
     organisationUnits,
-    messageConversationId,
     messageType,
 }) => async (dispatch, getState) => {
     try {
@@ -266,7 +265,6 @@ export const sendMessage = ({
             organisationUnits,
             text: input,
             attachments,
-            id: messageConversationId,
         })
 
         dispatch(

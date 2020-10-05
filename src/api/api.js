@@ -158,12 +158,10 @@ export const sendMessage = ({
     organisationUnits,
     text,
     attachments,
-    id,
 }) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post('messageConversations', {
-                id,
                 subject,
                 users,
                 userGroups,
@@ -172,7 +170,6 @@ export const sendMessage = ({
                 text,
             })
         )
-        .then(() => ({ messageConversationId: id }))
         .catch(error => {
             throw error
         })

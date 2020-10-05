@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { generateUid } from 'd2/lib/uid'
 import i18n from '@dhis2/d2-i18n'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -103,13 +102,11 @@ class CreateMessage extends Component {
             const organisationUnits = this.props.recipients.filter(
                 r => r.type === 'organisationUnit'
             )
-            const messageConversationId = generateUid()
 
             this.props.sendMessage({
                 users,
                 userGroups,
                 organisationUnits,
-                messageConversationId,
                 messageType,
             })
             history.push('/PRIVATE')
