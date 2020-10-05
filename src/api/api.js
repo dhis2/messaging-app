@@ -1,4 +1,4 @@
-import { getInstance as getD2Instance } from 'd2/lib/d2'
+import { getInstance as getD2Instance } from 'd2'
 import { pageSize } from '../constants/development'
 import { supportsUserLookupEndPoint } from '../utils/helpers.js'
 

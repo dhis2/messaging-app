@@ -11,7 +11,7 @@ import {
 } from '../../actions'
 import { supportsAttachments } from '../../utils/helpers'
 
-import { getInstance as getD2Instance } from 'd2/lib/d2'
+import { getInstance as getD2Instance } from 'd2'
 import Subheader from 'material-ui/Subheader/Subheader'
 import AddIcon from 'material-ui-icons/Add'
 import NavigationBack from 'material-ui-icons/ArrowBack'

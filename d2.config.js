@@ -5,7 +5,7 @@ const config = {
     name: 'messaging',
     description: 'An application for sending internal messages',
     entryPoints: {
-        app: './src/components/AppWrapper',
+        app: './src/components/App/AppWrapper.jsx',
     },
 }
 

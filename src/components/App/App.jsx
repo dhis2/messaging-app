@@ -1,22 +1,15 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import i18n from '@dhis2/d2-i18n'
-import { HeaderBar } from '@dhis2/ui-widgets'
-import CustomSnackBar from '../Common/CustomSnackBar'
-import store from '../../store'
-import Routes from './Routes'
-import AddD2Context from './AddD2Context'
+import { CssReset } from '@dhis2/ui-core'
 
-const App = ({ d2 }) => (
-    <Provider store={store}>
-        <AddD2Context d2={d2}>
-            <div>
-                <HeaderBar appName={i18n.t('Messaging')} />
-                <CustomSnackBar />
-                <Routes />
-            </div>
-        </AddD2Context>
-    </Provider>
+import CustomSnackBar from '../Common/CustomSnackBar'
+import Routes from './Routes'
+
+const App = () => (
+    <div>
+        <CssReset />
+        <CustomSnackBar />
+        <Routes />
+    </div>
 )
 
 export default App
