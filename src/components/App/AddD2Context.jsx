@@ -17,7 +17,7 @@ class AddD2Context extends React.Component {
 
 AddD2Context.propTypes = {
     children: PropTypes.object.isRequired,
-    d2: PropTypes.object.isRequired,
+    d2: PropTypes.object,
 }
 
 AddD2Context.childContextTypes = {
