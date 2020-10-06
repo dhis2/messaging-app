@@ -67,11 +67,8 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(
-        mapStateToProps,
-        {
-            clearSnackMessage,
-        }
-    ),
+    connect(mapStateToProps, {
+        clearSnackMessage,
+    }),
     pure
 )(CustomSnackBar)

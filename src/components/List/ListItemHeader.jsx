@@ -135,11 +135,8 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(
-        mapStateToProps,
-        {
-            setAllChecked,
-            clearCheckedIds,
-        }
-    )
+    connect(mapStateToProps, {
+        setAllChecked,
+        clearCheckedIds,
+    })
 )(MessageConversationListItem)
