@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -114,6 +115,18 @@ class MessageConversationList extends Component {
             </div>
         )
     }
+}
+
+MessageConversationList.propTypes = {
+    displayExtendedChoices: propTypes.bool,
+    loadMessageConversations: propTypes.func,
+    messageConversations: propTypes.object,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.shape({
+        id: propTypes.string,
+        loading: propTypes.bool,
+    }),
+    wideview: propTypes.bool,
 }
 
 const mapStateToProps = state => ({

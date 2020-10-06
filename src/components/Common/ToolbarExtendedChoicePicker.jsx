@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import FlatButton from 'material-ui/FlatButton'
@@ -98,31 +99,35 @@ class ToolbarExtendedChoicePicker extends Component {
         const multiSelect = this.props.checkedIds.length > 0
         const display = multiSelect || messageConversation !== undefined
 
-        const actionButtons = [
-            <FlatButton
-                label={i18n.t('Cancel')}
-                primary
-                onClick={() => this.toggleDialog()}
-            />,
-            <FlatButton
-                label={i18n.t('Submit')}
-                primary
-                keyboardFocused
-                onClick={() => {
-                    this.props.deleteMessageConversations(
-                        this.getIds(),
-                        this.props.selectedMessageType
-                    )
-                    this.props.clearCheckedIds()
-                    this.toggleDialog()
+        const actionButtons = (
+            <>
+                <FlatButton
+                    label={i18n.t('Cancel')}
+                    primary
+                    onClick={() => this.toggleDialog()}
+                />
+                <FlatButton
+                    label={i18n.t('Submit')}
+                    primary
+                    keyboardFocused
+                    onClick={() => {
+                        this.props.deleteMessageConversations(
+                            this.getIds(),
+                            this.props.selectedMessageType
+                        )
+                        this.props.clearCheckedIds()
+                        this.toggleDialog()
 
-                    if (this.props.selectedMessageConversation) {
-                        this.props.clearSelectedMessageConversation()
-                        history.push(`/${this.props.selectedMessageType.id}`)
-                    }
-                }}
-            />,
-        ]
+                        if (this.props.selectedMessageConversation) {
+                            this.props.clearSelectedMessageConversation()
+                            history.push(
+                                `/${this.props.selectedMessageType.id}`
+                            )
+                        }
+                    }}
+                />
+            </>
+        )
 
         const displayNumberOfCheckedIds =
             this.props.checkedIds.length > multiSelectDisplayLimit
@@ -302,6 +307,19 @@ class ToolbarExtendedChoicePicker extends Component {
             <div />
         )
     }
+}
+
+ToolbarExtendedChoicePicker.propTypes = {
+    checkedIds: propTypes.array,
+    clearCheckedIds: propTypes.func,
+    clearSelectedMessageConversation: propTypes.func,
+    deleteMessageConversations: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    feedbackRecipientsId: propTypes.string,
+    markMessageConversations: propTypes.func,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
+    updateMessageConversations: propTypes.func,
 }
 
 const mapStateToProps = state => ({

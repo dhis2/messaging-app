@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -263,8 +263,24 @@ class MessagingCenter extends Component {
     }
 }
 
+MessagingCenter.propTypes = {
+    clearSelectedMessageConversation: propTypes.func,
+    isInFeedbackRecipientGroup: propTypes.bool,
+    loadMessageConversations: propTypes.func,
+    match: propTypes.object,
+    messageTypes: propTypes.array,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
+    setDhis2CoreVersion: propTypes.func,
+    setDisplayTimeDiff: propTypes.func,
+    setIsInFeedbackRecipientGroup: propTypes.func,
+    setSelectedMessageConversation: propTypes.func,
+    setSelectedMessageType: propTypes.func,
+    settingSelectedMessageConversation: propTypes.bool,
+}
+
 MessagingCenter.contextTypes = {
-    d2: PropTypes.object,
+    d2: propTypes.object,
 }
 
 const mapStateToProps = state => ({

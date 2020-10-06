@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import ViewFancy from 'material-ui-icons/ViewList'
 import ViewList from 'material-ui-icons/ViewHeadline'
 import FlatButton from 'material-ui/FlatButton'
@@ -360,6 +361,24 @@ class Toolbar extends Component {
             </Paper>
         )
     }
+}
+Toolbar.propTypes = {
+    assignedToMeFilter: propTypes.bool,
+    checkedOptions: propTypes.bool,
+    clearCheckedIds: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    id: propTypes.string,
+    loadMessageConversations: propTypes.func,
+    markedForFollowUpFilter: propTypes.bool,
+    messageFilter: propTypes.string,
+    priorityFilter: propTypes.string,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
+    setFilter: propTypes.func,
+    statusFilter: propTypes.string,
+    toogleWideview: propTypes.func,
+    unreadFilter: propTypes.bool,
+    wideview: propTypes.bool,
 }
 
 export default Toolbar

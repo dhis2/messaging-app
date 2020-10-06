@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from '@dhis2/prop-types'
 import Dialog from 'material-ui/Dialog'
 import i18n from '@dhis2/d2-i18n'
 import SuggestionField from './SuggestionField'
@@ -30,5 +31,13 @@ const AssignToDialog = ({
         />
     </Dialog>
 )
+
+AssignToDialog.propTypes = {
+    feedbackRecipientsId: propTypes.string,
+    messageType: propTypes.shape({ id: propTypes.string }),
+    open: propTypes.bool,
+    updateMessageConversations: propTypes.func,
+    onRequestClose: propTypes.func,
+}
 
 export default AssignToDialog

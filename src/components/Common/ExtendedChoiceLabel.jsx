@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from '@dhis2/prop-types'
 import Subheader from 'material-ui/Subheader/Subheader'
 
 const styles = {
@@ -47,6 +48,14 @@ const ExtendedChoiceLabel = ({
             </Subheader>
         </div>
     )
+}
+
+ExtendedChoiceLabel.propTypes = {
+    color: propTypes.string,
+    fontWeight: propTypes.string,
+    label: propTypes.string,
+    showTitle: propTypes.bool,
+    title: propTypes.string,
 }
 
 export default ExtendedChoiceLabel

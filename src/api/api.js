@@ -434,7 +434,7 @@ export const addAttachment = attachment =>
             throw error
         })
 
-export function downloadBlob(url, filename) {
+export function downloadBlob(url) {
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('target', '_blank')

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -224,6 +225,18 @@ class MessageConversation extends Component {
             </div>
         )
     }
+}
+
+MessageConversation.propTypes = {
+    addRecipients: propTypes.func,
+    cancelAttachment: propTypes.func,
+    clearSelectedMessageConversation: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    displayTimeDiff: propTypes.number,
+    downloadAttachment: propTypes.func,
+    enableAttachments: propTypes.bool,
+    messageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
 }
 
 const mapStateToProps = state => ({

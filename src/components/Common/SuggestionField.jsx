@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import ChipInput from 'material-ui-chip-input'
 import { debounce } from '../../utils/helpers'
 import i18n from '@dhis2/d2-i18n'
@@ -150,6 +151,20 @@ class SuggestionField extends Component {
             </div>
         )
     }
+}
+
+SuggestionField.propTypes = {
+    disabled: propTypes.bool,
+    errorText: propTypes.string,
+    feedbackRecipientsId: propTypes.string,
+    inputHeight: propTypes.string,
+    label: propTypes.string,
+    recipients: propTypes.array,
+    searchOnlyFeedbackRecipients: propTypes.bool,
+    searchOnlyUsers: propTypes.bool,
+    style: propTypes.object,
+    updateRecipients: propTypes.func,
+    onSuggestionClick: propTypes.func,
 }
 
 export default SuggestionField

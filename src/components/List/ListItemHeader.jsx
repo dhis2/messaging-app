@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -90,7 +91,7 @@ class MessageConversationListItem extends Component {
                 <Checkbox
                     checked={this.state.allChecked}
                     style={styles.checkBox}
-                    onCheck={(event, isInputChecked) => {
+                    onCheck={() => {
                         this.state.allChecked
                             ? this.props.clearCheckedIds()
                             : this.props.setAllChecked(
@@ -127,6 +128,15 @@ class MessageConversationListItem extends Component {
             </Paper>
         )
     }
+}
+
+MessageConversationListItem.propTypes = {
+    checkedIds: propTypes.array,
+    children: propTypes.array,
+    clearCheckedIds: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    notification: propTypes.bool,
+    setAllChecked: propTypes.func,
 }
 
 const mapStateToProps = state => ({
