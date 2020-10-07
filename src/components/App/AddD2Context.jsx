@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from '@dhis2/prop-types'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import theme from '../../styles/theme'
 
@@ -16,12 +16,12 @@ class AddD2Context extends React.Component {
 }
 
 AddD2Context.propTypes = {
-    children: PropTypes.object.isRequired,
-    d2: PropTypes.object.isRequired,
+    children: propTypes.object.isRequired,
+    d2: propTypes.object,
 }
 
 AddD2Context.childContextTypes = {
-    d2: PropTypes.object,
+    d2: propTypes.object,
 }
 
 export default AddD2Context

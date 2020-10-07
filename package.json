@@ -1,56 +1,40 @@
 {
-  "name": "messaging-app",
-  "version": "31.0.0",
-  "private": true,
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prestart": "npm run localize",
-    "pretest": "npm run localize",
-    "prebuild": "npm run localize",
-    "lint:style": "d2-style js check --all",
-    "extract-pot": "d2-i18n-extract -p src/ -o i18n/",
-    "localize": "npm run extract-pot && d2-i18n-generate -n messaging-app -p ./i18n/ -o ./src/locales/"
-  },
-  "dependencies": {
-    "@dhis2/app-runtime": "^2.0.4",
-    "@dhis2/d2-i18n": "^1.0.6",
-    "@dhis2/ui": "^1.0.0-beta.14",
-    "@dhis2/ui-core": "^4.1.1",
-    "@dhis2/ui-widgets": "^5.0.1",
-    "d2": "31.0.2",
-    "d2-ui": "^29.0.25",
-    "d2-utilizr": "^0.2.15",
-    "history": "^4.7.2",
-    "loglevel": "^1.6.1",
-    "material-ui": "^0.20.0",
-    "material-ui-chip-input": "^0.19.0",
-    "material-ui-icons": "1.0.0-beta.36",
-    "moment": "^2.21.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-linkify": "^0.2.2",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "3.0.1",
-    "recompose": "^0.30.0",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
-    "typeface-roboto": "^0.0.75"
-  },
-  "devDependencies": {
-    "@dhis2/cli-style": "^3.2.2",
-    "@dhis2/d2-i18n-extract": "^1.0.8",
-    "@dhis2/d2-i18n-generate": "^1.1.1",
-    "husky": "^2.3.0",
-    "redux-logger": "3.0.6"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "d2-style commit check",
-      "pre-commit": "d2-style js apply"
+    "name": "messaging-app",
+    "version": "31.0.0",
+    "private": true,
+    "scripts": {
+        "build": "d2-app-scripts build",
+        "start": "d2-app-scripts start",
+        "test": "d2-app-scripts test",
+        "lint:js": "d2-style js check",
+        "lint:text": "d2-style text check",
+        "lint:staged": "yarn lint:js --staged && yarn lint:text --staged",
+        "lint": "yarn lint:js && yarn lint:text",
+        "format:js": "d2-style js apply",
+        "format:text": "d2-style text apply",
+        "format:staged": "yarn format:js --staged && yarn format:text --staged",
+        "format": "yarn format:js && yarn format:text"
+    },
+    "dependencies": {
+        "@dhis2/app-runtime": "^2.3.0",
+        "@dhis2/app-runtime-adapter-d2": "^1.0.1",
+        "d2": "31.8.2",
+        "history": "^4.7.2",
+        "loglevel": "^1.7.0",
+        "material-ui": "^0.20.0",
+        "material-ui-chip-input": "^0.19.0",
+        "material-ui-icons": "1.0.0-beta.36",
+        "react-linkify": "^1.0.0-alpha",
+        "react-redux": "^7.2.1",
+        "react-router-dom": "^5.2.0",
+        "recompose": "^0.30.0",
+        "redux": "^4.0.5",
+        "redux-thunk": "^2.3.0",
+        "typeface-roboto": "^0.0.75"
+    },
+    "devDependencies": {
+        "@dhis2/cli-app-scripts": "^5.2.1",
+        "@dhis2/cli-style": "^7.0.0",
+        "redux-logger": "3.0.6"
     }
-  }
 }

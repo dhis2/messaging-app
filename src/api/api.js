@@ -1,4 +1,4 @@
-import { getInstance as getD2Instance } from 'd2/lib/d2'
+import { getInstance as getD2Instance } from 'd2'
 import { pageSize } from '../constants/development'
 import { supportsUserLookupEndPoint } from '../utils/helpers.js'
 
@@ -158,12 +158,10 @@ export const sendMessage = ({
     organisationUnits,
     text,
     attachments,
-    id,
 }) =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().post('messageConversations', {
-                id,
                 subject,
                 users,
                 userGroups,
@@ -172,7 +170,6 @@ export const sendMessage = ({
                 text,
             })
         )
-        .then(() => ({ messageConversationId: id }))
         .catch(error => {
             throw error
         })
@@ -214,9 +211,7 @@ export const deleteMessageConversation = messageConversationId =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().delete(
-                `messageConversations/${messageConversationId}/${
-                    instance.currentUser.id
-                }`
+                `messageConversations/${messageConversationId}/${instance.currentUser.id}`
             )
         )
         .then(result => result)
@@ -439,7 +434,7 @@ export const addAttachment = attachment =>
             throw error
         })
 
-export function downloadBlob(url, filename) {
+export function downloadBlob(url) {
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('target', '_blank')

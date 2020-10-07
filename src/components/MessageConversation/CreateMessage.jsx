@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { generateUid } from 'd2/lib/uid'
 import i18n from '@dhis2/d2-i18n'
 import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -103,13 +103,11 @@ class CreateMessage extends Component {
             const organisationUnits = this.props.recipients.filter(
                 r => r.type === 'organisationUnit'
             )
-            const messageConversationId = generateUid()
 
             this.props.sendMessage({
                 users,
                 userGroups,
                 organisationUnits,
-                messageConversationId,
                 messageType,
             })
             history.push('/PRIVATE')
@@ -147,8 +145,8 @@ class CreateMessage extends Component {
         const discardDisabled =
             this.props.subject === '' &&
             this.props.input === '' &&
-            (!this.state.isMessageFeedback &&
-                this.props.recipients.length === 0)
+            !this.state.isMessageFeedback &&
+            this.props.recipients.length === 0
 
         return (
             <div style={styles.canvas}>
@@ -252,6 +250,25 @@ class CreateMessage extends Component {
             </div>
         )
     }
+}
+
+CreateMessage.propTypes = {
+    addAttachment: propTypes.func,
+    addRecipientByUserId: propTypes.func,
+    attachments: propTypes.array,
+    cancelAttachment: propTypes.func,
+    clearAttachments: propTypes.func,
+    displaySnackMessage: propTypes.func,
+    enableAttachments: propTypes.bool,
+    input: propTypes.string,
+    match: propTypes.object,
+    messageTypes: propTypes.array,
+    recipients: propTypes.array,
+    removeAttachment: propTypes.func,
+    sendFeedbackMessage: propTypes.func,
+    sendMessage: propTypes.func,
+    subject: propTypes.string,
+    updateInputFields: propTypes.func,
 }
 
 const mapStateToProps = state => ({

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { List } from 'material-ui/List'
@@ -81,6 +82,19 @@ class SidebarList extends Component {
             </div>
         )
     }
+}
+
+SidebarList.propTypes = {
+    attachments: propTypes.array,
+    autoRefresh: propTypes.bool,
+    clearAttachments: propTypes.func,
+    match: propTypes.object,
+    messageTypes: propTypes.array,
+    refreshTimer: propTypes.number,
+    selectedMessageType: propTypes.object,
+    setAutoRefresh: propTypes.func,
+    setSelectedMessageType: propTypes.func,
+    updateInputFields: propTypes.func,
 }
 
 const mapStateToProps = state => ({

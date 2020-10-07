@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from '@dhis2/prop-types'
 import FlatButton from 'material-ui/FlatButton'
 import LinearProgress from 'material-ui/LinearProgress'
 import Clear from 'material-ui-icons/Clear'
@@ -28,6 +29,15 @@ const Attachments = ({
         ))}
     </div>
 )
+
+Attachments.propTypes = {
+    attachments: propTypes.array,
+    cancelAttachment: propTypes.func,
+    dataDirection: propTypes.string,
+    downloadAttachment: propTypes.func,
+    removeAttachment: propTypes.func,
+    style: propTypes.object,
+}
 
 const Attachment = ({
     dataDirection,
@@ -61,6 +71,14 @@ const Attachment = ({
             )}
         </FlatButton>
     )
+}
+
+Attachment.propTypes = {
+    attachment: propTypes.object,
+    cancelAttachment: propTypes.func,
+    dataDirection: propTypes.string,
+    downloadAttachment: propTypes.func,
+    removeAttachment: propTypes.func,
 }
 
 export default Attachments

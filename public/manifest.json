@@ -1,13 +1,15 @@
 {
-  "name": "Messaging",
-  "description": "App for messaging",
-  "icons": [{
-    "src": "icon.png",
-    "sizes": "48x48",
-    "type": "image/png"
-  }],
-  "developer": {
-    "name": "Henning Håkonsen",
-    "company": "DHIS2"
-  }
+    "name": "Messaging",
+    "description": "App for messaging",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "48x48",
+            "type": "image/png"
+        }
+    ],
+    "developer": {
+        "name": "Henning Håkonsen",
+        "company": "DHIS2"
+    }
 }

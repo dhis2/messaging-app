@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from '@dhis2/prop-types'
 import Divider from 'material-ui/Divider'
 import CardText from 'material-ui/Card/CardText'
 import Attachments from '../Attachments/Attachments'
@@ -96,6 +97,16 @@ const Message = ({
             {!lastMessage && <Divider />}
         </div>
     )
+}
+
+Message.propTypes = {
+    cancelAttachment: propTypes.func,
+    currentUser: propTypes.object,
+    displayTimeDiff: propTypes.number,
+    downloadAttachment: propTypes.func,
+    enableAttachments: propTypes.bool,
+    lastMessage: propTypes.bool,
+    message: propTypes.object,
 }
 
 export default Message

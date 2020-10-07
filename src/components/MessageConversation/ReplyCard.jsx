@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { Card, CardActions, CardText } from 'material-ui/Card'
@@ -153,6 +154,23 @@ class ReplyCard extends Component {
             </Card>
         )
     }
+}
+
+ReplyCard.propTypes = {
+    addAttachment: propTypes.func,
+    attachments: propTypes.array,
+    cancelAttachment: propTypes.func,
+    clearAttachments: propTypes.func,
+    displaySnackMessage: propTypes.func,
+    enableAttachments: propTypes.bool,
+    input: propTypes.string,
+    isInFeedbackRecipientGroup: propTypes.bool,
+    messageConversation: propTypes.object,
+    removeAttachment: propTypes.func,
+    replyMessage: propTypes.func,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
+    updateInputFields: propTypes.func,
 }
 
 const mapStateToProps = state => ({

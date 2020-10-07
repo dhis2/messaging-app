@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 
@@ -11,7 +12,7 @@ import {
 } from '../../actions'
 import { supportsAttachments } from '../../utils/helpers'
 
-import { getInstance as getD2Instance } from 'd2/lib/d2'
+import { getInstance as getD2Instance } from 'd2'
 import Subheader from 'material-ui/Subheader/Subheader'
 import AddIcon from 'material-ui-icons/Add'
 import NavigationBack from 'material-ui-icons/ArrowBack'
@@ -224,6 +225,18 @@ class MessageConversation extends Component {
             </div>
         )
     }
+}
+
+MessageConversation.propTypes = {
+    addRecipients: propTypes.func,
+    cancelAttachment: propTypes.func,
+    clearSelectedMessageConversation: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    displayTimeDiff: propTypes.number,
+    downloadAttachment: propTypes.func,
+    enableAttachments: propTypes.bool,
+    messageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
 }
 
 const mapStateToProps = state => ({
