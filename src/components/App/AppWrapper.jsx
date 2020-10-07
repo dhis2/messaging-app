@@ -23,7 +23,7 @@ const AppWrapper = () => {
 
     if (!d2) {
         return (
-            <AddD2Context d2={d2}>
+            <AddD2Context>
                 <div className="page-loader-wrap">
                     <CircularProgress size={48} />
                 </div>
