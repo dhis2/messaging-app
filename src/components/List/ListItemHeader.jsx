@@ -77,7 +77,7 @@ class MessageConversationListItem extends Component {
     componentDidUpdate() {
         if (
             this.state.allChecked &&
-            this.props.checkedIds.length < this.props.children.length
+            this.props.checkedIds.length < this.props.messages.length
         ) {
             this.setState({ allChecked: false })
         }
@@ -95,7 +95,7 @@ class MessageConversationListItem extends Component {
                         this.state.allChecked
                             ? this.props.clearCheckedIds()
                             : this.props.setAllChecked(
-                                  this.props.children.map(child => ({
+                                  this.props.messages.map(child => ({
                                       id: child.id,
                                   }))
                               )
@@ -132,9 +132,9 @@ class MessageConversationListItem extends Component {
 
 MessageConversationListItem.propTypes = {
     checkedIds: propTypes.array,
-    children: propTypes.array,
     clearCheckedIds: propTypes.func,
     displayExtendedChoices: propTypes.bool,
+    messages: propTypes.array,
     notification: propTypes.bool,
     setAllChecked: propTypes.func,
 }

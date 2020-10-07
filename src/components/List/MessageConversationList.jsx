@@ -54,7 +54,7 @@ class MessageConversationList extends Component {
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
-        const children = dedupeById(
+        const messages = dedupeById(
             this.props.messageConversations[this.props.selectedMessageType.id]
         )
 
@@ -80,12 +80,11 @@ class MessageConversationList extends Component {
                         displayExtendedChoices={
                             this.props.displayExtendedChoices
                         }
-                    >
-                        {children}
-                    </ListItemHeader>
+                        messages={messages}
+                    />
                 )}
-                {children && children.length !== 0
-                    ? children.map(child => (
+                {messages && messages.length !== 0
+                    ? messages.map(child => (
                           <MessageConversationListItem
                               key={child.id}
                               messageConversation={child}
