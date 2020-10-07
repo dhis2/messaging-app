@@ -11,6 +11,23 @@ const createAction = (type, payload) => ({ type, payload })
  * THUNKS SECTION *
  ******************/
 
+export const setCurrentUser = () => async dispatch => {
+    dispatch(createAction(actions.SET_CURRENT_USER))
+
+    try {
+        const { currentUser } = await api.getCurrentUser()
+
+        dispatch(createAction(actions.SET_CURRENT_USER_SUCCESS, currentUser))
+    } catch {
+        dispatch(
+            createAction(
+                actions.SET_CURRENT_USER_ERROR,
+                'Could not load current user'
+            )
+        )
+    }
+}
+
 export const setDisplayTimeDiff = () => async dispatch => {
     try {
         const serverDate = await api.getServerDate()

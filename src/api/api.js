@@ -17,6 +17,17 @@ export const setEngine = engineInstance => {
     engine = engineInstance
 }
 
+export const getCurrentUser = () => {
+    return engine.query({
+        currentUser: {
+            resource: 'me',
+            params: {
+                fields: ['id', 'authorities'],
+            },
+        },
+    })
+}
+
 export const getMessageConversations = ({
     messageType,
     page,
@@ -27,6 +38,7 @@ export const getMessageConversations = ({
     markedForFollowUpFilter,
     unreadFilter,
 }) => {
+    console.log('getMessageConversations', engine)
     const filters = [`messageType:eq:${messageType}`]
     typeof status !== 'undefined' && filters.push(`status:eq:${status}`)
     typeof priority !== 'undefined' && filters.push(`priority:eq:${priority}`)

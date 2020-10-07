@@ -6,6 +6,12 @@ import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development'
 import { findIndexOfId } from '../utils/helpers'
 
 export const initialState = {
+    currentUser: {
+        loading: false,
+        error: null,
+        id: null,
+        authorities: null,
+    },
     // Message conversation
     messageConversations: {},
     messageTypes,
@@ -43,10 +49,43 @@ function messageReducer(state = initialState, action) {
     const oldAttachments = state.attachments
 
     switch (action.type) {
+        case actions.SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: {
+                    loading: true,
+                    error: null,
+                    id: null,
+                    authorities: null,
+                },
+            }
+        case actions.SET_CURRENT_USER_SUCCESS:
+            return {
+                ...state,
+                currentUser: {
+                    loading: false,
+                    error: null,
+                    id: action.payload.id,
+                    authorities: action.payload.authorities,
+                },
+            }
+        case actions.SET_CURRENT_USER_ERROR:
+            return {
+                ...state,
+                currentUser: {
+                    loading: false,
+                    error: action.payload,
+                    id: null,
+                    authorities: null,
+                },
+            }
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:
             return {
                 ...state,
                 displayTimeDiff: action.payload,
+                error: action.payload,
+                id: null,
+                authorities: null,
             }
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
