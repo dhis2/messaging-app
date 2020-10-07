@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
 
 import history from '../../utils/history'
 import {
@@ -12,7 +11,6 @@ import {
 } from '../../actions'
 import { supportsAttachments } from '../../utils/helpers'
 
-import { getInstance as getD2Instance } from 'd2'
 import Subheader from 'material-ui/Subheader/Subheader'
 import AddIcon from 'material-ui-icons/Add'
 import NavigationBack from 'material-ui-icons/ArrowBack'
@@ -37,17 +35,8 @@ class MessageConversation extends Component {
 
         this.state = {
             recipients: [],
-            currentUser: undefined,
             cursor: 'auto',
         }
-    }
-
-    componentDidMount() {
-        getD2Instance().then(instance => {
-            this.setState({
-                currentUser: instance.currentUser,
-            })
-        })
     }
 
     backToList = () => {
@@ -92,7 +81,7 @@ class MessageConversation extends Component {
     }
 
     render() {
-        const { messageConversation } = this.props
+        const { messageConversation, currentUser } = this.props
         const messages = messageConversation.messages
         const notification = !!(
             NOTIFICATIONS.indexOf(messageConversation.messageType) + 1
@@ -100,9 +89,9 @@ class MessageConversation extends Component {
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
             .map(userMessage =>
-                typeof this.state.currentUser === 'undefined' ||
+                !currentUser.id ||
                 this.state.recipientsExpanded ||
-                this.state.currentUser.id !== userMessage.user.id
+                currentUser.id !== userMessage.user.id
                     ? userMessage.user.displayName
                     : i18n.t('me')
             )
@@ -231,6 +220,7 @@ MessageConversation.propTypes = {
     addRecipients: propTypes.func,
     cancelAttachment: propTypes.func,
     clearSelectedMessageConversation: propTypes.func,
+    currentUser: propTypes.object,
     displayExtendedChoices: propTypes.bool,
     displayTimeDiff: propTypes.number,
     downloadAttachment: propTypes.func,
@@ -240,21 +230,15 @@ MessageConversation.propTypes = {
 }
 
 const mapStateToProps = state => ({
+    currentUser: state.messaging.currentUser,
     selectedMessageType: state.messaging.selectedMessageType,
     displayTimeDiff: state.messaging.displayTimeDiff,
     enableAttachments: supportsAttachments(state.messaging.dhis2CoreVersion),
 })
 
-export default compose(
-    connect(
-        mapStateToProps,
-        {
-            addRecipients,
-            downloadAttachment,
-            cancelAttachment,
-            clearSelectedMessageConversation,
-        },
-        null,
-        { pure: false }
-    )
-)(MessageConversation)
+export default connect(mapStateToProps, {
+    addRecipients,
+    downloadAttachment,
+    cancelAttachment,
+    clearSelectedMessageConversation,
+})(MessageConversation)
