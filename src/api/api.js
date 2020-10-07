@@ -10,6 +10,13 @@ const messageConversationFields =
 
 const order = 'lastMessage:desc'
 
+// The rest of the code in this module will expect that
+// engine has been set and can use it safely
+let engine = null
+export const setEngine = engineInstance => {
+    engine = engineInstance
+}
+
 export const getMessageConversations = ({
     messageType,
     page,

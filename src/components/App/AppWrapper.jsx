@@ -1,11 +1,12 @@
 import React from 'react'
-import { useConfig } from '@dhis2/app-runtime'
+import { useConfig, useDataEngine } from '@dhis2/app-runtime'
 import { useD2 } from '@dhis2/app-runtime-adapter-d2'
 import { CircularProgress } from 'material-ui'
 import { Provider } from 'react-redux'
 
 import App from './App'
 import store from '../../store'
+import { setEngine } from '../../api/api'
 import AddD2Context from './AddD2Context'
 
 import '../../index.css'
@@ -13,6 +14,7 @@ import 'typeface-roboto'
 
 const AppWrapper = () => {
     const { baseUrl } = useConfig()
+    const engine = useDataEngine()
     const { d2 } = useD2({
         d2Config: {
             schemas: ['messageConversation'],
@@ -30,6 +32,9 @@ const AppWrapper = () => {
             </AddD2Context>
         )
     }
+
+    // This makes the engine instance available in the api module
+    setEngine(engine)
 
     return (
         <Provider store={store}>
