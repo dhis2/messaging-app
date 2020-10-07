@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import propTypes from '@dhis2/prop-types'
 import cx from 'classnames'
 import { connect } from 'react-redux'
@@ -10,35 +10,31 @@ import { setCurrentUser } from '../../actions'
 
 import classes from './App.module.css'
 
-class App extends Component {
-    componentDidMount() {
-        this.props.setCurrentUser()
-    }
+const App = ({ currentUser, setCurrentUser }) => {
+    const { loading, error } = currentUser
 
-    render() {
-        const { loading, error } = this.props.currentUser
+    useEffect(() => {
+        setCurrentUser()
+    }, [])
 
-        if (loading) {
-            return (
-                <div className={classes.center}>
-                    <CircularProgress size={48} />
-                </div>
-            )
-        }
-
-        if (error) {
-            return (
-                <div className={cx(classes.center, classes.error)}>{error}</div>
-            )
-        }
-
+    if (loading) {
         return (
-            <div>
-                <CustomSnackBar />
-                <Routes />
+            <div className={classes.center}>
+                <CircularProgress size={48} />
             </div>
         )
     }
+
+    if (error) {
+        return <div className={cx(classes.center, classes.error)}>{error}</div>
+    }
+
+    return (
+        <div>
+            <CustomSnackBar />
+            <Routes />
+        </div>
+    )
 }
 
 App.propTypes = {
