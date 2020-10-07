@@ -105,7 +105,7 @@ Message.propTypes = {
     displayTimeDiff: propTypes.number,
     downloadAttachment: propTypes.func,
     enableAttachments: propTypes.bool,
-    lastMessage: propTypes.object,
+    lastMessage: propTypes.bool,
     message: propTypes.object,
 }
 

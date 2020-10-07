@@ -167,7 +167,7 @@ ReplyCard.propTypes = {
     isInFeedbackRecipientGroup: propTypes.bool,
     messageConversation: propTypes.object,
     removeAttachment: propTypes.func,
-    replyMessage: propTypes.string,
+    replyMessage: propTypes.func,
     selectedMessageConversation: propTypes.object,
     selectedMessageType: propTypes.object,
     updateInputFields: propTypes.func,
