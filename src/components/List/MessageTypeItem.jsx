@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 
 import CircularProgress from 'material-ui/CircularProgress'
 import Badge from 'material-ui/Badge'
@@ -111,6 +112,13 @@ class MessageTypeItem extends Component {
             </div>
         )
     }
+}
+
+MessageTypeItem.propTypes = {
+    loading: propTypes.bool,
+    messageType: propTypes.object,
+    selectedMessageType: propTypes.object,
+    onClick: propTypes.func,
 }
 
 export default MessageTypeItem

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -206,7 +207,7 @@ class MessageConversationListItem extends Component {
                 <Checkbox
                     checked={checked}
                     style={styles.checkBox(this.props.wideview)}
-                    onCheck={(event, isInputChecked) => {
+                    onCheck={() => {
                         this.props.setChecked(messageConversation, !checked)
                     }}
                 />
@@ -272,6 +273,29 @@ class MessageConversationListItem extends Component {
             </Paper>
         )
     }
+}
+
+MessageConversationListItem.propTypes = {
+    attachments: propTypes.array,
+    checkedIds: propTypes.array,
+    clearAttachments: propTypes.func,
+    clearCheckedIds: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    displayTimeDiff: propTypes.number,
+    markMessageConversations: propTypes.func,
+    messageConversation: propTypes.object,
+    messageFilter: propTypes.string,
+    notification: propTypes.bool,
+    priorityFilter: propTypes.string,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.object,
+    setChecked: propTypes.func,
+    setFilter: propTypes.func,
+    setSelectedMessageConversation: propTypes.func,
+    settingSelectedMessageConversation: propTypes.bool,
+    statusFilter: propTypes.string,
+    updateInputFields: propTypes.func,
+    wideview: propTypes.bool,
 }
 
 const mapStateToProps = state => ({

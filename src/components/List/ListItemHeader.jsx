@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -76,7 +77,7 @@ class MessageConversationListItem extends Component {
     componentDidUpdate() {
         if (
             this.state.allChecked &&
-            this.props.checkedIds.length < this.props.children.length
+            this.props.checkedIds.length < this.props.messages.length
         ) {
             this.setState({ allChecked: false })
         }
@@ -90,11 +91,11 @@ class MessageConversationListItem extends Component {
                 <Checkbox
                     checked={this.state.allChecked}
                     style={styles.checkBox}
-                    onCheck={(event, isInputChecked) => {
+                    onCheck={() => {
                         this.state.allChecked
                             ? this.props.clearCheckedIds()
                             : this.props.setAllChecked(
-                                  this.props.children.map(child => ({
+                                  this.props.messages.map(child => ({
                                       id: child.id,
                                   }))
                               )
@@ -129,17 +130,23 @@ class MessageConversationListItem extends Component {
     }
 }
 
+MessageConversationListItem.propTypes = {
+    checkedIds: propTypes.array,
+    clearCheckedIds: propTypes.func,
+    displayExtendedChoices: propTypes.bool,
+    messages: propTypes.array,
+    notification: propTypes.bool,
+    setAllChecked: propTypes.func,
+}
+
 const mapStateToProps = state => ({
     checkedIds: state.messaging.checkedIds,
     isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
 })
 
 export default compose(
-    connect(
-        mapStateToProps,
-        {
-            setAllChecked,
-            clearCheckedIds,
-        }
-    )
+    connect(mapStateToProps, {
+        setAllChecked,
+        clearCheckedIds,
+    })
 )(MessageConversationListItem)

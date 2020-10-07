@@ -211,9 +211,7 @@ export const deleteMessageConversation = messageConversationId =>
     getD2Instance()
         .then(instance =>
             instance.Api.getApi().delete(
-                `messageConversations/${messageConversationId}/${
-                    instance.currentUser.id
-                }`
+                `messageConversations/${messageConversationId}/${instance.currentUser.id}`
             )
         )
         .then(result => result)
@@ -436,7 +434,7 @@ export const addAttachment = attachment =>
             throw error
         })
 
-export function downloadBlob(url, filename) {
+export function downloadBlob(url) {
     const link = document.createElement('a')
     link.href = url
     link.setAttribute('target', '_blank')

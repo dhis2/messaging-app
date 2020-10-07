@@ -1,4 +1,5 @@
 import React from 'react'
+import propTypes from '@dhis2/prop-types'
 import FlatButton from 'material-ui/FlatButton'
 import AttachFile from 'material-ui-icons/AttachFile'
 import i18n from '@dhis2/d2-i18n'
@@ -28,5 +29,9 @@ const AttachmentUploadButton = ({ addAttachment }) => (
         />
     </FlatButton>
 )
+
+AttachmentUploadButton.propTypes = {
+    addAttachment: propTypes.func,
+}
 
 export default AttachmentUploadButton

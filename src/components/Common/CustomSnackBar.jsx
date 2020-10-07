@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
 import { clearSnackMessage } from '../../actions'
@@ -59,6 +60,14 @@ class CustomSnackBar extends Component {
     }
 }
 
+CustomSnackBar.propTypes = {
+    clearSnackMessage: propTypes.func,
+    message: propTypes.string,
+    type: propTypes.oneOf(['NEGATIVE', 'NEUTRAL', 'POSITIVE']),
+    onSnackActionClick: propTypes.func,
+    onSnackRequestClose: propTypes.func,
+}
+
 const mapStateToProps = state => ({
     message: state.messaging.snackMessage,
     type: state.messaging.snackType,
@@ -67,11 +76,8 @@ const mapStateToProps = state => ({
 })
 
 export default compose(
-    connect(
-        mapStateToProps,
-        {
-            clearSnackMessage,
-        }
-    ),
+    connect(mapStateToProps, {
+        clearSnackMessage,
+    }),
     pure
 )(CustomSnackBar)

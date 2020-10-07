@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
@@ -53,7 +54,7 @@ class MessageConversationList extends Component {
     isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
-        const children = dedupeById(
+        const messages = dedupeById(
             this.props.messageConversations[this.props.selectedMessageType.id]
         )
 
@@ -79,12 +80,11 @@ class MessageConversationList extends Component {
                         displayExtendedChoices={
                             this.props.displayExtendedChoices
                         }
-                    >
-                        {children}
-                    </ListItemHeader>
+                        messages={messages}
+                    />
                 )}
-                {children && children.length !== 0
-                    ? children.map(child => (
+                {messages && messages.length !== 0
+                    ? messages.map(child => (
                           <MessageConversationListItem
                               key={child.id}
                               messageConversation={child}
@@ -114,6 +114,18 @@ class MessageConversationList extends Component {
             </div>
         )
     }
+}
+
+MessageConversationList.propTypes = {
+    displayExtendedChoices: propTypes.bool,
+    loadMessageConversations: propTypes.func,
+    messageConversations: propTypes.object,
+    selectedMessageConversation: propTypes.object,
+    selectedMessageType: propTypes.shape({
+        id: propTypes.string,
+        loading: propTypes.bool,
+    }),
+    wideview: propTypes.bool,
 }
 
 const mapStateToProps = state => ({
