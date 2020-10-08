@@ -108,13 +108,15 @@ export const getMessageConversation = async ({ id }) => {
     return messageConversation
 }
 
-export const getServerDate = () =>
-    getD2Instance()
-        .then(instance => instance.Api.getApi().get('system/info'))
-        .then(result => result.serverDate)
-        .catch(error => {
-            throw error
-        })
+export const getServerDate = async () => {
+    const { systemInfo } = await engine.query({
+        systemInfo: {
+            resource: 'system/info',
+        },
+    })
+
+    return systemInfo.serverDate
+}
 
 export const updateMessageConversationStatus = (messageConversationId, value) =>
     getD2Instance()
