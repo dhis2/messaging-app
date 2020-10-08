@@ -97,13 +97,12 @@ export const getMessageConversations = async ({
 }
 
 export const getMessageConversation = async ({ id }) => {
-    const query = {
-        resource: 'messageConversations',
-        id,
-        params: { fields: messageConversationFields },
-    }
     const { messageConversation } = await engine.query({
-        messageConversation: query,
+        messageConversation: {
+            resource: 'messageConversations',
+            id,
+            params: { fields: messageConversationFields },
+        },
     })
 
     return messageConversation
