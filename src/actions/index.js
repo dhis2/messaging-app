@@ -180,6 +180,7 @@ export const loadMessageConversations = (
         assignedToMeFilter,
         markedForFollowUpFilter,
         unreadFilter,
+        currentUser,
     } = state.messaging
 
     // Default fallback values so this action can be called without arguments
@@ -206,6 +207,7 @@ export const loadMessageConversations = (
                     assignedToMeFilter,
                     markedForFollowUpFilter,
                     unreadFilter,
+                    currentUser,
                 })
                 .then(result => ({
                     messageConversations: result.messageConversations,

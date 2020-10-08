@@ -2,11 +2,28 @@ import { getInstance as getD2Instance } from 'd2'
 import { pageSize } from '../constants/development'
 import { supportsUserLookupEndPoint } from '../utils/helpers.js'
 
-const initialMessageConversationFields =
-    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp'
+const initialMessageConversationFields = [
+    'id',
+    'displayName',
+    'subject',
+    'messageType',
+    'lastSender[id, displayName]',
+    'assignee[id, displayName]',
+    'status',
+    'priority',
+    'lastUpdated',
+    'read',
+    'lastMessage',
+    'followUp',
+]
 
-const messageConversationFields =
-    '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, contentLength]],userMessages[user[id, displayName]]'
+const messageConversationFields = [
+    '*',
+    'assignee[id, displayName]',
+    'messages[*,sender[id,displayName]',
+    'attachments[id, name, contentLength]]',
+    'userMessages[user[id, displayName]]',
+]
 
 const order = 'lastMessage:desc'
 
@@ -28,7 +45,7 @@ export const getCurrentUser = () => {
     })
 }
 
-export const getMessageConversations = ({
+export const getMessageConversations = async ({
     messageType,
     page,
     messageFilter,
@@ -37,55 +54,60 @@ export const getMessageConversations = ({
     assignedToMeFilter,
     markedForFollowUpFilter,
     unreadFilter,
+    currentUser,
 }) => {
-    console.log('getMessageConversations', engine)
-    const filters = [`messageType:eq:${messageType}`]
-    typeof status !== 'undefined' && filters.push(`status:eq:${status}`)
-    typeof priority !== 'undefined' && filters.push(`priority:eq:${priority}`)
-    markedForFollowUpFilter && filters.push('followUp:eq:true')
-    unreadFilter && filters.push('read:eq:false')
+    const filter = [`messageType:eq:${messageType}`]
 
-    return getD2Instance()
-        .then(instance => {
-            assignedToMeFilter &&
-                filters.push(`assignee.id:eq:${instance.currentUser.id}`)
+    if (status) {
+        filter.push(`status:eq:${status}`)
+    }
+    if (priority) {
+        filter.push(`priority:eq:${priority}`)
+    }
+    if (markedForFollowUpFilter) {
+        filter.push('followUp:eq:true')
+    }
+    if (unreadFilter) {
+        filter.push('read:eq:false')
+    }
+    if (assignedToMeFilter) {
+        filter.push(`assignee.id:eq:${currentUser.id}`)
+    }
 
-            return instance.Api.getApi().get(
-                `messageConversations?pageSize=${pageSize}&page=${page}${
-                    messageFilter !== '' && messageFilter !== undefined
-                        ? `&queryString=${messageFilter}`
-                        : ''
-                }`,
-                {
-                    fields: [initialMessageConversationFields],
-                    order,
-                    filter: filters,
-                }
-            )
-        })
-        .then(result => ({
-            messageConversations: result.messageConversations,
-            pager: result.pager,
-        }))
-        .catch(error => {
-            throw error
-        })
+    const query = {
+        resource: 'messageConversations',
+        params: {
+            filter,
+            pageSize,
+            page,
+            fields: initialMessageConversationFields,
+            order,
+        },
+    }
+
+    if (messageFilter) {
+        query.params.queryString = messageFilter
+    }
+
+    const { messageConversations } = await engine.query({
+        messageConversations: query,
+    })
+
+    return messageConversations
 }
 
-export const getMessageConversation = messageConversation =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(
-                `messageConversations/${messageConversation.id}`,
-                {
-                    fields: [messageConversationFields],
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const getMessageConversation = async ({ id }) => {
+    const query = {
+        resource: 'messageConversations',
+        id,
+        params: { fields: messageConversationFields },
+    }
+    const { messageConversation } = await engine.query({
+        messageConversation: query,
+    })
+
+    return messageConversation
+}
 
 export const getServerDate = () =>
     getD2Instance()
