@@ -118,17 +118,18 @@ export const getServerDate = async () => {
     return systemInfo.serverDate
 }
 
-export const updateMessageConversationStatus = (messageConversationId, value) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/status?messageConversationStatus=${value}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const updateMessageConversationStatus = async (
+    messageConversationId,
+    value
+) => {
+    return await engine.mutate({
+        resource: `messageConversations/${messageConversationId}/status`,
+        type: 'create',
+        params: {
+            messageConversationStatus: value,
+        },
+    })
+}
 
 export const updateMessageConversationPriority = (
     messageConversationId,
