@@ -1,18 +1,19 @@
 # 
 # Translators:
-# phil_dhis2, 2020
+# phil_dhis2, 2019
+# Viktor Varland <viktor@dhis2.org>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: phil_dhis2, 2020\n"
-"Language-Team: Burmese (https://www.transifex.com/hisp-uio/teams/100509/my/)\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Language-Team: Tetum (Tetun) (https://www.transifex.com/hisp-uio/teams/100509/tet/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: my\n"
+"Language: tet\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Upload attachment"
@@ -22,7 +23,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr "No results found"
+msgstr ""
 
 msgid "Compose"
 msgstr ""
@@ -31,7 +32,7 @@ msgid "Deselect all"
 msgstr ""
 
 msgid "Status"
-msgstr "အခြေအနေ"
+msgstr "Estadu"
 
 msgid "Priority"
 msgstr ""
@@ -52,7 +53,7 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "ပယ်ဖျက်သည်"
+msgstr "Kansela"
 
 msgid "Submit"
 msgstr ""
@@ -94,13 +95,13 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr "ရက်စွဲ"
+msgstr "Data"
 
 msgid "Auto refresh"
 msgstr ""
 
 msgid "Create"
-msgstr "ဖန်တီးသည်"
+msgstr "Kria"
 
 msgid "To"
 msgstr ""
@@ -115,13 +116,13 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr "သတင်း"
+msgstr "Mensajen"
 
 msgid "Send"
-msgstr "ပို့သည်"
+msgstr "Haruka"
 
 msgid "Discard"
-msgstr ""
+msgstr "Soe"
 
 msgid "Message discarded"
 msgstr ""
@@ -139,10 +140,10 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "ထပ်ထည့်သည်"
+msgstr "Aumenta"
 
 msgid "Reply"
-msgstr "အကြောင်းပြန်သည်"
+msgstr "Hatán"
 
 msgid "Internal reply"
 msgstr ""
@@ -157,7 +158,7 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr "Open"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
