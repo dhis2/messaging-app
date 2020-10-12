@@ -1,25 +1,26 @@
 # 
 # Translators:
-# phil_dhis2, 2020
+# phil_dhis2, 2019
+# Viktor Varland <viktor@dhis2.org>, 2019
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2019-10-25T09:42:35.949Z\n"
 "PO-Revision-Date: 2019-09-02 08:09+0000\n"
-"Last-Translator: phil_dhis2, 2020\n"
-"Language-Team: Burmese (https://www.transifex.com/hisp-uio/teams/100509/my/)\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Language-Team: Portuguese (Brazil) (https://www.transifex.com/hisp-uio/teams/100509/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: my\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Assignee"
 msgstr ""
 
 msgid "Create"
-msgstr "ဖန်တီးသည်"
+msgstr "Criar"
 
 msgid "To"
 msgstr ""
@@ -37,10 +38,10 @@ msgid "Subject"
 msgstr ""
 
 msgid "Message"
-msgstr "သတင်း"
+msgstr "Mensagem"
 
 msgid "Send"
-msgstr "ပို့သည်"
+msgstr "Enviar"
 
 msgid "Discard"
 msgstr ""
@@ -52,13 +53,13 @@ msgid "Sender"
 msgstr ""
 
 msgid "Status"
-msgstr "အခြေအနေ"
+msgstr "Estado"
 
 msgid "Priority"
 msgstr ""
 
 msgid "Date"
-msgstr "ရက်စွဲ"
+msgstr "Data"
 
 msgid "me"
 msgstr ""
@@ -73,13 +74,13 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "ထပ်ထည့်သည်"
+msgstr "Adicionar"
 
 msgid "Select a message"
 msgstr ""
 
 msgid "Reply"
-msgstr "အကြောင်းပြန်သည်"
+msgstr "Responder"
 
 msgid "Internal reply"
 msgstr ""
@@ -91,7 +92,7 @@ msgid "Auto refresh"
 msgstr ""
 
 msgid "No results found"
-msgstr "No results found"
+msgstr ""
 
 msgid "Compose"
 msgstr ""
@@ -100,7 +101,7 @@ msgid "Deselect all"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Pesquisar"
 
 msgid "Set filter"
 msgstr ""
@@ -115,10 +116,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "ပယ်ဖျက်သည်"
+msgstr "Cancelar"
 
 msgid "Submit"
-msgstr ""
+msgstr "Submeter"
 
 msgid "Delete selected"
 msgstr ""
@@ -154,7 +155,7 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr "Open"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
