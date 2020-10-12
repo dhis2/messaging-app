@@ -8,12 +8,12 @@ msgstr ""
 "POT-Creation-Date: 2020-10-05T13:31:55.850Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: phil_dhis2, 2020\n"
-"Language-Team: Burmese (https://www.transifex.com/hisp-uio/teams/100509/my/)\n"
+"Language-Team: Danish (https://www.transifex.com/hisp-uio/teams/100509/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: my\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Upload attachment"
 msgstr ""
@@ -31,7 +31,7 @@ msgid "Deselect all"
 msgstr ""
 
 msgid "Status"
-msgstr "အခြေအနေ"
+msgstr "Status"
 
 msgid "Priority"
 msgstr ""
@@ -52,7 +52,7 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "ပယ်ဖျက်သည်"
+msgstr "Cancel"
 
 msgid "Submit"
 msgstr ""
@@ -97,7 +97,7 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr "ရက်စွဲ"
+msgstr "Date"
 
 msgid "Auto refresh"
 msgstr ""
@@ -106,7 +106,7 @@ msgid "Message discarded"
 msgstr ""
 
 msgid "Create"
-msgstr "ဖန်တီးသည်"
+msgstr "Create"
 
 msgid "To"
 msgstr ""
@@ -121,10 +121,10 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr "သတင်း"
+msgstr "Message"
 
 msgid "Send"
-msgstr "ပို့သည်"
+msgstr ""
 
 msgid "Discard"
 msgstr ""
@@ -142,13 +142,13 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "ထပ်ထည့်သည်"
+msgstr "Add"
 
 msgid "Reply discarded"
 msgstr ""
 
 msgid "Reply"
-msgstr "အကြောင်းပြန်သည်"
+msgstr ""
 
 msgid "Internal reply"
 msgstr ""
