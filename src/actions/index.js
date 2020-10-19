@@ -243,10 +243,12 @@ export const loadMessageConversations = (
 export const deleteMessageConversations = (
     messageConversationIds,
     messageType
-) => async dispatch => {
+) => async (dispatch, getState) => {
     try {
+        const state = getState()
+        const { currentUser } = state.messaging
         const promises = messageConversationIds.map(messageConversationId =>
-            api.deleteMessageConversation(messageConversationId)
+            api.deleteMessageConversation(messageConversationId, currentUser.id)
         )
 
         await Promise.all(promises)

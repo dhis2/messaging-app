@@ -62,7 +62,7 @@ class MessagingCenter extends Component {
             )
         }
 
-        api.isInFeedbackRecipientGroup().then(result =>
+        api.isInFeedbackRecipientGroup(this.props.currentUser).then(result =>
             this.props.setIsInFeedbackRecipientGroup(result)
         )
 
@@ -265,6 +265,7 @@ class MessagingCenter extends Component {
 
 MessagingCenter.propTypes = {
     clearSelectedMessageConversation: propTypes.func,
+    currentUser: propTypes.object,
     isInFeedbackRecipientGroup: propTypes.bool,
     loadMessageConversations: propTypes.func,
     match: propTypes.object,
@@ -284,6 +285,7 @@ MessagingCenter.contextTypes = {
 }
 
 const mapStateToProps = state => ({
+    currentUser: state.messaging.currentUser,
     snackMessage: state.messaging.snackMessage,
     messageTypes: state.messaging.messageTypes,
     messageConversations: state.messaging.messageConversations,

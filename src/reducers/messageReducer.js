@@ -7,10 +7,11 @@ import { findIndexOfId } from '../utils/helpers'
 
 export const initialState = {
     currentUser: {
-        loading: false,
+        loading: true,
         error: null,
         id: null,
         authorities: null,
+        userGroups: null,
     },
     // Message conversation
     messageConversations: {},
@@ -57,6 +58,7 @@ function messageReducer(state = initialState, action) {
                     error: null,
                     id: null,
                     authorities: null,
+                    userGroups: null,
                 },
             }
         case actions.SET_CURRENT_USER_SUCCESS:
@@ -67,6 +69,7 @@ function messageReducer(state = initialState, action) {
                     error: null,
                     id: action.payload.id,
                     authorities: action.payload.authorities,
+                    userGroups: action.payload.userGroups,
                 },
             }
         case actions.SET_CURRENT_USER_ERROR:
@@ -77,6 +80,7 @@ function messageReducer(state = initialState, action) {
                     error: action.payload,
                     id: null,
                     authorities: null,
+                    userGroups: null,
                 },
             }
         case actions.SET_DISPLAY_TIME_DIFF_SUCCESS:

@@ -39,7 +39,7 @@ export const getCurrentUser = () => {
         currentUser: {
             resource: 'me',
             params: {
-                fields: ['id', 'authorities'],
+                fields: ['id', 'authorities', 'userGroups[id]'],
             },
         },
     })
@@ -131,70 +131,66 @@ export const updateMessageConversationStatus = async (
     })
 }
 
-export const updateMessageConversationPriority = (
+export const updateMessageConversationPriority = async (
     messageConversationId,
     value
 ) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/priority?messageConversationPriority=${value}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    await engine.mutate({
+        resource: `messageConversations/${messageConversationId}/priority`,
+        type: 'create',
+        params: {
+            messageConversationPriority: value,
+        },
+    })
 
-export const updateMessageConversationAssignee = (
+export const updateMessageConversationAssignee = async (
     messageConversationId,
     value
-) =>
-    getD2Instance()
-        .then(instance =>
-            value === undefined
-                ? instance.Api.getApi().delete(
-                      `messageConversations/${messageConversationId}/assign`
-                  )
-                : instance.Api.getApi().post(
-                      `messageConversations/${messageConversationId}/assign?userId=${value}`
-                  )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+) => {
+    const mutation = value
+        ? {
+              resource: `messageConversations/${messageConversationId}/assign`,
+              type: 'create',
+              params: {
+                  userId: value,
+              },
+          }
+        : {
+              resource: `messageConversations`,
+              id: `${messageConversationId}/assign`,
+              type: 'delete',
+          }
 
-export const updateMessageConversationFollowup = (
+    return await engine.mutate(mutation)
+}
+
+export const updateMessageConversationFollowup = async (
     messageConversationIds,
     value
-) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${value ? 'followup' : 'unfollowup'}`,
-                messageConversationIds
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+) => {
+    return await engine.mutate({
+        resource: `messageConversations/${value ? 'followup' : 'unfollowup'}`,
+        type: 'create',
+        data: messageConversationIds,
+    })
+}
 
-export const getNrOfUnread = messageType =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('messageConversations', {
-                fields: 'read',
+export const getNrOfUnread = async messageType => {
+    const { messageConversations } = await engine.query({
+        messageConversations: {
+            resource: 'messageConversations',
+            params: {
+                fields: ['read'],
                 filter: ['read:eq:false', `messageType:eq:${messageType}`],
-            })
-        )
-        .then(result => result.pager.total)
-        .catch(error => {
-            throw error
-        })
+                pageSize: 1,
+            },
+        },
+    })
 
-export const sendMessage = ({
+    return messageConversations.pager.total
+}
+
+export const sendMessage = async ({
     subject,
     users,
     userGroups,
@@ -202,21 +198,21 @@ export const sendMessage = ({
     text,
     attachments,
 }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post('messageConversations', {
-                subject,
-                users,
-                userGroups,
-                organisationUnits,
-                attachments,
-                text,
-            })
-        )
-        .catch(error => {
-            throw error
-        })
+    await engine.mutate({
+        resource: 'messageConversations',
+        type: 'create',
+        data: {
+            subject,
+            users,
+            userGroups,
+            organisationUnits,
+            text,
+            attachments,
+        },
+    })
 
+// The data engine currently doesn't support "text/plain" Content-Type
+// https://github.com/dhis2/app-runtime/pull/651
 export const sendFeedbackMessage = (subject, text) =>
     getD2Instance()
         .then(instance =>
@@ -233,6 +229,8 @@ export const sendFeedbackMessage = (subject, text) =>
             throw error
         })
 
+// The data engine currently doesn't support "text/plain" Content-Type
+// https://github.com/dhis2/app-runtime/pull/651
 export const replyMessage = ({ message, internalReply, attachments, id }) =>
     getD2Instance()
         .then(instance =>
@@ -250,86 +248,45 @@ export const replyMessage = ({ message, internalReply, attachments, id }) =>
             throw error
         })
 
-export const deleteMessageConversation = messageConversationId =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().delete(
-                `messageConversations/${messageConversationId}/${instance.currentUser.id}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const deleteMessageConversation = async (
+    messageConversationId,
+    currentUserId
+) =>
+    await engine.mutate({
+        resource: `messageConversations/${messageConversationId}/${currentUserId}`,
+        type: 'delete',
+    })
 
-export const markRead = markedReadConversations =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                'messageConversations/read',
-                markedReadConversations
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const markRead = async markedReadConversations =>
+    await engine.mutate({
+        resource: 'messageConversations/read',
+        type: 'create',
+        data: markedReadConversations,
+    })
 
-export const markUnread = markedUnreadConversations =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                'messageConversations/unread',
-                markedUnreadConversations
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const markUnread = async markedUnreadConversations =>
+    await engine.mutate({
+        resource: 'messageConversations/unread',
+        type: 'create',
+        data: markedUnreadConversations,
+    })
 
 /* Feedback recipient query */
-export const isInFeedbackRecipientGroup = () =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('me', { fields: 'userGroups[id]' })
-        )
-        .then(result =>
-            getD2Instance()
-                .then(instance => ({
-                    configuration: instance.Api.getApi()
-                        .get('configuration')
-                        .then(configuration => configuration),
-                    instance,
-                }))
-                .then(({ configuration, instance }) => {
-                    const getSymbolProperties = symbol =>
-                        Array.from(
-                            symbol[Object.getOwnPropertySymbols(symbol)[0]]
-                        )
+export const isInFeedbackRecipientGroup = async currentUser => {
+    const {
+        configuration: { feedbackRecipients },
+    } = await engine.query({
+        configuration: {
+            resource: 'configuration',
+        },
+    })
+    const authorized =
+        currentUser.authorities.includes('ALL') ||
+        currentUser.userGroups.some(({ id }) => id === feedbackRecipients.id)
+    const feedbackRecipientsId = feedbackRecipients.id
 
-                    const userAuthorities = getSymbolProperties(
-                        instance.currentUser.authorities
-                    )
-                    return configuration.then(configurationResult => ({
-                        authorized:
-                            userAuthorities.includes('ALL') ||
-                            !!result.userGroups.find(
-                                group =>
-                                    group.id ===
-                                    configurationResult.feedbackRecipients.id
-                            ),
-                        feedbackRecipientsId:
-                            configurationResult.feedbackRecipients.id,
-                    }))
-                })
-                .catch(error => {
-                    throw error
-                })
-        )
-        .catch(error => {
-            throw error
-        })
+    return { authorized, feedbackRecipientsId }
+}
 
 /* Recipient search */
 const MAX_RECIPIENT = 10
