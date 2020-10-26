@@ -87,9 +87,6 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 displayTimeDiff: action.payload,
-                error: action.payload,
-                id: null,
-                authorities: null,
             }
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
