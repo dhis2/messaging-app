@@ -1,6 +1,6 @@
 import { getInstance as getD2Instance } from 'd2'
 import { pageSize } from '../constants/development'
-import { supportsUserLookupEndPoint } from '../utils/helpers.js'
+import createRecipientSearchQuery from '../utils/createRecipientSearchQuery'
 
 const initialMessageConversationFields = [
     'id',
@@ -211,42 +211,33 @@ export const sendMessage = async ({
         },
     })
 
-// The data engine currently doesn't support "text/plain" Content-Type
-// https://github.com/dhis2/app-runtime/pull/651
-export const sendFeedbackMessage = (subject, text) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/feedback?subject=${subject}`,
-                text,
-                {
-                    headers: { 'Content-Type': 'text/plain' },
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const sendFeedbackMessage = async (subject, text) =>
+    await engine.mutate({
+        resource: 'messageConversations/feedback',
+        type: 'create',
+        params: { subject },
+        data: text,
+    })
 
-// The data engine currently doesn't support "text/plain" Content-Type
-// https://github.com/dhis2/app-runtime/pull/651
-export const replyMessage = ({ message, internalReply, attachments, id }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${id}?internal=${internalReply}${
-                    attachments.length > 0 ? `&attachments=${attachments}` : ''
-                }`,
-                message,
-                {
-                    headers: { 'Content-Type': 'text/plain' },
-                }
-            )
-        )
-        .catch(error => {
-            throw error
-        })
+export const replyMessage = async ({
+    message,
+    internalReply,
+    attachments,
+    id,
+}) => {
+    const params = { internal: internalReply }
+
+    if (attachments.length > 0) {
+        params.attachments = attachments
+    }
+
+    return await engine.mutate({
+        resource: `messageConversations/${id}`,
+        type: 'create',
+        params,
+        data: message,
+    })
+}
 
 export const deleteMessageConversation = async (
     messageConversationId,
@@ -271,7 +262,6 @@ export const markUnread = async markedUnreadConversations =>
         data: markedUnreadConversations,
     })
 
-/* Feedback recipient query */
 export const isInFeedbackRecipientGroup = async currentUser => {
     const {
         configuration: { feedbackRecipients },
@@ -288,80 +278,30 @@ export const isInFeedbackRecipientGroup = async currentUser => {
     return { authorized, feedbackRecipientsId }
 }
 
-/* Recipient search */
-const MAX_RECIPIENT = 10
-const searchOrganisationUnits = searchValue =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('organisationUnits', {
-                fields: 'id, displayName',
-                pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
-            })
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
-
-const searchUserGroups = searchValue =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('userGroups', {
-                fields: 'id, displayName',
-                pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`],
-            })
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
-
-export const searchRecipients = ({
+export const searchRecipients = async ({
     searchValue,
     searchOnlyUsers,
     searchOnlyFeedbackRecipients,
     feedbackRecipientsId,
+    dhis2CoreVersion,
 }) => {
-    return getD2Instance()
-        .then(instance => {
-            if (supportsUserLookupEndPoint(instance.system.version.minor)) {
-                // version >= v2.35
-                const url = searchOnlyFeedbackRecipients
-                    ? 'userLookup/feedbackRecipients'
-                    : 'userLookup'
+    const query = createRecipientSearchQuery({
+        searchValue,
+        searchOnlyUsers,
+        searchOnlyFeedbackRecipients,
+        feedbackRecipientsId,
+        dhis2CoreVersion,
+    })
 
-                return instance.Api.getApi().get(`${url}?query=${searchValue}`)
-            } else {
-                // version < 2.35
-                const filters = [`displayName:token:${searchValue}`]
-                if (searchOnlyFeedbackRecipients) {
-                    filters.push(`userGroups.id:eq:${feedbackRecipientsId}`)
-                }
+    const results = await engine.query(query)
 
-                return instance.Api.getApi().get('users', {
-                    pageSize: MAX_RECIPIENT,
-                    filter: filters,
-                })
-            }
-        })
-        .then(({ users }) =>
-            searchOnlyUsers
-                ? { users, undefined }
-                : searchUserGroups(searchValue).then(({ userGroups }) =>
-                      searchOrganisationUnits(searchValue).then(
-                          ({ organisationUnits }) => ({
-                              users,
-                              userGroups,
-                              organisationUnits,
-                          })
-                      )
-                  )
-        )
-        .catch(error => {
-            throw error
-        })
+    return {
+        users: results.users.users,
+        organisationUnits:
+            results.organisationUnits &&
+            results.organisationUnits.organisationUnits,
+        userGroups: results.userGroups && results.userGroups.userGroups,
+    }
 }
 
 export const fetchParticipants = messageConversationId =>
@@ -379,81 +319,72 @@ export const fetchParticipants = messageConversationId =>
             throw error
         })
 
-export const addRecipients = ({
+export const addRecipients = async ({
     users,
     userGroups,
     organisationUnits,
     messageConversationId,
 }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/recipients`,
-                {
-                    users,
-                    userGroups,
-                    organisationUnits,
-                }
-            )
-        )
-        .catch(error => {
-            throw error
-        })
+    await engine.mutate({
+        resource: `messageConversations/${messageConversationId}/recipients`,
+        type: 'create',
+        data: {
+            users,
+            userGroups,
+            organisationUnits,
+        },
+    })
 
-export const getUserById = id =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(`users/${id}`, {
-                fields: 'id,displayName',
-            })
-        )
-        .then(({ id, displayName }) => ({
+export const getUserById = async id => {
+    const { user } = await engine.query({
+        user: {
+            resource: 'users',
             id,
-            displayName,
-            type: 'user',
-        }))
-        .catch(error => {
-            throw error
-        })
+            params: {
+                fields: 'id,displayName',
+            },
+        },
+    })
 
-export function createAttachment(attachment) {
-    const form = new FormData()
-    form.append('file', attachment)
-    return form
+    return {
+        ...user,
+        type: 'user',
+    }
 }
 
-export const addAttachment = attachment =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                '/fileResources?domain=MESSAGE_ATTACHMENT',
-                createAttachment(attachment)
-            )
-        )
-        .catch(error => {
-            throw error
-        })
-
-export function downloadBlob(url) {
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('target', '_blank')
-    document.body.appendChild(link)
-    link.click()
-}
+export const addAttachment = async attachment =>
+    await engine.mutate({
+        resource: 'fileResources',
+        type: 'create',
+        params: {
+            domain: 'MESSAGE_ATTACHMENT',
+        },
+        data: {
+            file: attachment,
+        },
+    })
 
 export const downloadAttachment = (
     messageConversationId,
     messageId,
     attachmentId
-) =>
-    getD2Instance()
-        .then(instance => {
-            const baseUrl = instance.Api.getApi().baseUrl
-            return downloadBlob(
-                `${baseUrl}/messageConversations/${messageConversationId}/${messageId}/attachments/${attachmentId}`
-            )
-        })
-        .catch(error => {
-            throw error
-        })
+) => {
+    const filePath = [
+        engine.link.baseUrl,
+        engine.link.apiPath,
+        'messageConversations',
+        messageConversationId,
+        messageId,
+        'attachments',
+        attachmentId,
+    ].join('/')
+
+    const link = document.createElement('a')
+    link.href = filePath
+    link.download = filePath.split('/').pop()
+    link.target = '_blank'
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+}

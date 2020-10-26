@@ -55,6 +55,7 @@ class CreateMessage extends Component {
         const { addRecipientByUserId } = this.props
         const { messageId, recipientId } = this.props.match.params
 
+        // This happens when the "Send message" button in the user-app is clicked
         if (messageId === 'create' && recipientId) {
             addRecipientByUserId(recipientId)
         }

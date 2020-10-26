@@ -3,7 +3,6 @@ import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import FlatButton from 'material-ui/FlatButton'
-import Dialog from 'material-ui/Dialog'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import Assignment from 'material-ui-icons/Assignment'
@@ -26,6 +25,7 @@ import {
 import extendedChoices from '../../constants/extendedChoices'
 import history from '../../utils/history'
 import AssignToDialog from './AssignToDialog'
+import DialogWithReduxState from './DialogWithReduxState'
 
 const multiSelectDisplayLimit = 99
 
@@ -136,7 +136,7 @@ class ToolbarExtendedChoicePicker extends Component {
 
         return display ? (
             <div style={styles.canvas}>
-                <Dialog
+                <DialogWithReduxState
                     title={i18n.t(
                         'Are you sure you want to delete selected message conversation(s)?'
                     )}

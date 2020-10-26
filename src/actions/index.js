@@ -441,22 +441,14 @@ export const addAttachment = attachment => async dispatch => {
     }
 }
 
+// This is calling a synchronous function in the api module ¯\_(ツ)_/¯
 export const downloadAttachment = (
     messageConversationId,
     messageId,
     attachmentId
-) => async dispatch => {
-    try {
-        await api.downloadAttachment(
-            messageConversationId,
-            messageId,
-            attachmentId
-        )
-
-        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
-    } catch (error) {
-        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
-    }
+) => dispatch => {
+    api.downloadAttachment(messageConversationId, messageId, attachmentId)
+    dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
 }
 
 /************************
