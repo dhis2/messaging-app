@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react'
 import propTypes from '@dhis2/prop-types'
+import { useConfig } from '@dhis2/app-runtime'
 import cx from 'classnames'
 import { connect } from 'react-redux'
 import { CircularProgress } from 'material-ui'
 
 import CustomSnackBar from '../Common/CustomSnackBar'
 import Routes from './Routes'
-import { setCurrentUser } from '../../actions'
+import { setCurrentUser, setDhis2CoreVersion } from '../../actions'
 
 import classes from './App.module.css'
 
-const App = ({ currentUser, setCurrentUser }) => {
+const App = ({ currentUser, setCurrentUser, setDhis2CoreVersion }) => {
     const { loading, error } = currentUser
+    const { serverVersion } = useConfig()
 
     useEffect(() => {
+        setDhis2CoreVersion(serverVersion.minor)
         setCurrentUser()
     }, [])
 
@@ -40,6 +43,7 @@ const App = ({ currentUser, setCurrentUser }) => {
 App.propTypes = {
     currentUser: propTypes.object.isRequired,
     setCurrentUser: propTypes.func.isRequired,
+    setDhis2CoreVersion: propTypes.func.isRequired,
 }
 
 export default connect(
@@ -48,5 +52,6 @@ export default connect(
     }),
     {
         setCurrentUser,
+        setDhis2CoreVersion,
     }
 )(App)

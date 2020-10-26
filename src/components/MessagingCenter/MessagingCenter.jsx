@@ -17,7 +17,6 @@ import {
     setFilter,
     setDisplayTimeDiff,
     clearAttachments,
-    setDhis2CoreVersion,
 } from '../../actions'
 import theme from '../../styles/theme'
 import MessageConversation from '../MessageConversation/MessageConversation'
@@ -48,8 +47,6 @@ class MessagingCenter extends Component {
     componentDidMount() {
         const selectedMessageType = this.props.match.params.messageType
         const selectedId = this.props.match.params.messageId
-
-        this.props.setDhis2CoreVersion(this.context.d2.system.version.minor)
 
         if (
             selectedId &&
@@ -272,16 +269,11 @@ MessagingCenter.propTypes = {
     messageTypes: propTypes.array,
     selectedMessageConversation: propTypes.object,
     selectedMessageType: propTypes.object,
-    setDhis2CoreVersion: propTypes.func,
     setDisplayTimeDiff: propTypes.func,
     setIsInFeedbackRecipientGroup: propTypes.func,
     setSelectedMessageConversation: propTypes.func,
     setSelectedMessageType: propTypes.func,
     settingSelectedMessageConversation: propTypes.bool,
-}
-
-MessagingCenter.contextTypes = {
-    d2: propTypes.object,
 }
 
 const mapStateToProps = state => ({
@@ -320,7 +312,6 @@ export default compose(
             setFilter,
             setDisplayTimeDiff,
             clearAttachments,
-            setDhis2CoreVersion,
         },
         null,
         { pure: false }

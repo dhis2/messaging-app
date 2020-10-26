@@ -1,4 +1,3 @@
-import { getInstance as getD2Instance } from 'd2'
 import { pageSize } from '../constants/development'
 import createRecipientSearchQuery from '../utils/createRecipientSearchQuery'
 
@@ -303,21 +302,6 @@ export const searchRecipients = async ({
         userGroups: results.userGroups && results.userGroups.userGroups,
     }
 }
-
-export const fetchParticipants = messageConversationId =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(
-                `messageConversations/${messageConversationId}`,
-                {
-                    fields: 'userMessages[user[id, displayName]]',
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
 
 export const addRecipients = async ({
     users,

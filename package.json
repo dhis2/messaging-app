@@ -17,8 +17,6 @@
     },
     "dependencies": {
         "@dhis2/app-runtime": "^2.5.0",
-        "@dhis2/app-runtime-adapter-d2": "^1.0.1",
-        "d2": "31.8.2",
         "history": "^4.7.2",
         "loglevel": "^1.7.0",
         "material-ui": "^0.20.0",
