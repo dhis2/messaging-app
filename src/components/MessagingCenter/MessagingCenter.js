@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
 import MailIcon from 'material-ui-icons/MailOutline'
 import i18n from '@dhis2/d2-i18n'
-import * as api from '../../api/api'
+import * as api from '../../api/api.js'
 import {
     loadMessageConversations,
     setIsInFeedbackRecipientGroup,
@@ -17,14 +17,14 @@ import {
     setFilter,
     setDisplayTimeDiff,
     clearAttachments,
-} from '../../actions'
-import theme from '../../styles/theme'
-import MessageConversation from '../MessageConversation/MessageConversation'
-import SidebarList from '../List/SidebarList'
-import MessageConversationList from '../List/MessageConversationList'
-import CreateMessage from '../MessageConversation/CreateMessage'
-import Toolbar from '../Common/Toolbar'
-import { subheader } from '../../styles/style'
+} from '../../actions/index.js'
+import theme from '../../styles/theme.js'
+import MessageConversation from '../MessageConversation/MessageConversation.js'
+import SidebarList from '../List/SidebarList.js'
+import MessageConversationList from '../List/MessageConversationList.js'
+import CreateMessage from '../MessageConversation/CreateMessage.js'
+import Toolbar from '../Common/Toolbar.js'
+import { subheader } from '../../styles/style.js'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']

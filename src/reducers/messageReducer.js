@@ -1,9 +1,9 @@
 import i18n from '@dhis2/d2-i18n'
 import log from 'loglevel'
-import * as actions from '../constants/actions'
-import messageTypes from '../constants/messageTypes'
-import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development'
-import { findIndexOfId } from '../utils/helpers'
+import * as actions from '../constants/actions.js'
+import messageTypes from '../constants/messageTypes.js'
+import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development.js'
+import { findIndexOfId } from '../utils/helpers.js'
 
 export const initialState = {
     currentUser: {

@@ -6,9 +6,9 @@ import { Card, CardActions, CardText } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton'
-import Attachments from '../Attachments/Attachments'
-import { supportsAttachments } from '../../utils/helpers'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
+import Attachments from '../Attachments/Attachments.js'
+import { supportsAttachments } from '../../utils/helpers.js'
 import i18n from '@dhis2/d2-i18n'
 import {
     replyMessage,
@@ -18,8 +18,8 @@ import {
     addAttachment,
     removeAttachment,
     cancelAttachment,
-} from '../../actions'
-import { NEGATIVE } from '../../constants/development'
+} from '../../actions/index.js'
+import { NEGATIVE } from '../../constants/development.js'
 
 class ReplyCard extends Component {
     constructor(props) {

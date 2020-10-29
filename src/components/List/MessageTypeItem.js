@@ -7,7 +7,7 @@ import Subheader from 'material-ui/Subheader/Subheader'
 
 import i18n from '@dhis2/d2-i18n'
 
-import theme from '../../styles/theme'
+import theme from '../../styles/theme.js'
 
 class MessageTypeItem extends Component {
     constructor(props) {

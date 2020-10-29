@@ -21,11 +21,11 @@ import {
     deleteMessageConversations,
     updateMessageConversations,
     markMessageConversations,
-} from '../../actions'
-import extendedChoices from '../../constants/extendedChoices'
-import history from '../../utils/history'
-import AssignToDialog from './AssignToDialog'
-import DialogWithReduxState from './DialogWithReduxState'
+} from '../../actions/index.js'
+import extendedChoices from '../../constants/extendedChoices.js'
+import history from '../../utils/history.js'
+import AssignToDialog from './AssignToDialog.js'
+import DialogWithReduxState from './DialogWithReduxState.js'
 
 const multiSelectDisplayLimit = 99
 

@@ -18,14 +18,14 @@ import {
     removeAttachment,
     cancelAttachment,
     addRecipientByUserId,
-} from '../../actions'
-import history from '../../utils/history'
-import { supportsAttachments } from '../../utils/helpers'
-import SuggestionField from '../Common/SuggestionField'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton'
-import { NEGATIVE } from '../../constants/development'
-import Attachments from '../Attachments/Attachments'
-import { subheader } from '../../styles/style'
+} from '../../actions/index.js'
+import history from '../../utils/history.js'
+import { supportsAttachments } from '../../utils/helpers.js'
+import SuggestionField from '../Common/SuggestionField.js'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
+import { NEGATIVE } from '../../constants/development.js'
+import Attachments from '../Attachments/Attachments.js'
+import { subheader } from '../../styles/style.js'
 
 const styles = {
     canvas: {

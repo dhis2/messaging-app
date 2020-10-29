@@ -1,4 +1,4 @@
-import theme from '../styles/theme'
+import theme from '../styles/theme.js'
 
 export const messagePanelContainer = {
     overflowY: 'scroll',

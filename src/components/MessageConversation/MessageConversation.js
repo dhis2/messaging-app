@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 
-import history from '../../utils/history'
+import history from '../../utils/history.js'
 import {
     addRecipients,
     downloadAttachment,
     cancelAttachment,
     clearSelectedMessageConversation,
-} from '../../actions'
-import { supportsAttachments } from '../../utils/helpers'
+} from '../../actions/index.js'
+import { supportsAttachments } from '../../utils/helpers.js'
 
 import Subheader from 'material-ui/Subheader/Subheader'
 import AddIcon from 'material-ui-icons/Add'
@@ -19,12 +19,12 @@ import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import Paper from 'material-ui/Paper'
 import i18n from '@dhis2/d2-i18n'
-import Message from './Message'
-import ReplyCard from './ReplyCard'
-import SuggestionField from '../Common/SuggestionField'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel'
-import { styles } from '../../styles/messageConversationStyles'
-import theme from '../../styles/theme'
+import Message from './Message.js'
+import ReplyCard from './ReplyCard.js'
+import SuggestionField from '../Common/SuggestionField.js'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
+import { styles } from '../../styles/messageConversationStyles.js'
+import theme from '../../styles/theme.js'
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT']
 const maxParticipantsDisplay = 30

@@ -1,8 +1,8 @@
 import React from 'react'
 import propTypes from '@dhis2/prop-types'
 import i18n from '@dhis2/d2-i18n'
-import SuggestionField from './SuggestionField'
-import DialogWithReduxState from './DialogWithReduxState'
+import SuggestionField from './SuggestionField.js'
+import DialogWithReduxState from './DialogWithReduxState.js'
 
 const AssignToDialog = ({
     open,

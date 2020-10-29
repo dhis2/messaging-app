@@ -1,6 +1,6 @@
-import * as actions from '../constants/actions'
+import * as actions from '../constants/actions.js'
 import log from 'loglevel'
-import * as api from '../api/api'
+import * as api from '../api/api.js'
 import moment from 'moment'
 
 // Simple hack to solve negative time difference

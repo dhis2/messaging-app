@@ -5,9 +5,9 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { CircularProgress } from 'material-ui'
 
-import CustomSnackBar from '../Common/CustomSnackBar'
-import Routes from './Routes'
-import { setCurrentUser, setDhis2CoreVersion } from '../../actions'
+import CustomSnackBar from '../Common/CustomSnackBar.js'
+import Routes from './Routes.js'
+import { setCurrentUser, setDhis2CoreVersion } from '../../actions/index.js'
 
 import classes from './App.module.css'
 

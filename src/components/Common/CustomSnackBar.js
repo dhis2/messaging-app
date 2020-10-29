@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import propTypes from '@dhis2/prop-types'
 import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
-import { clearSnackMessage } from '../../actions'
+import { clearSnackMessage } from '../../actions/index.js'
 import { compose, pure } from 'recompose'
-import theme from '../../styles/theme'
+import theme from '../../styles/theme.js'
 
 const DEFAULT_MESSAGE_DURATION = 4000
 const contentColorStyle = {

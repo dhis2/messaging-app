@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton'
 import LinearProgress from 'material-ui/LinearProgress'
 import Clear from 'material-ui-icons/Clear'
 import Download from 'material-ui-icons/CloudDownload'
-import theme from '../../styles/theme'
+import theme from '../../styles/theme.js'
 import './Attachments.css'
 
 const Attachments = ({

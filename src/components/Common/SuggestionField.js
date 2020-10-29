@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import propTypes from '@dhis2/prop-types'
 import ChipInput from 'material-ui-chip-input'
-import { debounce } from '../../utils/helpers'
+import { debounce } from '../../utils/helpers.js'
 import i18n from '@dhis2/d2-i18n'
-import * as api from '../../api/api'
+import * as api from '../../api/api.js'
 
 const searchDelay = 300
 const minCharLength = 2

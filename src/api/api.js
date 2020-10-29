@@ -1,5 +1,5 @@
-import { pageSize } from '../constants/development'
-import createRecipientSearchQuery from '../utils/createRecipientSearchQuery'
+import { pageSize } from '../constants/development.js'
+import createRecipientSearchQuery from '../utils/createRecipientSearchQuery.js'
 
 const initialMessageConversationFields = [
     'id',
