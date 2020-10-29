@@ -40,7 +40,7 @@ msgid "Message"
 msgstr ""
 
 msgid "Send"
-msgstr ""
+msgstr "Odeslat"
 
 msgid "Discard"
 msgstr "Vyřadit"
@@ -115,7 +115,7 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 msgid "Submit"
 msgstr ""
