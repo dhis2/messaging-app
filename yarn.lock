@@ -1171,10 +1171,10 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@dhis2/app-adapter@5.4.1-alpha.1":
-  version "5.4.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@dhis2/app-adapter/-/app-adapter-5.4.1-alpha.1.tgz#3aeb04b073e521496fabe76174cb049e9037aba5"
-  integrity sha512-NHYmuKJ2Aka9b08GKkgETHjWaxMz20ARBTiG7QqhbXB76nGlii9WzF4baEnvtaFj4+8EVQKGzn1UfDDYHhwMeg==
+"@dhis2/app-adapter@5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@dhis2/app-adapter/-/app-adapter-5.4.1.tgz#e18ddbf1c5b1b09567da2cc17296f8f5a286c294"
+  integrity sha512-ApMq+dVEm+3NvzEX+KareOGoL8/RNUHml7p4wbqhM20s+WlJrrotgKcOech50a7adma+tsk2wMMtAwccwRL/4Q==
   dependencies:
     moment "^2.24.0"
 
@@ -1196,12 +1196,12 @@
   resolved "https://registry.yarnpkg.com/@dhis2/app-service-data/-/app-service-data-2.5.0.tgz#95d37b172aee8c0285876df6aafeac4c9fb04dd9"
   integrity sha512-nv/zyyeADoks5ilDNp8VbWNuzuSZ/VG/yQaKbuwvuMw/KOALWtxhHgi6ZMv8cQ/HmClof9Z4d88786mgvHZ5bA==
 
-"@dhis2/app-shell@5.4.1-alpha.1":
-  version "5.4.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@dhis2/app-shell/-/app-shell-5.4.1-alpha.1.tgz#b1048418943181b784ddea86d01c91c5eddb619b"
-  integrity sha512-mwkHUSGKuBWFPbW4RUaZDZUPSqLhDu+r8LNXnr+l7I8WmUyqUwYYNyoeSqRQxvjsBHHzwRR9z+CFrb1lJ95FDw==
+"@dhis2/app-shell@5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@dhis2/app-shell/-/app-shell-5.4.1.tgz#b50c235122c1d677a78326a70c571f59cfe06f5b"
+  integrity sha512-OHXcm0t+DTeHVgUpKDFLdymBBMRIFOSOfcpBO+TmOs8wFYpcIdVvtbCm9+PO8KdHnOoQ+hE5GKGzrHlktUvrHw==
   dependencies:
-    "@dhis2/app-adapter" "5.4.1-alpha.1"
+    "@dhis2/app-adapter" "5.4.1"
     "@dhis2/app-runtime" "^2.2.2"
     "@dhis2/d2-i18n" "^1.0.5"
     "@dhis2/ui" "^5.4.2"
@@ -1216,10 +1216,10 @@
     typeface-roboto "^0.0.75"
     typescript "^3.6.3"
 
-"@dhis2/cli-app-scripts@^5.4.1-alpha.1":
-  version "5.4.1-alpha.1"
-  resolved "https://registry.yarnpkg.com/@dhis2/cli-app-scripts/-/cli-app-scripts-5.4.1-alpha.1.tgz#b1a99c4bc27bfa051c45e36bca79636021eb269f"
-  integrity sha512-O+aNZCT+vFu0f5bjFGBlRr84bex+ChbW8t/RtcdHufKxYZfksjHZYN4uDj3EQ7zbSH68hOfHxTdR70mltU1pRA==
+"@dhis2/cli-app-scripts@^5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@dhis2/cli-app-scripts/-/cli-app-scripts-5.4.1.tgz#ab364e670fafffd6f1ce64ccc64e6821b46a736a"
+  integrity sha512-jyTh2PJwirRBKtxQfqX8hxIzdggIrIlrm+VC9LUQkAsb9FBqd26LShvpHZjdma9mNq9crGsxFqnEAxZ3MRgtUg==
   dependencies:
     "@babel/core" "^7.6.2"
     "@babel/plugin-proposal-class-properties" "^7.8.3"
@@ -1232,7 +1232,7 @@
     "@babel/preset-env" "^7.9.0"
     "@babel/preset-react" "^7.0.0"
     "@babel/preset-typescript" "^7.6.0"
-    "@dhis2/app-shell" "5.4.1-alpha.1"
+    "@dhis2/app-shell" "5.4.1"
     "@dhis2/cli-helpers-engine" "^1.5.0"
     archiver "^3.1.1"
     axios "^0.20.0"
@@ -1287,30 +1287,30 @@
     update-notifier "^3.0.0"
     yargs "^13.1.0"
 
-"@dhis2/cli-style@^7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@dhis2/cli-style/-/cli-style-7.2.0.tgz#1b0603413b9811331ae95bf46f3522decf425e18"
-  integrity sha512-ElgwE41968+FUtHB7KO+wdi55qXep2lHdTA1FOSgL82fCOT0hOS3rGZPEE8CsrpgphTgnAvP2mTnqji0O7roNA==
+"@dhis2/cli-style@^7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@dhis2/cli-style/-/cli-style-7.2.1.tgz#bbc2d8f8b7145ec2f7755256ec57ae52b46305e5"
+  integrity sha512-h7X6LGnUtR5GD8Dg8rRHtzdSgzKTZj2vFguDcF4qNQheE5v4mksyaZHTcc7CKTkp7kENK3ifMNTajG2fhkEFKQ==
   dependencies:
     "@commitlint/cli" "^11.0.0"
     "@commitlint/config-conventional" "^11.0.0"
     "@dhis2/cli-helpers-engine" "2.0.1"
     babel-eslint "^10.1.0"
     cross-spawn "^7.0.3"
-    eslint "^7.11.0"
-    eslint-config-prettier "^6.11.0"
+    eslint "^7.12.0"
+    eslint-config-prettier "^6.14.0"
     eslint-plugin-import "^2.22.1"
     eslint-plugin-prettier "^3.1.4"
-    eslint-plugin-react "^7.20.6"
+    eslint-plugin-react "^7.21.5"
     fast-glob "^3.2.4"
-    find-up "^4.1.0"
+    find-up "^5.0.0"
     fs-extra "^9.0.1"
     husky "^4.3.0"
     inquirer "^7.3.3"
     perfy "^1.1.5"
     prettier "^2.1.2"
     semver "^7.3.2"
-    yargs "^16.0.3"
+    yargs "^16.1.0"
 
 "@dhis2/d2-i18n@^1.0.5":
   version "1.0.6"
@@ -5569,7 +5569,7 @@ escodegen@^1.14.1, escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@^6.11.0:
+eslint-config-prettier@^6.14.0:
   version "6.15.0"
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.15.0.tgz#7f93f6cb7d45a92f1537a70ecc06366e1ac6fed9"
   integrity sha512-a1+kOYLR8wMGustcgAjdydMsQ2A/2ipRPwRKUmfYaSxc9ZPcrku080Ctl6zrZzZNs/U82MjSv+qKREkoq3bJaw==
@@ -5662,7 +5662,7 @@ eslint-plugin-react-hooks@^4.2.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.2.0.tgz#8c229c268d468956334c943bb45fc860280f5556"
   integrity sha512-623WEiZJqxR7VdxFCKLI6d6LLpwJkGPYKODnkH3D7WpOG5KM8yWueBd8TLsNAetEJNF5iJmolaAKO3F8yzyVBQ==
 
-eslint-plugin-react@^7.20.6, eslint-plugin-react@^7.21.5:
+eslint-plugin-react@^7.21.5:
   version "7.21.5"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.21.5.tgz#50b21a412b9574bfe05b21db176e8b7b3b15bff3"
   integrity sha512-8MaEggC2et0wSF6bUeywF7qQ46ER81irOdWS4QWxnnlAEsnzeBevk1sWh7fhpCghPpXb+8Ks7hvaft6L/xsR6g==
@@ -5735,7 +5735,7 @@ eslint-webpack-plugin@^2.1.0:
     micromatch "^4.0.2"
     schema-utils "^2.7.0"
 
-eslint@^7.11.0:
+eslint@^7.11.0, eslint@^7.12.0:
   version "7.12.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.12.1.tgz#bd9a81fa67a6cfd51656cdb88812ce49ccec5801"
   integrity sha512-HlMTEdr/LicJfN08LB3nM1rRYliDXOmfoO4vj39xN6BLpFzF00hbwBoqHk8UcJ2M/3nlARZWy/mslvGEuZFvsg==
@@ -15132,7 +15132,7 @@ yargs@^15.0.0, yargs@^15.1.0, yargs@^15.4.1:
     y18n "^4.0.0"
     yargs-parser "^18.1.2"
 
-yargs@^16.0.3:
+yargs@^16.1.0:
   version "16.1.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-16.1.0.tgz#fc333fe4791660eace5a894b39d42f851cd48f2a"
   integrity sha512-upWFJOmDdHN0syLuESuvXDmrRcWd1QafJolHskzaw79uZa7/x53gxQKiR07W59GWY1tFhhU/Th9DrtSfpS782g==
