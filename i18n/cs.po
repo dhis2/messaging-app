@@ -31,7 +31,7 @@ msgid "Deselect all"
 msgstr ""
 
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 msgid "Priority"
 msgstr ""
