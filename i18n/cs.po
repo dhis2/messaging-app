@@ -37,7 +37,7 @@ msgid "Priority"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Hledat"
 
 msgid "Set filter"
 msgstr ""
