@@ -33,8 +33,8 @@ export const setEngine = engineInstance => {
     engine = engineInstance
 }
 
-export const getCurrentUser = () => {
-    return engine.query({
+export const getCurrentUser = () =>
+    engine.query({
         currentUser: {
             resource: 'me',
             params: {
@@ -42,7 +42,6 @@ export const getCurrentUser = () => {
             },
         },
     })
-}
 
 export const getMessageConversations = async ({
     messageType,
@@ -114,24 +113,20 @@ export const getServerDate = async () => {
     return systemInfo.serverDate
 }
 
-export const updateMessageConversationStatus = async (
-    messageConversationId,
-    value
-) => {
-    return await engine.mutate({
+export const updateMessageConversationStatus = (messageConversationId, value) =>
+    engine.mutate({
         resource: `messageConversations/${messageConversationId}/status`,
         type: 'create',
         params: {
             messageConversationStatus: value,
         },
     })
-}
 
-export const updateMessageConversationPriority = async (
+export const updateMessageConversationPriority = (
     messageConversationId,
     value
 ) =>
-    await engine.mutate({
+    engine.mutate({
         resource: `messageConversations/${messageConversationId}/priority`,
         type: 'create',
         params: {
@@ -160,16 +155,15 @@ export const updateMessageConversationAssignee = async (
     return await engine.mutate(mutation)
 }
 
-export const updateMessageConversationFollowup = async (
+export const updateMessageConversationFollowup = (
     messageConversationIds,
     value
-) => {
-    return await engine.mutate({
+) =>
+    engine.mutate({
         resource: `messageConversations/${value ? 'followup' : 'unfollowup'}`,
         type: 'create',
         data: messageConversationIds,
     })
-}
 
 export const getNrOfUnread = async messageType => {
     const { messageConversations } = await engine.query({
@@ -186,7 +180,7 @@ export const getNrOfUnread = async messageType => {
     return messageConversations.pager.total
 }
 
-export const sendMessage = async ({
+export const sendMessage = ({
     subject,
     users,
     userGroups,
@@ -194,7 +188,7 @@ export const sendMessage = async ({
     text,
     attachments,
 }) =>
-    await engine.mutate({
+    engine.mutate({
         resource: 'messageConversations',
         type: 'create',
         data: {
@@ -207,8 +201,8 @@ export const sendMessage = async ({
         },
     })
 
-export const sendFeedbackMessage = async (subject, text) =>
-    await engine.mutate({
+export const sendFeedbackMessage = (subject, text) =>
+    engine.mutate({
         resource: 'messageConversations/feedback',
         type: 'create',
         params: { subject },
@@ -235,24 +229,24 @@ export const replyMessage = async ({
     })
 }
 
-export const deleteMessageConversation = async (
+export const deleteMessageConversation = (
     messageConversationId,
     currentUserId
 ) =>
-    await engine.mutate({
+    engine.mutate({
         resource: `messageConversations/${messageConversationId}/${currentUserId}`,
         type: 'delete',
     })
 
-export const markRead = async markedReadConversations =>
-    await engine.mutate({
+export const markRead = markedReadConversations =>
+    engine.mutate({
         resource: 'messageConversations/read',
         type: 'create',
         data: markedReadConversations,
     })
 
-export const markUnread = async markedUnreadConversations =>
-    await engine.mutate({
+export const markUnread = markedUnreadConversations =>
+    engine.mutate({
         resource: 'messageConversations/unread',
         type: 'create',
         data: markedUnreadConversations,
@@ -300,13 +294,13 @@ export const searchRecipients = async ({
     }
 }
 
-export const addRecipients = async ({
+export const addRecipients = ({
     users,
     userGroups,
     organisationUnits,
     messageConversationId,
 }) =>
-    await engine.mutate({
+    engine.mutate({
         resource: `messageConversations/${messageConversationId}/recipients`,
         type: 'create',
         data: {
@@ -333,8 +327,8 @@ export const getUserById = async id => {
     }
 }
 
-export const addAttachment = async attachment =>
-    await engine.mutate({
+export const addAttachment = attachment =>
+    engine.mutate({
         resource: 'fileResources',
         type: 'create',
         params: {
