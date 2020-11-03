@@ -441,7 +441,6 @@ export const addAttachment = attachment => async dispatch => {
     }
 }
 
-// This is calling a synchronous function in the api module ¯\_(ツ)_/¯
 export const downloadAttachment = (
     messageConversationId,
     messageId,
