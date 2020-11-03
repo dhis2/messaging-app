@@ -286,11 +286,9 @@ export const searchRecipients = async ({
     const results = await engine.query(query)
 
     return {
-        users: results.users.users,
-        organisationUnits:
-            results.organisationUnits &&
-            results.organisationUnits.organisationUnits,
-        userGroups: results.userGroups && results.userGroups.userGroups,
+        users: results.users?.users,
+        organisationUnits: results?.organisationUnits?.organisationUnits,
+        userGroups: results?.userGroups?.userGroups,
     }
 }
 
