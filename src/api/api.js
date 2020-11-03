@@ -81,11 +81,8 @@ export const getMessageConversations = async ({
             page,
             fields: initialMessageConversationFields,
             order,
+            queryString: messageFilter,
         },
-    }
-
-    if (messageFilter) {
-        query.params.queryString = messageFilter
     }
 
     const { messageConversations } = await engine.query({
