@@ -1,8 +1,8 @@
 import React from 'react'
 import propTypes from '@dhis2/prop-types'
-import Dialog from 'material-ui/Dialog'
 import i18n from '@dhis2/d2-i18n'
-import SuggestionField from './SuggestionField'
+import SuggestionField from './SuggestionField.js'
+import DialogWithReduxState from './DialogWithReduxState.js'
 
 const AssignToDialog = ({
     open,
@@ -11,7 +11,7 @@ const AssignToDialog = ({
     messageType,
     feedbackRecipientsId,
 }) => (
-    <Dialog
+    <DialogWithReduxState
         open={open}
         onRequestClose={() => {
             onRequestClose()
@@ -29,7 +29,7 @@ const AssignToDialog = ({
             key={'suggestionField'}
             label={i18n.t('Assignee')}
         />
-    </Dialog>
+    </DialogWithReduxState>
 )
 
 AssignToDialog.propTypes = {

@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
 import MailIcon from 'material-ui-icons/MailOutline'
 import i18n from '@dhis2/d2-i18n'
-import * as api from '../../api/api'
+import * as api from '../../api/api.js'
 import {
     loadMessageConversations,
     setIsInFeedbackRecipientGroup,
@@ -17,15 +17,14 @@ import {
     setFilter,
     setDisplayTimeDiff,
     clearAttachments,
-    setDhis2CoreVersion,
-} from '../../actions'
-import theme from '../../styles/theme'
-import MessageConversation from '../MessageConversation/MessageConversation'
-import SidebarList from '../List/SidebarList'
-import MessageConversationList from '../List/MessageConversationList'
-import CreateMessage from '../MessageConversation/CreateMessage'
-import Toolbar from '../Common/Toolbar'
-import { subheader } from '../../styles/style'
+} from '../../actions/index.js'
+import theme from '../../styles/theme.js'
+import MessageConversation from '../MessageConversation/MessageConversation.js'
+import SidebarList from '../List/SidebarList.js'
+import MessageConversationList from '../List/MessageConversationList.js'
+import CreateMessage from '../MessageConversation/CreateMessage.js'
+import Toolbar from '../Common/Toolbar.js'
+import { subheader } from '../../styles/style.js'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
@@ -49,8 +48,6 @@ class MessagingCenter extends Component {
         const selectedMessageType = this.props.match.params.messageType
         const selectedId = this.props.match.params.messageId
 
-        this.props.setDhis2CoreVersion(this.context.d2.system.version.minor)
-
         if (
             selectedId &&
             selectedId !== selectedMessageType &&
@@ -62,7 +59,7 @@ class MessagingCenter extends Component {
             )
         }
 
-        api.isInFeedbackRecipientGroup().then(result =>
+        api.isInFeedbackRecipientGroup(this.props.currentUser).then(result =>
             this.props.setIsInFeedbackRecipientGroup(result)
         )
 
@@ -265,13 +262,13 @@ class MessagingCenter extends Component {
 
 MessagingCenter.propTypes = {
     clearSelectedMessageConversation: propTypes.func,
+    currentUser: propTypes.object,
     isInFeedbackRecipientGroup: propTypes.bool,
     loadMessageConversations: propTypes.func,
     match: propTypes.object,
     messageTypes: propTypes.array,
     selectedMessageConversation: propTypes.object,
     selectedMessageType: propTypes.object,
-    setDhis2CoreVersion: propTypes.func,
     setDisplayTimeDiff: propTypes.func,
     setIsInFeedbackRecipientGroup: propTypes.func,
     setSelectedMessageConversation: propTypes.func,
@@ -279,11 +276,8 @@ MessagingCenter.propTypes = {
     settingSelectedMessageConversation: propTypes.bool,
 }
 
-MessagingCenter.contextTypes = {
-    d2: propTypes.object,
-}
-
 const mapStateToProps = state => ({
+    currentUser: state.messaging.currentUser,
     snackMessage: state.messaging.snackMessage,
     messageTypes: state.messaging.messageTypes,
     messageConversations: state.messaging.messageConversations,
@@ -318,7 +312,6 @@ export default compose(
             setFilter,
             setDisplayTimeDiff,
             clearAttachments,
-            setDhis2CoreVersion,
         },
         null,
         { pure: false }

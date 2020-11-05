@@ -1,16 +1,49 @@
-import { getInstance as getD2Instance } from 'd2'
-import { pageSize } from '../constants/development'
-import { supportsUserLookupEndPoint } from '../utils/helpers.js'
+import { pageSize } from '../constants/development.js'
+import createRecipientSearchQuery from '../utils/createRecipientSearchQuery.js'
 
-const initialMessageConversationFields =
-    'id, displayName, subject, messageType, lastSender[id, displayName], assignee[id, displayName], status, priority, lastUpdated, read, lastMessage, followUp'
+const initialMessageConversationFields = [
+    'id',
+    'displayName',
+    'subject',
+    'messageType',
+    'lastSender[id, displayName]',
+    'assignee[id, displayName]',
+    'status',
+    'priority',
+    'lastUpdated',
+    'read',
+    'lastMessage',
+    'followUp',
+]
 
-const messageConversationFields =
-    '*,assignee[id, displayName],messages[*,sender[id,displayName],attachments[id, name, contentLength]],userMessages[user[id, displayName]]'
+const messageConversationFields = [
+    '*',
+    'assignee[id, displayName]',
+    'messages[*,sender[id,displayName]',
+    'attachments[id, name, contentLength]]',
+    'userMessages[user[id, displayName]]',
+]
 
 const order = 'lastMessage:desc'
 
-export const getMessageConversations = ({
+// The rest of the code in this module will expect that
+// engine has been set and can use it safely
+let engine = null
+export const setEngine = engineInstance => {
+    engine = engineInstance
+}
+
+export const getCurrentUser = () =>
+    engine.query({
+        currentUser: {
+            resource: 'me',
+            params: {
+                fields: ['id', 'authorities', 'userGroups[id]'],
+            },
+        },
+    })
+
+export const getMessageConversations = async ({
     messageType,
     page,
     messageFilter,
@@ -19,137 +52,133 @@ export const getMessageConversations = ({
     assignedToMeFilter,
     markedForFollowUpFilter,
     unreadFilter,
+    currentUser,
 }) => {
-    const filters = [`messageType:eq:${messageType}`]
-    typeof status !== 'undefined' && filters.push(`status:eq:${status}`)
-    typeof priority !== 'undefined' && filters.push(`priority:eq:${priority}`)
-    markedForFollowUpFilter && filters.push('followUp:eq:true')
-    unreadFilter && filters.push('read:eq:false')
+    const filter = [`messageType:eq:${messageType}`]
 
-    return getD2Instance()
-        .then(instance => {
-            assignedToMeFilter &&
-                filters.push(`assignee.id:eq:${instance.currentUser.id}`)
+    if (status) {
+        filter.push(`status:eq:${status}`)
+    }
+    if (priority) {
+        filter.push(`priority:eq:${priority}`)
+    }
+    if (markedForFollowUpFilter) {
+        filter.push('followUp:eq:true')
+    }
+    if (unreadFilter) {
+        filter.push('read:eq:false')
+    }
+    if (assignedToMeFilter) {
+        filter.push(`assignee.id:eq:${currentUser.id}`)
+    }
 
-            return instance.Api.getApi().get(
-                `messageConversations?pageSize=${pageSize}&page=${page}${
-                    messageFilter !== '' && messageFilter !== undefined
-                        ? `&queryString=${messageFilter}`
-                        : ''
-                }`,
-                {
-                    fields: [initialMessageConversationFields],
-                    order,
-                    filter: filters,
-                }
-            )
-        })
-        .then(result => ({
-            messageConversations: result.messageConversations,
-            pager: result.pager,
-        }))
-        .catch(error => {
-            throw error
-        })
+    const query = {
+        resource: 'messageConversations',
+        params: {
+            filter,
+            pageSize,
+            page,
+            fields: initialMessageConversationFields,
+            order,
+            queryString: messageFilter,
+        },
+    }
+
+    const { messageConversations } = await engine.query({
+        messageConversations: query,
+    })
+
+    return messageConversations
 }
 
-export const getMessageConversation = messageConversation =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(
-                `messageConversations/${messageConversation.id}`,
-                {
-                    fields: [messageConversationFields],
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+export const getMessageConversation = async ({ id }) => {
+    const { messageConversation } = await engine.query({
+        messageConversation: {
+            resource: 'messageConversations',
+            id,
+            params: { fields: messageConversationFields },
+        },
+    })
 
-export const getServerDate = () =>
-    getD2Instance()
-        .then(instance => instance.Api.getApi().get('system/info'))
-        .then(result => result.serverDate)
-        .catch(error => {
-            throw error
-        })
+    return messageConversation
+}
+
+export const getServerDate = async () => {
+    const { systemInfo } = await engine.query({
+        systemInfo: {
+            resource: 'system/info',
+        },
+    })
+
+    return systemInfo.serverDate
+}
 
 export const updateMessageConversationStatus = (messageConversationId, value) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/status?messageConversationStatus=${value}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: `messageConversations/${messageConversationId}/status`,
+        type: 'create',
+        params: {
+            messageConversationStatus: value,
+        },
+    })
 
 export const updateMessageConversationPriority = (
     messageConversationId,
     value
 ) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/priority?messageConversationPriority=${value}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: `messageConversations/${messageConversationId}/priority`,
+        type: 'create',
+        params: {
+            messageConversationPriority: value,
+        },
+    })
 
-export const updateMessageConversationAssignee = (
+export const updateMessageConversationAssignee = async (
     messageConversationId,
     value
-) =>
-    getD2Instance()
-        .then(instance =>
-            value === undefined
-                ? instance.Api.getApi().delete(
-                      `messageConversations/${messageConversationId}/assign`
-                  )
-                : instance.Api.getApi().post(
-                      `messageConversations/${messageConversationId}/assign?userId=${value}`
-                  )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+) => {
+    const mutation = value
+        ? {
+              resource: `messageConversations/${messageConversationId}/assign`,
+              type: 'create',
+              params: {
+                  userId: value,
+              },
+          }
+        : {
+              resource: `messageConversations`,
+              id: `${messageConversationId}/assign`,
+              type: 'delete',
+          }
+
+    return await engine.mutate(mutation)
+}
 
 export const updateMessageConversationFollowup = (
     messageConversationIds,
     value
 ) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${value ? 'followup' : 'unfollowup'}`,
-                messageConversationIds
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: `messageConversations/${value ? 'followup' : 'unfollowup'}`,
+        type: 'create',
+        data: messageConversationIds,
+    })
 
-export const getNrOfUnread = messageType =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('messageConversations', {
-                fields: 'read',
+export const getNrOfUnread = async messageType => {
+    const { messageConversations } = await engine.query({
+        messageConversations: {
+            resource: 'messageConversations',
+            params: {
+                fields: ['read'],
                 filter: ['read:eq:false', `messageType:eq:${messageType}`],
-            })
-        )
-        .then(result => result.pager.total)
-        .catch(error => {
-            throw error
-        })
+                pageSize: 1,
+            },
+        },
+    })
+
+    return messageConversations.pager.total
+}
 
 export const sendMessage = ({
     subject,
@@ -159,225 +188,109 @@ export const sendMessage = ({
     text,
     attachments,
 }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post('messageConversations', {
-                subject,
-                users,
-                userGroups,
-                organisationUnits,
-                attachments,
-                text,
-            })
-        )
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: 'messageConversations',
+        type: 'create',
+        data: {
+            subject,
+            users,
+            userGroups,
+            organisationUnits,
+            text,
+            attachments,
+        },
+    })
 
 export const sendFeedbackMessage = (subject, text) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/feedback?subject=${subject}`,
-                text,
-                {
-                    headers: { 'Content-Type': 'text/plain' },
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: 'messageConversations/feedback',
+        type: 'create',
+        params: { subject },
+        data: text,
+    })
 
-export const replyMessage = ({ message, internalReply, attachments, id }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${id}?internal=${internalReply}${
-                    attachments.length > 0 ? `&attachments=${attachments}` : ''
-                }`,
-                message,
-                {
-                    headers: { 'Content-Type': 'text/plain' },
-                }
-            )
-        )
-        .catch(error => {
-            throw error
-        })
+export const replyMessage = async ({
+    message,
+    internalReply,
+    attachments,
+    id,
+}) => {
+    const params = { internal: internalReply }
 
-export const deleteMessageConversation = messageConversationId =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().delete(
-                `messageConversations/${messageConversationId}/${instance.currentUser.id}`
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    if (attachments.length > 0) {
+        params.attachments = attachments
+    }
+
+    return await engine.mutate({
+        resource: `messageConversations/${id}`,
+        type: 'create',
+        params,
+        data: message,
+    })
+}
+
+export const deleteMessageConversation = (
+    messageConversationId,
+    currentUserId
+) =>
+    engine.mutate({
+        resource: `messageConversations/${messageConversationId}/${currentUserId}`,
+        type: 'delete',
+    })
 
 export const markRead = markedReadConversations =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                'messageConversations/read',
-                markedReadConversations
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: 'messageConversations/read',
+        type: 'create',
+        data: markedReadConversations,
+    })
 
 export const markUnread = markedUnreadConversations =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                'messageConversations/unread',
-                markedUnreadConversations
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: 'messageConversations/unread',
+        type: 'create',
+        data: markedUnreadConversations,
+    })
 
-/* Feedback recipient query */
-export const isInFeedbackRecipientGroup = () =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('me', { fields: 'userGroups[id]' })
-        )
-        .then(result =>
-            getD2Instance()
-                .then(instance => ({
-                    configuration: instance.Api.getApi()
-                        .get('configuration')
-                        .then(configuration => configuration),
-                    instance,
-                }))
-                .then(({ configuration, instance }) => {
-                    const getSymbolProperties = symbol =>
-                        Array.from(
-                            symbol[Object.getOwnPropertySymbols(symbol)[0]]
-                        )
+export const isInFeedbackRecipientGroup = async currentUser => {
+    const {
+        configuration: { feedbackRecipients },
+    } = await engine.query({
+        configuration: {
+            resource: 'configuration',
+        },
+    })
+    const authorized =
+        currentUser.authorities.includes('ALL') ||
+        currentUser.userGroups.some(({ id }) => id === feedbackRecipients.id)
+    const feedbackRecipientsId = feedbackRecipients.id
 
-                    const userAuthorities = getSymbolProperties(
-                        instance.currentUser.authorities
-                    )
-                    return configuration.then(configurationResult => ({
-                        authorized:
-                            userAuthorities.includes('ALL') ||
-                            !!result.userGroups.find(
-                                group =>
-                                    group.id ===
-                                    configurationResult.feedbackRecipients.id
-                            ),
-                        feedbackRecipientsId:
-                            configurationResult.feedbackRecipients.id,
-                    }))
-                })
-                .catch(error => {
-                    throw error
-                })
-        )
-        .catch(error => {
-            throw error
-        })
+    return { authorized, feedbackRecipientsId }
+}
 
-/* Recipient search */
-const MAX_RECIPIENT = 10
-const searchOrganisationUnits = searchValue =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('organisationUnits', {
-                fields: 'id, displayName',
-                pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`, 'users:gte:1'],
-            })
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
-
-const searchUserGroups = searchValue =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get('userGroups', {
-                fields: 'id, displayName',
-                pageSize: MAX_RECIPIENT,
-                filter: [`displayName:token:${searchValue}`],
-            })
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
-
-export const searchRecipients = ({
+export const searchRecipients = async ({
     searchValue,
     searchOnlyUsers,
     searchOnlyFeedbackRecipients,
     feedbackRecipientsId,
+    dhis2CoreVersion,
 }) => {
-    return getD2Instance()
-        .then(instance => {
-            if (supportsUserLookupEndPoint(instance.system.version.minor)) {
-                // version >= v2.35
-                const url = searchOnlyFeedbackRecipients
-                    ? 'userLookup/feedbackRecipients'
-                    : 'userLookup'
+    const query = createRecipientSearchQuery({
+        searchValue,
+        searchOnlyUsers,
+        searchOnlyFeedbackRecipients,
+        feedbackRecipientsId,
+        dhis2CoreVersion,
+    })
 
-                return instance.Api.getApi().get(`${url}?query=${searchValue}`)
-            } else {
-                // version < 2.35
-                const filters = [`displayName:token:${searchValue}`]
-                if (searchOnlyFeedbackRecipients) {
-                    filters.push(`userGroups.id:eq:${feedbackRecipientsId}`)
-                }
+    const results = await engine.query(query)
 
-                return instance.Api.getApi().get('users', {
-                    pageSize: MAX_RECIPIENT,
-                    filter: filters,
-                })
-            }
-        })
-        .then(({ users }) =>
-            searchOnlyUsers
-                ? { users, undefined }
-                : searchUserGroups(searchValue).then(({ userGroups }) =>
-                      searchOrganisationUnits(searchValue).then(
-                          ({ organisationUnits }) => ({
-                              users,
-                              userGroups,
-                              organisationUnits,
-                          })
-                      )
-                  )
-        )
-        .catch(error => {
-            throw error
-        })
+    return {
+        users: results.users?.users,
+        organisationUnits: results?.organisationUnits?.organisationUnits,
+        userGroups: results?.userGroups?.userGroups,
+    }
 }
-
-export const fetchParticipants = messageConversationId =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(
-                `messageConversations/${messageConversationId}`,
-                {
-                    fields: 'userMessages[user[id, displayName]]',
-                }
-            )
-        )
-        .then(result => result)
-        .catch(error => {
-            throw error
-        })
 
 export const addRecipients = ({
     users,
@@ -385,75 +298,66 @@ export const addRecipients = ({
     organisationUnits,
     messageConversationId,
 }) =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                `messageConversations/${messageConversationId}/recipients`,
-                {
-                    users,
-                    userGroups,
-                    organisationUnits,
-                }
-            )
-        )
-        .catch(error => {
-            throw error
-        })
+    engine.mutate({
+        resource: `messageConversations/${messageConversationId}/recipients`,
+        type: 'create',
+        data: {
+            users,
+            userGroups,
+            organisationUnits,
+        },
+    })
 
-export const getUserById = id =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().get(`users/${id}`, {
-                fields: 'id,displayName',
-            })
-        )
-        .then(({ id, displayName }) => ({
+export const getUserById = async id => {
+    const { user } = await engine.query({
+        user: {
+            resource: 'users',
             id,
-            displayName,
-            type: 'user',
-        }))
-        .catch(error => {
-            throw error
-        })
+            params: {
+                fields: 'id,displayName',
+            },
+        },
+    })
 
-export function createAttachment(attachment) {
-    const form = new FormData()
-    form.append('file', attachment)
-    return form
+    return {
+        ...user,
+        type: 'user',
+    }
 }
 
 export const addAttachment = attachment =>
-    getD2Instance()
-        .then(instance =>
-            instance.Api.getApi().post(
-                '/fileResources?domain=MESSAGE_ATTACHMENT',
-                createAttachment(attachment)
-            )
-        )
-        .catch(error => {
-            throw error
-        })
-
-export function downloadBlob(url) {
-    const link = document.createElement('a')
-    link.href = url
-    link.setAttribute('target', '_blank')
-    document.body.appendChild(link)
-    link.click()
-}
+    engine.mutate({
+        resource: 'fileResources',
+        type: 'create',
+        params: {
+            domain: 'MESSAGE_ATTACHMENT',
+        },
+        data: {
+            file: attachment,
+        },
+    })
 
 export const downloadAttachment = (
     messageConversationId,
     messageId,
     attachmentId
-) =>
-    getD2Instance()
-        .then(instance => {
-            const baseUrl = instance.Api.getApi().baseUrl
-            return downloadBlob(
-                `${baseUrl}/messageConversations/${messageConversationId}/${messageId}/attachments/${attachmentId}`
-            )
-        })
-        .catch(error => {
-            throw error
-        })
+) => {
+    const filePath = [
+        engine.link.baseUrl,
+        engine.link.apiPath,
+        'messageConversations',
+        messageConversationId,
+        messageId,
+        'attachments',
+        attachmentId,
+    ].join('/')
+
+    const link = document.createElement('a')
+    link.href = filePath
+    link.download = filePath.split('/').pop()
+    link.target = '_blank'
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+}

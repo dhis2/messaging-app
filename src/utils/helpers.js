@@ -25,11 +25,11 @@ export function findIndexOfId(list, id) {
 
 export function debounce(fn, delay) {
     let timer = null
-    return function() {
+    return function () {
         const context = this
         const args = arguments
         clearTimeout(timer)
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
             fn.apply(context, args)
         }, delay)
     }

@@ -5,12 +5,12 @@ import { compose } from 'recompose'
 import Subheader from 'material-ui/Subheader/Subheader'
 import CircularProgress from 'material-ui/CircularProgress'
 import i18n from '@dhis2/d2-i18n'
-import { loadMessageConversations } from '../../actions'
-import { messagePanelContainer } from '../../styles/style'
-import theme from '../../styles/theme'
-import ListItemHeader from './ListItemHeader'
-import MessageConversationListItem from './MessageConversationListItem'
-import { dedupeById, debounce } from '../../utils/helpers'
+import { loadMessageConversations } from '../../actions/index.js'
+import { messagePanelContainer } from '../../styles/style.js'
+import theme from '../../styles/theme.js'
+import ListItemHeader from './ListItemHeader.js'
+import MessageConversationListItem from './MessageConversationListItem.js'
+import { dedupeById, debounce } from '../../utils/helpers.js'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50

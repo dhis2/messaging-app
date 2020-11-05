@@ -7,7 +7,7 @@ import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
 import Flag from 'material-ui-icons/Flag'
 import i18n from '@dhis2/d2-i18n'
-import history from '../../utils/history'
+import history from '../../utils/history.js'
 import {
     setChecked,
     setSelectedMessageConversation,
@@ -16,10 +16,10 @@ import {
     setFilter,
     updateInputFields,
     clearAttachments,
-} from '../../actions'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel'
-import theme from '../../styles/theme'
-import { fontFamily } from '../../constants/development'
+} from '../../actions/index.js'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
+import theme from '../../styles/theme.js'
+import { fontFamily } from '../../constants/development.js'
 import moment from 'moment'
 
 const styles = {

@@ -1,6 +1,6 @@
-import * as actions from '../constants/actions'
+import * as actions from '../constants/actions.js'
 import log from 'loglevel'
-import * as api from '../api/api'
+import * as api from '../api/api.js'
 import moment from 'moment'
 
 // Simple hack to solve negative time difference
@@ -10,6 +10,23 @@ const createAction = (type, payload) => ({ type, payload })
 /******************
  * THUNKS SECTION *
  ******************/
+
+export const setCurrentUser = () => async dispatch => {
+    dispatch(createAction(actions.SET_CURRENT_USER))
+
+    try {
+        const { currentUser } = await api.getCurrentUser()
+
+        dispatch(createAction(actions.SET_CURRENT_USER_SUCCESS, currentUser))
+    } catch {
+        dispatch(
+            createAction(
+                actions.SET_CURRENT_USER_ERROR,
+                'Could not load current user'
+            )
+        )
+    }
+}
 
 export const setDisplayTimeDiff = () => async dispatch => {
     try {
@@ -163,6 +180,7 @@ export const loadMessageConversations = (
         assignedToMeFilter,
         markedForFollowUpFilter,
         unreadFilter,
+        currentUser,
     } = state.messaging
 
     // Default fallback values so this action can be called without arguments
@@ -189,6 +207,7 @@ export const loadMessageConversations = (
                     assignedToMeFilter,
                     markedForFollowUpFilter,
                     unreadFilter,
+                    currentUser,
                 })
                 .then(result => ({
                     messageConversations: result.messageConversations,
@@ -224,10 +243,12 @@ export const loadMessageConversations = (
 export const deleteMessageConversations = (
     messageConversationIds,
     messageType
-) => async dispatch => {
+) => async (dispatch, getState) => {
     try {
+        const state = getState()
+        const { currentUser } = state.messaging
         const promises = messageConversationIds.map(messageConversationId =>
-            api.deleteMessageConversation(messageConversationId)
+            api.deleteMessageConversation(messageConversationId, currentUser.id)
         )
 
         await Promise.all(promises)
@@ -424,18 +445,9 @@ export const downloadAttachment = (
     messageConversationId,
     messageId,
     attachmentId
-) => async dispatch => {
-    try {
-        await api.downloadAttachment(
-            messageConversationId,
-            messageId,
-            attachmentId
-        )
-
-        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
-    } catch (error) {
-        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_ERROR, { error }))
-    }
+) => dispatch => {
+    api.downloadAttachment(messageConversationId, messageId, attachmentId)
+    dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
 }
 
 /************************

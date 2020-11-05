@@ -17,8 +17,6 @@
     },
     "dependencies": {
         "@dhis2/app-runtime": "^2.5.0",
-        "@dhis2/app-runtime-adapter-d2": "^1.0.1",
-        "d2": "31.8.2",
         "history": "^4.7.2",
         "loglevel": "^1.7.0",
         "material-ui": "^0.20.0",
@@ -33,8 +31,10 @@
         "typeface-roboto": "^0.0.75"
     },
     "devDependencies": {
-        "@dhis2/cli-app-scripts": "^5.4.0",
-        "@dhis2/cli-style": "^7.0.0",
-        "redux-logger": "3.0.6"
+        "@dhis2/cli-app-scripts": "^5.4.1",
+        "@dhis2/cli-style": "^7.2.1",
+        "enzyme": "^3.11.0",
+        "enzyme-adapter-react-16": "^1.15.5",
+        "jest-enzyme": "^7.1.2"
     }
 }

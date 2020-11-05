@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import propTypes from '@dhis2/prop-types'
 import ChipInput from 'material-ui-chip-input'
-import { debounce } from '../../utils/helpers'
+import { debounce } from '../../utils/helpers.js'
 import i18n from '@dhis2/d2-i18n'
-import * as api from '../../api/api'
+import * as api from '../../api/api.js'
 
 const searchDelay = 300
 const minCharLength = 2
@@ -38,6 +39,7 @@ class SuggestionField extends Component {
                 feedbackRecipientsId,
                 searchOnlyUsers,
                 searchOnlyFeedbackRecipients,
+                dhis2CoreVersion,
             } = this.props
 
             api.searchRecipients({
@@ -45,6 +47,7 @@ class SuggestionField extends Component {
                 searchOnlyUsers,
                 searchOnlyFeedbackRecipients,
                 feedbackRecipientsId,
+                dhis2CoreVersion,
             }).then(({ users, userGroups, organisationUnits }) => {
                 const addType = type => result => ({ ...result, type })
                 let internalSearchResult = users.map(addType('user'))
@@ -154,6 +157,7 @@ class SuggestionField extends Component {
 }
 
 SuggestionField.propTypes = {
+    dhis2CoreVersion: propTypes.number,
     disabled: propTypes.bool,
     errorText: propTypes.string,
     feedbackRecipientsId: propTypes.string,
@@ -167,4 +171,6 @@ SuggestionField.propTypes = {
     onSuggestionClick: propTypes.func,
 }
 
-export default SuggestionField
+export default connect(state => ({
+    dhis2CoreVersion: state.messaging.dhis2CoreVersion,
+}))(SuggestionField)
