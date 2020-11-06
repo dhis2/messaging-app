@@ -85,7 +85,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "vybráno"
 
 msgid "Sender"
 msgstr ""
@@ -103,7 +103,7 @@ msgid "Create"
 msgstr ""
 
 msgid "To"
-msgstr ""
+msgstr "Komu"
 
 msgid "Feedback recipient group"
 msgstr ""
