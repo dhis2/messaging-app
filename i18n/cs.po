@@ -19,7 +19,7 @@ msgid "Upload attachment"
 msgstr ""
 
 msgid "Assignee"
-msgstr ""
+msgstr "Přiřazený"
 
 msgid "No results found"
 msgstr "Nenalezeny žádné výsledky"
