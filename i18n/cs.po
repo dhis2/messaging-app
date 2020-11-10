@@ -91,7 +91,7 @@ msgid "Sender"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Předmět"
 
 msgid "Date"
 msgstr "datum"
@@ -139,10 +139,10 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 msgid "Reply"
-msgstr ""
+msgstr "Odpovědět"
 
 msgid "Internal reply"
 msgstr ""
