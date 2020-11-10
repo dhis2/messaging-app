@@ -55,7 +55,7 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 msgid "Submit"
-msgstr ""
+msgstr "Odeslat"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -106,7 +106,7 @@ msgid "Message discarded"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 msgid "To"
 msgstr "Komu"
