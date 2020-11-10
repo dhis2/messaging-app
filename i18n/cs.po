@@ -19,7 +19,7 @@ msgid "Assignee"
 msgstr "Přiřazený"
 
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 msgid "To"
 msgstr "Komu"
@@ -118,7 +118,7 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 msgid "Submit"
-msgstr ""
+msgstr "Odeslat"
 
 msgid "Delete selected"
 msgstr ""
