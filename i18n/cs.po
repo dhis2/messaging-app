@@ -34,7 +34,7 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Předmět"
 
 msgid "Message"
 msgstr ""
@@ -73,13 +73,13 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 msgid "Select a message"
 msgstr ""
 
 msgid "Reply"
-msgstr ""
+msgstr "Odpovědět"
 
 msgid "Internal reply"
 msgstr ""
