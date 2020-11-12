@@ -25,19 +25,19 @@ msgid "To"
 msgstr "Komu"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "Skupina příjemců zpětné vazby"
 
 msgid "Private message"
-msgstr ""
+msgstr "Soukromá zpráva"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "Zpětná vazba"
 
 msgid "Subject"
 msgstr "Předmět"
 
 msgid "Message"
-msgstr ""
+msgstr "Zpráva"
 
 msgid "Send"
 msgstr "Odeslat"
@@ -46,73 +46,73 @@ msgid "Discard"
 msgstr "Vyřadit"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "Zpráva zahozena"
 
 msgid "Sender"
-msgstr ""
+msgstr "Odesílatel"
 
 msgid "Status"
 msgstr "Stav"
 
 msgid "Priority"
-msgstr ""
+msgstr "Priorita"
 
 msgid "Date"
 msgstr "datum"
 
 msgid "me"
-msgstr ""
+msgstr "mě"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "Zobrazit všechny zprávy"
 
 msgid "Participants"
-msgstr ""
+msgstr "Účastníci"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "Přidat účastníky do konverzace"
 
 msgid "Add"
 msgstr "Přidat"
 
 msgid "Select a message"
-msgstr ""
+msgstr "Vybrat zprávu"
 
 msgid "Reply"
 msgstr "Odpovědět"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "Interní odpověď"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Odpověď zahozena"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "Automatické obnovení"
 
 msgid "No results found"
 msgstr "Nenalezeny žádné výsledky"
 
 msgid "Compose"
-msgstr ""
+msgstr "Rozepsat"
 
 msgid "Deselect all"
-msgstr ""
+msgstr "Odznačit vše"
 
 msgid "Search"
 msgstr "Hledat"
 
 msgid "Set filter"
-msgstr ""
+msgstr "Nastavit filtr"
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "Přiděleno mně"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "Označeno pro sledování"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "Nepřečtené zprávy"
 
 msgid "Cancel"
 msgstr "Zrušit"
@@ -121,73 +121,73 @@ msgid "Submit"
 msgstr "Odeslat"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Smazat vybrané"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "Označit vybrané jako nepřečtené"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "Označit vybrané jako přečtené"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Přiřadit vybrané"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "Označit pro sledování"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "Vymazat sledování"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "Vymazat označeného"
 
 msgid "Set status"
-msgstr ""
+msgstr "Nastavit stav"
 
 msgid "Set priority"
-msgstr ""
+msgstr "Nastavit prioritu"
 
 msgid "selected"
 msgstr "vybráno"
 
 msgid "No status"
-msgstr ""
+msgstr "Žádný stav"
 
 msgid "Open"
 msgstr "Otevřít"
 
 msgid "Pending"
-msgstr ""
+msgstr "Čekající"
 
 msgid "Invalid"
-msgstr ""
+msgstr "Neplatný"
 
 msgid "Solved"
-msgstr ""
+msgstr "Vyřešeno"
 
 msgid "No priority"
-msgstr ""
+msgstr "Žádná priorita"
 
 msgid "High"
-msgstr ""
+msgstr "Vysoký"
 
 msgid "Medium"
-msgstr ""
+msgstr "Střední"
 
 msgid "Low"
-msgstr ""
+msgstr "Nízký"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "Stav byl úspěšně aktualizován"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "Priorita úspěšně aktualizována"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "Úspěšně aktualizován přiřazený"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "Sledování bylo úspěšně změněno"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "Konverzace zpráv úspěšně smazány"
