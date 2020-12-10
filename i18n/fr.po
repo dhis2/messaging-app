@@ -25,7 +25,7 @@ msgid "Upload attachment"
 msgstr ""
 
 msgid "Assignee"
-msgstr ""
+msgstr "Attributaire"
 
 msgid "No results found"
 msgstr "Aucun résultat trouvé"
