@@ -21,7 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Assignee"
-msgstr ""
+msgstr "Attributaire"
 
 msgid "Create"
 msgstr "Créer"
