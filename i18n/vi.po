@@ -69,7 +69,7 @@ msgid "Mark selected as read"
 msgstr "Đánh dấu các tin được chọn là đã đọc"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Chỉ định đã chọn"
 
 msgid "Mark for followup"
 msgstr "Đánh dấu để theo dõi"
@@ -150,13 +150,13 @@ msgid "Internal reply"
 msgstr "Trả lời nội bộ"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Trả lời bị hủy"
 
 msgid "Select a message"
 msgstr "Chọn một tin nhắn"
 
 msgid "No status"
-msgstr ""
+msgstr "Không có trạng thái"
 
 msgid "Open"
 msgstr "Mở"
