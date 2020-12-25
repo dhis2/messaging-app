@@ -87,7 +87,7 @@ msgid "Internal reply"
 msgstr "Trả lời nội bộ"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Trả lời bị hủy"
 
 msgid "Auto refresh"
 msgstr "Tự động làm mới"
@@ -132,7 +132,7 @@ msgid "Mark selected as read"
 msgstr "Đánh dấu các tin được chọn là đã đọc"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Chỉ định đã chọn"
 
 msgid "Mark for followup"
 msgstr "Đánh dấu để theo dõi"
@@ -153,7 +153,7 @@ msgid "selected"
 msgstr "đã chọn"
 
 msgid "No status"
-msgstr ""
+msgstr "Không có trạng thái"
 
 msgid "Open"
 msgstr "Mở"
