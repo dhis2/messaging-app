@@ -1,3 +1,4 @@
+import path from 'path'
 import { pageSize } from '../constants/development.js'
 import createRecipientSearchQuery from '../utils/createRecipientSearchQuery.js'
 
@@ -342,15 +343,15 @@ export const downloadAttachment = (
     messageId,
     attachmentId
 ) => {
-    const filePath = [
+    const filePath = path.join(
         engine.link.baseUrl,
         engine.link.apiPath,
         'messageConversations',
         messageConversationId,
         messageId,
         'attachments',
-        attachmentId,
-    ].join('/')
+        attachmentId
+    )
 
     const link = document.createElement('a')
     link.href = filePath
