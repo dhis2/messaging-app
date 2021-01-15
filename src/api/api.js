@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'path-browserify'
 import { pageSize } from '../constants/development.js'
 import createRecipientSearchQuery from '../utils/createRecipientSearchQuery.js'
 
