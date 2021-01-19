@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/dhis2/messaging-app/compare/v1.0.11...v1.0.12) (2021-01-19)
+
+
+### Bug Fixes
+
+* **api:** use path.join to create attachment download URLs ([#287](https://github.com/dhis2/messaging-app/issues/287)) ([8f00a54](https://github.com/dhis2/messaging-app/commit/8f00a5413d9121fc7cd00cd2c79b65eaae6b1d86))
+
 ## [1.0.11](https://github.com/dhis2/messaging-app/compare/v1.0.10...v1.0.11) (2021-01-18)
 
 
