@@ -1,0 +1,196 @@
+# 
+# Translators:
+# Yury Rogachev <yury@dhis2.org>, 2021
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
+"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"Last-Translator: Yury Rogachev <yury@dhis2.org>, 2021\n"
+"Language-Team: Uzbek (Latin) (https://www.transifex.com/hisp-uio/teams/100509/uz@Latn/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uz@Latn\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Upload attachment"
+msgstr "Ilovani yuklang"
+
+msgid "Assignee"
+msgstr "Vakolat berilgan shaxs"
+
+msgid "No results found"
+msgstr "Hech qanday natija topilmadi"
+
+msgid "Compose"
+msgstr "Yarating"
+
+msgid "Deselect all"
+msgstr "Barchasini tanlanganligini bekor qilish"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Priority"
+msgstr "Аfzallik"
+
+msgid "Search"
+msgstr "Izlash"
+
+msgid "Set filter"
+msgstr "Filtrni oʼrnating"
+
+msgid "Assigned to me"
+msgstr "Menga berilgan vakolat"
+
+msgid "Marked for followup"
+msgstr "Davom etish uchun moʼljallangan"
+
+msgid "Unread messages"
+msgstr "oʼqilmagan xatlar"
+
+msgid "Cancel"
+msgstr "Бекор қилиш"
+
+msgid "Submit"
+msgstr "Yuborish"
+
+msgid "Delete selected"
+msgstr "Tanlangan oʼchirilchin"
+
+msgid "Mark selected as unread"
+msgstr "Tanlanganlarni oʼqilmagan deb belgilang"
+
+msgid "Mark selected as read"
+msgstr "Tanlanganlarni oʼqilgan deb belgilang"
+
+msgid "Assign selected"
+msgstr "Tanlanganlarni tayinlash"
+
+msgid "Mark for followup"
+msgstr "Keyingi kuzatuv uchun belgilang"
+
+msgid "Clear followup"
+msgstr "Davomi tozalansin"
+
+msgid "Clear assignee"
+msgstr "Vakolatlar tozalansin"
+
+msgid "Set status"
+msgstr "Holatni oʼrnatish"
+
+msgid "Set priority"
+msgstr "Birinchi oʼringa qoʼying"
+
+msgid "selected"
+msgstr "tanlangan"
+
+msgid "Sender"
+msgstr "Yuboruvchi"
+
+msgid "Subject"
+msgstr "Mavzu"
+
+msgid "Date"
+msgstr "Sana"
+
+msgid "Auto refresh"
+msgstr "Аvtomatik yangilash"
+
+msgid "Create"
+msgstr "Яратиш"
+
+msgid "To"
+msgstr "Kimga"
+
+msgid "Feedback recipient group"
+msgstr "Fikr-mulohazalarni koʼrib chiqadiganlar guruhi"
+
+msgid "Private message"
+msgstr "Shaxsiy xabar"
+
+msgid "Feedback message"
+msgstr "Fikr-mulohaza xabari"
+
+msgid "Message"
+msgstr "Xabar"
+
+msgid "Send"
+msgstr "Yuborish"
+
+msgid "Discard"
+msgstr "Bekor qilish"
+
+msgid "Message discarded"
+msgstr "Xabar bekor qilindi"
+
+msgid "me"
+msgstr "menga"
+
+msgid "Show all messages"
+msgstr "Barcha xabarlarni koʼrsatish"
+
+msgid "Participants"
+msgstr "Ishtirokchilar"
+
+msgid "Add participants to conversation"
+msgstr "Ishtirokchilarni suhbatga qoʼshish"
+
+msgid "Add"
+msgstr "Qoʼshish"
+
+msgid "Reply"
+msgstr "Javob"
+
+msgid "Internal reply"
+msgstr "Ichki javob"
+
+msgid "Reply discarded"
+msgstr "Javob bekor qilindi"
+
+msgid "Select a message"
+msgstr "Xabarni tanlang"
+
+msgid "No status"
+msgstr "Maqom yoʼq"
+
+msgid "Open"
+msgstr "Ochiq"
+
+msgid "Pending"
+msgstr "Kutilmoqda"
+
+msgid "Invalid"
+msgstr "Yaroqsiz"
+
+msgid "Solved"
+msgstr "Hal qilindi"
+
+msgid "No priority"
+msgstr "Ustuvorlik yoʼq"
+
+msgid "High"
+msgstr "Yuqori"
+
+msgid "Medium"
+msgstr "Oʼrta"
+
+msgid "Low"
+msgstr "Kam"
+
+msgid "Successfully updated status"
+msgstr "Maqom muvaffaqiyatli yangilandi"
+
+msgid "Successfully updated priority"
+msgstr "Ustivorlik muvaffaqiyatli yangilandi"
+
+msgid "Successfully updated assignee"
+msgstr "Vakolat muvaffaqiyatli yangilandi"
+
+msgid "Successfully changed followup"
+msgstr "Kuzatuv muvaffaqiyatli oʼzgartirildi"
+
+msgid "Successfully deleted message conversation(s)"
+msgstr "Suhbat(lar) xabari muvaffaqiyatli oʼchirildi"
