@@ -26,7 +26,7 @@ function createUserQuery({
         }
 
         return {
-            resouce: 'users',
+            resource: 'users',
             params: {
                 filter,
                 pageSize: MAX_RECIPIENT,
