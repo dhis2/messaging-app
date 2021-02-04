@@ -1,3 +1,10 @@
+## [1.0.14](https://github.com/dhis2/messaging-app/compare/v1.0.13...v1.0.14) (2021-02-04)
+
+
+### Bug Fixes
+
+* correct typo in create-user-query ([7a36ef1](https://github.com/dhis2/messaging-app/commit/7a36ef15e2a3f20b45fac7de5e0d2e4a5bdc2542))
+
 ## [1.0.13](https://github.com/dhis2/messaging-app/compare/v1.0.12...v1.0.13) (2021-02-01)
 
 
