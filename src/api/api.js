@@ -1,4 +1,3 @@
-import path from 'path-browserify'
 import { pageSize } from '../constants/development.js'
 import createRecipientSearchQuery from '../utils/createRecipientSearchQuery.js'
 
@@ -338,12 +337,17 @@ export const addAttachment = attachment =>
         },
     })
 
+const joinPath = (...parts) => {
+    const realParts = parts.filter(part => !!part)
+    return realParts.map(part => part.replace(/^\/+|\/+$/g, '')).join('/')
+}
+
 export const downloadAttachment = (
     messageConversationId,
     messageId,
     attachmentId
 ) => {
-    const filePath = path.join(
+    const filePath = joinPath(
         engine.link.baseUrl,
         engine.link.apiPath,
         'messageConversations',
