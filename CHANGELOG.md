@@ -1,3 +1,10 @@
+## [1.0.16](https://github.com/dhis2/messaging-app/compare/v1.0.15...v1.0.16) (2021-02-22)
+
+
+### Bug Fixes
+
+* don't use system path lib for joining URLs ([#305](https://github.com/dhis2/messaging-app/issues/305)) ([3ac7c69](https://github.com/dhis2/messaging-app/commit/3ac7c69800915728c517afda79e3caf34ad160ec))
+
 ## [1.0.15](https://github.com/dhis2/messaging-app/compare/v1.0.14...v1.0.15) (2021-02-15)
 
 
