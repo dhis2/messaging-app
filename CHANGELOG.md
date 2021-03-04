@@ -1,3 +1,10 @@
+## [1.0.17](https://github.com/dhis2/messaging-app/compare/v1.0.16...v1.0.17) (2021-03-04)
+
+
+### Bug Fixes
+
+* **recipient-suggestions:** increase debounce time a lot ([484fc42](https://github.com/dhis2/messaging-app/commit/484fc424732e740bd773cee8b2ba78bdc1468e16))
+
 ## [1.0.16](https://github.com/dhis2/messaging-app/compare/v1.0.15...v1.0.16) (2021-02-22)
 
 
