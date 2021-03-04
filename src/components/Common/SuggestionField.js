@@ -6,7 +6,7 @@ import { debounce } from '../../utils/helpers.js'
 import i18n from '@dhis2/d2-i18n'
 import * as api from '../../api/api.js'
 
-const searchDelay = 300
+const searchDelay = 1200
 const minCharLength = 2
 
 /*
