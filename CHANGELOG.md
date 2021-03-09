@@ -1,3 +1,11 @@
+## [1.0.18](https://github.com/dhis2/messaging-app/compare/v1.0.17...v1.0.18) (2021-03-09)
+
+
+### Bug Fixes
+
+* **ci:** ensure locales are present before linting and testing ([77feb4b](https://github.com/dhis2/messaging-app/commit/77feb4b7b234cdb5d8f7393522f763679a0b4001))
+* **i18n:** import from locales to ensure the resources are added ([f83badc](https://github.com/dhis2/messaging-app/commit/f83badc3bb010e437e939e0415d63fb70156cb1f))
+
 ## [1.0.17](https://github.com/dhis2/messaging-app/compare/v1.0.16...v1.0.17) (2021-03-04)
 
 
