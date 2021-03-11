@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/dhis2/messaging-app/compare/v1.0.18...v1.1.0) (2021-03-11)
+
+
+### Features
+
+* upgrade to @dhis2/ui v6 and bump other dependency versions ([#319](https://github.com/dhis2/messaging-app/issues/319)) ([f724fc6](https://github.com/dhis2/messaging-app/commit/f724fc65043f68854c586dac00eda59c06b3963f))
+
 ## [1.0.18](https://github.com/dhis2/messaging-app/compare/v1.0.17...v1.0.18) (2021-03-09)
 
 
