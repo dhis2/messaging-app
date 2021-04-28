@@ -30,7 +30,7 @@
         "recompose": "^0.30.0",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "typeface-roboto": "^0.0.75"
+        "typeface-roboto": "^1.1.13"
     },
     "devDependencies": {
         "@dhis2/cli-app-scripts": "^6.1.1",
