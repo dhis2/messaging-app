@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/dhis2/messaging-app/compare/v1.1.3...v1.1.4) (2021-06-01)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (master) ([b1073f5](https://github.com/dhis2/messaging-app/commit/b1073f5ab36bb5e8ecb97fc38300b87290b8dc3a))
+
 ## [1.1.3](https://github.com/dhis2/messaging-app/compare/v1.1.2...v1.1.3) (2021-04-28)
 
 
