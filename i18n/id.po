@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 msgid "Assignee"
-msgstr ""
+msgstr "Penerima "
 
 msgid "Create"
 msgstr "Buat"
