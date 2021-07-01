@@ -21,7 +21,7 @@ msgid "Upload attachment"
 msgstr "Unggah lampiran"
 
 msgid "Assignee"
-msgstr ""
+msgstr "Penerima "
 
 msgid "No results found"
 msgstr "Tidak ada hasil ditemukan"
