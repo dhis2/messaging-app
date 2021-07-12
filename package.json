@@ -15,8 +15,11 @@
         "format:staged": "yarn format:js --staged && yarn format:text --staged",
         "format": "yarn format:js && yarn format:text"
     },
+    "resolutions": {
+        "@dhis2/app-runtime": "2.9.0-alpha.3"
+    },
     "dependencies": {
-        "@dhis2/app-runtime": "^2.8.0",
+        "@dhis2/app-runtime": "^2.9.0-alpha.3",
         "@dhis2/d2-i18n": "^1.1.0",
         "@dhis2/ui": "^6.6.2",
         "history": "^4.7.2",
@@ -33,7 +36,7 @@
         "typeface-roboto": "^0.0.75"
     },
     "devDependencies": {
-        "@dhis2/cli-app-scripts": "^6.1.1",
+        "@dhis2/cli-app-scripts": "^7.1.1",
         "@dhis2/cli-style": "^7.2.2",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.5",
