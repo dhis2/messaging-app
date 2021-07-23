@@ -1,14 +1,14 @@
 # 
 # Translators:
-# Viktor Varland <viktor@dhis2.org>, 2019
 # Aprisa Chrysantina <aprisa.chrysantina@gmail.com>, 2020
+# Viktor Varland <viktor@dhis2.org>, 2020
 # Untoro Dwi Raharjo <untoro.dwi.raharjo@mail.ugm.ac.id>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2018-10-10T18:08:03.592Z\n"
-"PO-Revision-Date: 2019-09-02 08:09+0000\n"
+"PO-Revision-Date: 2020-02-28 15:07+0000\n"
 "Last-Translator: Untoro Dwi Raharjo <untoro.dwi.raharjo@mail.ugm.ac.id>, 2021\n"
 "Language-Team: Indonesian (https://www.transifex.com/hisp-uio/teams/100509/id/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid "Search"
 msgstr "Pencarian"
 
 msgid "Set filter"
-msgstr "Pilih filter"
+msgstr "Pilih penyaring"
 
 msgid "Assigned to me"
 msgstr ""
@@ -153,7 +153,7 @@ msgid "Reply discarded"
 msgstr "Balasan dibuang"
 
 msgid "Select a message"
-msgstr "Pilih pean"
+msgstr "Pilih pesan"
 
 msgid "No status"
 msgstr "Tidak ada status"
