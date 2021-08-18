@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2020-10-05T13:31:55.850Z\n"
-"PO-Revision-Date: 2020-10-05T13:31:55.850Z\n"
+"POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
+"PO-Revision-Date: 2021-08-18T13:56:49.305Z\n"
 
 msgid "Upload attachment"
 msgstr ""
@@ -92,6 +92,9 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
+msgid "No messages in '{{messageType}}'"
+msgstr ""
+
 msgid "Auto refresh"
 msgstr ""
 
@@ -174,6 +177,18 @@ msgid "Medium"
 msgstr ""
 
 msgid "Low"
+msgstr ""
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Ticket"
+msgstr ""
+
+msgid "System"
 msgstr ""
 
 msgid "Successfully updated status"

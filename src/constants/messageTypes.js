@@ -1,7 +1,9 @@
+import i18n from '@dhis2/d2-i18n'
+
 const messageTypes = [
     {
         id: 'PRIVATE',
-        displayName: 'Inbox',
+        displayName: i18n.t('Inbox'),
         unread: 0,
         loaded: 0,
         loading: false,
@@ -10,7 +12,7 @@ const messageTypes = [
     },
     {
         id: 'VALIDATION_RESULT',
-        displayName: 'Validation',
+        displayName: i18n.t('Validation'),
         unread: 0,
         loaded: 0,
         loading: false,
@@ -19,7 +21,7 @@ const messageTypes = [
     },
     {
         id: 'TICKET',
-        displayName: 'Ticket',
+        displayName: i18n.t('Ticket'),
         unread: 0,
         loaded: 0,
         loading: false,
@@ -28,7 +30,7 @@ const messageTypes = [
     },
     {
         id: 'SYSTEM',
-        displayName: 'System',
+        displayName: i18n.t('System'),
         unread: 0,
         loaded: 0,
         loading: false,
