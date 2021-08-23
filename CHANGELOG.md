@@ -1,3 +1,10 @@
+## [1.1.11](https://github.com/dhis2/messaging-app/compare/v1.1.10...v1.1.11) (2021-08-23)
+
+
+### Bug Fixes
+
+* translate message types ([#390](https://github.com/dhis2/messaging-app/issues/390)) ([14ba212](https://github.com/dhis2/messaging-app/commit/14ba21232a8057de7e5f53d41cd55a429a36fa89))
+
 ## [1.1.10](https://github.com/dhis2/messaging-app/compare/v1.1.9...v1.1.10) (2021-08-18)
 
 
