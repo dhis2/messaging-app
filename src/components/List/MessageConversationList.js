@@ -98,9 +98,9 @@ class MessageConversationList extends Component {
                       ))
                     : !this.props.selectedMessageType.loading && (
                           <Subheader>
-                              {i18n.t(
-                                  `No ${messageType.displayName.toLowerCase()} messages`
-                              )}
+                              {i18n.t(`No messages in '{{messageType}}'`, {
+                                  messageType: messageType.displayName,
+                              })}
                           </Subheader>
                       )}
                 {this.props.selectedMessageType.loading && (
