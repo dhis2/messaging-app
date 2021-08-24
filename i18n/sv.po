@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2020-10-05T13:31:55.850Z\n"
+"POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: phil_dhis2, 2020\n"
 "Language-Team: Swedish (https://www.transifex.com/hisp-uio/teams/100509/sv/)\n"
@@ -100,6 +100,9 @@ msgstr ""
 msgid "Date"
 msgstr "Datum"
 
+msgid "No messages in '{{messageType}}'"
+msgstr ""
+
 msgid "Auto refresh"
 msgstr ""
 
@@ -182,6 +185,18 @@ msgid "Medium"
 msgstr ""
 
 msgid "Low"
+msgstr ""
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Ticket"
+msgstr ""
+
+msgid "System"
 msgstr ""
 
 msgid "Successfully updated status"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2020-10-05T13:31:55.850Z\n"
+"POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: Mai Nguyen <thanhmai.jica@gmail.com>, 2020\n"
 "Language-Team: Vietnamese (https://www.transifex.com/hisp-uio/teams/100509/vi/)\n"
@@ -102,6 +102,9 @@ msgstr "Chủ đề"
 msgid "Date"
 msgstr "Ngày"
 
+msgid "No messages in '{{messageType}}'"
+msgstr ""
+
 msgid "Auto refresh"
 msgstr "Tự động làm mới"
 
@@ -185,6 +188,18 @@ msgstr "Trung bình"
 
 msgid "Low"
 msgstr "Thấp"
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Validation"
+msgstr ""
+
+msgid "Ticket"
+msgstr ""
+
+msgid "System"
+msgstr ""
 
 msgid "Successfully updated status"
 msgstr "Tình trạng cập nhật thành công"
