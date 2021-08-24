@@ -1,14 +1,14 @@
 # 
 # Translators:
 # phil_dhis2, 2019
-# Viktor Varland <viktor@dhis2.org>, 2019
+# Viktor Varland <viktor@dhis2.org>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2020-10-05T13:31:55.850Z\n"
+"POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2019\n"
+"Last-Translator: Viktor Varland <viktor@dhis2.org>, 2021\n"
 "Language-Team: Tajik (https://www.transifex.com/hisp-uio/teams/100509/tg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,6 +100,9 @@ msgstr ""
 msgid "Date"
 msgstr "Сана"
 
+msgid "No messages in '{{messageType}}'"
+msgstr ""
+
 msgid "Auto refresh"
 msgstr ""
 
@@ -183,6 +186,18 @@ msgstr ""
 
 msgid "Low"
 msgstr ""
+
+msgid "Inbox"
+msgstr ""
+
+msgid "Validation"
+msgstr "Санҷиши эътибор"
+
+msgid "Ticket"
+msgstr ""
+
+msgid "System"
+msgstr "Система"
 
 msgid "Successfully updated status"
 msgstr ""
