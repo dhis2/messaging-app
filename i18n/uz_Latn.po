@@ -197,7 +197,7 @@ msgid "Ticket"
 msgstr ""
 
 msgid "System"
-msgstr ""
+msgstr "Tizim"
 
 msgid "Successfully updated status"
 msgstr "Maqom muvaffaqiyatli yangilandi"
