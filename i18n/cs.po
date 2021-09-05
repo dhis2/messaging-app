@@ -100,7 +100,7 @@ msgid "Date"
 msgstr "datum"
 
 msgid "No messages in '{{messageType}}'"
-msgstr ""
+msgstr "Žádné zprávy v '{{messageType}}'"
 
 msgid "Auto refresh"
 msgstr "Automatické obnovení"
@@ -187,13 +187,13 @@ msgid "Low"
 msgstr "Nízká"
 
 msgid "Inbox"
-msgstr ""
+msgstr "Doručená pošta"
 
 msgid "Validation"
 msgstr "Ověření"
 
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 msgid "System"
 msgstr "Systém"
