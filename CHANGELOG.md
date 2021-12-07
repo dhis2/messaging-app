@@ -1,3 +1,16 @@
+# [100.0.0](https://github.com/dhis2/messaging-app/compare/v99.9.9...v100.0.0) (2021-12-07)
+
+
+### chore
+
+* **release:** migrate to new app version scheme ([cf9aa23](https://github.com/dhis2/messaging-app/commit/cf9aa23dbd7cb5fd1acddc2deb36703845c68f99)), closes [dhis2/notes#293](https://github.com/dhis2/notes/issues/293)
+
+
+### BREAKING CHANGES
+
+* **release:** App version becomes decoupled from DHIS2 versions, see
+the d2.config.js or App Hub for DHIS2 version compatibility.
+
 ## [1.1.15](https://github.com/dhis2/messaging-app/compare/v1.1.14...v1.1.15) (2021-09-05)
 
 
