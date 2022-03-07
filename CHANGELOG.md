@@ -1,3 +1,10 @@
+## [100.0.4](https://github.com/dhis2/messaging-app/compare/v100.0.3...v100.0.4) (2022-03-07)
+
+
+### Bug Fixes
+
+* **translations:** sync translations from transifex (master) ([4fb96de](https://github.com/dhis2/messaging-app/commit/4fb96dee232b4aefdc8aad73e2c9740df1163865))
+
 ## [100.0.3](https://github.com/dhis2/messaging-app/compare/v100.0.2...v100.0.3) (2022-02-15)
 
 
