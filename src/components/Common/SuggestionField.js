@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
 import ChipInput from 'material-ui-chip-input'
-import { debounce } from '../../utils/helpers.js'
-import i18n from '@dhis2/d2-i18n'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import * as api from '../../api/api.js'
+import { debounce } from '../../utils/helpers.js'
 
 const searchDelay = 1200
 const minCharLength = 2
@@ -29,7 +29,7 @@ class SuggestionField extends Component {
     search(input) {
         const doSearch =
             !this.state.searchResult.find(
-                result => result.displayName === input
+                (result) => result.displayName === input
             ) &&
             input !== '' &&
             input.length >= minCharLength
@@ -49,7 +49,7 @@ class SuggestionField extends Component {
                 feedbackRecipientsId,
                 dhis2CoreVersion,
             }).then(({ users, userGroups, organisationUnits }) => {
-                const addType = type => result => ({ ...result, type })
+                const addType = (type) => (result) => ({ ...result, type })
                 let internalSearchResult = users.map(addType('user'))
 
                 if (!this.state.searchOnlyUsers) {
@@ -86,7 +86,7 @@ class SuggestionField extends Component {
         }
     }
 
-    onSuggestionClick = chip => {
+    onSuggestionClick = (chip) => {
         if (this.props.onSuggestionClick !== undefined) {
             this.props.onSuggestionClick(chip)
         } else {
@@ -94,22 +94,22 @@ class SuggestionField extends Component {
             this.debouncedSearch('')
 
             const doInsert = !this.props.recipients.find(
-                recipient => recipient.id === chip.id
+                (recipient) => recipient.id === chip.id
             )
 
             doInsert &&
                 this.props.updateRecipients([
                     ...this.props.recipients,
                     this.state.searchResult.find(
-                        result => result.id === chip.id
+                        (result) => result.id === chip.id
                     ),
                 ])
         }
     }
 
-    onRemoveChip = id => {
+    onRemoveChip = (id) => {
         this.props.updateRecipients(
-            this.props.recipients.filter(recipient => recipient.id !== id)
+            this.props.recipients.filter((recipient) => recipient.id !== id)
         )
     }
 
@@ -120,7 +120,7 @@ class SuggestionField extends Component {
         })
     }
 
-    updateInput = input => {
+    updateInput = (input) => {
         this.debouncedSearch(input)
         this.setState({
             input,
@@ -148,8 +148,8 @@ class SuggestionField extends Component {
                     dataSource={this.state.searchResult}
                     dataSourceConfig={{ text: 'displayName', value: 'id' }}
                     onUpdateInput={this.updateInput}
-                    onRequestAdd={chip => this.onSuggestionClick(chip)}
-                    onRequestDelete={id => this.onRemoveChip(id)}
+                    onRequestAdd={(chip) => this.onSuggestionClick(chip)}
+                    onRequestDelete={(id) => this.onRemoveChip(id)}
                 />
             </div>
         )
@@ -171,6 +171,6 @@ SuggestionField.propTypes = {
     onSuggestionClick: propTypes.func,
 }
 
-export default connect(state => ({
+export default connect((state) => ({
     dhis2CoreVersion: state.messaging.dhis2CoreVersion,
 }))(SuggestionField)

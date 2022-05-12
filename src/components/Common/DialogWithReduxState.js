@@ -1,7 +1,7 @@
-import React from 'react'
 import propTypes from '@dhis2/prop-types'
-import { Provider, ReactReduxContext } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
+import React from 'react'
+import { Provider, ReactReduxContext } from 'react-redux'
 
 /*
  * This component is needed because in this version of MUI
@@ -10,7 +10,7 @@ import Dialog from 'material-ui/Dialog'
 export default function DialogWithReduxState(props) {
     return (
         <ReactReduxContext.Consumer>
-            {ctx => (
+            {(ctx) => (
                 <Dialog {...props}>
                     <Provider store={ctx.store}>{props.children}</Provider>
                 </Dialog>

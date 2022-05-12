@@ -1,8 +1,8 @@
-import { Router, Route } from 'react-router-dom'
-import { Redirect } from 'react-router'
 import React from 'react'
-import MessagingCenter from '../MessagingCenter/MessagingCenter.js'
+import { Redirect } from 'react-router'
+import { Router, Route } from 'react-router-dom'
 import history from '../../utils/history.js'
+import MessagingCenter from '../MessagingCenter/MessagingCenter.js'
 
 const Routes = () => (
     <Router history={history}>

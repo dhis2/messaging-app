@@ -3,7 +3,7 @@ export function dedupeById(list) {
         return undefined
     }
     const lookup = new Set()
-    return list.filter(item => {
+    return list.filter((item) => {
         if (lookup.has(item.id)) {
             return false
         }

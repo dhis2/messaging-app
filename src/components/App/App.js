@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
-import propTypes from '@dhis2/prop-types'
 import { useConfig } from '@dhis2/app-runtime'
+import propTypes from '@dhis2/prop-types'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { CircularProgress } from 'material-ui'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 
 import '../../locales/index.js'
-import CustomSnackBar from '../Common/CustomSnackBar.js'
-import Routes from './Routes.js'
 import { setCurrentUser, setDhis2CoreVersion } from '../../actions/index.js'
-
+import CustomSnackBar from '../Common/CustomSnackBar.js'
 import classes from './App.module.css'
+import Routes from './Routes.js'
 
 const App = ({ currentUser, setCurrentUser, setDhis2CoreVersion }) => {
     const { loading, error } = currentUser
@@ -48,7 +47,7 @@ App.propTypes = {
 }
 
 export default connect(
-    state => ({
+    (state) => ({
         currentUser: state.messaging.currentUser,
     }),
     {

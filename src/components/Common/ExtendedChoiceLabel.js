@@ -1,6 +1,6 @@
-import React from 'react'
 import propTypes from '@dhis2/prop-types'
 import Subheader from 'material-ui/Subheader/Subheader'
+import React from 'react'
 
 const styles = {
     subheaderTitle: {

@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import RadioButton from 'material-ui/RadioButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import Subheader from 'material-ui/Subheader/Subheader'
+import TextField from 'material-ui/TextField'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import i18n from '@dhis2/d2-i18n'
-import { Card, CardActions, CardText } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
-import Subheader from 'material-ui/Subheader/Subheader'
-import RadioButton from 'material-ui/RadioButton'
 import {
     sendMessage,
     sendFeedbackMessage,
@@ -19,13 +19,13 @@ import {
     cancelAttachment,
     addRecipientByUserId,
 } from '../../actions/index.js'
-import history from '../../utils/history.js'
-import { supportsAttachments } from '../../utils/helpers.js'
-import SuggestionField from '../Common/SuggestionField.js'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
 import { NEGATIVE } from '../../constants/development.js'
-import Attachments from '../Attachments/Attachments.js'
 import { subheader } from '../../styles/style.js'
+import { supportsAttachments } from '../../utils/helpers.js'
+import history from '../../utils/history.js'
+import Attachments from '../Attachments/Attachments.js'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
+import SuggestionField from '../Common/SuggestionField.js'
 
 const styles = {
     canvas: {
@@ -77,7 +77,7 @@ class CreateMessage extends Component {
         )
     }
 
-    updateRecipients = recipients => {
+    updateRecipients = (recipients) => {
         this.props.updateInputFields(
             this.props.subject,
             this.props.input,
@@ -90,19 +90,19 @@ class CreateMessage extends Component {
             ? 'TICKET'
             : 'PRIVATE'
         const messageType = this.props.messageTypes.find(
-            messageType => messageType.id === messageTypeId
+            (messageType) => messageType.id === messageTypeId
         )
 
         if (this.state.isMessageFeedback) {
             this.props.sendFeedbackMessage(messageType)
             history.push('/TICKET')
         } else {
-            const users = this.props.recipients.filter(r => r.type === 'user')
+            const users = this.props.recipients.filter((r) => r.type === 'user')
             const userGroups = this.props.recipients.filter(
-                r => r.type === 'userGroup'
+                (r) => r.type === 'userGroup'
             )
             const organisationUnits = this.props.recipients.filter(
-                r => r.type === 'organisationUnit'
+                (r) => r.type === 'organisationUnit'
             )
 
             this.props.sendMessage({
@@ -180,8 +180,8 @@ class CreateMessage extends Component {
                                     checked={!this.state.isMessageFeedback}
                                     onCheck={() => {
                                         this.setState({
-                                            isMessageFeedback: !this.state
-                                                .isMessageFeedback,
+                                            isMessageFeedback:
+                                                !this.state.isMessageFeedback,
                                         })
                                     }}
                                 />
@@ -192,8 +192,8 @@ class CreateMessage extends Component {
                                     checked={this.state.isMessageFeedback}
                                     onCheck={() => {
                                         this.setState({
-                                            isMessageFeedback: !this.state
-                                                .isMessageFeedback,
+                                            isMessageFeedback:
+                                                !this.state.isMessageFeedback,
                                         })
                                     }}
                                 />
@@ -220,7 +220,7 @@ class CreateMessage extends Component {
                             <Attachments
                                 dataDirection={'upload'}
                                 attachments={this.props.attachments}
-                                removeAttachment={attachment =>
+                                removeAttachment={(attachment) =>
                                     this.props.removeAttachment(attachment.id)
                                 }
                                 cancelAttachment={this.props.cancelAttachment}
@@ -240,7 +240,7 @@ class CreateMessage extends Component {
                             />
                             {this.props.enableAttachments && (
                                 <AttachmentUploadButton
-                                    addAttachment={attachment => {
+                                    addAttachment={(attachment) => {
                                         this.props.addAttachment(attachment)
                                     }}
                                 />
@@ -272,7 +272,7 @@ CreateMessage.propTypes = {
     updateInputFields: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     messageTypes: state.messaging.messageTypes,
     subject: state.messaging.subject,
     input: state.messaging.input,

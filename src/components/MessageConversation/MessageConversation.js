@@ -1,28 +1,26 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import AddIcon from 'material-ui-icons/Add'
+import NavigationBack from 'material-ui-icons/ArrowBack'
+import Chip from 'material-ui/Chip'
+import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
+import Paper from 'material-ui/Paper'
+import Subheader from 'material-ui/Subheader/Subheader'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import history from '../../utils/history.js'
 import {
     addRecipients,
     downloadAttachment,
     cancelAttachment,
     clearSelectedMessageConversation,
 } from '../../actions/index.js'
+import history from '../../utils/history.js'
 import { supportsAttachments } from '../../utils/helpers.js'
-
-import Subheader from 'material-ui/Subheader/Subheader'
-import AddIcon from 'material-ui-icons/Add'
-import NavigationBack from 'material-ui-icons/ArrowBack'
-import FlatButton from 'material-ui/FlatButton'
-import IconButton from 'material-ui/IconButton'
-import Chip from 'material-ui/Chip'
-import Paper from 'material-ui/Paper'
-import i18n from '@dhis2/d2-i18n'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
+import SuggestionField from '../Common/SuggestionField.js'
 import Message from './Message.js'
 import ReplyCard from './ReplyCard.js'
-import SuggestionField from '../Common/SuggestionField.js'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
 import { styles } from '../../styles/messageConversationStyles.js'
 import theme from '../../styles/theme.js'
 
@@ -40,26 +38,22 @@ class MessageConversation extends Component {
     }
 
     backToList = () => {
-        const {
-            clearSelectedMessageConversation,
-            messageConversation,
-        } = this.props
+        const { clearSelectedMessageConversation, messageConversation } =
+            this.props
         history.push(`/${messageConversation.messageType}`)
         clearSelectedMessageConversation()
     }
 
     addRecipients = () => {
-        const users = this.state.recipients.filter(r => r.type === 'user')
+        const users = this.state.recipients.filter((r) => r.type === 'user')
         const userGroups = this.state.recipients.filter(
-            r => r.type === 'userGroup'
+            (r) => r.type === 'userGroup'
         )
         const organisationUnits = this.state.recipients.filter(
-            r => r.type === 'organisationUnit'
+            (r) => r.type === 'organisationUnit'
         )
-        const {
-            messageConversation,
-            selectedMessageType: messageType,
-        } = this.props
+        const { messageConversation, selectedMessageType: messageType } =
+            this.props
 
         this.props.addRecipients({
             users,
@@ -74,7 +68,7 @@ class MessageConversation extends Component {
         })
     }
 
-    updateRecipients = recipients => {
+    updateRecipients = (recipients) => {
         this.setState({
             recipients,
         })
@@ -88,7 +82,7 @@ class MessageConversation extends Component {
         )
         const participants = messageConversation.userMessages
             .slice(0, maxParticipantsDisplay)
-            .map(userMessage =>
+            .map((userMessage) =>
                 !currentUser.id ||
                 this.state.recipientsExpanded ||
                 currentUser.id !== userMessage.user.id
@@ -158,7 +152,7 @@ class MessageConversation extends Component {
                             {i18n.t('Participants')}
                         </Subheader>
                         <div style={styles.participants}>
-                            {participants.map(participant => (
+                            {participants.map((participant) => (
                                 <Chip key={participant} style={styles.chip}>
                                     {participant}
                                 </Chip>
@@ -194,7 +188,7 @@ class MessageConversation extends Component {
                                 notification={notification}
                                 currentUser={this.state.currentUser}
                                 lastMessage={i + 1 === messages.length}
-                                downloadAttachment={attachment =>
+                                downloadAttachment={(attachment) =>
                                     this.props.downloadAttachment(
                                         messageConversation.id,
                                         message.id,
@@ -229,7 +223,7 @@ MessageConversation.propTypes = {
     selectedMessageType: propTypes.object,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     currentUser: state.messaging.currentUser,
     selectedMessageType: state.messaging.selectedMessageType,
     displayTimeDiff: state.messaging.displayTimeDiff,

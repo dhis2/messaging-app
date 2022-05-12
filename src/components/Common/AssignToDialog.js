@@ -1,8 +1,8 @@
-import React from 'react'
-import propTypes from '@dhis2/prop-types'
 import i18n from '@dhis2/d2-i18n'
-import SuggestionField from './SuggestionField.js'
+import propTypes from '@dhis2/prop-types'
+import React from 'react'
 import DialogWithReduxState from './DialogWithReduxState.js'
+import SuggestionField from './SuggestionField.js'
 
 const AssignToDialog = ({
     open,
@@ -18,7 +18,7 @@ const AssignToDialog = ({
         }}
     >
         <SuggestionField
-            onSuggestionClick={chip => {
+            onSuggestionClick={(chip) => {
                 updateMessageConversations([chip.id])
                 onRequestClose()
             }}

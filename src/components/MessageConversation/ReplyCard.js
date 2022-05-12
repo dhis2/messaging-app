@@ -1,15 +1,12 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import { Card, CardActions, CardText } from 'material-ui/Card'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
+import TextField from 'material-ui/TextField'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { Card, CardActions, CardText } from 'material-ui/Card'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
-import Attachments from '../Attachments/Attachments.js'
-import { supportsAttachments } from '../../utils/helpers.js'
-import i18n from '@dhis2/d2-i18n'
 import {
     replyMessage,
     setSelectedMessageType,
@@ -20,6 +17,9 @@ import {
     cancelAttachment,
 } from '../../actions/index.js'
 import { NEGATIVE } from '../../constants/development.js'
+import { supportsAttachments } from '../../utils/helpers.js'
+import Attachments from '../Attachments/Attachments.js'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
 
 class ReplyCard extends Component {
     constructor(props) {
@@ -34,7 +34,7 @@ class ReplyCard extends Component {
         this.wipeInput()
     }
 
-    replyMessage = internalReply => {
+    replyMessage = (internalReply) => {
         const {
             input: message,
             selectedMessageConversation: messageConversation,
@@ -104,7 +104,7 @@ class ReplyCard extends Component {
                             <Attachments
                                 dataDirection={'upload'}
                                 attachments={this.props.attachments}
-                                removeAttachment={attachment =>
+                                removeAttachment={(attachment) =>
                                     this.props.removeAttachment(attachment.id)
                                 }
                                 cancelAttachment={this.props.cancelAttachment}
@@ -143,7 +143,7 @@ class ReplyCard extends Component {
                         />
                         {this.props.enableAttachments && (
                             <AttachmentUploadButton
-                                addAttachment={attachment => {
+                                addAttachment={(attachment) => {
                                     this.props.addAttachment(attachment)
                                 }}
                             />
@@ -173,7 +173,7 @@ ReplyCard.propTypes = {
     updateInputFields: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     selectedMessageConversation: state.messaging.selectedMessageConversation,
     selectedMessageType: state.messaging.selectedMessageType,
     messageTypes: state.messaging.messageTypes,

@@ -1,25 +1,25 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
-import ViewFancy from 'material-ui-icons/ViewList'
-import ViewList from 'material-ui-icons/ViewHeadline'
-import FlatButton from 'material-ui/FlatButton'
-import Paper from 'material-ui/Paper'
 import CreateMessageIcon from 'material-ui-icons/Add'
 import NavigationBack from 'material-ui-icons/ArrowBack'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
-import Subheader from 'material-ui/Subheader'
-import IconMenu from 'material-ui/IconMenu'
-import IconButton from 'material-ui/IconButton'
+import ViewList from 'material-ui-icons/ViewHeadline'
+import ViewFancy from 'material-ui-icons/ViewList'
 import Checkbox from 'material-ui/Checkbox/Checkbox'
+import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import Paper from 'material-ui/Paper'
+import SelectField from 'material-ui/SelectField'
+import Subheader from 'material-ui/Subheader'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import i18n from '@dhis2/d2-i18n'
-import history from '../../utils/history.js'
-import theme from '../../styles/theme.js'
+import TextField from 'material-ui/TextField'
+import React, { Component } from 'react'
 import extendedChoices from '../../constants/extendedChoices.js'
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker.js'
+import theme from '../../styles/theme.js'
 import { debounce } from '../../utils/helpers.js'
+import history from '../../utils/history.js'
+import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker.js'
 
 const headerHeight = '48px'
 const searchDelay = 300
@@ -207,7 +207,7 @@ class Toolbar extends Component {
                                     value={null}
                                     primaryText={''}
                                 />
-                                {extendedChoices.STATUS.map(elem => (
+                                {extendedChoices.STATUS.map((elem) => (
                                     <MenuItem
                                         key={elem.key}
                                         value={elem.value}
@@ -262,7 +262,7 @@ class Toolbar extends Component {
                                     value={null}
                                     primaryText={''}
                                 />
-                                {extendedChoices.PRIORITY.map(elem => (
+                                {extendedChoices.PRIORITY.map((elem) => (
                                     <MenuItem
                                         key={elem.key}
                                         value={elem.value}

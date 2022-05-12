@@ -1,5 +1,3 @@
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import { fade } from 'material-ui/utils/colorManipulator'
 import {
     blue50,
     blue100,
@@ -17,6 +15,8 @@ import {
     darkBlack,
     fullBlack,
 } from 'material-ui/styles/colors'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { fade } from 'material-ui/utils/colorManipulator'
 
 export default getMuiTheme({
     palette: {

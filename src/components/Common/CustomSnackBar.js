@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
 import propTypes from '@dhis2/prop-types'
-import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
-import { clearSnackMessage } from '../../actions/index.js'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { compose, pure } from 'recompose'
+import { clearSnackMessage } from '../../actions/index.js'
 import theme from '../../styles/theme.js'
 
 const DEFAULT_MESSAGE_DURATION = 4000
@@ -68,7 +68,7 @@ CustomSnackBar.propTypes = {
     onSnackRequestClose: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     message: state.messaging.snackMessage,
     type: state.messaging.snackType,
     onSnackActionClick: state.messaging.onSnackActionClick,

@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import MailIcon from 'material-ui-icons/MailOutline'
+import Subheader from 'material-ui/Subheader/Subheader'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import Subheader from 'material-ui/Subheader/Subheader'
-import MailIcon from 'material-ui-icons/MailOutline'
-import i18n from '@dhis2/d2-i18n'
-import * as api from '../../api/api.js'
 import {
     loadMessageConversations,
     setIsInFeedbackRecipientGroup,
@@ -18,13 +17,14 @@ import {
     setDisplayTimeDiff,
     clearAttachments,
 } from '../../actions/index.js'
-import theme from '../../styles/theme.js'
-import MessageConversation from '../MessageConversation/MessageConversation.js'
-import SidebarList from '../List/SidebarList.js'
-import MessageConversationList from '../List/MessageConversationList.js'
-import CreateMessage from '../MessageConversation/CreateMessage.js'
-import Toolbar from '../Common/Toolbar.js'
+import * as api from '../../api/api.js'
 import { subheader } from '../../styles/style.js'
+import theme from '../../styles/theme.js'
+import Toolbar from '../Common/Toolbar.js'
+import MessageConversationList from '../List/MessageConversationList.js'
+import SidebarList from '../List/SidebarList.js'
+import CreateMessage from '../MessageConversation/CreateMessage.js'
+import MessageConversation from '../MessageConversation/MessageConversation.js'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']
@@ -59,11 +59,11 @@ class MessagingCenter extends Component {
             )
         }
 
-        api.isInFeedbackRecipientGroup(this.props.currentUser).then(result =>
+        api.isInFeedbackRecipientGroup(this.props.currentUser).then((result) =>
             this.props.setIsInFeedbackRecipientGroup(result)
         )
 
-        this.props.messageTypes.map(messageType =>
+        this.props.messageTypes.map((messageType) =>
             this.props.loadMessageConversations(
                 messageType,
                 selectedMessageType
@@ -112,7 +112,7 @@ class MessagingCenter extends Component {
         }
     }
 
-    setAutoRefresh = autoRefresh => {
+    setAutoRefresh = (autoRefresh) => {
         // Cancel existing interval if it shouldn't autorefresh
         if (!autoRefresh && this.intervalId) {
             clearInterval(this.intervalId)
@@ -139,14 +139,14 @@ class MessagingCenter extends Component {
                 refreshTimer: refreshTimerTotal,
             })
         } else {
-            this.setState(prevState => ({
+            this.setState((prevState) => ({
                 refreshTimer: prevState.refreshTimer - refreshTimerInterval,
             }))
         }
     }
 
     refresh = () => {
-        this.props.messageTypes.map(messageType =>
+        this.props.messageTypes.map((messageType) =>
             this.props.loadMessageConversations(
                 messageType,
                 this.props.selectedMessageType
@@ -276,7 +276,7 @@ MessagingCenter.propTypes = {
     settingSelectedMessageConversation: propTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     currentUser: state.messaging.currentUser,
     snackMessage: state.messaging.snackMessage,
     messageTypes: state.messaging.messageTypes,

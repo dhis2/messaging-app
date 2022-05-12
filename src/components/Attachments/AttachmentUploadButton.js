@@ -1,11 +1,11 @@
-import React from 'react'
-import propTypes from '@dhis2/prop-types'
-import FlatButton from 'material-ui/FlatButton'
-import AttachFile from 'material-ui-icons/AttachFile'
 import i18n from '@dhis2/d2-i18n'
+import propTypes from '@dhis2/prop-types'
+import AttachFile from 'material-ui-icons/AttachFile'
+import FlatButton from 'material-ui/FlatButton'
+import React from 'react'
 import './AttachmentUploadButton.css'
 
-const createHandleChange = addAttachment => event => {
+const createHandleChange = (addAttachment) => (event) => {
     const files = event.target.files
     const hasFile = files.length > 0
 

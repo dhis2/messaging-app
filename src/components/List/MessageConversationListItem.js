@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import Subheader from 'material-ui/Subheader/Subheader'
+import Flag from 'material-ui-icons/Flag'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
-import Flag from 'material-ui-icons/Flag'
-import i18n from '@dhis2/d2-i18n'
-import history from '../../utils/history.js'
+import Subheader from 'material-ui/Subheader/Subheader'
+import moment from 'moment'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import {
     setChecked,
     setSelectedMessageConversation,
@@ -17,10 +17,10 @@ import {
     updateInputFields,
     clearAttachments,
 } from '../../actions/index.js'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
-import theme from '../../styles/theme.js'
 import { fontFamily } from '../../constants/development.js'
-import moment from 'moment'
+import theme from '../../styles/theme.js'
+import history from '../../utils/history.js'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
 
 const styles = {
     container(backgroundColor, wideview, cursor) {
@@ -105,7 +105,7 @@ class MessageConversationListItem extends Component {
         }
     }
 
-    onClick = messageConversation => {
+    onClick = (messageConversation) => {
         this.props.setSelectedMessageConversation(messageConversation)
         if (messageConversation && !messageConversation.read) {
             this.props.markMessageConversations(
@@ -151,7 +151,7 @@ class MessageConversationListItem extends Component {
             ? messageConversation.lastSender.displayName
             : this.props.selectedMessageType.displayName
         const checked = !!this.props.checkedIds.find(
-            x => x.id === messageConversation.id
+            (x) => x.id === messageConversation.id
         )
 
         const displayExtendedChoices = this.props.displayExtendedChoices
@@ -179,7 +179,7 @@ class MessageConversationListItem extends Component {
                     this.props.wideview,
                     this.state.cursor
                 )}
-                onClick={event => {
+                onClick={(event) => {
                     const onClick =
                         event.target.innerText !== undefined &&
                         event.target.innerText !== ''
@@ -298,7 +298,7 @@ MessageConversationListItem.propTypes = {
     wideview: propTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     selectedMessageConversation: state.messaging.selectedMessageConversation,
     settingSelectedMessageConversation:
         state.messaging.settingSelectedMessageConversation,

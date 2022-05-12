@@ -1,13 +1,13 @@
-import React from 'react'
-import propTypes from '@dhis2/prop-types'
-import Divider from 'material-ui/Divider'
-import CardText from 'material-ui/Card/CardText'
-import Attachments from '../Attachments/Attachments.js'
 import i18n from '@dhis2/d2-i18n'
-import Linkify from 'react-linkify'
-import theme from '../../styles/theme.js'
-import { fontFamily } from '../../constants/development.js'
+import propTypes from '@dhis2/prop-types'
+import CardText from 'material-ui/Card/CardText'
+import Divider from 'material-ui/Divider'
 import moment from 'moment'
+import React from 'react'
+import Linkify from 'react-linkify'
+import { fontFamily } from '../../constants/development.js'
+import theme from '../../styles/theme.js'
+import Attachments from '../Attachments/Attachments.js'
 
 const styles = {
     canvas(backgroundColor) {
