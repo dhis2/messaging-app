@@ -86,7 +86,7 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr ""
+msgstr "geselecteerd"
 
 msgid "Sender"
 msgstr ""
