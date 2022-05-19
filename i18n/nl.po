@@ -23,7 +23,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr ""
+msgstr "Geen resultaten gevonden"
 
 msgid "Compose"
 msgstr ""
