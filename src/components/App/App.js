@@ -4,7 +4,6 @@ import cx from 'classnames'
 import { CircularProgress } from 'material-ui'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-
 import '../../locales/index.js'
 import { setCurrentUser, setDhis2CoreVersion } from '../../actions/index.js'
 import CustomSnackBar from '../Common/CustomSnackBar.js'

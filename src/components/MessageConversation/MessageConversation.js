@@ -15,14 +15,14 @@ import {
     cancelAttachment,
     clearSelectedMessageConversation,
 } from '../../actions/index.js'
-import history from '../../utils/history.js'
+import { styles } from '../../styles/messageConversationStyles.js'
+import theme from '../../styles/theme.js'
 import { supportsAttachments } from '../../utils/helpers.js'
+import history from '../../utils/history.js'
 import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
 import SuggestionField from '../Common/SuggestionField.js'
 import Message from './Message.js'
 import ReplyCard from './ReplyCard.js'
-import { styles } from '../../styles/messageConversationStyles.js'
-import theme from '../../styles/theme.js'
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT']
 const maxParticipantsDisplay = 30
