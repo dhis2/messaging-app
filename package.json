@@ -1,6 +1,6 @@
 {
     "name": "messaging-app",
-    "version": "100.0.9",
+    "version": "100.0.10",
     "private": true,
     "scripts": {
         "build": "d2-app-scripts build",
