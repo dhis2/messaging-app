@@ -19,7 +19,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "Create"
-msgstr ""
+msgstr "Creare"
 
 msgid "To"
 msgstr ""
@@ -73,7 +73,7 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Adăugare"
 
 msgid "Select a message"
 msgstr ""
