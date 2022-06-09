@@ -22,7 +22,7 @@ msgid "Create"
 msgstr "Creare"
 
 msgid "To"
-msgstr ""
+msgstr "Pînă la"
 
 msgid "Feedback recipient group"
 msgstr ""
@@ -58,7 +58,7 @@ msgid "Priority"
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "me"
 msgstr ""
@@ -115,10 +115,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 msgid "Submit"
-msgstr ""
+msgstr "Trimite"
 
 msgid "Delete selected"
 msgstr ""
