@@ -52,10 +52,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 msgid "Submit"
-msgstr ""
+msgstr "Trimite"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -97,7 +97,7 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "No messages in '{{messageType}}'"
 msgstr ""
@@ -112,7 +112,7 @@ msgid "Create"
 msgstr "Creare"
 
 msgid "To"
-msgstr ""
+msgstr "Pînă la"
 
 msgid "Feedback recipient group"
 msgstr ""
