@@ -52,10 +52,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Anulare"
 
 msgid "Submit"
-msgstr ""
+msgstr "Trimite"
 
 msgid "Delete selected"
 msgstr ""
@@ -94,7 +94,7 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 msgid "Auto refresh"
 msgstr ""
@@ -103,7 +103,7 @@ msgid "Create"
 msgstr "Creare"
 
 msgid "To"
-msgstr ""
+msgstr "Pînă la"
 
 msgid "Feedback recipient group"
 msgstr ""
