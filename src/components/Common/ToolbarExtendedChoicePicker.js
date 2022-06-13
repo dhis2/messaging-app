@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import FlatButton from 'material-ui/FlatButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
 import Assignment from 'material-ui-icons/Assignment'
+import Delete from 'material-ui-icons/Delete'
+import Done from 'material-ui-icons/Done'
+import MarkUnread from 'material-ui-icons/Markunread'
+import Divider from 'material-ui/Divider'
+import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
-import Divider from 'material-ui/Divider'
-import Delete from 'material-ui-icons/Delete'
-import MarkUnread from 'material-ui-icons/Markunread'
-import Done from 'material-ui-icons/Done'
-import i18n from '@dhis2/d2-i18n'
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import {
     clearCheckedIds,
     clearSelectedMessageConversation,
@@ -61,7 +61,7 @@ class ToolbarExtendedChoicePicker extends Component {
         this.props.selectedMessageConversation &&
         this.props.checkedIds.length === 0
             ? [this.props.selectedMessageConversation.id]
-            : this.props.checkedIds.map(id => id.id)
+            : this.props.checkedIds.map((id) => id.id)
 
     updateMessageConversation = (identifier, value) => {
         const {
@@ -80,7 +80,7 @@ class ToolbarExtendedChoicePicker extends Component {
         this.props.checkedIds.length > 0 && this.props.clearCheckedIds()
     }
 
-    markMessageConversations = mode => {
+    markMessageConversations = (mode) => {
         const ids = this.getIds()
         this.props.markMessageConversations(
             mode,
@@ -152,7 +152,7 @@ class ToolbarExtendedChoicePicker extends Component {
                             assignToOpen: !this.state.assignToOpen,
                         })
                     }
-                    updateMessageConversations={id =>
+                    updateMessageConversations={(id) =>
                         this.updateMessageConversation('ASSIGNEE', id)
                     }
                     messageType={this.props.selectedMessageType}
@@ -256,7 +256,7 @@ class ToolbarExtendedChoicePicker extends Component {
                                     key={'setStatus'}
                                     rightIcon={<ArrowDropRight />}
                                     menuItems={extendedChoices.STATUS.map(
-                                        elem => (
+                                        (elem) => (
                                             <MenuItem
                                                 key={`${elem.key}_status`}
                                                 value={elem.value}
@@ -278,7 +278,7 @@ class ToolbarExtendedChoicePicker extends Component {
                                     key={'setPriority'}
                                     rightIcon={<ArrowDropRight />}
                                     menuItems={extendedChoices.PRIORITY.map(
-                                        elem => (
+                                        (elem) => (
                                             <MenuItem
                                                 key={`${elem.key}_priority`}
                                                 value={elem.value}
@@ -322,7 +322,7 @@ ToolbarExtendedChoicePicker.propTypes = {
     updateMessageConversations: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     selectedMessageType: state.messaging.selectedMessageType,
     selectedMessageConversation: state.messaging.selectedMessageConversation,
     checkedIds: state.messaging.checkedIds,

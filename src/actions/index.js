@@ -1,7 +1,7 @@
-import * as actions from '../constants/actions.js'
 import log from 'loglevel'
-import * as api from '../api/api.js'
 import moment from 'moment'
+import * as api from '../api/api.js'
+import * as actions from '../constants/actions.js'
 
 // Simple hack to solve negative time difference
 const FUTURE_HACK = 5000
@@ -11,7 +11,7 @@ const createAction = (type, payload) => ({ type, payload })
  * THUNKS SECTION *
  ******************/
 
-export const setCurrentUser = () => async dispatch => {
+export const setCurrentUser = () => async (dispatch) => {
     dispatch(createAction(actions.SET_CURRENT_USER))
 
     try {
@@ -28,7 +28,7 @@ export const setCurrentUser = () => async dispatch => {
     }
 }
 
-export const setDisplayTimeDiff = () => async dispatch => {
+export const setDisplayTimeDiff = () => async (dispatch) => {
     try {
         const serverDate = await api.getServerDate()
         const displayTimeDiff = moment().diff(moment(serverDate)) - FUTURE_HACK
@@ -41,378 +41,388 @@ export const setDisplayTimeDiff = () => async dispatch => {
     }
 }
 
-export const setSelectedMessageConversation = messageConversation => async dispatch => {
-    dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION))
+export const setSelectedMessageConversation =
+    (messageConversation) => async (dispatch) => {
+        dispatch(createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION))
 
-    try {
-        const result = await api.getMessageConversation(messageConversation)
-
-        dispatch(
-            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS, {
-                messageConversation: result,
-            })
-        )
-    } catch (error) {
-        dispatch(
-            createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_ERROR, {
-                error,
-            })
-        )
-    }
-}
-
-export const updateMessageConversations = ({
-    messageConversationIds,
-    identifier,
-    value,
-    messageType,
-    selectedMessageConversation,
-}) => async dispatch => {
-    if (identifier === 'FOLLOW_UP') {
         try {
-            await api.updateMessageConversationFollowup(
-                messageConversationIds,
-                value
-            )
+            const result = await api.getMessageConversation(messageConversation)
+
             dispatch(
-                createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
-                    messageType: messageType,
-                    page: 1,
-                    identifier: identifier,
-                })
+                createAction(
+                    actions.SET_SELECTED_MESSAGE_CONVERSATION_SUCCESS,
+                    {
+                        messageConversation: result,
+                    }
+                )
             )
-            dispatch(loadMessageConversations())
         } catch (error) {
             dispatch(
-                createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                createAction(actions.SET_SELECTED_MESSAGE_CONVERSATION_ERROR, {
                     error,
                 })
             )
         }
-    } else {
-        const promises = messageConversationIds.map(messageConversationId => {
-            let promise
-            switch (identifier) {
-                case 'STATUS':
-                    promise = api.updateMessageConversationStatus(
-                        messageConversationId,
-                        value
-                    )
-                    break
-                case 'PRIORITY':
-                    promise = api.updateMessageConversationPriority(
-                        messageConversationId,
-                        value
-                    )
-                    break
-                case 'ASSIGNEE':
-                    if (
-                        value !== undefined &&
-                        messageType.id === 'VALIDATION_RESULT'
-                    ) {
-                        promise = api
-                            .addRecipients({
-                                users: value.map(value => ({
-                                    id: value,
-                                })),
-                                userGroups: [],
-                                organisationUnits: [],
+    }
+
+export const updateMessageConversations =
+    ({
+        messageConversationIds,
+        identifier,
+        value,
+        messageType,
+        selectedMessageConversation,
+    }) =>
+    async (dispatch) => {
+        if (identifier === 'FOLLOW_UP') {
+            try {
+                await api.updateMessageConversationFollowup(
+                    messageConversationIds,
+                    value
+                )
+                dispatch(
+                    createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
+                        messageType: messageType,
+                        page: 1,
+                        identifier: identifier,
+                    })
+                )
+                dispatch(loadMessageConversations())
+            } catch (error) {
+                dispatch(
+                    createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                        error,
+                    })
+                )
+            }
+        } else {
+            const promises = messageConversationIds.map(
+                (messageConversationId) => {
+                    let promise
+                    switch (identifier) {
+                        case 'STATUS':
+                            promise = api.updateMessageConversationStatus(
                                 messageConversationId,
-                            })
-                            .then(() =>
-                                api.updateMessageConversationAssignee(
+                                value
+                            )
+                            break
+                        case 'PRIORITY':
+                            promise = api.updateMessageConversationPriority(
+                                messageConversationId,
+                                value
+                            )
+                            break
+                        case 'ASSIGNEE':
+                            if (
+                                value !== undefined &&
+                                messageType.id === 'VALIDATION_RESULT'
+                            ) {
+                                promise = api
+                                    .addRecipients({
+                                        users: value.map((value) => ({
+                                            id: value,
+                                        })),
+                                        userGroups: [],
+                                        organisationUnits: [],
+                                        messageConversationId,
+                                    })
+                                    .then(() =>
+                                        api.updateMessageConversationAssignee(
+                                            messageConversationId,
+                                            value
+                                        )
+                                    )
+                            } else {
+                                promise = api.updateMessageConversationAssignee(
                                     messageConversationId,
                                     value
                                 )
-                            )
-                    } else {
-                        promise = api.updateMessageConversationAssignee(
-                            messageConversationId,
-                            value
-                        )
-                    }
+                            }
 
-                    break
-                default:
-                    log.error(
-                        'Unexpected identifier for updateMessageConversations'
-                    )
-                    break
+                            break
+                        default:
+                            log.error(
+                                'Unexpected identifier for updateMessageConversations'
+                            )
+                            break
+                    }
+                    return promise
+                }
+            )
+
+            try {
+                await Promise.all(promises)
+                dispatch(
+                    createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
+                        messageType: messageType,
+                        page: 1,
+                        identifier: identifier,
+                    })
+                )
+                dispatch(loadMessageConversations())
+            } catch (error) {
+                dispatch(
+                    createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                        error,
+                    })
+                )
             }
-            return promise
-        })
+        }
+
+        if (selectedMessageConversation) {
+            dispatch(
+                setSelectedMessageConversation(selectedMessageConversation)
+            )
+        }
+    }
+
+export const loadMessageConversations =
+    (messageType, selectedMessageType, loadMore = false) =>
+    async (dispatch, getState) => {
+        const promises = []
+        const state = getState()
+        const {
+            messageFilter,
+            statusFilter: status,
+            priorityFilter: priority,
+            assignedToMeFilter,
+            markedForFollowUpFilter,
+            unreadFilter,
+            currentUser,
+        } = state.messaging
+
+        // Default fallback values so this action can be called without arguments
+        messageType = messageType || state.messaging.selectedMessageType
+        selectedMessageType =
+            selectedMessageType || state.messaging.selectedMessageType.id
+
+        dispatch(
+            createAction(actions.LOAD_MESSAGE_CONVERSATIONS, {
+                messageType,
+                loadMore,
+            })
+        )
 
         try {
-            await Promise.all(promises)
+            for (let i = 1; i <= messageType.page; i++) {
+                const promise = api
+                    .getMessageConversations({
+                        messageType: messageType.id,
+                        page: i,
+                        messageFilter,
+                        status,
+                        priority,
+                        assignedToMeFilter,
+                        markedForFollowUpFilter,
+                        unreadFilter,
+                        currentUser,
+                    })
+                    .then((result) => ({
+                        messageConversations: result.messageConversations,
+                        pager: result.pager,
+                    }))
+
+                promises.push(promise)
+            }
+
+            const result = await Promise.all(promises)
+            const nrOfUnread = await api.getNrOfUnread(messageType.id)
+            const messageConversations = result.reduce(
+                (accumulated, r) => accumulated.concat(r.messageConversations),
+                []
+            )
+
             dispatch(
-                createAction(actions.MESSAGE_CONVERSATION_UPDATE_SUCCESS, {
-                    messageType: messageType,
-                    page: 1,
-                    identifier: identifier,
+                createAction(actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS, {
+                    messageConversations,
+                    pager: result[result.length - 1].pager,
+                    messageType,
+                    selectedMessageType,
+                    nrOfUnread,
                 })
             )
-            dispatch(loadMessageConversations())
         } catch (error) {
             dispatch(
-                createAction(actions.MESSAGE_CONVERSATION_UPDATE_ERROR, {
+                createAction(actions.MESSAGE_CONVERSATIONS_LOAD_ERROR, {
                     error,
                 })
             )
         }
     }
 
-    if (selectedMessageConversation) {
-        dispatch(setSelectedMessageConversation(selectedMessageConversation))
-    }
-}
+export const deleteMessageConversations =
+    (messageConversationIds, messageType) => async (dispatch, getState) => {
+        try {
+            const state = getState()
+            const { currentUser } = state.messaging
+            const promises = messageConversationIds.map(
+                (messageConversationId) =>
+                    api.deleteMessageConversation(
+                        messageConversationId,
+                        currentUser.id
+                    )
+            )
 
-export const loadMessageConversations = (
-    messageType,
-    selectedMessageType,
-    loadMore = false
-) => async (dispatch, getState) => {
-    const promises = []
-    const state = getState()
-    const {
-        messageFilter,
-        statusFilter: status,
-        priorityFilter: priority,
-        assignedToMeFilter,
-        markedForFollowUpFilter,
-        unreadFilter,
-        currentUser,
-    } = state.messaging
+            await Promise.all(promises)
 
-    // Default fallback values so this action can be called without arguments
-    messageType = messageType || state.messaging.selectedMessageType
-    selectedMessageType =
-        selectedMessageType || state.messaging.selectedMessageType.id
-
-    dispatch(
-        createAction(actions.LOAD_MESSAGE_CONVERSATIONS, {
-            messageType,
-            loadMore,
-        })
-    )
-
-    try {
-        for (let i = 1; i <= messageType.page; i++) {
-            const promise = api
-                .getMessageConversations({
-                    messageType: messageType.id,
-                    page: i,
-                    messageFilter,
-                    status,
-                    priority,
-                    assignedToMeFilter,
-                    markedForFollowUpFilter,
-                    unreadFilter,
-                    currentUser,
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS, {
+                    messageType: messageType,
+                    page: 1,
                 })
-                .then(result => ({
-                    messageConversations: result.messageConversations,
-                    pager: result.pager,
-                }))
+            )
 
-            promises.push(promise)
+            dispatch(loadMessageConversations())
+        } catch (error) {
+            dispatch(
+                createAction(actions.MESSAGE_CONVERSATIONS_DELETE_ERROR, {
+                    error,
+                })
+            )
         }
-
-        const result = await Promise.all(promises)
-        const nrOfUnread = await api.getNrOfUnread(messageType.id)
-        const messageConversations = result.reduce(
-            (accumulated, r) => accumulated.concat(r.messageConversations),
-            []
-        )
-
-        dispatch(
-            createAction(actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS, {
-                messageConversations,
-                pager: result[result.length - 1].pager,
-                messageType,
-                selectedMessageType,
-                nrOfUnread,
-            })
-        )
-    } catch (error) {
-        dispatch(
-            createAction(actions.MESSAGE_CONVERSATIONS_LOAD_ERROR, { error })
-        )
     }
-}
 
-export const deleteMessageConversations = (
-    messageConversationIds,
-    messageType
-) => async (dispatch, getState) => {
-    try {
+export const sendMessage =
+    ({ users, userGroups, organisationUnits, messageType }) =>
+    async (dispatch, getState) => {
+        try {
+            const {
+                messaging: { subject, input, attachments },
+            } = getState()
+
+            await api.sendMessage({
+                subject,
+                users,
+                userGroups,
+                organisationUnits,
+                text: input,
+                attachments,
+            })
+
+            dispatch(
+                createAction(actions.SEND_MESSAGE_SUCCESS, {
+                    messageType,
+                    page: 1,
+                })
+            )
+            dispatch(loadMessageConversations())
+        } catch (error) {
+            dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+        }
+    }
+
+export const sendFeedbackMessage =
+    (messageType) => async (dispatch, getState) => {
         const state = getState()
-        const { currentUser } = state.messaging
-        const promises = messageConversationIds.map(messageConversationId =>
-            api.deleteMessageConversation(messageConversationId, currentUser.id)
-        )
+        try {
+            await api.sendFeedbackMessage(
+                state.messaging.subject,
+                state.messaging.input
+            )
 
-        await Promise.all(promises)
+            dispatch(
+                createAction(actions.SEND_MESSAGE_SUCCESS, {
+                    messageType: messageType,
+                    page: 1,
+                })
+            )
 
-        dispatch(
-            createAction(actions.MESSAGE_CONVERSATIONS_DELETE_SUCCESS, {
-                messageType: messageType,
-                page: 1,
+            dispatch(loadMessageConversations())
+        } catch (error) {
+            dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+        }
+    }
+
+export const replyMessage =
+    ({ message, internalReply, messageConversation, messageType }) =>
+    async (dispatch, getState) => {
+        try {
+            const { id } = messageConversation
+            const state = getState()
+            const attachments = state.messaging.attachments.map(
+                (attachment) => attachment.id
+            )
+
+            await api.replyMessage({
+                message,
+                internalReply,
+                attachments,
+                id,
             })
-        )
 
-        dispatch(loadMessageConversations())
-    } catch (error) {
-        dispatch(
-            createAction(actions.MESSAGE_CONVERSATIONS_DELETE_ERROR, { error })
-        )
+            dispatch(
+                createAction(actions.REPLY_MESSAGE_SUCCESS, {
+                    messageConversation: messageConversation,
+                    messageType: messageType,
+                    page: 1,
+                })
+            )
+
+            dispatch(loadMessageConversations())
+            dispatch(setSelectedMessageConversation(messageConversation))
+        } catch (error) {
+            dispatch(createAction(actions.REPLY_MESSAGE_ERROR, { error }))
+        }
     }
-}
 
-export const sendMessage = ({
-    users,
-    userGroups,
-    organisationUnits,
-    messageType,
-}) => async (dispatch, getState) => {
-    try {
-        const {
-            messaging: { subject, input, attachments },
-        } = getState()
+export const markMessageConversations =
+    (mode, markedConversations, messageType) => async (dispatch) => {
+        try {
+            await (mode === 'read'
+                ? api.markRead(markedConversations)
+                : api.markUnread(markedConversations))
 
-        await api.sendMessage({
-            subject,
-            users,
-            userGroups,
-            organisationUnits,
-            text: input,
-            attachments,
-        })
+            dispatch(
+                createAction(actions.MARK_MESSAGE_CONVERSATIONS_SUCCESS, {
+                    messageType: messageType,
+                    page: 1,
+                })
+            )
 
-        dispatch(
-            createAction(actions.SEND_MESSAGE_SUCCESS, { messageType, page: 1 })
-        )
-        dispatch(loadMessageConversations())
-    } catch (error) {
-        dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+            dispatch(loadMessageConversations())
+        } catch (error) {
+            dispatch(
+                createAction(actions.MARK_MESSAGE_CONVERSATIONS_ERROR, {
+                    error,
+                })
+            )
+        }
     }
-}
 
-export const sendFeedbackMessage = messageType => async (
-    dispatch,
-    getState
-) => {
-    const state = getState()
-    try {
-        await api.sendFeedbackMessage(
-            state.messaging.subject,
-            state.messaging.input
-        )
+export const addRecipients =
+    ({
+        users,
+        userGroups,
+        organisationUnits,
+        messageConversation,
+        messageType,
+    }) =>
+    async (dispatch) => {
+        try {
+            const { id: messageConversationId } = messageConversation
 
-        dispatch(
-            createAction(actions.SEND_MESSAGE_SUCCESS, {
-                messageType: messageType,
-                page: 1,
+            await api.addRecipients({
+                users,
+                userGroups,
+                organisationUnits,
+                messageConversationId,
             })
-        )
 
-        dispatch(loadMessageConversations())
-    } catch (error) {
-        dispatch(createAction(actions.SEND_MESSAGE_ERROR, { error }))
+            dispatch(
+                createAction(actions.ADD_RECIPIENTS_SUCCESS, {
+                    messageConversation: messageConversation,
+                    messageType: messageType,
+                    page: 1,
+                })
+            )
+
+            dispatch(setSelectedMessageConversation(messageConversation))
+        } catch (error) {
+            dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
+        }
     }
-}
 
-export const replyMessage = ({
-    message,
-    internalReply,
-    messageConversation,
-    messageType,
-}) => async (dispatch, getState) => {
-    try {
-        const { id } = messageConversation
-        const state = getState()
-        const attachments = state.messaging.attachments.map(
-            attachment => attachment.id
-        )
-
-        await api.replyMessage({
-            message,
-            internalReply,
-            attachments,
-            id,
-        })
-
-        dispatch(
-            createAction(actions.REPLY_MESSAGE_SUCCESS, {
-                messageConversation: messageConversation,
-                messageType: messageType,
-                page: 1,
-            })
-        )
-
-        dispatch(loadMessageConversations())
-        dispatch(setSelectedMessageConversation(messageConversation))
-    } catch (error) {
-        dispatch(createAction(actions.REPLY_MESSAGE_ERROR, { error }))
-    }
-}
-
-export const markMessageConversations = (
-    mode,
-    markedConversations,
-    messageType
-) => async dispatch => {
-    try {
-        await (mode === 'read'
-            ? api.markRead(markedConversations)
-            : api.markUnread(markedConversations))
-
-        dispatch(
-            createAction(actions.MARK_MESSAGE_CONVERSATIONS_SUCCESS, {
-                messageType: messageType,
-                page: 1,
-            })
-        )
-
-        dispatch(loadMessageConversations())
-    } catch (error) {
-        dispatch(
-            createAction(actions.MARK_MESSAGE_CONVERSATIONS_ERROR, { error })
-        )
-    }
-}
-
-export const addRecipients = ({
-    users,
-    userGroups,
-    organisationUnits,
-    messageConversation,
-    messageType,
-}) => async dispatch => {
-    try {
-        const { id: messageConversationId } = messageConversation
-
-        await api.addRecipients({
-            users,
-            userGroups,
-            organisationUnits,
-            messageConversationId,
-        })
-
-        dispatch(
-            createAction(actions.ADD_RECIPIENTS_SUCCESS, {
-                messageConversation: messageConversation,
-                messageType: messageType,
-                page: 1,
-            })
-        )
-
-        dispatch(setSelectedMessageConversation(messageConversation))
-    } catch (error) {
-        dispatch(createAction(actions.ADD_RECIPIENTS_ERROR, { error }))
-    }
-}
-
-export const addRecipientByUserId = id => async dispatch => {
+export const addRecipientByUserId = (id) => async (dispatch) => {
     try {
         const user = await api.getUserById(id)
 
@@ -423,7 +433,7 @@ export const addRecipientByUserId = id => async dispatch => {
     }
 }
 
-export const addAttachment = attachment => async dispatch => {
+export const addAttachment = (attachment) => async (dispatch) => {
     dispatch(createAction(actions.ADD_ATTACHMENT, attachment))
 
     try {
@@ -441,14 +451,11 @@ export const addAttachment = attachment => async dispatch => {
     }
 }
 
-export const downloadAttachment = (
-    messageConversationId,
-    messageId,
-    attachmentId
-) => dispatch => {
-    api.downloadAttachment(messageConversationId, messageId, attachmentId)
-    dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
-}
+export const downloadAttachment =
+    (messageConversationId, messageId, attachmentId) => (dispatch) => {
+        api.downloadAttachment(messageConversationId, messageId, attachmentId)
+        dispatch(createAction(actions.DOWNLOAD_ATTACHMENT_SUCCESS))
+    }
 
 /************************
  * PLAIN ACTION SECTION *
@@ -474,7 +481,7 @@ export const displaySnackMessage = ({
         snackType,
     })
 
-export const setAllChecked = messageConversationIds =>
+export const setAllChecked = (messageConversationIds) =>
     createAction(actions.SET_ALL_CHECKED, { messageConversationIds })
 
 export const setChecked = (messageConversation, selectedValue) =>
@@ -488,19 +495,19 @@ export const updateInputFields = (subject, input, recipients) =>
 
 export const clearAttachments = () => createAction(actions.CLEAR_ATTACHMENTS)
 
-export const setSelectedMessageType = messageTypeId =>
+export const setSelectedMessageType = (messageTypeId) =>
     createAction(actions.SET_SELECTED_MESSAGE_TYPE, { messageTypeId })
 
-export const removeAttachment = attachmentId =>
+export const removeAttachment = (attachmentId) =>
     createAction(actions.REMOVE_ATTACHMENT, { attachmentId })
 
-export const cancelAttachment = attachmentName =>
+export const cancelAttachment = (attachmentName) =>
     createAction(actions.CANCEL_ATTACHMENT, { attachmentName })
 
-export const setIsInFeedbackRecipientGroup = isInFeedbackRecipientGroup =>
+export const setIsInFeedbackRecipientGroup = (isInFeedbackRecipientGroup) =>
     createAction(actions.SET_IN_FEEDBACK_RECIPIENT_GROUP, {
         isInFeedbackRecipientGroup,
     })
 
-export const setDhis2CoreVersion = version =>
+export const setDhis2CoreVersion = (version) =>
     createAction(actions.SET_DHIS2_CORE_VERSION, version)

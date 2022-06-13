@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import CircularProgress from 'material-ui/CircularProgress'
+import Subheader from 'material-ui/Subheader/Subheader'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import Subheader from 'material-ui/Subheader/Subheader'
-import CircularProgress from 'material-ui/CircularProgress'
-import i18n from '@dhis2/d2-i18n'
 import { loadMessageConversations } from '../../actions/index.js'
 import { messagePanelContainer } from '../../styles/style.js'
 import theme from '../../styles/theme.js'
+import { dedupeById, debounce } from '../../utils/helpers.js'
 import ListItemHeader from './ListItemHeader.js'
 import MessageConversationListItem from './MessageConversationListItem.js'
-import { dedupeById, debounce } from '../../utils/helpers.js'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
@@ -35,7 +35,7 @@ const styles = {
 }
 
 class MessageConversationList extends Component {
-    onScroll = messageType => {
+    onScroll = (messageType) => {
         const messageList = document.getElementById('messagelist')
         if (
             !this.props.selectedMessageType.loading &&
@@ -51,7 +51,7 @@ class MessageConversationList extends Component {
     }
 
     debouncedOnScroll = debounce(this.onScroll, 150)
-    isBottom = el => el.scrollHeight - el.scrollTop < window.outerHeight
+    isBottom = (el) => el.scrollHeight - el.scrollTop < window.outerHeight
 
     render() {
         const messages = dedupeById(
@@ -84,7 +84,7 @@ class MessageConversationList extends Component {
                     />
                 )}
                 {messages && messages.length !== 0
-                    ? messages.map(child => (
+                    ? messages.map((child) => (
                           <MessageConversationListItem
                               key={child.id}
                               messageConversation={child}
@@ -128,7 +128,7 @@ MessageConversationList.propTypes = {
     wideview: propTypes.bool,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     messageTypes: state.messaging.messageTypes,
     messageFilter: state.messaging.messageFilter,
     statusFilter: state.messaging.statusFilter,

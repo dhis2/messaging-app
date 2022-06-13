@@ -1,5 +1,5 @@
-import theme from '../styles/theme.js'
 import { fontFamily } from '../constants/development.js'
+import theme from '../styles/theme.js'
 
 export const styles = {
     canvas: {

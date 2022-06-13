@@ -1,12 +1,9 @@
-import React, { Component } from 'react'
-import propTypes from '@dhis2/prop-types'
-
-import CircularProgress from 'material-ui/CircularProgress'
-import Badge from 'material-ui/Badge'
-import Subheader from 'material-ui/Subheader/Subheader'
-
 import i18n from '@dhis2/d2-i18n'
-
+import propTypes from '@dhis2/prop-types'
+import Badge from 'material-ui/Badge'
+import CircularProgress from 'material-ui/CircularProgress'
+import Subheader from 'material-ui/Subheader/Subheader'
+import React, { Component } from 'react'
 import theme from '../../styles/theme.js'
 
 class MessageTypeItem extends Component {
@@ -35,7 +32,7 @@ class MessageTypeItem extends Component {
     setNeutralText = () => this.setTextColor(theme.palette.accent2Color)
     setHoverText = () => this.setTextColor(theme.palette.accent3Color)
 
-    setTextColor = color => {
+    setTextColor = (color) => {
         this.setState({
             backgroundColor: color,
         })

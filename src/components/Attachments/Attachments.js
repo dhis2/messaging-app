@@ -1,9 +1,9 @@
-import React from 'react'
 import propTypes from '@dhis2/prop-types'
-import FlatButton from 'material-ui/FlatButton'
-import LinearProgress from 'material-ui/LinearProgress'
 import Clear from 'material-ui-icons/Clear'
 import Download from 'material-ui-icons/CloudDownload'
+import FlatButton from 'material-ui/FlatButton'
+import LinearProgress from 'material-ui/LinearProgress'
+import React from 'react'
 import theme from '../../styles/theme.js'
 import './Attachments.css'
 

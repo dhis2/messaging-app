@@ -29,7 +29,7 @@ const order = 'lastMessage:desc'
 // The rest of the code in this module will expect that
 // engine has been set and can use it safely
 let engine = null
-export const setEngine = engineInstance => {
+export const setEngine = (engineInstance) => {
     engine = engineInstance
 }
 
@@ -165,7 +165,7 @@ export const updateMessageConversationFollowup = (
         data: messageConversationIds,
     })
 
-export const getNrOfUnread = async messageType => {
+export const getNrOfUnread = async (messageType) => {
     const { messageConversations } = await engine.query({
         messageConversations: {
             resource: 'messageConversations',
@@ -238,21 +238,21 @@ export const deleteMessageConversation = (
         type: 'delete',
     })
 
-export const markRead = markedReadConversations =>
+export const markRead = (markedReadConversations) =>
     engine.mutate({
         resource: 'messageConversations/read',
         type: 'create',
         data: markedReadConversations,
     })
 
-export const markUnread = markedUnreadConversations =>
+export const markUnread = (markedUnreadConversations) =>
     engine.mutate({
         resource: 'messageConversations/unread',
         type: 'create',
         data: markedUnreadConversations,
     })
 
-export const isInFeedbackRecipientGroup = async currentUser => {
+export const isInFeedbackRecipientGroup = async (currentUser) => {
     const {
         configuration: { feedbackRecipients },
     } = await engine.query({
@@ -308,7 +308,7 @@ export const addRecipients = ({
         },
     })
 
-export const getUserById = async id => {
+export const getUserById = async (id) => {
     const { user } = await engine.query({
         user: {
             resource: 'users',
@@ -325,7 +325,7 @@ export const getUserById = async id => {
     }
 }
 
-export const addAttachment = attachment =>
+export const addAttachment = (attachment) =>
     engine.mutate({
         resource: 'fileResources',
         type: 'create',
@@ -338,8 +338,8 @@ export const addAttachment = attachment =>
     })
 
 const joinPath = (...parts) => {
-    const realParts = parts.filter(part => !!part)
-    return realParts.map(part => part.replace(/^\/+|\/+$/g, '')).join('/')
+    const realParts = parts.filter((part) => !!part)
+    return realParts.map((part) => part.replace(/^\/+|\/+$/g, '')).join('/')
 }
 
 export const downloadAttachment = (

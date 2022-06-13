@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
-import { connect } from 'react-redux'
-import { compose } from 'recompose'
-import Subheader from 'material-ui/Subheader/Subheader'
 import Checkbox from 'material-ui/Checkbox'
 import Paper from 'material-ui/Paper'
-import i18n from '@dhis2/d2-i18n'
+import Subheader from 'material-ui/Subheader/Subheader'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'recompose'
 import { setAllChecked, clearCheckedIds } from '../../actions/index.js'
-import theme from '../../styles/theme.js'
 import { fontFamily } from '../../constants/development.js'
+import theme from '../../styles/theme.js'
 
 const fontSize = '16px'
 
@@ -95,7 +95,7 @@ class MessageConversationListItem extends Component {
                         this.state.allChecked
                             ? this.props.clearCheckedIds()
                             : this.props.setAllChecked(
-                                  this.props.messages.map(child => ({
+                                  this.props.messages.map((child) => ({
                                       id: child.id,
                                   }))
                               )
@@ -139,7 +139,7 @@ MessageConversationListItem.propTypes = {
     setAllChecked: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     checkedIds: state.messaging.checkedIds,
     isInFeedbackRecipientGroup: state.messaging.isInFeedbackRecipientGroup,
 })

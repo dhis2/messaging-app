@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import i18n from '@dhis2/d2-i18n'
 import propTypes from '@dhis2/prop-types'
+import Divider from 'material-ui/Divider'
+import { List } from 'material-ui/List'
+import Toggle from 'material-ui/Toggle'
+import moment from 'moment'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
-import { List } from 'material-ui/List'
-import Divider from 'material-ui/Divider'
-import Toggle from 'material-ui/Toggle'
-import i18n from '@dhis2/d2-i18n'
-import history from '../../utils/history.js'
 import { setSelectedMessageType, clearCheckedIds } from '../../actions/index.js'
-import MessageTypeItem from './MessageTypeItem.js'
 import theme from '../../styles/theme.js'
-import moment from 'moment'
+import history from '../../utils/history.js'
+import MessageTypeItem from './MessageTypeItem.js'
 
 const styles = {
     canvas: {
@@ -47,7 +47,7 @@ class SidebarList extends Component {
                     }}
                 >
                     {messageTypes &&
-                        messageTypes.map(messageType => (
+                        messageTypes.map((messageType) => (
                             <div key={messageType.id}>
                                 <MessageTypeItem
                                     messageType={messageType}
@@ -97,7 +97,7 @@ SidebarList.propTypes = {
     updateInputFields: propTypes.func,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     selectedMessageType: state.messaging.selectedMessageType,
     messageTypes: state.messaging.messageTypes,
 })

@@ -1,8 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
 import log from 'loglevel'
 import * as actions from '../constants/actions.js'
-import messageTypes from '../constants/messageTypes.js'
 import { POSITIVE, NEGATIVE, NEUTRAL } from '../constants/development.js'
+import messageTypes from '../constants/messageTypes.js'
 import { findIndexOfId } from '../utils/helpers.js'
 
 export const initialState = {
@@ -91,7 +91,7 @@ function messageReducer(state = initialState, action) {
 
         case actions.MESSAGE_CONVERSATIONS_LOAD_SUCCESS: {
             const replaceMessageType = stateMessageTypes.find(
-                type => type.id === action.payload.messageType.id
+                (type) => type.id === action.payload.messageType.id
             )
             replaceMessageType.loaded =
                 action.payload.messageConversations.length
@@ -208,7 +208,7 @@ function messageReducer(state = initialState, action) {
                 checkedIds.push(messageConversation)
             } else {
                 checkedIds = checkedIds.filter(
-                    element => element.id !== messageConversation.id
+                    (element) => element.id !== messageConversation.id
                 )
             }
 
@@ -254,7 +254,7 @@ function messageReducer(state = initialState, action) {
                 ...state,
                 checkedIds: [],
                 selectedMessageType: stateMessageTypes.find(
-                    type => type.id === action.payload.messageTypeId
+                    (type) => type.id === action.payload.messageTypeId
                 ),
                 selectedMessageConversations:
                     state.messageConversations[action.payload.messageTypeId],
@@ -312,9 +312,8 @@ function messageReducer(state = initialState, action) {
                 loadingMessageType.page++
             }
 
-            messageTypes[
-                findIndexOfId(messageTypes, loadingMessageType.id)
-            ] = loadingMessageType
+            messageTypes[findIndexOfId(messageTypes, loadingMessageType.id)] =
+                loadingMessageType
 
             // TODO: This can probably be removed because action.payload.messageType === state.selectedMessageType
             const selectedMessageType = state.selectedMessageType
@@ -345,7 +344,7 @@ function messageReducer(state = initialState, action) {
         case actions.ADD_ATTACHMENT_SUCCESS:
             return {
                 ...state,
-                attachments: state.attachments.map(attachment =>
+                attachments: state.attachments.map((attachment) =>
                     attachment.name === action.payload.name
                         ? {
                               id: action.payload.id,
@@ -361,7 +360,8 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 attachments: oldAttachments.filter(
-                    attachment => attachment.id !== action.payload.attachmentId
+                    (attachment) =>
+                        attachment.id !== action.payload.attachmentId
                 ),
                 snackMessage: action.payload.error.message,
                 snackType: NEGATIVE,
@@ -381,7 +381,8 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 attachments: oldAttachments.filter(
-                    attachment => attachment.id !== action.payload.attachmentId
+                    (attachment) =>
+                        attachment.id !== action.payload.attachmentId
                 ),
             }
 
@@ -389,7 +390,7 @@ function messageReducer(state = initialState, action) {
             return {
                 ...state,
                 attachments: oldAttachments.filter(
-                    attachment =>
+                    (attachment) =>
                         attachment.name !== action.payload.attachmentName
                 ),
             }
