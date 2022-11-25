@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgid "Upload attachment"
-msgstr ""
+msgstr "Télécharger une pièce jointe"
 
 msgid "Assignee"
 msgstr "Attributaire"
@@ -47,16 +47,16 @@ msgid "Search"
 msgstr "Rechercher"
 
 msgid "Set filter"
-msgstr ""
+msgstr "Régler le filtre"
 
 msgid "Assigned to me"
 msgstr "Assigné à moi"
 
 msgid "Marked for followup"
-msgstr ""
+msgstr "Marqué pour suivi"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "Messages non lus"
 
 msgid "Cancel"
 msgstr "Annuler"
@@ -66,39 +66,41 @@ msgstr "Envoyer"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
+"Êtes-vous sûr de vouloir supprimer la ou les conversations de messages "
+"sélectionnées ?"
 
 msgid "Delete selected"
-msgstr ""
+msgstr "Supprimer la sélection"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "Marquer la sélection comme non lue"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "Marquer la sélection comme lue"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Affecter les sélectionnés"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "Marquer pour suivi"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "Effacer le suivi"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "Effacer l'attributaire"
 
 msgid "Set status"
-msgstr ""
+msgstr "Définir le statut"
 
 msgid "Set priority"
-msgstr ""
+msgstr "Définir la priorité"
 
 msgid "selected"
 msgstr "sélectionné"
 
 msgid "Sender"
-msgstr ""
+msgstr "Expéditeur"
 
 msgid "Subject"
 msgstr "Objet"
@@ -107,13 +109,13 @@ msgid "Date"
 msgstr "Date"
 
 msgid "No messages in '{{messageType}}'"
-msgstr ""
+msgstr "Aucun message dans '{{Type de message}}'"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "Actualisation automatique"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "Message annulé"
 
 msgid "Create"
 msgstr "Créer"
@@ -122,13 +124,13 @@ msgid "To"
 msgstr "A"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "Groupe de destinataires de feedback"
 
 msgid "Private message"
-msgstr ""
+msgstr "Message privé"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "Message de feedback"
 
 msgid "Message"
 msgstr "Message"
@@ -140,34 +142,34 @@ msgid "Discard"
 msgstr "Abandonner"
 
 msgid "me"
-msgstr ""
+msgstr "moi"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "Afficher tous les messages"
 
 msgid "Participants"
-msgstr ""
+msgstr "Participants"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "Ajouter des participants à la conversation"
 
 msgid "Add"
 msgstr "Ajouter"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Réponse annulée"
 
 msgid "Reply"
 msgstr "Répondre"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "Réponse interne"
 
 msgid "Select a message"
-msgstr ""
+msgstr "Sélectionner un message"
 
 msgid "No status"
-msgstr ""
+msgstr "Aucun statut"
 
 msgid "Open"
 msgstr "Ouvrir"
@@ -179,10 +181,10 @@ msgid "Invalid"
 msgstr "Invalide"
 
 msgid "Solved"
-msgstr ""
+msgstr "Résolu"
 
 msgid "No priority"
-msgstr ""
+msgstr "Aucune priorité"
 
 msgid "High"
 msgstr "Elevé"
@@ -194,28 +196,28 @@ msgid "Low"
 msgstr "Faible"
 
 msgid "Inbox"
-msgstr ""
+msgstr "Boîte de réception"
 
 msgid "Validation"
 msgstr "Validation"
 
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 msgid "System"
 msgstr "Système"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "Statut mis à jour avec succès"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "Priorité mise à jour avec succès"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "Attributaire mis à jour avec succès"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "Suivi modifié avec succès"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "Message(s) de conversation supprimé(s) avec succès"
