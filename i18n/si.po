@@ -34,7 +34,7 @@ msgid "Status"
 msgstr ""
 
 msgid "Priority"
-msgstr ""
+msgstr "ප්‍රමුඛත්වය"
 
 msgid "Search"
 msgstr "සොයන්න"
@@ -55,7 +55,7 @@ msgid "Cancel"
 msgstr ""
 
 msgid "Submit"
-msgstr ""
+msgstr "යොමු කරන්න"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -91,13 +91,13 @@ msgid "selected"
 msgstr ""
 
 msgid "Sender"
-msgstr ""
+msgstr "යවන්නා"
 
 msgid "Subject"
-msgstr ""
+msgstr "විෂය"
 
 msgid "Date"
-msgstr ""
+msgstr "දිනය"
 
 msgid "No messages in '{{messageType}}'"
 msgstr ""
@@ -112,7 +112,7 @@ msgid "Create"
 msgstr ""
 
 msgid "To"
-msgstr ""
+msgstr "වෙත"
 
 msgid "Feedback recipient group"
 msgstr ""
@@ -124,16 +124,16 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "පණිවිඩය"
 
 msgid "Send"
-msgstr ""
+msgstr "යවන්න"
 
 msgid "Discard"
-msgstr ""
+msgstr "ඉවත ලන්න"
 
 msgid "me"
-msgstr ""
+msgstr "මම"
 
 msgid "Show all messages"
 msgstr ""
@@ -163,28 +163,28 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr ""
+msgstr "විවෘත කරන්න"
 
 msgid "Pending"
 msgstr ""
 
 msgid "Invalid"
-msgstr ""
+msgstr "අවලංගු"
 
 msgid "Solved"
-msgstr ""
+msgstr "විසඳූ"
 
 msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "ඉහළ"
 
 msgid "Medium"
-msgstr ""
+msgstr "මාදි"
 
 msgid "Low"
-msgstr ""
+msgstr "පහළ"
 
 msgid "Inbox"
 msgstr ""
@@ -193,10 +193,10 @@ msgid "Validation"
 msgstr ""
 
 msgid "Ticket"
-msgstr ""
+msgstr "තුණ්ඩුව"
 
 msgid "System"
-msgstr ""
+msgstr "පද්ධතිය"
 
 msgid "Successfully updated status"
 msgstr ""
