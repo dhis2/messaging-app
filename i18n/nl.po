@@ -33,7 +33,7 @@ msgid "Deselect all"
 msgstr ""
 
 msgid "Status"
-msgstr ""
+msgstr "status"
 
 msgid "Priority"
 msgstr ""
@@ -129,7 +129,7 @@ msgid "Message"
 msgstr ""
 
 msgid "Send"
-msgstr ""
+msgstr "Versturen"
 
 msgid "Discard"
 msgstr ""
@@ -147,7 +147,7 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr ""
+msgstr "Toevoegen"
 
 msgid "Reply discarded"
 msgstr ""
@@ -171,7 +171,7 @@ msgid "Pending"
 msgstr ""
 
 msgid "Invalid"
-msgstr ""
+msgstr "Ongeldig"
 
 msgid "Solved"
 msgstr ""
