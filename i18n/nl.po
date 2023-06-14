@@ -96,7 +96,7 @@ msgid "Sender"
 msgstr ""
 
 msgid "Subject"
-msgstr ""
+msgstr "Onderwerp"
 
 msgid "Date"
 msgstr "Datum\n"
@@ -114,7 +114,7 @@ msgid "Create"
 msgstr "Creëren"
 
 msgid "To"
-msgstr ""
+msgstr "Naar"
 
 msgid "Feedback recipient group"
 msgstr ""
@@ -126,7 +126,7 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr ""
+msgstr "Bericht"
 
 msgid "Send"
 msgstr "Versturen"
@@ -165,7 +165,7 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr ""
+msgstr "Open"
 
 msgid "Pending"
 msgstr ""
