@@ -39,7 +39,7 @@ msgid "Priority"
 msgstr ""
 
 msgid "Search"
-msgstr ""
+msgstr "Zoek"
 
 msgid "Set filter"
 msgstr ""
