@@ -180,19 +180,19 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr ""
+msgstr "Hoog"
 
 msgid "Medium"
-msgstr ""
+msgstr "Medium"
 
 msgid "Low"
-msgstr ""
+msgstr "Laag"
 
 msgid "Inbox"
 msgstr ""
 
 msgid "Validation"
-msgstr ""
+msgstr "Validatie"
 
 msgid "Ticket"
 msgstr ""
