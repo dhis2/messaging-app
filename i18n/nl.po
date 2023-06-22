@@ -21,7 +21,7 @@ msgid "Upload attachment"
 msgstr ""
 
 msgid "Assignee"
-msgstr ""
+msgstr "Cessionaris"
 
 msgid "No results found"
 msgstr "Geen resultaten gevonden"
