@@ -45,7 +45,7 @@ msgid "Set filter"
 msgstr ""
 
 msgid "Assigned to me"
-msgstr ""
+msgstr "Toegewezen aan mij"
 
 msgid "Marked for followup"
 msgstr ""
