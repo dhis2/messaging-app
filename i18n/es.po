@@ -201,7 +201,7 @@ msgid "Validation"
 msgstr "Validación"
 
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 msgid "System"
 msgstr "Sistema"
