@@ -46,7 +46,7 @@ msgid "Search"
 msgstr "Buscar"
 
 msgid "Set filter"
-msgstr ""
+msgstr "Establecer filtro"
 
 msgid "Assigned to me"
 msgstr "Asignado a mí"
@@ -55,7 +55,7 @@ msgid "Marked for followup"
 msgstr "Marcar para seguimiento"
 
 msgid "Unread messages"
-msgstr ""
+msgstr "Mensajes no leídos"
 
 msgid "Cancel"
 msgstr "Cancelar"
@@ -65,39 +65,41 @@ msgstr "Enviar"
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
+"¿Está seguro de que desea eliminar las conversaciones de mensajes "
+"seleccionadas?"
 
 msgid "Delete selected"
 msgstr "Borrar seleccionado"
 
 msgid "Mark selected as unread"
-msgstr ""
+msgstr "Marca la selección como no leída"
 
 msgid "Mark selected as read"
-msgstr ""
+msgstr "Marcar la selección como leída"
 
 msgid "Assign selected"
-msgstr ""
+msgstr "Asignar seleccionado"
 
 msgid "Mark for followup"
-msgstr ""
+msgstr "Marcar para seguimiento"
 
 msgid "Clear followup"
-msgstr ""
+msgstr "Borrar seguimiento"
 
 msgid "Clear assignee"
-msgstr ""
+msgstr "Borrar asignado"
 
 msgid "Set status"
-msgstr ""
+msgstr "Establecer estado"
 
 msgid "Set priority"
-msgstr ""
+msgstr "Establecer prioridad"
 
 msgid "selected"
 msgstr "seleccionado"
 
 msgid "Sender"
-msgstr ""
+msgstr "Remitente"
 
 msgid "Subject"
 msgstr "Asunto"
@@ -106,13 +108,13 @@ msgid "Date"
 msgstr "Fecha"
 
 msgid "No messages in '{{messageType}}'"
-msgstr ""
+msgstr "No hay mensajes en '{{messageType}}'"
 
 msgid "Auto refresh"
-msgstr ""
+msgstr "Actualización automática"
 
 msgid "Message discarded"
-msgstr ""
+msgstr "Mensaje descartado"
 
 msgid "Create"
 msgstr "Crear"
@@ -121,13 +123,13 @@ msgid "To"
 msgstr "Para"
 
 msgid "Feedback recipient group"
-msgstr ""
+msgstr "Grupo de destinatarios de retroalimentación"
 
 msgid "Private message"
-msgstr ""
+msgstr "Mensaje privado"
 
 msgid "Feedback message"
-msgstr ""
+msgstr "Mensaje de retroalimentación"
 
 msgid "Message"
 msgstr "Mensaje"
@@ -139,49 +141,49 @@ msgid "Discard"
 msgstr "Descartar"
 
 msgid "me"
-msgstr ""
+msgstr "yo"
 
 msgid "Show all messages"
-msgstr ""
+msgstr "Mostrar todos los mensajes"
 
 msgid "Participants"
-msgstr ""
+msgstr "Participantes"
 
 msgid "Add participants to conversation"
-msgstr ""
+msgstr "Añadir participantes a la conversación"
 
 msgid "Add"
 msgstr "Añadir"
 
 msgid "Reply discarded"
-msgstr ""
+msgstr "Respuesta descartada"
 
 msgid "Reply"
 msgstr "Responder"
 
 msgid "Internal reply"
-msgstr ""
+msgstr "Respuesta interna"
 
 msgid "Select a message"
-msgstr ""
+msgstr "Seleccionar un mensaje"
 
 msgid "No status"
-msgstr ""
+msgstr "Sin estado"
 
 msgid "Open"
 msgstr "Abrir"
 
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 msgid "Invalid"
 msgstr "No válido"
 
 msgid "Solved"
-msgstr ""
+msgstr "Resuelto"
 
 msgid "No priority"
-msgstr ""
+msgstr "Sin prioridad"
 
 msgid "High"
 msgstr "Alto"
@@ -193,7 +195,7 @@ msgid "Low"
 msgstr "Bajo"
 
 msgid "Inbox"
-msgstr ""
+msgstr "Bandeja de entrada"
 
 msgid "Validation"
 msgstr "Validación"
@@ -205,16 +207,16 @@ msgid "System"
 msgstr "Sistema"
 
 msgid "Successfully updated status"
-msgstr ""
+msgstr "Estado actualizado correctamente"
 
 msgid "Successfully updated priority"
-msgstr ""
+msgstr "Prioridad actualizada correctamente"
 
 msgid "Successfully updated assignee"
-msgstr ""
+msgstr "Asignado actualizado correctamente"
 
 msgid "Successfully changed followup"
-msgstr ""
+msgstr "Seguimiento modificado correctamente"
 
 msgid "Successfully deleted message conversation(s)"
-msgstr ""
+msgstr "Conversación(es) de mensajes eliminado(s) con éxito"
