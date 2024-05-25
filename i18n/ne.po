@@ -1,0 +1,214 @@
+# 
+# Translators:
+# Saroj Dhakal <lotusnagarkot@gmail.com>, 2024
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
+"PO-Revision-Date: 2019-06-25 18:26+0000\n"
+"Last-Translator: Saroj Dhakal <lotusnagarkot@gmail.com>, 2024\n"
+"Language-Team: Nepali (https://app.transifex.com/hisp-uio/teams/100509/ne/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ne\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Upload attachment"
+msgstr "एट्याचमेन्ट अपलोड गर्नुहोस्"
+
+msgid "Assignee"
+msgstr "निर्दिष्ट व्यक्ति"
+
+msgid "No results found"
+msgstr "कुनै पनि नतिजा भेटिएन"
+
+msgid "Compose"
+msgstr "सिर्जना गर्नुहोस्\t"
+
+msgid "Deselect all"
+msgstr "सबै चयन उल्टाउनुहोस्"
+
+msgid "Status"
+msgstr "स्थिती"
+
+msgid "Priority"
+msgstr "प्राथमिकतामा रहेको"
+
+msgid "Search"
+msgstr "खोज"
+
+msgid "Set filter"
+msgstr "फिल्टर सेट गर्नुहोस्"
+
+msgid "Assigned to me"
+msgstr "मलाई निर्दिष्ट गरिएको"
+
+msgid "Marked for followup"
+msgstr "फलोअपको लागि चिनो लगाइएको"
+
+msgid "Unread messages"
+msgstr "नपढिएको"
+
+msgid "Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+msgid "Submit"
+msgstr "पेश गर्नुहोस्"
+
+msgid "Are you sure you want to delete selected message conversation(s)?"
+msgstr "तपाईँले चयन गर्नुभएको सन्देश मेट्ने कुरामा निश्चित हुनुहुन्छ?"
+
+msgid "Delete selected"
+msgstr "चयन गरिएको मेट्नुहोस्"
+
+msgid "Mark selected as unread"
+msgstr "चयन गरिएकोलाई नपढिएको भनेर चिनो लगाउनुहोस्"
+
+msgid "Mark selected as read"
+msgstr "चयन गरिएकोलाई पढिएको भनेर चिनो लगाउनुहोस्"
+
+msgid "Assign selected"
+msgstr "चयन गरिएकोलाई निर्दिष्ट व्यक्ति तोक्नुहोस्"
+
+msgid "Mark for followup"
+msgstr "फलोअपको लागि चिनो लगाउनुहोस्"
+
+msgid "Clear followup"
+msgstr "फलोअप हटाउनुहोस्"
+
+msgid "Clear assignee"
+msgstr "निर्दिष्ट व्यक्ति हटाउनुहोस्"
+
+msgid "Set status"
+msgstr "स्थिती सेट गर्नुहोस्"
+
+msgid "Set priority"
+msgstr "प्राथमिकता सेट गर्नुहोस्"
+
+msgid "selected"
+msgstr "चयन गरिएको"
+
+msgid "Sender"
+msgstr "प्रेषक"
+
+msgid "Subject"
+msgstr "विषय"
+
+msgid "Date"
+msgstr "मिति"
+
+msgid "No messages in '{{messageType}}'"
+msgstr "'{{messageType}}' मा कुनै पनि सन्देशहरू छैन"
+
+msgid "Auto refresh"
+msgstr "स्वत: रिफ्रेस गर्नुहोस्"
+
+msgid "Message discarded"
+msgstr "सन्देश त्यागियो"
+
+msgid "Create"
+msgstr "सिर्जना गर्नुहोस्"
+
+msgid "To"
+msgstr "प्रापक"
+
+msgid "Feedback recipient group"
+msgstr "पृष्ठपोषण प्रापक समूह"
+
+msgid "Private message"
+msgstr "व्यक्तिगत सन्देश"
+
+msgid "Feedback message"
+msgstr "पृष्ठपोषण सन्देश"
+
+msgid "Message"
+msgstr "सन्देश"
+
+msgid "Send"
+msgstr "पठाउनुहोस्"
+
+msgid "Discard"
+msgstr "त्याग गर्नुहोस्"
+
+msgid "me"
+msgstr "म"
+
+msgid "Show all messages"
+msgstr "सबै सन्देशहरू देखाउनुहोस्"
+
+msgid "Participants"
+msgstr "प्रापकहरू"
+
+msgid "Add participants to conversation"
+msgstr "कुराकानीमा सहभागीहरू थप्नुहोस्"
+
+msgid "Add"
+msgstr "थप्नुहोस्"
+
+msgid "Reply discarded"
+msgstr "जवाफ त्याग गरियो"
+
+msgid "Reply"
+msgstr "जवाफ"
+
+msgid "Internal reply"
+msgstr "आन्तरिक जवाफ"
+
+msgid "Select a message"
+msgstr "सन्देश चयन गर्नुहोस्"
+
+msgid "No status"
+msgstr "कुनै पनि स्थिती छैन"
+
+msgid "Open"
+msgstr "खोल्नुहोस्"
+
+msgid "Pending"
+msgstr "थाँती रहेको"
+
+msgid "Invalid"
+msgstr "अमान्य"
+
+msgid "Solved"
+msgstr "समाधान गरिएको"
+
+msgid "No priority"
+msgstr "कुनै पनि प्राथमिकता नरहेको"
+
+msgid "High"
+msgstr "उच्च"
+
+msgid "Medium"
+msgstr "मध्यम"
+
+msgid "Low"
+msgstr "न्यून"
+
+msgid "Inbox"
+msgstr "इनबक्स"
+
+msgid "Validation"
+msgstr "प्रमाणीकरण"
+
+msgid "Ticket"
+msgstr "टिकट"
+
+msgid "System"
+msgstr "प्रणाली"
+
+msgid "Successfully updated status"
+msgstr "स्थिती सफलतापूर्वक अपडेट गरियो"
+
+msgid "Successfully updated priority"
+msgstr "प्राथमिकता सफलतापूर्वक अपडेट गरियो"
+
+msgid "Successfully updated assignee"
+msgstr "निर्दिष्ट गरिएको व्यक्ति सफलतापूर्वक अपडेट गरियो"
+
+msgid "Successfully changed followup"
+msgstr "फलोअप सफलतापूर्वक परिवर्तन गरियो"
+
+msgid "Successfully deleted message conversation(s)"
+msgstr "सफलतापूर्वक सन्देश कुराकानी मेटियो"
