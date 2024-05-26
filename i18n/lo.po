@@ -23,7 +23,7 @@ msgid "Upload attachment"
 msgstr ""
 
 msgid "Assignee"
-msgstr ""
+msgstr "ຜູ້ມອບໝາຍ"
 
 msgid "No results found"
 msgstr "ບໍ່ພົບຜົນການຊອກຫາ"
