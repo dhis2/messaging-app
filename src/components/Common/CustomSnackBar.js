@@ -1,5 +1,5 @@
-import propTypes from '@dhis2/prop-types'
 import Snackbar from 'material-ui/Snackbar'
+import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { compose, pure } from 'recompose'
