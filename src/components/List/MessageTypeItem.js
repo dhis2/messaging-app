@@ -1,8 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
-import propTypes from '@dhis2/prop-types'
 import Badge from 'material-ui/Badge'
 import CircularProgress from 'material-ui/CircularProgress'
 import Subheader from 'material-ui/Subheader/Subheader'
+import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import theme from '../../styles/theme.js'
 

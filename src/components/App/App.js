@@ -1,7 +1,7 @@
 import { useConfig } from '@dhis2/app-runtime'
-import propTypes from '@dhis2/prop-types'
 import cx from 'classnames'
 import { CircularProgress } from 'material-ui'
+import propTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import '../../locales/index.js'

@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
-import propTypes from '@dhis2/prop-types'
 import ChipInput from 'material-ui-chip-input'
+import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as api from '../../api/api.js'

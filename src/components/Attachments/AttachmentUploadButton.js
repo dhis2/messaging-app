@@ -1,7 +1,7 @@
 import i18n from '@dhis2/d2-i18n'
-import propTypes from '@dhis2/prop-types'
-import AttachFile from 'material-ui-icons/AttachFile'
 import FlatButton from 'material-ui/FlatButton'
+import AttachFile from 'material-ui-icons/AttachFile'
+import propTypes from 'prop-types'
 import React from 'react'
 import './AttachmentUploadButton.css'
 

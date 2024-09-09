@@ -1,5 +1,5 @@
-import propTypes from '@dhis2/prop-types'
 import Dialog from 'material-ui/Dialog'
+import propTypes from 'prop-types'
 import React from 'react'
 import { Provider, ReactReduxContext } from 'react-redux'
 

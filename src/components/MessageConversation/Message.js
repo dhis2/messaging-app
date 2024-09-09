@@ -1,8 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
-import propTypes from '@dhis2/prop-types'
 import CardText from 'material-ui/Card/CardText'
 import Divider from 'material-ui/Divider'
 import moment from 'moment'
+import propTypes from 'prop-types'
 import React from 'react'
 import Linkify from 'react-linkify'
 import { fontFamily } from '../../constants/development.js'
@@ -68,7 +68,7 @@ const Message = ({
                         : i18n.t(`Message from ${fromTitle}`)}
                 </div>
 
-                <div placement={'bottom'} style={styles.datePlacement}>
+                <div style={styles.datePlacement}>
                     <div style={styles.dateFormat}>
                         {today.diff(messageDate, 'hours') < 72
                             ? `${messageDate.from(today)}, ${messageDate.format(
