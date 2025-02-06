@@ -18,8 +18,8 @@ import {
 } from '../../actions/index.js'
 import { NEGATIVE } from '../../constants/development.js'
 import { supportsAttachments } from '../../utils/helpers.js'
-import Attachments from '../Attachments/Attachments.js'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
+import Attachments from '../Attachments/Attachments.jsx'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.jsx'
 
 class ReplyCard extends Component {
     constructor(props) {

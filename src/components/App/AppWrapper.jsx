@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { setEngine } from '../../api/api.js'
 import store from '../../store.js'
 import theme from '../../styles/theme.js'
-import App from './App.js'
+import App from './App.jsx'
 
 import '../../index.css'
 import 'typeface-roboto'

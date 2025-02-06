@@ -7,7 +7,7 @@ import React from 'react'
 import Linkify from 'react-linkify'
 import { fontFamily } from '../../constants/development.js'
 import theme from '../../styles/theme.js'
-import Attachments from '../Attachments/Attachments.js'
+import Attachments from '../Attachments/Attachments.jsx'
 
 const styles = {
     canvas(backgroundColor) {
