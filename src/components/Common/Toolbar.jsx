@@ -19,7 +19,7 @@ import extendedChoices from '../../constants/extendedChoices.js'
 import theme from '../../styles/theme.js'
 import { debounce } from '../../utils/helpers.js'
 import history from '../../utils/history.js'
-import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker.js'
+import ToolbarExtendedChoicePicker from './ToolbarExtendedChoicePicker.jsx'
 
 const headerHeight = '48px'
 const searchDelay = 300

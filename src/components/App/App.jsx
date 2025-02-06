@@ -6,9 +6,9 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import '../../locales/index.js'
 import { setCurrentUser, setDhis2CoreVersion } from '../../actions/index.js'
-import CustomSnackBar from '../Common/CustomSnackBar.js'
+import CustomSnackBar from '../Common/CustomSnackBar.jsx'
 import classes from './App.module.css'
-import Routes from './Routes.js'
+import Routes from './Routes.jsx'
 
 const App = ({ currentUser, setCurrentUser, setDhis2CoreVersion }) => {
     const { loading, error } = currentUser

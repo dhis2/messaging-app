@@ -20,11 +20,11 @@ import {
 import * as api from '../../api/api.js'
 import { subheader } from '../../styles/style.js'
 import theme from '../../styles/theme.js'
-import Toolbar from '../Common/Toolbar.js'
-import MessageConversationList from '../List/MessageConversationList.js'
-import SidebarList from '../List/SidebarList.js'
-import CreateMessage from '../MessageConversation/CreateMessage.js'
-import MessageConversation from '../MessageConversation/MessageConversation.js'
+import Toolbar from '../Common/Toolbar.jsx'
+import MessageConversationList from '../List/MessageConversationList.jsx'
+import SidebarList from '../List/SidebarList.jsx'
+import CreateMessage from '../MessageConversation/CreateMessage.jsx'
+import MessageConversation from '../MessageConversation/MessageConversation.jsx'
 import './MessagingCenter.css'
 
 const EXTENDED_CHOICES = ['TICKET', 'VALIDATION_RESULT']

@@ -9,8 +9,8 @@ import { loadMessageConversations } from '../../actions/index.js'
 import { messagePanelContainer } from '../../styles/style.js'
 import theme from '../../styles/theme.js'
 import { dedupeById, debounce } from '../../utils/helpers.js'
-import ListItemHeader from './ListItemHeader.js'
-import MessageConversationListItem from './MessageConversationListItem.js'
+import ListItemHeader from './ListItemHeader.jsx'
+import MessageConversationListItem from './MessageConversationListItem.jsx'
 
 const NOTIFICATIONS = ['VALIDATION_RESULT', 'TICKET']
 const bottomEmptyHeight = 50
