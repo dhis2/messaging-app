@@ -23,9 +23,9 @@ import { NEGATIVE } from '../../constants/development.js'
 import { subheader } from '../../styles/style.js'
 import { supportsAttachments } from '../../utils/helpers.js'
 import history from '../../utils/history.js'
-import Attachments from '../Attachments/Attachments.js'
-import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.js'
-import SuggestionField from '../Common/SuggestionField.js'
+import Attachments from '../Attachments/Attachments.jsx'
+import AttachmentUploadButton from '../Attachments/AttachmentUploadButton.jsx'
+import SuggestionField from '../Common/SuggestionField.jsx'
 
 const styles = {
     canvas: {

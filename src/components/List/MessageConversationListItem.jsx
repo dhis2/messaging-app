@@ -20,7 +20,7 @@ import {
 import { fontFamily } from '../../constants/development.js'
 import theme from '../../styles/theme.js'
 import history from '../../utils/history.js'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.jsx'
 
 const styles = {
     container(backgroundColor, wideview, cursor) {

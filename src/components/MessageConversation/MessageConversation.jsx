@@ -19,10 +19,10 @@ import { styles } from '../../styles/messageConversationStyles.js'
 import theme from '../../styles/theme.js'
 import { supportsAttachments } from '../../utils/helpers.js'
 import history from '../../utils/history.js'
-import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.js'
-import SuggestionField from '../Common/SuggestionField.js'
-import Message from './Message.js'
-import ReplyCard from './ReplyCard.js'
+import ExtendedChoiceLabel from '../Common/ExtendedChoiceLabel.jsx'
+import SuggestionField from '../Common/SuggestionField.jsx'
+import Message from './Message.jsx'
+import ReplyCard from './ReplyCard.jsx'
 
 const NOTIFICATIONS = ['TICKET', 'VALIDATION_RESULT']
 const maxParticipantsDisplay = 30

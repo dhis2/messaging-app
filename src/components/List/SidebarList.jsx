@@ -10,7 +10,7 @@ import { compose } from 'recompose'
 import { setSelectedMessageType, clearCheckedIds } from '../../actions/index.js'
 import theme from '../../styles/theme.js'
 import history from '../../utils/history.js'
-import MessageTypeItem from './MessageTypeItem.js'
+import MessageTypeItem from './MessageTypeItem.jsx'
 
 const styles = {
     canvas: {
