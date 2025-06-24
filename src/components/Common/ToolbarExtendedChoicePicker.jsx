@@ -1,4 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
+import Assignment from '@mui/icons-material/Assignment'
+import Delete from '@mui/icons-material/Delete'
+import Done from '@mui/icons-material/Done'
+import MarkAsUnread from '@mui/icons-material/MarkAsUnread'
 import Divider from 'material-ui/Divider'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
@@ -7,10 +11,6 @@ import MenuItem from 'material-ui/MenuItem'
 import Subheader from 'material-ui/Subheader'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
-import Assignment from 'material-ui-icons/Assignment'
-import Delete from 'material-ui-icons/Delete'
-import Done from 'material-ui-icons/Done'
-import MarkUnread from 'material-ui-icons/Markunread'
 import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -175,7 +175,7 @@ class ToolbarExtendedChoicePicker extends Component {
                             this.markMessageConversations('unread')
                         }}
                     >
-                        <MarkUnread />
+                        <MarkAsUnread />
                     </IconButton>
 
                     <IconButton

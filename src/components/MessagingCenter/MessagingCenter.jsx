@@ -1,6 +1,6 @@
 import i18n from '@dhis2/d2-i18n'
+import MailOutline from '@mui/icons-material/MailOutline'
 import Subheader from 'material-ui/Subheader/Subheader'
-import MailIcon from 'material-ui-icons/MailOutline'
 import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -245,7 +245,7 @@ class MessagingCenter extends Component {
                                   <Subheader style={subheader}>
                                       {i18n.t('Select a message')}
                                   </Subheader>
-                                  <MailIcon
+                                  <MailOutline
                                       style={{
                                           color: theme.palette.primary1Color,
                                           width: 120,

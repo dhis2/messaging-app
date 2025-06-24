@@ -1,7 +1,7 @@
+import Clear from '@mui/icons-material/Clear'
+import CloudDownload from '@mui/icons-material/CloudDownload'
 import FlatButton from 'material-ui/FlatButton'
 import LinearProgress from 'material-ui/LinearProgress'
-import Clear from 'material-ui-icons/Clear'
-import Download from 'material-ui-icons/CloudDownload'
 import propTypes from 'prop-types'
 import React from 'react'
 import theme from '../../styles/theme.js'
@@ -61,7 +61,7 @@ const Attachment = ({
                     ? cancelAttachment(attachment.name)
                     : removeAttachment(attachment)
             }}
-            icon={dataDirection === 'download' ? <Download /> : <Clear />}
+            icon={dataDirection === 'download' ? <CloudDownload /> : <Clear />}
         >
             {attachment.loading && (
                 <LinearProgress

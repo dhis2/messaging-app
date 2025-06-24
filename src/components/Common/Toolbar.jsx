@@ -1,4 +1,8 @@
 import i18n from '@dhis2/d2-i18n'
+import Add from '@mui/icons-material/Add'
+import ArrowBack from '@mui/icons-material/ArrowBack'
+import ViewHeadline from '@mui/icons-material/ViewHeadline'
+import ViewList from '@mui/icons-material/ViewList'
 import Checkbox from 'material-ui/Checkbox/Checkbox'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
@@ -9,10 +13,6 @@ import SelectField from 'material-ui/SelectField'
 import Subheader from 'material-ui/Subheader'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import TextField from 'material-ui/TextField'
-import CreateMessageIcon from 'material-ui-icons/Add'
-import NavigationBack from 'material-ui-icons/ArrowBack'
-import ViewList from 'material-ui-icons/ViewHeadline'
-import ViewFancy from 'material-ui-icons/ViewList'
 import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import extendedChoices from '../../constants/extendedChoices.js'
@@ -140,7 +140,7 @@ class Toolbar extends Component {
                     {!checkedOptions && (
                         <FlatButton
                             style={styles.checkedOption}
-                            icon={<CreateMessageIcon />}
+                            icon={<Add />}
                             onClick={() => history.push('/PRIVATE/create')}
                             label={i18n.t('Compose')}
                         />
@@ -149,7 +149,7 @@ class Toolbar extends Component {
                     {checkedOptions && (
                         <FlatButton
                             style={styles.checkedOption}
-                            icon={<NavigationBack />}
+                            icon={<ArrowBack />}
                             onClick={() => this.props.clearCheckedIds()}
                             label={i18n.t('Deselect all')}
                         />
@@ -353,7 +353,11 @@ class Toolbar extends Component {
                             alignSelf: 'center',
                         }}
                         icon={
-                            !this.props.wideview ? <ViewList /> : <ViewFancy />
+                            !this.props.wideview ? (
+                                <ViewList />
+                            ) : (
+                                <ViewHeadline />
+                            )
                         }
                         onClick={() => this.props.toogleWideview()}
                     />

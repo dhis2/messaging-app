@@ -1,11 +1,11 @@
 import i18n from '@dhis2/d2-i18n'
+import Add from '@mui/icons-material/Add'
+import NavigationBefore from '@mui/icons-material/NavigateBefore'
 import Chip from 'material-ui/Chip'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
 import Paper from 'material-ui/Paper'
 import Subheader from 'material-ui/Subheader/Subheader'
-import AddIcon from 'material-ui-icons/Add'
-import NavigationBack from 'material-ui-icons/ArrowBack'
 import propTypes from 'prop-types'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -107,7 +107,7 @@ class MessageConversation extends Component {
                             onClick={this.backToList}
                             tooltip={i18n.t('Show all messages')}
                         >
-                            <NavigationBack />
+                            <NavigationBefore />
                         </IconButton>
                         <Subheader style={styles.subjectSubheader}>
                             {messageConversation.subject}
@@ -170,7 +170,7 @@ class MessageConversation extends Component {
                         />
                         <div style={styles.participantsAdd}>
                             <FlatButton
-                                icon={<AddIcon />}
+                                icon={<Add />}
                                 onClick={() => this.addRecipients()}
                                 label={i18n.t('Add')}
                             />
