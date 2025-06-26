@@ -1,3 +1,11 @@
+## [100.0.43](https://github.com/dhis2/messaging-app/compare/v100.0.42...v100.0.43) (2025-06-26)
+
+
+### Bug Fixes
+
+* upgrade material-ui-icons ([8ba58b0](https://github.com/dhis2/messaging-app/commit/8ba58b0f411d7aa1f16ebf3dea2a440274993f4a))
+* **app-platform:** upgrade platform tools to use vite and react 18 ([5cccdae](https://github.com/dhis2/messaging-app/commit/5cccdae32eb1cc923ead61f99ae45e40801190c7))
+
 ## [100.0.42](https://github.com/dhis2/messaging-app/compare/v100.0.41...v100.0.42) (2025-03-30)
 
 
