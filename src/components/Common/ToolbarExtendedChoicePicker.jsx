@@ -24,8 +24,8 @@ import {
 } from '../../actions/index.js'
 import extendedChoices from '../../constants/extendedChoices.js'
 import history from '../../utils/history.js'
-import AssignToDialog from './AssignToDialog.js'
-import DialogWithReduxState from './DialogWithReduxState.js'
+import AssignToDialog from './AssignToDialog.jsx'
+import DialogWithReduxState from './DialogWithReduxState.jsx'
 
 const multiSelectDisplayLimit = 99
 
