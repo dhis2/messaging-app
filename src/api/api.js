@@ -348,8 +348,8 @@ export const downloadAttachment = (
     attachmentId
 ) => {
     const filePath = joinPath(
-        engine.link.baseUrl,
-        engine.link.apiPath,
+        engine?.link?.config?.baseUrl,
+        'api',
         'messageConversations',
         messageConversationId,
         messageId,
