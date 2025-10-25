@@ -1,52 +1,49 @@
 # 
 # Translators:
-# Cherise Beek <cherise.beek@gmail.com>, 2021
-# Rica, 2022
-# Charel van den Elsen <zobeadzorg@gmail.com>, 2023
-# Enzo Nicolas Rossi <enzo@dhis2.org>, 2025
+# Yara Elkady, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Enzo Nicolas Rossi <enzo@dhis2.org>, 2025\n"
-"Language-Team: Dutch (https://app.transifex.com/hisp-uio/teams/100509/nl/)\n"
+"Last-Translator: Yara Elkady, 2025\n"
+"Language-Team: Arabic (Egypt) (https://app.transifex.com/hisp-uio/teams/100509/ar_EG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ar_EG\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 msgid "Upload attachment"
 msgstr ""
 
 msgid "Assignee"
-msgstr "Cessionaris"
+msgstr ""
 
 msgid "No results found"
-msgstr "Geen resultaten gevonden"
+msgstr "لم يتم العثور على نتائج"
 
 msgid "Compose"
 msgstr ""
 
 msgid "Deselect all"
-msgstr "Deselecteer alles"
+msgstr ""
 
 msgid "Status"
-msgstr "status"
+msgstr ""
 
 msgid "Priority"
 msgstr ""
 
 msgid "Search"
-msgstr "Zoek"
+msgstr ""
 
 msgid "Set filter"
 msgstr ""
 
 msgid "Assigned to me"
-msgstr "Toegewezen aan mij"
+msgstr ""
 
 msgid "Marked for followup"
 msgstr ""
@@ -55,7 +52,7 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "Annuleer"
+msgstr "إلغاء"
 
 msgid "Submit"
 msgstr ""
@@ -91,16 +88,16 @@ msgid "Set priority"
 msgstr ""
 
 msgid "selected"
-msgstr "geselecteerd"
+msgstr ""
 
 msgid "Sender"
 msgstr ""
 
 msgid "Subject"
-msgstr "Onderwerp"
+msgstr ""
 
 msgid "Date"
-msgstr "Datum\n"
+msgstr ""
 
 msgid "No messages in '{{messageType}}'"
 msgstr ""
@@ -112,10 +109,10 @@ msgid "Message discarded"
 msgstr ""
 
 msgid "Create"
-msgstr "Creëren"
+msgstr ""
 
 msgid "To"
-msgstr "Naar"
+msgstr ""
 
 msgid "Feedback recipient group"
 msgstr ""
@@ -127,13 +124,13 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr "Bericht"
+msgstr ""
 
 msgid "Send"
-msgstr "Versturen"
+msgstr ""
 
 msgid "Discard"
-msgstr "Weggooien"
+msgstr ""
 
 msgid "me"
 msgstr ""
@@ -148,7 +145,7 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "Toevoegen"
+msgstr ""
 
 msgid "Reply discarded"
 msgstr ""
@@ -166,13 +163,13 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr "Open"
+msgstr ""
 
 msgid "Pending"
 msgstr ""
 
 msgid "Invalid"
-msgstr "Ongeldig"
+msgstr ""
 
 msgid "Solved"
 msgstr ""
@@ -181,19 +178,19 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "Hoog"
+msgstr ""
 
 msgid "Medium"
-msgstr "Medium"
+msgstr ""
 
 msgid "Low"
-msgstr "Laag"
+msgstr ""
 
 msgid "Inbox"
 msgstr ""
 
 msgid "Validation"
-msgstr "Validatie"
+msgstr ""
 
 msgid "Ticket"
 msgstr ""
