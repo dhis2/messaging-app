@@ -1,3 +1,10 @@
+## [100.0.44](https://github.com/dhis2/messaging-app/compare/v100.0.43...v100.0.44) (2025-10-28)
+
+
+### Bug Fixes
+
+* download link [DHIS2-19484] ([d84c3e1](https://github.com/dhis2/messaging-app/commit/d84c3e1cedc7ae4c53cac62d3925d918ba7e1267))
+
 ## [100.0.43](https://github.com/dhis2/messaging-app/compare/v100.0.42...v100.0.43) (2025-06-26)
 
 
