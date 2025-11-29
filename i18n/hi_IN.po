@@ -191,7 +191,7 @@ msgid "Inbox"
 msgstr ""
 
 msgid "Validation"
-msgstr ""
+msgstr "वैलिडेशन"
 
 msgid "Ticket"
 msgstr ""
