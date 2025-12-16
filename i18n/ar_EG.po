@@ -1,20 +1,19 @@
 # 
 # Translators:
-# Siddharth Agarwal, 2025
-# Rohit Wadhwani, 2025
+# Yara Elkady, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Rohit Wadhwani, 2025\n"
-"Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
+"Last-Translator: Yara Elkady, 2025\n"
+"Language-Team: Arabic (Egypt) (https://app.transifex.com/hisp-uio/teams/100509/ar_EG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hi_IN\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ar_EG\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 msgid "Upload attachment"
 msgstr ""
@@ -23,7 +22,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr "कोई परिणाम नहीं मिला"
+msgstr "لم يتم العثور على نتائج"
 
 msgid "Compose"
 msgstr ""
@@ -38,7 +37,7 @@ msgid "Priority"
 msgstr ""
 
 msgid "Search"
-msgstr "सर्च करें / खोजें"
+msgstr ""
 
 msgid "Set filter"
 msgstr ""
@@ -53,10 +52,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "रद्द करें"
+msgstr "إلغاء"
 
 msgid "Submit"
-msgstr "सबमिट करें"
+msgstr ""
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -98,7 +97,7 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr "तारीख"
+msgstr ""
 
 msgid "No messages in '{{messageType}}'"
 msgstr ""
@@ -125,13 +124,13 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr "संदेश"
+msgstr ""
 
 msgid "Send"
 msgstr ""
 
 msgid "Discard"
-msgstr "छोड़ें"
+msgstr ""
 
 msgid "me"
 msgstr ""
@@ -146,7 +145,7 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "जोड़ें"
+msgstr ""
 
 msgid "Reply discarded"
 msgstr ""
@@ -179,19 +178,19 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "उच्च"
+msgstr ""
 
 msgid "Medium"
 msgstr ""
 
 msgid "Low"
-msgstr "निम्न"
+msgstr ""
 
 msgid "Inbox"
 msgstr ""
 
 msgid "Validation"
-msgstr "वैलिडेशन"
+msgstr ""
 
 msgid "Ticket"
 msgstr ""

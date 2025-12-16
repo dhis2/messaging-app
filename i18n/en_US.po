@@ -1,6 +1,5 @@
 # 
 # Translators:
-# Siddharth Agarwal, 2025
 # Rohit Wadhwani, 2025
 # 
 msgid ""
@@ -9,11 +8,11 @@ msgstr ""
 "POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
 "Last-Translator: Rohit Wadhwani, 2025\n"
-"Language-Team: Hindi (India) (https://app.transifex.com/hisp-uio/teams/100509/hi_IN/)\n"
+"Language-Team: English (United States) (https://app.transifex.com/hisp-uio/teams/100509/en_US/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: hi_IN\n"
+"Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Upload attachment"
@@ -23,7 +22,7 @@ msgid "Assignee"
 msgstr ""
 
 msgid "No results found"
-msgstr "कोई परिणाम नहीं मिला"
+msgstr ""
 
 msgid "Compose"
 msgstr ""
@@ -38,7 +37,7 @@ msgid "Priority"
 msgstr ""
 
 msgid "Search"
-msgstr "सर्च करें / खोजें"
+msgstr "खोज"
 
 msgid "Set filter"
 msgstr ""
@@ -53,10 +52,10 @@ msgid "Unread messages"
 msgstr ""
 
 msgid "Cancel"
-msgstr "रद्द करें"
+msgstr "कैंसल"
 
 msgid "Submit"
-msgstr "सबमिट करें"
+msgstr ""
 
 msgid "Are you sure you want to delete selected message conversation(s)?"
 msgstr ""
@@ -98,7 +97,7 @@ msgid "Subject"
 msgstr ""
 
 msgid "Date"
-msgstr "तारीख"
+msgstr ""
 
 msgid "No messages in '{{messageType}}'"
 msgstr ""
@@ -113,7 +112,7 @@ msgid "Create"
 msgstr ""
 
 msgid "To"
-msgstr ""
+msgstr "तक"
 
 msgid "Feedback recipient group"
 msgstr ""
@@ -125,13 +124,13 @@ msgid "Feedback message"
 msgstr ""
 
 msgid "Message"
-msgstr "संदेश"
+msgstr ""
 
 msgid "Send"
 msgstr ""
 
 msgid "Discard"
-msgstr "छोड़ें"
+msgstr ""
 
 msgid "me"
 msgstr ""
@@ -146,7 +145,7 @@ msgid "Add participants to conversation"
 msgstr ""
 
 msgid "Add"
-msgstr "जोड़ें"
+msgstr ""
 
 msgid "Reply discarded"
 msgstr ""
@@ -179,19 +178,19 @@ msgid "No priority"
 msgstr ""
 
 msgid "High"
-msgstr "उच्च"
+msgstr ""
 
 msgid "Medium"
 msgstr ""
 
 msgid "Low"
-msgstr "निम्न"
+msgstr ""
 
 msgid "Inbox"
 msgstr ""
 
 msgid "Validation"
-msgstr "वैलिडेशन"
+msgstr ""
 
 msgid "Ticket"
 msgstr ""
