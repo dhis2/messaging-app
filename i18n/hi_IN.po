@@ -164,7 +164,7 @@ msgid "No status"
 msgstr ""
 
 msgid "Open"
-msgstr ""
+msgstr "खोलें"
 
 msgid "Pending"
 msgstr ""
