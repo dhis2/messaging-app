@@ -1,23 +1,22 @@
-# 
 # Translators:
 # Bram Piot <bram.piot@gmail.com>, 2019
-# Karoline Tufte Lien <karoline@dhis2.org>, 2020
 # Gabriela Rodriguez <grodriguezcoronado@gmail.com>, 2020
 # Edem Kossi <ekossi@hispwca.org>, 2020
 # Yayra Gomado <ygomado@hispwca.org>, 2021
 # Viktor Varland <viktor@dhis2.org>, 2021
 # Yao Selom SAKA (HISP WCA) <ysaka@hispwca.org>, 2022
 # Philip Larsen Donnelly, 2024
+# Cyrille Kabrane, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2021-08-18T13:56:49.305Z\n"
 "PO-Revision-Date: 2019-06-25 18:26+0000\n"
-"Last-Translator: Philip Larsen Donnelly, 2024\n"
+"Last-Translator: Cyrille Kabrane, 2026\n"
 "Language-Team: French (https://app.transifex.com/hisp-uio/teams/100509/fr/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
@@ -35,7 +34,7 @@ msgid "Compose"
 msgstr "Composer"
 
 msgid "Deselect all"
-msgstr "Desélectionner tout"
+msgstr "Désélectionner tout"
 
 msgid "Status"
 msgstr "Statut"
